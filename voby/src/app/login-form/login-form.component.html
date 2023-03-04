@@ -1,0 +1,29 @@
+<div class="container">
+    <img src="../../assets/undraw_the_world_is_mine.svg">
+
+    <form [formGroup]="loginForm">
+        <mat-form-field class="input" appearance="fill">
+            <mat-label>Username</mat-label>
+            <input 
+                matInput
+                name="username"
+                formControlName="username"
+            >
+        </mat-form-field>
+    
+        <mat-form-field class="input" appearance="fill">
+            <mat-label>Password</mat-label>
+            <input
+                type="password"
+                matInput
+                name="password"
+                formControlName="password"
+            >
+        </mat-form-field>
+
+        <button mat-flat-button type="submit">login</button>
+        <div style="display: flex;flex-direction: row;">
+            or <a href="/register" style="margin-left: .3em">register</a>
+        </div>
+    </form>    
+</div>

@@ -1,0 +1,77 @@
+<ng-container *ngIf="!this.setExists()">
+    <p class="empty-message">You will not find what you're looking for, as it does not exist...</p>
+</ng-container>
+
+<ng-container *ngIf="this.setExists()">
+    <div class="set-header">
+        <h1 class="set-data">{{this.set?.name}} {{this.set?.sourceLanguage}} > {{this.set?.destinationLanguage}}</h1>
+        <div class="search-bar">
+            <mat-form-field class="search-field">
+                <mat-label>Search</mat-label>
+                <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
+            </mat-form-field>
+            <voby-favorite style="margin-top: auto;margin-bottom:auto;"></voby-favorite> 
+        </div>
+        <div class="action-cont">
+            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button><mat-icon>edit</mat-icon></button> 
+            <button mat-icon-button><mat-icon>delete</mat-icon></button>
+        </div>
+    </div>
+    <div class="layout-horizontal">
+        <div class="word-container" *ngIf="this.filteredWords.length > 0">
+            <ng-container *ngFor="let word of this.filteredWords">
+                <mat-card matRipple class="word" (click)="this.selectWord(word.id)">
+                    <mat-card-content>
+                        <mat-card-title class="card-title">{{word.text}}</mat-card-title>
+                        <p class="alternatives">
+                            {{word.translation}}
+                        </p>
+                        <voby-favorite class="favorite"></voby-favorite>
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+        </div>
+
+        
+        <mat-card *ngIf="selectedWord === undefined && this.filteredWords.length > 0" class="word-detail-container">
+            <mat-card-content>
+                <mat-card-title>
+                    Please select a word
+                </mat-card-title>
+            </mat-card-content>
+        </mat-card>
+        <p *ngIf="this.filteredWords.length === 0" class="empty-message">No words found :(</p>
+        <mat-card *ngIf="selectedWord !== undefined" class="word-detail-container">
+            <mat-card-content>
+
+                <div style="display: flex; flex-direction: row;">
+                    <mat-card-title>General</mat-card-title>
+                    <button mat-icon-button class="action-icon" style="margin-top: -1em;"><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
+                </div>    
+                
+                <p *ngIf="!selectedWord?.genericInfo">-</p>
+                <p>{{selectedWord.genericInfo}}</p>
+            </mat-card-content>
+
+            <mat-card-content>
+                <mat-card-title>examples</mat-card-title>
+                    <p *ngIf="selectedWord?.examples?.length === 0">-</p>
+                    <p *ngFor="let example of selectedWord?.examples">
+                        🇩🇪 {{example.text}}
+                        <mat-divider></mat-divider>
+                        🇬🇧 {{example.translation}}
+                    </p>
+            </mat-card-content>
+
+            <mat-card-content>
+                <mat-card-title>Related words</mat-card-title>
+                <mat-chip-list>
+                    <p *ngIf="selectedWord?.relatedWords?.length === 0">-</p>
+                    <mat-chip *ngFor="let related of selectedWord?.relatedWords">{{related}}</mat-chip>
+                </mat-chip-list>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</ng-container>

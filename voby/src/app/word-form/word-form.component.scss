@@ -1,0 +1,22 @@
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.example-translation {
+    margin-top: -1em;
+}
+
+.remove-example-btn {
+    border: 1px rgb(210, 210, 210) dashed;
+    width: 35px;
+    height: 35px;
+    min-width: 0;
+    min-height: 0;
+    padding: 0;
+}
+
+.add-example-btn {
+    border: 1px rgb(210, 210, 210) dashed;
+    margin-top:-1em;
+}

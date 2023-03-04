@@ -1,0 +1,11 @@
+<form>
+    <mat-form-field class="input" appearance="fill">
+        <mat-label>Class name</mat-label>
+        <input matInput>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+        <button mat-button (click)="onNoClick()">Cancel</button>
+        <button mat-button color="primary" cdkFocusInitial (click)="submit()">Create</button>
+    </div>
+</form>

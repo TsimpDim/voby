@@ -1,0 +1,25 @@
+#class-creation-item {
+    background-color: rgb(255, 215, 64);
+    text-align: center;
+}
+
+#action-bar {
+    margin: 30px;
+}
+
+#classes-cont {
+    margin: 10px;
+}
+
+.set-item {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+    &:hover {
+        background-color: rgb(241, 241, 241);
+        cursor: pointer;
+    }
+}
+

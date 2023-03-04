@@ -1,0 +1,27 @@
+<div id="action-bar">
+  <button mat-raised-button color="accent" (click)="openClassForm()"><mat-icon fontIcon="add"></mat-icon> Create new class</button>
+</div>
+
+
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let class of classes; index as classIdx">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        {{class.name}}
+      </mat-panel-title>
+      <mat-panel-description>
+        Contains {{class.sets.length}} vocabulary sets
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <mat-list>
+      <ng-container *ngFor="let set of class.sets; index as i">
+        <mat-list-item matRipple class="set-item" (click)="redirect(set.id)">{{set.name}}</mat-list-item>
+        <mat-divider *ngIf="i != class.sets.length -1"></mat-divider>
+      </ng-container>
+      <button mat-button (click)="createVocabSet(classIdx)">
+        <mat-icon fontIcon="add"></mat-icon> Add new set
+      </button>
+    </mat-list>
+  </mat-expansion-panel>
+</mat-accordion>
