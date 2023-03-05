@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../_services/auth.service';
 
 @Component({
   selector: 'voby-register-form',
@@ -9,14 +11,47 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 export class RegisterFormComponent {
 
   registerForm: FormGroup;
-  
+  loading = false;
+  registered = false;
+
   constructor(
+    private authService: AuthService,
+    private router: Router
+
   ) {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
-      password: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-    });
+      password1: new FormControl('', [Validators.required, Validators.minLength(8)]),
+      password2: new FormControl('', [Validators.required, Validators.minLength(8)]),
+    }, { validators: this.checkPasswords});
   }
 
+  register() {
+    if (this.registerForm.valid) {
+      this.loading = true;
+
+      this.authService.register(
+        this.registerForm.value.username, this.registerForm.value.password1, this.registerForm.value.password2
+      ).subscribe({
+        next: (resp) => {
+          this.registered = 'key' in resp;
+          if (this.registered) {
+            this.router.navigate(['login']);
+          }
+        },
+        error: (err) => {
+          this.registered = false;
+        },
+        complete: () => this.loading = false
+      })
+
+      this.loading = false;
+    }
+  }
+
+  checkPasswords: ValidatorFn = (group: AbstractControl):  ValidationErrors | null => { 
+    let pass = group.get('password1')?.value;
+    let confirmPass = group.get('password2')?.value
+    return pass === confirmPass ? null : { notSame: true }
+  }
 }

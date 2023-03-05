@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  api:
+    build: .
+    container_name: voby-api
+    command: >
+      sh -c "python manage.py createsuperuser --noinput;
+      python manage.py migrate;
+      python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/voby-api
+    ports:
+      - "8002:8000"
+    environment:
+      - DB_NAME=voby
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_HOST=voby-db
+      - DJANGO_SUPERUSER_PASSWORD=sup3rUser
+      - DJANGO_SUPERUSER_USERNAME=superuser
+      - DJANGO_SUPERUSER_EMAIL=noemail@noemail.com
+      - SECRET_KEY=django1234
+      - DEBUG=*
+    networks:
+      voby:
+        aliases:
+          - 'api.voby.local'
+
+networks:
+  voby:
+    external:
+      name: voby
