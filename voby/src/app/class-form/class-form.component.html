@@ -1,8 +1,30 @@
-<form>
+<form [formGroup]="classForm">
     <mat-form-field class="input" appearance="fill">
         <mat-label>Class name</mat-label>
-        <input matInput>
+        <input matInput name="name" formControlName="name">
     </mat-form-field>
+
+    <div style="display:flex;flex-direction:row;justify-content: space-between;">
+        <mat-form-field appearance="fill">
+            <mat-label>Source Language</mat-label>
+            <mat-select name="sourceLanguage" formControlName="sourceLanguage">
+                <mat-option *ngFor="let country of countries" [value]="country.value">
+                    {{country.display}} {{country.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <span><mat-icon style="font-size: 2em;margin-top: 50%;">chevron_right</mat-icon></span>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Target Language</mat-label>
+            <mat-select name="targetLanguage" formControlName="targetLanguage">
+                <mat-option *ngFor="let country of countries" [value]="country.value">
+                    {{country.display}} {{country.value}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
 
     <div mat-dialog-actions>
         <button mat-button (click)="onNoClick()">Cancel</button>

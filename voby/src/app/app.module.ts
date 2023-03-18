@@ -12,6 +12,7 @@ import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { SetComponent } from './set/set.component';
 import { FavoriteComponent } from './custom/favorite/favorite.component';
@@ -57,7 +58,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatDialogModule,
     MatOptionModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]
