@@ -1,10 +1,6 @@
-<ng-container *ngIf="!this.setExists()">
-    <p class="empty-message">You will not find what you're looking for, as it does not exist...</p>
-</ng-container>
-
-<ng-container *ngIf="this.setExists()">
+<ng-container *ngIf="this.set !== undefined && this.vclass !== undefined">
     <div class="set-header">
-        <h1 class="set-data">{{this.set?.name}} {{this.set?.sourceLanguage}} > {{this.set?.destinationLanguage}}</h1>
+        <h1 class="set-data">{{this.set?.name}}  <span class="country">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
         <div class="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
@@ -13,7 +9,7 @@
             <voby-favorite style="margin-top: auto;margin-bottom:auto;"></voby-favorite> 
         </div>
         <div class="action-cont">
-            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon></button>
+            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
         </div>
     </div>
     <div class="layout-horizontal">
@@ -21,7 +17,7 @@
             <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple class="word" (click)="this.selectWord(word.id)">
                     <mat-card-content>
-                        <mat-card-title class="card-title">{{word.text}}</mat-card-title>
+                        <mat-card-title class="card-title">{{word.word}}</mat-card-title>
                         <p class="alternatives">
                             {{word.translation}}
                         </p>
@@ -51,8 +47,8 @@
                     </div>
                 </div>    
                 
-                <p *ngIf="!selectedWord?.genericInfo">-</p>
-                <p>{{selectedWord.genericInfo}}</p>
+                <p *ngIf="!selectedWord?.general">-</p>
+                <p>{{selectedWord.general}}</p>
             </mat-card-content>
 
             <mat-card-content>

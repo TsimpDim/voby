@@ -1,12 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ClassFormComponent } from '../class-form/class-form.component';
 import { VobyService } from '../_services/voby.service';
-import { COUNTRY_MAPPING } from '../countries';
+import { COUNTRY_MAPPING, getCountryEmoji } from '../countries';
+
 export interface DialogData {
   className: string;
 }
+
 @Component({
   selector: 'voby-dashboard',
   templateUrl: './dashboard.component.html',
@@ -14,6 +16,8 @@ export interface DialogData {
 })
 export class DashboardComponent implements OnInit {
   className = '';
+  selectedClass: number = -1;
+  getCountryEmoji = getCountryEmoji;
 
   constructor(
     private router: Router,
@@ -32,8 +36,14 @@ export class DashboardComponent implements OnInit {
     this.getClasses();
   }
 
-  redirect(id: number) {
-    this.router.navigate(['/set/' + id]);
+  redirect(setId: number) {
+    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
+    const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
+    this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass}});
+  }
+
+  selectClass(classIdx: number) {
+    this.selectedClass = classIdx;
   }
 
   openClassForm() {
@@ -58,10 +68,6 @@ export class DashboardComponent implements OnInit {
       },
       complete: () => this.loading = false
     })
-  }
-
-  getCountryEmoji(country: any) {
-    return this.countryMapping[country as string].display;
   }
 
   getClasses() {

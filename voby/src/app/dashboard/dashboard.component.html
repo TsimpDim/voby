@@ -5,7 +5,7 @@
 
 <mat-accordion>
   <mat-expansion-panel *ngFor="let class of classes; index as classIdx">
-    <mat-expansion-panel-header>
+    <mat-expansion-panel-header (click)="selectClass(class.id)">
       <mat-panel-title>
         {{class.name}} <span class="country">{{this.getCountryEmoji(class.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(class.target_language)}}</span>
       </mat-panel-title>

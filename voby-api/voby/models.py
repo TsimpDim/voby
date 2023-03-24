@@ -272,7 +272,7 @@ class Word(models.Model):
     word = models.CharField(max_length=120, null=False)
     translation = models.CharField(max_length=120, null=False)
     general = models.TextField(null=True, blank=True)
-    set = models.ForeignKey(Set, on_delete=models.DO_NOTHING, null=False)
+    set = models.ForeignKey(Set, on_delete=models.DO_NOTHING, null=False, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
 class Example(models.Model):

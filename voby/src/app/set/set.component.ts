@@ -1,16 +1,20 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { getCountryEmoji } from '../countries';
 import { WordFormComponent } from '../word-form/word-form.component';
+import { VobyService } from '../_services/voby.service';
+
 interface word {
   id: number;
-  text: string;
+  word: string;
   translation: string;
   examples: {text: string, translation: string}[];
-  genericInfo: string;
+  general: string;
   relatedWords: string[];
 }
+
 @Component({
   selector: 'voby-set',
   templateUrl: './set.component.html',
@@ -21,65 +25,35 @@ export class SetComponent implements OnInit {
   id: number = -1;
   @ViewChild('searchInput') searchInput: ElementRef | undefined;
 
-  sets: {id: number, class: number, sourceLanguage: string, destinationLanguage: string, name: string, items: word[]}[] = 
-    [
-      {
-        id: 123,
-        class: 1,
-        sourceLanguage: '🇩🇪',
-        destinationLanguage: '🇬🇧',
-        name: 'OESD Model Prufung B1 Deutsch',
-        items: [
-          {
-            id: 1,
-            text: "Ananassaft",
-            translation: "Pineapple juice",
-            examples: [{text:'Ich mag Ananasaft', translation: 'I like pineapple juice'}, {text:'Meine Meinung nach Ananasaft ist...', translation: 'My opinion on pineapple juice is...'}],
-            genericInfo: "",
-            relatedWords: []
-          },
-          {
-            id: 2,
-            text: "Ausgezeichnet",
-            translation: "Extraordinary",
-            examples: [{text:'Das ist ausgezeichnet', translation: "That's extraordinary"}],
-            genericInfo: "Very positive word. Can be easily used instead of 'very good'",
-            relatedWords: ["Gut", "Perfekt"]
-          },
-          {
-            id: 3,
-            text: "Eislaufen",
-            translation: "Ice skating",
-            examples: [{text:'Eislaufen gefällt mir', translation: 'I like ice skating'}],
-            genericInfo: "",
-            relatedWords: ["laufen", "eis"]
-          },
-        ],
-      },
-      {
-        id: 1234,
-        class: 1,
-        sourceLanguage: '🇩🇪',
-        destinationLanguage: '🇬🇧',
-        name: 'New set',
-        items: [],
-      }
-    ];
-
   selectedWord: word | undefined = undefined;
   filteredWords: word[] = [];
   paramsSubscription: Subscription | undefined;
   set: any | undefined;
+  vclass: any | undefined;
+  loading = false;
+  getCountryEmoji = getCountryEmoji;
 
-  constructor(private route: ActivatedRoute, public dialog: MatDialog) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    public dialog: MatDialog,
+    public voby: VobyService
+  ) {
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state) {
+      this.vclass = state['selectedClass'];
+      this.set = state['selectedSet'];
+    }
+  }
 
   ngOnInit() {
     this.paramsSubscription = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
-      this.set = this.sets.find(s => s.id === this.id);
     });
 
-    if (this.setExists()) {
+    if (!this.set) {
+      this.getSet(this.id);
+    } else {
       this.search();
     }
   }
@@ -88,27 +62,41 @@ export class SetComponent implements OnInit {
     this.paramsSubscription?.unsubscribe();
   }
 
-  setExists(): boolean {
-    return this.sets.findIndex(s => s.id === this.id) >= 0;
-  }
-
   selectWord(id: number) {
-    this.selectedWord = this.set.items.find((o: any) => o.id === id);
+    this.selectedWord = this.set.words.find((o: any) => o.id === id);
   }
 
   openWordForm() {
     this.dialog.open(WordFormComponent, {
       width: '30%',
+      data: {
+        setId: this.set.id
+      }
     });
+  }
+
+  getSet(id: number) {
+    this.voby.getSet(id)
+    .subscribe({
+      next: (data: any) => {
+        this.set = data;
+        this.vclass = data.vclass_info
+        this.search();
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
   }
 
   search() {
     let newWords: word[] = [];
-    this.set.items.forEach((i: any) => newWords.push(i));
+    this.set.words.forEach((i: any) => newWords.push(i));
 
     if(this.searchInput) {
       if(this.searchInput?.nativeElement.value !== '') {
-        newWords = this.set.items.filter((w: any) => w.text.toLowerCase().includes(this.searchInput?.nativeElement.value.toLowerCase())) || [];
+        newWords = this.set.words.filter((w: any) => w.word.toLowerCase().includes(this.searchInput?.nativeElement.value.toLowerCase())) || [];
       }
     }
 

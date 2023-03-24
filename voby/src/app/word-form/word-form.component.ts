@@ -1,6 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VobyService } from '../_services/voby.service';
+
+interface PassedData {
+  setId: number
+};
 
 @Component({
   selector: 'voby-word-form',
@@ -10,11 +15,14 @@ import { MatDialogRef } from '@angular/material/dialog';
 export class WordFormComponent {
 
   wordForm: FormGroup;
-
+  loading = false;
   examples:{text: string, translation: string}[] = []
+  passedData: PassedData;
 
   constructor(
-    public dialogRef: MatDialogRef<WordFormComponent>
+    public dialogRef: MatDialogRef<WordFormComponent>,
+    public voby: VobyService,
+    @Inject(MAT_DIALOG_DATA) data: PassedData
   ) {
     this.wordForm = new FormGroup({
       word: new FormControl('', [Validators.required]),
@@ -22,6 +30,7 @@ export class WordFormComponent {
       general: new FormControl('', [])
     });
     this.addExampleFormControls();
+    this.passedData = data;
   }
 
   onNoClick(): void {
@@ -49,6 +58,19 @@ export class WordFormComponent {
   }
 
   submit() {
-    console.log("submitted");
+    this.voby.createWord(
+      this.passedData.setId,
+      this.wordForm.get('word')?.value,
+      this.wordForm.get('translation')?.value,
+      this.wordForm.get('general')?.value
+    )
+    .subscribe({
+      next: () => {
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
   }
 }

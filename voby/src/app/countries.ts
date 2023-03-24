@@ -1746,3 +1746,7 @@ export const COUNTRY_MAPPING: Record<string, {display: string}>  = {
       display: '🇿🇼'
     }
 };
+
+export const getCountryEmoji = (country: any) => {
+  return COUNTRY_MAPPING[country as string].display;
+}
