@@ -8,9 +8,7 @@
             </mat-form-field>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;"></voby-favorite> 
         </div>
-        <div class="action-cont">
-            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
-        </div>
+        <button mat-icon-button class="action-single" color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
     </div>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
