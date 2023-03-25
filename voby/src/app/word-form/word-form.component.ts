@@ -16,7 +16,7 @@ export class WordFormComponent {
 
   wordForm: FormGroup;
   loading = false;
-  examples = 0
+  examples: number[] = [];
   passedData: PassedData;
   dataForParent: any = {};
 
@@ -39,26 +39,28 @@ export class WordFormComponent {
   }
 
   addExampleFormControls() {
-    this.wordForm.addControl(this.examples + 'tx', new FormControl('', [Validators.required]));
-    this.wordForm.addControl(this.examples + 'tr', new FormControl('', [Validators.required]));
+    this.wordForm.addControl(this.examples.length + 'tx', new FormControl('', [Validators.required]));
+    this.wordForm.addControl(this.examples.length + 'tr', new FormControl('', [Validators.required]));
   }
 
-  removeExampleFormControls(id: number) {
-    this.wordForm.removeControl(id + 'tx');
-    this.wordForm.removeControl(id + 'tr');
+  removeExampleFormControls(idx: number) {
+    this.wordForm.removeControl(idx + 'tx');
+    this.wordForm.removeControl(idx + 'tr');
   }
 
   addExample() {
     this.addExampleFormControls();
-    this.examples += 1
+    this.examples.push(this.examples.length);
   }
 
   removeExample(id: number) {
     this.removeExampleFormControls(id);
-    this.examples -= 1;
+    this.examples.splice(id, 1);
   }
 
   submit() {
+    console.log(this.wordForm.controls);
+
     this.voby.createWord(
       this.passedData.setId,
       this.wordForm.get('word')?.value,
@@ -69,9 +71,10 @@ export class WordFormComponent {
       next: (word: any) => {
         this.dataForParent = { word };
 
-        for (let index = 0; index < this.examples; index++) {
-          const tx = this.wordForm.get(index + 'tx')?.value;
-          const tr = this.wordForm.get(index + 'tr')?.value;
+        for (let ex of this.examples) {
+          const tx = this.wordForm.get(ex + 'tx')?.value;
+          const tr = this.wordForm.get(ex + 'tr')?.value;
+
           this.voby.createExample(word.id, tx, tr).subscribe({
             next: (data) => {
               if (!Object.keys(this.dataForParent).includes('examples')) {

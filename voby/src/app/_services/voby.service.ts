@@ -83,4 +83,10 @@ export class VobyService {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
+
+  deleteSet(index: number) {
+    return this.http.delete(environment.apiUrl + '/voby/sets/' + index, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
 }

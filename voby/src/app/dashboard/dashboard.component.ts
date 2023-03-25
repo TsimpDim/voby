@@ -60,8 +60,8 @@ export class DashboardComponent implements OnInit {
   createVocabSet(classIdx: number) {
     this.voby.createSet(classIdx, 'New set')
     .subscribe({
-      next: () => {
-        this.getClasses();
+      next: (data) => {
+        this.classes.find((c: any) => c.id === classIdx).sets.push(data);
       },
       error: () => {
         this.loading = false;
@@ -89,6 +89,22 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next: () => {
         this.getClasses();
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  deleteSet(event:any, classIdx: number, setIdx: number) {
+    event.stopPropagation();
+
+    this.voby.deleteSet(setIdx)
+    .subscribe({
+      next: () => {
+        const vclass = this.classes.find((c: any) => c.id === classIdx);
+        vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
       },
       error: () => {
         this.loading = false;

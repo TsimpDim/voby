@@ -76,7 +76,7 @@ export class SetComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data.word) {
-        data.word['examples'] = data.examples || undefined;
+        data.word['examples'] = data.examples || [];
       }
 
       this.set.words.push(data.word);
