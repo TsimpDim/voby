@@ -276,7 +276,7 @@ class Word(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
 class Example(models.Model):
-    word = models.ManyToManyField(Word)
+    word = models.ManyToManyField(Word, related_name='examples')
     text = models.TextField(null=False, blank=False)
     translation = models.TextField(null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

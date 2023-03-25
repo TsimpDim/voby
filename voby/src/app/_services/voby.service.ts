@@ -14,29 +14,39 @@ export class VobyService {
   ) { }
 
   getClasses() {
-    return this.http.get(environment.apiUrl + '/voby/class/', {
+    return this.http.get(environment.apiUrl + '/voby/classes/', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
 
   getClass(id: number) {
-    return this.http.get(environment.apiUrl + '/voby/class/' + id, {
+    return this.http.get(environment.apiUrl + '/voby/classes/' + id, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
 
   deleteClass(index: number) {
-    return this.http.delete(environment.apiUrl + '/voby/class/' + index, {
+    return this.http.delete(environment.apiUrl + '/voby/classes/' + index, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
 
   createClasses(className: string, sourceLanguage: string, targetLanguage: string) {
-    return this.http.post(environment.apiUrl + '/voby/class/',
+    return this.http.post(environment.apiUrl + '/voby/classes/',
       {
-        'name': className,
-        'source_language': sourceLanguage,
-        'target_language': targetLanguage
+        name: className,
+        source_language: sourceLanguage,
+        target_language: targetLanguage
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  createExample(wordId: number, text: string, translation: string) {
+    return this.http.post(environment.apiUrl + '/voby/examples/',
+      {
+        word: [wordId],
+        text: text,
+        translation: translation
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
@@ -52,8 +62,15 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
+  deleteWord(index: number) {
+    return this.http.delete(environment.apiUrl + '/voby/words/' + index, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
+
+
   createSet(classIdx: number, name: string) {
-    return this.http.post(environment.apiUrl + '/voby/set/',
+    return this.http.post(environment.apiUrl + '/voby/sets/',
       {
         vclass: classIdx,
         name: name
@@ -62,7 +79,7 @@ export class VobyService {
   }
 
   getSet(id: number) {
-    return this.http.get(environment.apiUrl + '/voby/set/' + id, {
+    return this.http.get(environment.apiUrl + '/voby/sets/' + id, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }

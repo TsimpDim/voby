@@ -1,9 +1,8 @@
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from .models import VClass, Set, Word
-from .serializers import ClassSerializer, SetSerializer, WordSerializer
-from rest_framework.decorators import action
+from .models import VClass, Set, Word, Example
+from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -64,3 +63,23 @@ class WordViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Word.objects.filter(user_id=self.request.user.id)
+
+class ExampleViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ExampleSerializer
+    queryset = Example.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return Example.objects.filter(user_id=self.request.user.id)

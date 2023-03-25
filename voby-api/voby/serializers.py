@@ -1,7 +1,14 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word
+from .models import VClass, Set, Word, Example
+
+class ExampleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Example
+        fields = "__all__"
 
 class WordSerializer(serializers.ModelSerializer):
+    examples = ExampleSerializer(many=True, read_only=True)
+
     class Meta:
         model = Word
         fields = '__all__'

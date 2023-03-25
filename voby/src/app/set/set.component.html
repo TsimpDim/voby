@@ -41,7 +41,7 @@
                     <mat-card-title>General</mat-card-title>
                     <div>
                         <button mat-icon-button class="action-icon" style="margin-top: -1em;"><mat-icon>edit</mat-icon></button>
-                        <button mat-icon-button class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
+                        <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
                     </div>
                 </div>    
                 
@@ -53,16 +53,17 @@
                 <mat-card-title>examples</mat-card-title>
                     <p *ngIf="selectedWord?.examples?.length === 0">-</p>
                     <p *ngFor="let example of selectedWord?.examples">
-                        🇩🇪 {{example.text}}
+                        {{this.getCountryEmoji(vclass.source_language)}} {{example.text}}
                         <mat-divider></mat-divider>
-                        🇬🇧 {{example.translation}}
+                        {{this.getCountryEmoji(vclass.target_language)}} {{example.translation}}
                     </p>
             </mat-card-content>
 
             <mat-card-content>
                 <mat-card-title>Related words</mat-card-title>
                 <mat-chip-list>
-                    <p *ngIf="selectedWord?.relatedWords?.length === 0">-</p>
+                    <!-- <p *ngIf="selectedWord?.relatedWords?.length === 0">-</p> -->
+                    <p>-</p>
                     <mat-chip *ngFor="let related of selectedWord?.relatedWords">{{related}}</mat-chip>
                 </mat-chip-list>
             </mat-card-content>

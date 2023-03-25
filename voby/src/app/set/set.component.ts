@@ -67,12 +67,38 @@ export class SetComponent implements OnInit {
   }
 
   openWordForm() {
-    this.dialog.open(WordFormComponent, {
+    const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
         setId: this.set.id
       }
     });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (data.word) {
+        data.word['examples'] = data.examples || undefined;
+      }
+
+      this.set.words.push(data.word);
+      this.search();
+    });
+  }
+
+  deleteSelectedWord() {
+    if (this.selectedWord) {
+      this.voby.deleteWord(this.selectedWord.id)
+      .subscribe({
+        next: () => {
+          this.set.words.splice(this.set.words.findIndex((w: any) => w.id === this.selectedWord?.id), 1);
+          this.selectedWord = undefined;
+          this.search();
+        },
+        error: () => {
+          this.loading = false;
+        },
+        complete: () => this.loading = false
+      })
+    }
   }
 
   getSet(id: number) {

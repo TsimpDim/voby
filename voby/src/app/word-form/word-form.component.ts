@@ -16,8 +16,9 @@ export class WordFormComponent {
 
   wordForm: FormGroup;
   loading = false;
-  examples:{text: string, translation: string}[] = []
+  examples = 0
   passedData: PassedData;
+  dataForParent: any = {};
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -38,8 +39,8 @@ export class WordFormComponent {
   }
 
   addExampleFormControls() {
-    this.wordForm.addControl(this.examples.length + 'tx', new FormControl('', [Validators.required]));
-    this.wordForm.addControl(this.examples.length + 'tr', new FormControl('', [Validators.required]));
+    this.wordForm.addControl(this.examples + 'tx', new FormControl('', [Validators.required]));
+    this.wordForm.addControl(this.examples + 'tr', new FormControl('', [Validators.required]));
   }
 
   removeExampleFormControls(id: number) {
@@ -49,12 +50,12 @@ export class WordFormComponent {
 
   addExample() {
     this.addExampleFormControls();
-    this.examples.push({text: '', translation: ''});
+    this.examples += 1
   }
 
   removeExample(id: number) {
     this.removeExampleFormControls(id);
-    this.examples.splice(id, 1);
+    this.examples -= 1;
   }
 
   submit() {
@@ -65,12 +66,34 @@ export class WordFormComponent {
       this.wordForm.get('general')?.value
     )
     .subscribe({
-      next: () => {
+      next: (word: any) => {
+        this.dataForParent = { word };
+
+        for (let index = 0; index < this.examples; index++) {
+          const tx = this.wordForm.get(index + 'tx')?.value;
+          const tr = this.wordForm.get(index + 'tr')?.value;
+          this.voby.createExample(word.id, tx, tr).subscribe({
+            next: (data) => {
+              if (!Object.keys(this.dataForParent).includes('examples')) {
+                this.dataForParent['examples'] = [data];
+              } else {
+                this.dataForParent['examples'].push(data);
+              }
+            },
+            error: () => {},
+            complete: () => {
+              this.dialogRef.close(this.dataForParent);
+            }
+          });
+        }
       },
       error: () => {
         this.loading = false;
       },
-      complete: () => this.loading = false
-    })
+      complete: () => { 
+        this.loading = false;
+        this.dialogRef.close(this.dataForParent);
+      }
+    });
   }
 }

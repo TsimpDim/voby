@@ -25,7 +25,7 @@
 
     <h3 style="margin-top: 1em">Examples</h3>
 
-    <ng-container *ngFor="let example of examples; index as i">
+    <ng-container *ngFor="let example of [].constructor(examples); index as i">
         <div [style]="{'margin-top': i === 0 ? '-1em' : '1.5em', 'display': 'flex', 'flex-direction': 'row'}">
             <button mat-flat-button type="button" (click)="removeExample(i)" class="remove-example-btn">-</button>
             <div style="display: flex; flex-direction: column;width:100%">
@@ -34,7 +34,7 @@
                     <mat-label>Text</mat-label>
                     <input
                         matInput
-                        [value]="example.text"
+                        [value]="''"
                         [formControlName]="i.toString() + 'tx'"
                     >
                 </mat-form-field>
@@ -42,7 +42,7 @@
                     <mat-label>Translation</mat-label>
                     <input
                         matInput
-                        [value]="example.translation"
+                        [value]="''"
                         [formControlName]="i.toString() + 'tr'"
                     >
                 </mat-form-field>
