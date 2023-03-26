@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from '../countries';
+import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 
@@ -113,6 +114,35 @@ export class SetComponent implements OnInit {
         this.loading = false;
       },
       complete: () => this.loading = false
+    })
+  }
+
+
+  deleteSet() {
+    this.voby.deleteSet(this.id)
+    .subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  editSet() {
+    const dialogRef = this.dialog.open(SetFormComponent, {
+      width: '30%',
+      data: {
+        classId: this.vclass.id,
+        setId: this.id,
+        name: this.set.name
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      this.set.name = res.name;
     })
   }
 

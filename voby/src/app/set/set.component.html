@@ -12,7 +12,11 @@
             </mat-form-field>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;"></voby-favorite> 
         </div>
-        <button mat-icon-button class="action-single" color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
+        <div class="action-cont">
+            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
+            <button mat-icon-button (click)="editSet()"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="deleteSet()" class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
+        </div>
     </div>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
