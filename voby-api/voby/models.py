@@ -265,7 +265,7 @@ class VClass(models.Model):
 
 class Set(models.Model):
     name = models.CharField(max_length=120, null=False)
-    vclass = models.ForeignKey(VClass, on_delete=models.DO_NOTHING, null=False, related_name='sets')
+    vclass = models.ForeignKey(VClass, on_delete=models.CASCADE, null=False, related_name='sets')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
 class Word(models.Model):

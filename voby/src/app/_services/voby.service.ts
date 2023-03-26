@@ -31,10 +31,20 @@ export class VobyService {
     });
   }
 
-  createClasses(className: string, sourceLanguage: string, targetLanguage: string) {
+  createClass(name: string, sourceLanguage: string, targetLanguage: string) {
     return this.http.post(environment.apiUrl + '/voby/classes/',
       {
-        name: className,
+        name: name,
+        source_language: sourceLanguage,
+        target_language: targetLanguage
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  updateClass(classId: number, name: string, sourceLanguage: string, targetLanguage: string) {
+    return this.http.patch(environment.apiUrl + '/voby/classes/' + classId + '/',
+      {
+        name: name,
         source_language: sourceLanguage,
         target_language: targetLanguage
       },

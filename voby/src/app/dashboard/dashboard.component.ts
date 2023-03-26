@@ -28,10 +28,6 @@ export class DashboardComponent implements OnInit {
   classes: any = null;
   loading = true;
   countryMapping = COUNTRY_MAPPING;
-  // classes: {id: number, name: string, sets: {id: number, name: string}[]}[] = [
-  //   {id: 1, name: 'Barb\'s German B1', sets: [{id: 123, name: 'OESD Model Prufung B1 Deutsch'}, {id: 111, name: 'WIFI Practice Exam B1 Deutsch'}]},
-  //   {id: 2, name: 'London\'s Calling', sets: [{id: 45, name:'Elections & Voting'}]}
-  // ]
 
   ngOnInit(): void {
     this.getClasses();
@@ -49,8 +45,7 @@ export class DashboardComponent implements OnInit {
 
   openClassForm() {
     const dialogRef = this.dialog.open(ClassFormComponent, {
-      width: '30%',
-      data: {className: this.className},
+      width: '30%'
     });
 
 
@@ -115,6 +110,25 @@ export class DashboardComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       setToChange.name = res.name;
+    })
+  }
+
+  editClass(classIdx: number) {
+    let classToChange = this.classes.find((c: any) => c.id === classIdx);
+    const dialogRef = this.dialog.open(ClassFormComponent, {
+      width: '30%',
+      data: {
+        classId: classIdx,
+        name: classToChange.name,
+        source_language: classToChange.source_language,
+        target_language: classToChange.target_language
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      classToChange.name = res.name;
+      classToChange.source_language = res.source_language;
+      classToChange.target_language = res.target_language;
     })
   }
 
