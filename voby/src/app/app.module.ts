@@ -27,6 +27,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { HttpClientModule } from '@angular/common/http';
+import { SetFormComponent } from './set-form/set-form.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     ClassFormComponent,
     WordFormComponent,
     LoginFormComponent,
-    RegisterFormComponent
+    RegisterFormComponent,
+    SetFormComponent
   ],
   imports: [
     BrowserModule,

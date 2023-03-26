@@ -78,6 +78,14 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
+  updateSet(setId: number, name: string) {
+    return this.http.patch(environment.apiUrl + '/voby/sets/' + setId + '/',
+      {
+        name: name
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
   getSet(id: number) {
     return this.http.get(environment.apiUrl + '/voby/sets/' + id, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 

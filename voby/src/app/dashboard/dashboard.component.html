@@ -18,7 +18,7 @@
       <ng-container *ngFor="let set of class.sets; index as i">
         <mat-list-item matRipple class="set-item" (click)="redirect(set.id)">{{set.name}}
           <div style="margin-left:auto">
-            <button mat-icon-button><mat-icon>edit</mat-icon></button> 
+            <button mat-icon-button (click)="editSet($event, set.vclass,set.id)"><mat-icon>edit</mat-icon></button> 
             <button mat-icon-button (click)="deleteSet($event, set.vclass,set.id)"><mat-icon>delete</mat-icon></button>
           </div>
         </mat-list-item>

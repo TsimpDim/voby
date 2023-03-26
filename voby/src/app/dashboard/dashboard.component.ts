@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ClassFormComponent } from '../class-form/class-form.component';
 import { VobyService } from '../_services/voby.service';
 import { COUNTRY_MAPPING, getCountryEmoji } from '../countries';
+import { SetFormComponent } from '../set-form/set-form.component';
 
 export interface DialogData {
   className: string;
@@ -52,6 +53,8 @@ export class DashboardComponent implements OnInit {
       data: {className: this.className},
     });
 
+
+    // TODO:: Remove this
     dialogRef.afterClosed().subscribe(result => {
       this.getClasses();
     });
@@ -97,7 +100,25 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  deleteSet(event:any, classIdx: number, setIdx: number) {
+  editSet(event: any, classIdx: number, setIdx: number) {
+    event.stopPropagation();
+
+    let setToChange = this.classes.find((c: any) => c.id === classIdx).sets.find((s: any) => s.id === setIdx);
+    const dialogRef = this.dialog.open(SetFormComponent, {
+      width: '30%',
+      data: {
+        classId: classIdx,
+        setId: setIdx,
+        name: setToChange.name
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      setToChange.name = res.name;
+    })
+  }
+
+  deleteSet(event: any, classIdx: number, setIdx: number) {
     event.stopPropagation();
 
     this.voby.deleteSet(setIdx)
