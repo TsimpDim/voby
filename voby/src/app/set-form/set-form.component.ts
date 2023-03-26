@@ -29,6 +29,7 @@ export class SetFormComponent {
   }
 
   submit() {
+    console.log(this.setForm);
     this.updateSet(this.data.setId, this.setForm.get('name')?.value)
   }
 

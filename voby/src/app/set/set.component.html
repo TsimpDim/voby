@@ -1,6 +1,10 @@
 <ng-container *ngIf="this.set !== undefined && this.vclass !== undefined">
     <div class="set-header">
-        <h1 class="set-data">{{this.set?.name}}  <span class="country">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
+        <div class="title-cont">
+            <h1 class="set-data">{{this.set?.name}}  <span class="country">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
+            <h3 class="class-title">{{this.set?.vclass_info.name}}</h3>
+        </div>
+        
         <div class="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>

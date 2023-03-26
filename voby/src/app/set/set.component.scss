@@ -43,6 +43,7 @@
 
     & .set-data {
         margin: 1em;
+        margin-bottom: 0;
     }
 }
 
@@ -72,6 +73,12 @@
 
 .card-title {
     padding: 0 !important;
+}
+
+.class-title {
+    margin-left: 2em;
+    margin-top: -.5em;
+    color: rgb(96, 96, 96);
 }
 
 .word-detail-container {
