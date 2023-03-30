@@ -77,7 +77,7 @@ export class SetComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      if (data.word) {
+      if (data !== undefined && data.word) {
         data.word['examples'] = data.examples || [];
       }
 
@@ -162,6 +162,7 @@ export class SetComponent implements OnInit {
         word.word = res.word;
         word.translation = res.translation;
         word.general = res.general;
+        word.examples = res.examples;
       }
     })
   }

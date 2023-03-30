@@ -30,9 +30,10 @@ export class WordFormComponent {
 
   wordForm: FormGroup;
   loading = false;
-  examples: number[] = [];
+  examples: any[] = [];
   passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
+  deletedExamples: any[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -44,7 +45,16 @@ export class WordFormComponent {
       translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', [])
     });
-    this.addExampleFormControls();
+
+    if (data.edit) {
+      for (const ex of (data as PassedDataOnEdit).word.examples) {
+        this.wordForm.addControl(this.examples.length + 'tx', new FormControl(ex.text, [Validators.required]));
+        this.wordForm.addControl(this.examples.length + 'tr', new FormControl(ex.translation, [Validators.required]));
+        this.examples.push([this.examples.length, ex.id]);
+      }
+    } else {
+      this.addExampleFormControls();
+    }
     this.passedData = data;
   }
 
@@ -64,12 +74,13 @@ export class WordFormComponent {
 
   addExample() {
     this.addExampleFormControls();
-    this.examples.push(this.examples.length);
+    this.examples.push([this.examples.length, -1]);
   }
 
   removeExample(id: number) {
     this.removeExampleFormControls(id);
-    this.examples.splice(id, 1);
+    const splicedItems = this.examples.splice(id, 1);
+    this.deletedExamples.push(splicedItems[0]);
   }
 
   submit() {
@@ -88,8 +99,41 @@ export class WordFormComponent {
       this.wordForm.get('general')?.value
     )
     .subscribe({
-      next: (data) => {
-        this.dialogRef.close(data);
+      next: (word) => {
+        const newExamples: Word[] = [];
+        for (let ex of this.examples) {
+          const tx = this.wordForm.get(ex[0] + 'tx')?.value;
+          const tr = this.wordForm.get(ex[0] + 'tr')?.value;
+
+          if (ex[1] !== -1) { // editing existing examples
+            this.voby.updateExample(ex[1], tx, tr).subscribe({
+              next: (data) => {
+                newExamples.push(data as Word);
+              },
+              error: () => {},
+              complete: () => {}
+            });
+          } else { // create new one
+            this.voby.createExample((word as any).id, tx, tr).subscribe({
+              next: (data) => {
+                newExamples.push(data as Word);
+              },
+              error: () => {},
+              complete: () => {}
+            });
+          }
+        }
+
+        for (let dex of this.deletedExamples) {
+          this.voby.deleteExample(dex[1]).subscribe({
+            next: () => {},
+            error: () => {},
+            complete: () => {}
+          });
+        }
+
+        (word as any).examples = newExamples;
+        this.dialogRef.close(word);
       },
       error: () => {
         this.loading = false;
@@ -112,8 +156,8 @@ export class WordFormComponent {
         this.dataForParent = { word };
 
         for (let ex of this.examples) {
-          const tx = this.wordForm.get(ex + 'tx')?.value;
-          const tr = this.wordForm.get(ex + 'tr')?.value;
+          const tx = this.wordForm.get(ex[0] + 'tx')?.value;
+          const tr = this.wordForm.get(ex[0] + 'tr')?.value;
 
           this.voby.createExample(word.id, tx, tr).subscribe({
             next: (data) => {

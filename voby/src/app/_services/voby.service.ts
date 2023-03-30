@@ -61,6 +61,21 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
+  updateExample(exampleId: number, text: string, translation: string) {
+    return this.http.patch(environment.apiUrl + '/voby/examples/' + exampleId + '/',
+      {
+        text: text,
+        translation: translation
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  deleteExample(index: number) {
+    return this.http.delete(environment.apiUrl + '/voby/examples/' + index, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
+
   createWord(setId: number, word: string, translation: string, general: string) {
     return this.http.post(environment.apiUrl + '/voby/words/',
       {
