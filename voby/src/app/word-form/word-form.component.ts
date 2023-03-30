@@ -3,9 +3,23 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VobyService } from '../_services/voby.service';
 
-interface PassedData {
-  setId: number
+interface PassedDataOnCreate {
+  setId: number,
+  edit: boolean
 };
+
+interface PassedDataOnEdit {
+  word: Word,
+  edit: boolean
+};
+
+interface Word {
+  id: number;
+  word: string;
+  translation: string;
+  examples: {text: string, translation: string, id: number}[];
+  general: string;
+}
 
 @Component({
   selector: 'voby-word-form',
@@ -17,18 +31,18 @@ export class WordFormComponent {
   wordForm: FormGroup;
   loading = false;
   examples: number[] = [];
-  passedData: PassedData;
+  passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
-    @Inject(MAT_DIALOG_DATA) data: PassedData
+    @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
     this.wordForm = new FormGroup({
-      word: new FormControl('', [Validators.required]),
-      translation: new FormControl('', [Validators.required]),
-      general: new FormControl('', [])
+      word: new FormControl(data.edit ? (data as PassedDataOnEdit).word.word : '', [Validators.required]),
+      translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
+      general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', [])
     });
     this.addExampleFormControls();
     this.passedData = data;
@@ -59,10 +73,36 @@ export class WordFormComponent {
   }
 
   submit() {
-    console.log(this.wordForm.controls);
+    if (this.passedData.edit) {
+      this.editWord();
+    } else {
+      this.createWord();
+    }
+  }
 
+  editWord() {
+    this.voby.editWord(
+      (this.passedData as PassedDataOnEdit).word.id,
+      this.wordForm.get('word')?.value,
+      this.wordForm.get('translation')?.value,
+      this.wordForm.get('general')?.value
+    )
+    .subscribe({
+      next: (data) => {
+        this.dialogRef.close(data);
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => { 
+        this.loading = false;
+      }
+    }); 
+  }
+
+  createWord() {
     this.voby.createWord(
-      this.passedData.setId,
+      (this.passedData as PassedDataOnCreate).setId,
       this.wordForm.get('word')?.value,
       this.wordForm.get('translation')?.value,
       this.wordForm.get('general')?.value

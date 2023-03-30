@@ -11,7 +11,7 @@ interface word {
   id: number;
   word: string;
   translation: string;
-  examples: {text: string, translation: string}[];
+  examples: {text: string, translation: string, id: number}[];
   general: string;
   relatedWords: string[];
 }
@@ -71,7 +71,8 @@ export class SetComponent implements OnInit {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
-        setId: this.set.id
+        setId: this.set.id,
+        edit: false
       }
     });
 
@@ -144,6 +145,29 @@ export class SetComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       this.set.name = res.name;
     })
+  }
+
+  editWord() {
+    const dialogRef = this.dialog.open(WordFormComponent, {
+      width: '30%',
+      data: {
+        word: this.selectedWord,
+        edit: true
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        let word = this.set.words.find((w: any) => w.id === this.selectedWord?.id);
+        word.word = res.word;
+        word.translation = res.translation;
+        word.general = res.general;
+      }
+    })
+  }
+
+  deselectWord() {
+    this.selectedWord = undefined;
   }
 
   search() {

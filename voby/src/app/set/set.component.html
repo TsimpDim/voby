@@ -15,13 +15,13 @@
         <div class="action-cont">
             <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
             <button mat-icon-button (click)="editSet()"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button (click)="deleteSet()" class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
+            <button mat-icon-button (click)="deleteSet()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
         </div>
     </div>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
-            <ng-container *ngFor="let word of this.filteredWords">
-                <mat-card matRipple class="word" (click)="this.selectWord(word.id)">
+            <ng-container *ngFor="let word of this.filteredWords; index">
+                <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)">
                     <mat-card-content>
                         <mat-card-title class="card-title">{{word.word}}</mat-card-title>
                         <p class="alternatives">
@@ -48,8 +48,9 @@
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
                     <mat-card-title>General</mat-card-title>
                     <div>
-                        <button mat-icon-button class="action-icon" style="margin-top: -1em;"><mat-icon>edit</mat-icon></button>
-                        <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon" style="margin-top: -1em;"><mat-icon>delete_outline</mat-icon></button>
+                        <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
+                        <button mat-icon-button (click)="editWord()" class="action-icon"><mat-icon>edit</mat-icon></button>
+                        <button mat-icon-button (click)="deselectWord()" class="action-icon"><mat-icon>close</mat-icon></button>
                     </div>
                 </div>    
                 

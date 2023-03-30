@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
       width: '30%'
     });
 
-
     // TODO:: Remove this
     dialogRef.afterClosed().subscribe(result => {
       this.getClasses();

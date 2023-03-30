@@ -72,6 +72,16 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
+  editWord(wordId: number, word: string, translation: string, general: string) {
+    return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
+      {
+        word: word,
+        translation: translation,
+        general: general,
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
   deleteWord(index: number) {
     return this.http.delete(environment.apiUrl + '/voby/words/' + index, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
