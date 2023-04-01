@@ -4,22 +4,29 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { SetComponent } from './set/set.component';
+import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
+import { LoggedInGuardService as LoggedInGuard} from './_services/logged-in-guard.service';
 
 const routes: Routes = [
   {
-    path: '', component: DashboardComponent
+    path: '', component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path: 'dashboard', component: DashboardComponent
+    path: 'dashboard', component: DashboardComponent,
+    canActivate: [AuthGuard]
   },
   {
-    path: 'login', component: LoginFormComponent
+    path: 'login', component: LoginFormComponent,
+    canActivate: [LoggedInGuard]
   },
   {
-    path: 'register', component: RegisterFormComponent
+    path: 'register', component: RegisterFormComponent,
+    canActivate: [LoggedInGuard]
   },
   {
-    path: 'set/:id', component: SetComponent
+    path: 'set/:id', component: SetComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: '*', component: DashboardComponent
