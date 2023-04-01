@@ -10,7 +10,7 @@
                 <mat-label>Search</mat-label>
                 <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
             </mat-form-field>
-            <voby-favorite style="margin-top: auto;margin-bottom:auto;"></voby-favorite> 
+            <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()"></voby-favorite> 
         </div>
         <div class="action-cont">
             <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
@@ -20,14 +20,18 @@
     </div>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
-            <ng-container *ngFor="let word of this.filteredWords; index">
+            <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)">
                     <mat-card-content>
                         <mat-card-title class="card-title">{{word.word}}</mat-card-title>
                         <p class="alternatives">
                             {{word.translation}}
                         </p>
-                        <voby-favorite class="favorite"></voby-favorite>
+                        <voby-favorite
+                            class="favorite"
+                            [isFavorite]="word.favorite"
+                            (click)="toggleFavorite(word.id, word.favorite)"
+                        ></voby-favorite>
                     </mat-card-content>
                 </mat-card>
             </ng-container>

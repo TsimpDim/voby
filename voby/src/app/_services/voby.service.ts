@@ -92,7 +92,15 @@ export class VobyService {
       {
         word: word,
         translation: translation,
-        general: general,
+        general: general
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  editWordFavorite(wordId: number, favorite: boolean) {
+    return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
+      {
+        favorite: favorite
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }

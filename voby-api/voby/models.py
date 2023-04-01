@@ -271,6 +271,7 @@ class Set(models.Model):
 class Word(models.Model):
     word = models.CharField(max_length=120, null=False)
     translation = models.CharField(max_length=120, null=False)
+    favorite = models.BooleanField(default=False)
     general = models.TextField(null=True, blank=True)
     set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

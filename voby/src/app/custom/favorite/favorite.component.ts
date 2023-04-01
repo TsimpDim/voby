@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'voby-favorite',
@@ -7,16 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FavoriteComponent {
 
-  fontIcon: string = 'favorite_border';
-  isFavorite: boolean = false;
-  FONT_ICON_MAPPING: Record<string, string> = {
-    'false': 'favorite_border',
-    'true': 'favorite'
-  };
+  @Input() isFavorite: boolean = false;
 
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;
-    this.fontIcon = this.FONT_ICON_MAPPING[this.isFavorite.toString() as string];
   }
-
 }

@@ -13,6 +13,7 @@ interface word {
   translation: string;
   examples: {text: string, translation: string, id: number}[];
   general: string;
+  favorite: boolean;
   relatedWords: string[];
 }
 
@@ -32,6 +33,7 @@ export class SetComponent implements OnInit {
   set: any | undefined;
   vclass: any | undefined;
   loading = false;
+  showingFavorites = false;
   getCountryEmoji = getCountryEmoji;
 
   constructor(
@@ -118,6 +120,14 @@ export class SetComponent implements OnInit {
     })
   }
 
+  toggleFavorite(wordId: number, favorite: boolean) {
+    this.voby.editWordFavorite(wordId, !favorite)
+    .subscribe({
+      next: () => {
+        this.set.words.find((w: word) => w.id === wordId).favorite = !favorite;
+      }
+    });
+  }
 
   deleteSet() {
     this.voby.deleteSet(this.id)
@@ -169,6 +179,21 @@ export class SetComponent implements OnInit {
 
   deselectWord() {
     this.selectedWord = undefined;
+  }
+
+  toggleShowFavorites() {
+    if (this.showingFavorites) {
+      this.search();
+      this.showingFavorites = false;
+    } else {
+      let newWords: word[] = [];
+      this.set.words.filter((w: word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      this.filteredWords.splice(0, this.filteredWords.length);
+      newWords.forEach(nW => {
+        this.filteredWords.push(nW);
+      });
+      this.showingFavorites = true;
+    }
   }
 
   search() {
