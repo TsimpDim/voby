@@ -3,8 +3,7 @@ from django.dispatch import receiver
 from .models import VClass
 from django.contrib.auth.models import User
 
-@receiver(post_save, sender=User)
-def create_default_resources(sender, instance, created, **kwargs):
-    if created:
-        vclass = VClass(name='Default Class', user=instance)
-        vclass.save()
+# @receiver(post_save, sender=User)
+# def create_default_resources(sender, instance, created, **kwargs):
+#     if created:
+#         pass
