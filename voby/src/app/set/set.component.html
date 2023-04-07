@@ -1,8 +1,14 @@
 <ng-container *ngIf="this.set !== undefined && this.vclass !== undefined">
     <div class="set-header">
-        <div class="title-cont">
-            <h1 class="set-data">{{this.set?.name}}  <span class="country">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
-            <h3 class="class-title">{{this.set?.vclass_info.name}}</h3>
+        <div class="set-info">
+            <div>
+                <h1 class="set-data">{{this.set?.name}}  <span class="country">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
+                <h3 class="class-title">{{this.set?.vclass_info.name}}</h3>
+            </div>
+            <div>
+                <h4 class="set-length">{{this.set?.words.length}} words total</h4>
+                <h4 class="set-length">0 words created today</h4>
+            </div>
         </div>
         
         <div class="search-bar">

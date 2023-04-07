@@ -160,3 +160,16 @@
 .selected-word {
     background-color: rgb(235, 235, 235);
 }
+
+.set-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.set-length {
+    opacity: 50%;
+    margin-bottom: 0;
+    &:first-of-type {
+        margin-top: 2em;
+    }
+}
