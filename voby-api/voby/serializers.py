@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import VClass, Set, Word, Example
+from datetime import datetime
 
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,6 +17,11 @@ class WordSerializer(serializers.ModelSerializer):
 class SetSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True)
     vclass_info = serializers.SerializerMethodField()
+    words_today = serializers.SerializerMethodField()
+
+    def get_words_today(self, obj):
+        count = Word.objects.filter(set=obj, created=datetime.today()).count()
+        return count
 
     def get_vclass_info(self, obj):
         vclass = obj.vclass

@@ -15,7 +15,7 @@ interface word {
   general: string;
   favorite: boolean;
   relatedWords: string[];
-  created: string;
+  created: string
 }
 
 @Component({
@@ -85,6 +85,7 @@ export class SetComponent implements OnInit {
       }
 
       this.set.words.push(data.word);
+      this.set.words_today += 1;
       this.search();
     });
   }
