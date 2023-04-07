@@ -15,6 +15,7 @@ interface word {
   general: string;
   favorite: boolean;
   relatedWords: string[];
+  created: string;
 }
 
 @Component({
