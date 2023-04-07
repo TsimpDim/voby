@@ -26,7 +26,7 @@ export class ClassFormComponent {
     @Inject(MAT_DIALOG_DATA) data: {classId: number, name: string, source_language: string, target_language: string},
   ) {
     this.classForm = new FormGroup({
-      name: new FormControl(data ? data.name : '', [Validators.required]),
+      name: new FormControl(data ? data.name : '', [Validators.required, Validators.maxLength(25)]),
       sourceLanguage: new FormControl(data ? data.source_language : '', [Validators.required]),
       targetLanguage: new FormControl(data ? data.target_language : '', [Validators.required])
     });

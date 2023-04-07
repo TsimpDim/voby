@@ -255,7 +255,7 @@ class VClass(models.Model):
         ('ZW', '🇿🇼'),
     )
     
-    name = models.CharField(max_length=120, null=False)
+    name = models.CharField(max_length=25, null=False)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     source_language = models.CharField(max_length=2, choices=COUNTRY_CHOICES, null=False)
     target_language = models.CharField(max_length=2, choices=COUNTRY_CHOICES, null=False)
@@ -264,7 +264,7 @@ class VClass(models.Model):
         return f"{self.user}.{self.name}"
 
 class Set(models.Model):
-    name = models.CharField(max_length=120, null=False)
+    name = models.CharField(max_length=20, null=False)
     vclass = models.ForeignKey(VClass, on_delete=models.CASCADE, null=False, related_name='sets')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
