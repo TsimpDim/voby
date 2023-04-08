@@ -20,7 +20,7 @@ class SetSerializer(serializers.ModelSerializer):
     words_today = serializers.SerializerMethodField()
 
     def get_words_today(self, obj):
-        count = Word.objects.filter(set=obj, created=datetime.today()).count()
+        count = Word.objects.filter(set=obj, created__date=datetime.today()).count()
         return count
 
     def get_vclass_info(self, obj):
