@@ -129,9 +129,10 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  getSet(id: number) {
-    return this.http.get(environment.apiUrl + '/voby/sets/' + id, {
-      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+  getSet(id: number, sort: string) {
+    return this.http.get(environment.apiUrl + '/voby/sets/' + id + '/', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} ,
+      params: {'sort': sort}
     });
   }
 

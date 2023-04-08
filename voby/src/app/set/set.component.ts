@@ -47,6 +47,11 @@ export class SetComponent implements OnInit {
     if (state) {
       this.vclass = state['selectedClass'];
       this.set = state['selectedSet'];
+      if (localStorage.getItem('sort') == 'date_asc') {
+        this.set.words.sort((a: any, b: any) => a.created > b.created)
+      } else {
+        this.set.words.sort((a: any, b: any) => a.created < b.created)
+      }
     }
   }
 
@@ -84,7 +89,11 @@ export class SetComponent implements OnInit {
         data.examples.forEach((e: any) => data.word.examples.push(e));
       }
 
-      this.set.words.push(data.word);
+      if (localStorage.getItem('sort') === 'date_asc') {
+        this.set.words.push(data.word);
+      } else {
+        this.set.words.unshift(data.word);
+      }
       this.set.words_today += 1;
       this.search();
     });
@@ -107,8 +116,18 @@ export class SetComponent implements OnInit {
     }
   }
 
-  getSet(id: number) {
-    this.voby.getSet(id)
+  sortDateDesc() {
+    localStorage.setItem('sort', 'date_desc')
+    this.getSet(this.id, 'date_desc');
+  }
+
+  sortDateAsc() {
+    localStorage.setItem('sort', 'date_asc')
+    this.getSet(this.id, 'date_asc');
+  }
+
+  getSet(id: number, sort = localStorage.getItem('sort') || 'date_desc') {
+    this.voby.getSet(id, sort)
     .subscribe({
       next: (data: any) => {
         this.set = data;

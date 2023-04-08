@@ -6,8 +6,8 @@
                 <h3 class="class-title">{{this.set?.vclass_info.name}}</h3>
             </div>
             <div>
-                <h4 class="set-length">{{this.set?.words.length}} words total</h4>
-                <h4 class="set-length">{{this.set?.words_today}} words created today</h4>
+                <h4 class="set-length">{{this.set?.words.length}} word(s) total</h4>
+                <h4 class="set-length">{{this.set?.words_today}} created today</h4>
             </div>
         </div>
         
@@ -17,6 +17,11 @@
                 <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
             </mat-form-field>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()"></voby-favorite> 
+            <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;"><mat-icon>sort</mat-icon></button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
+                <button mat-menu-item (click)="sortDateAsc()">Older first</button>
+            </mat-menu>
         </div>
         <div class="action-cont">
             <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
@@ -57,7 +62,7 @@
 
                 <div style="display: flex; flex-direction: row; justify-content: space-between;">
                     <mat-card-title>General</mat-card-title>
-                    <h4 class="word-date">Added {{selectedWord.created}}</h4>
+                    <h4 class="word-date">Added {{selectedWord.created | date:'mediumDate'}}</h4>
                     <div>
                         <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
                         <button mat-icon-button (click)="editWord()" class="action-icon"><mat-icon>edit</mat-icon></button>

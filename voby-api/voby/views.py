@@ -43,6 +43,11 @@ class SetViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Set.objects.filter(user_id=self.request.user.id)
+    
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context['sort'] = self.request.query_params.get('sort')
+        return context
 
 class WordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

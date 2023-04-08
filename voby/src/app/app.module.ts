@@ -28,6 +28,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SetFormComponent } from './set-form/set-form.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { SetFormComponent } from './set-form/set-form.component';
     MatOptionModule,
     ReactiveFormsModule,
     HttpClientModule,
-    MatSelectModule
+    MatSelectModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

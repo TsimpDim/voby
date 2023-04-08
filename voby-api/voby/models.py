@@ -273,7 +273,7 @@ class Word(models.Model):
     translation = models.CharField(max_length=120, null=False)
     favorite = models.BooleanField(default=False)
     general = models.TextField(null=True, blank=True)
-    created = models.DateField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True)
     set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
