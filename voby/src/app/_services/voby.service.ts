@@ -116,7 +116,7 @@ export class VobyService {
   }
 
   getAllWordsOfClass(classId: number) {
-    return this.http.get(environment.apiUrl + '/voby/classes/' + classId + '/all', {
+    return this.http.get(environment.apiUrl + '/voby/classes/' + classId + '/all/', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
