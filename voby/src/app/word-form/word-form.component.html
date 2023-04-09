@@ -1,5 +1,5 @@
 <form [formGroup]="wordForm">
-    <mat-form-field class="input" appearance="fill">
+    <mat-form-field appearance="fill">
         <mat-label>Word</mat-label>
         <input cdkFocusInitial
             matInput
@@ -8,7 +8,7 @@
         >
     </mat-form-field>
 
-    <mat-form-field class="input" appearance="fill">
+    <mat-form-field appearance="fill">
         <mat-label>Translation</mat-label>
         <input
             matInput
@@ -17,7 +17,7 @@
         >
     </mat-form-field>
 
-    <mat-form-field class="input" appearance="fill">
+    <mat-form-field appearance="fill">
         <mat-label>Plural</mat-label>
         <input
             matInput
@@ -26,11 +26,37 @@
         >
     </mat-form-field>
 
-    <mat-form-field class="input" appearance="fill">
+    <mat-form-field appearance="fill">
         <mat-label>General</mat-label>
         <textarea matInput formControlName="general"></textarea>
     </mat-form-field>
 
+    <mat-form-field appearance="fill">
+        <mat-label>Related words</mat-label>
+        <mat-chip-list #chipList>
+            <mat-chip
+                *ngFor="let word of relatedWordsValue"
+                (removed)="removeRelatedWord(word.id)"
+            >
+                {{word.word}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            
+            <input
+                placeholder="word..."
+                #relatedWordInput
+                [matAutocomplete]="auto"
+                [matChipInputFor]="chipList"
+                (keyup)="filterWords()"
+            >
+        </mat-chip-list>
+
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event)">
+            <mat-option *ngFor="let word of filteredRelatedWords" [value]="word.id">
+                {{word.word}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
 
     <h3 style="margin-top: 1em">Examples</h3>
 

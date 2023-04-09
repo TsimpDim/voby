@@ -29,6 +29,8 @@ import { RegisterFormComponent } from './register-form/register-form.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SetFormComponent } from './set-form/set-form.component';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -63,7 +65,9 @@ import { MatMenuModule } from '@angular/material/menu';
     ReactiveFormsModule,
     HttpClientModule,
     MatSelectModule,
-    MatMenuModule
+    MatMenuModule,
+    MatAutocompleteModule,
+    MatGridListModule
   ],
   providers: [],
   bootstrap: [AppComponent]

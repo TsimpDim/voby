@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
+from rest_framework.decorators import action
 from .models import VClass, Set, Word, Example
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer
 
@@ -19,6 +20,15 @@ class ClassViewSet(viewsets.ModelViewSet):
 
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+    
+    
+    @action(methods=['get'], detail=True)
+    def all(self, request, pk=None):
+        user = self.request.user.id
+        return Response(
+            WordSerializer(Word.objects.filter(user=user, set__vclass=pk), many=True).data,
+            status=status.HTTP_200_OK
         )
 
     def get_queryset(self):

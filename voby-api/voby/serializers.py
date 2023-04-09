@@ -7,8 +7,19 @@ class ExampleSerializer(serializers.ModelSerializer):
         model = Example
         fields = "__all__"
 
+class RelatedWordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Word
+        fields = ('id', 'word')
+
 class WordSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        new_related_words = Word.objects.filter(id__in=response['related_words']).values('id', 'word')
+        response["related_words"] = RelatedWordSerializer(new_related_words, many=True).data
+        return response
 
     class Meta:
         model = Word

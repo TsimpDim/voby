@@ -76,25 +76,27 @@ export class VobyService {
     });
   }
 
-  createWord(setId: number, word: string, translation: string, plural: string, general: string) {
+  createWord(setId: number, word: string, translation: string, plural: string, general: string, relatedWordIds: number[]) {
     return this.http.post(environment.apiUrl + '/voby/words/',
       {
         word: word,
         translation: translation,
         plural: plural || null,
         general: general,
-        set: setId
+        set: setId,
+        related_words: relatedWordIds
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  editWord(wordId: number, word: string, translation: string, plural: string, general: string) {
+  editWord(wordId: number, word: string, translation: string, plural: string, general: string, relatedWordIds: number[]) {
     return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
       {
         word: word,
         translation: translation,
         plural: plural || null,
-        general: general
+        general: general,
+        related_words: relatedWordIds
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
@@ -113,6 +115,11 @@ export class VobyService {
     });
   }
 
+  getAllWordsOfClass(classId: number) {
+    return this.http.get(environment.apiUrl + '/voby/classes/' + classId + '/all', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
 
   createSet(classIdx: number, name: string) {
     return this.http.post(environment.apiUrl + '/voby/sets/',

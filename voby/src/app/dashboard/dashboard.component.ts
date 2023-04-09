@@ -36,7 +36,13 @@ export class DashboardComponent implements OnInit {
   redirect(setId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
-    this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass}});
+    const allWords: any[] = [];
+    selectedClass.sets.forEach((set: any) => {
+      set.words.forEach((word: any) => {
+        allWords.push({id: word.id, word: word.word});
+      });
+    });
+    this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass, allWords}});
   }
 
   selectClass(classIdx: number) {
