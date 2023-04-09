@@ -1,7 +1,7 @@
 <ng-container *ngIf="this.set !== undefined && this.vclass !== undefined">
     <div class="set-header">
         <div class="set-info">
-            <div>
+            <div (dblclick)="editSet()">
                 <h1 class="set-data">{{this.set?.name}}  <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
                 <h3 class="class-title">{{this.set?.vclass_info.name}}</h3>
             </div>
