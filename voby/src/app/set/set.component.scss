@@ -91,14 +91,12 @@
 
 .word-detail-container {
     margin-left: 50px;
-    width: 38%;
-
-
-    & .word-card-content {
-        position: fixed;
-        width: 38%;
-        left: 60.5%;
-    }
+    width: 43%;
+    height: 70vh;
+    overflow-y: hidden;
+    position: fixed;
+    left: 52.15%;
+    overflow-y: scroll;
 
     & .mat-card-content {
         display: block;
