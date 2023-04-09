@@ -86,7 +86,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core.wsgi.application'
-
+CSRF_TRUSTED_ORIGINS = ['https://*.tsdim.net']
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
