@@ -82,8 +82,15 @@
 }
 
 .word-detail-container {
-    width: 50%;
     margin-left: 50px;
+    width: 38%;
+
+
+    & .word-card-content {
+        position: fixed;
+        width: 38%;
+        left: 60.5%;
+    }
 
     & .mat-card-content {
         display: block;
