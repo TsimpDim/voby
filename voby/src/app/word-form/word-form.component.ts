@@ -17,6 +17,7 @@ interface Word {
   id: number;
   word: string;
   translation: string;
+  plural: string;
   examples: {text: string, translation: string, id: number}[];
   general: string;
 }
@@ -43,6 +44,7 @@ export class WordFormComponent {
     this.wordForm = new FormGroup({
       word: new FormControl(data.edit ? (data as PassedDataOnEdit).word.word : '', [Validators.required]),
       translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
+      plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', [])
     });
 
@@ -96,6 +98,7 @@ export class WordFormComponent {
       (this.passedData as PassedDataOnEdit).word.id,
       this.wordForm.get('word')?.value,
       this.wordForm.get('translation')?.value,
+      this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value
     )
     .subscribe({
@@ -149,6 +152,7 @@ export class WordFormComponent {
       (this.passedData as PassedDataOnCreate).setId,
       this.wordForm.get('word')?.value,
       this.wordForm.get('translation')?.value,
+      this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value
     )
     .subscribe({

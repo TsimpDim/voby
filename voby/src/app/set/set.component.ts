@@ -13,6 +13,7 @@ interface word {
   translation: string;
   examples: {text: string, translation: string, id: number}[];
   general: string;
+  plural: string;
   favorite: boolean;
   relatedWords: string[];
   created: string
@@ -193,10 +194,7 @@ export class SetComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         let word = this.set.words.find((w: any) => w.id === this.selectedWord?.id);
-        word.word = res.word;
-        word.translation = res.translation;
-        word.general = res.general;
-        word.examples = res.examples;
+        Object.assign(word, res);
       }
     })
   }

@@ -76,22 +76,24 @@ export class VobyService {
     });
   }
 
-  createWord(setId: number, word: string, translation: string, general: string) {
+  createWord(setId: number, word: string, translation: string, plural: string, general: string) {
     return this.http.post(environment.apiUrl + '/voby/words/',
       {
         word: word,
         translation: translation,
+        plural: plural || null,
         general: general,
         set: setId
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  editWord(wordId: number, word: string, translation: string, general: string) {
+  editWord(wordId: number, word: string, translation: string, plural: string, general: string) {
     return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
       {
         word: word,
         translation: translation,
+        plural: plural || null,
         general: general
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});

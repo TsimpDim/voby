@@ -34,7 +34,10 @@
             <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
                     <mat-card-content>
-                        <mat-card-title class="card-title">{{word.word}}</mat-card-title>
+                        <mat-card-title class="card-title">
+                            <p class="word">{{word.word}}</p>
+                            <p class="plural">{{word.plural}}</p>
+                        </mat-card-title>
                         <p class="alternatives">
                             {{word.translation}}
                         </p>

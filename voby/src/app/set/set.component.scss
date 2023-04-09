@@ -23,6 +23,18 @@
 
 .mat-card-title {
     width: 300px;
+    margin: 0;
+
+    & .word {
+        margin: 0;
+    }
+
+    & .plural {
+        font-size: .5em;
+        font-weight: 300;
+        padding: 0;
+        margin: 0;
+    }
 }
 
 .alternatives {
@@ -69,10 +81,6 @@
         cursor: pointer;
         background-color: rgb(235, 235, 235);
     }
-}
-
-.card-title {
-    padding: 0 !important;
 }
 
 .class-title {

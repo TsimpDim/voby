@@ -271,6 +271,7 @@ class Set(models.Model):
 class Word(models.Model):
     word = models.CharField(max_length=120, null=False)
     translation = models.CharField(max_length=120, null=False)
+    plural = models.CharField(max_length=120, null=True)
     favorite = models.BooleanField(default=False)
     general = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
