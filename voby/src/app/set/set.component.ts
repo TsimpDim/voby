@@ -52,6 +52,8 @@ export class SetComponent implements OnInit {
       } else {
         this.set.words.sort((a: any, b: any) => a.created < b.created)
       }
+
+      this.selectedWord = this.set.words[0];
     }
   }
 
@@ -132,6 +134,7 @@ export class SetComponent implements OnInit {
       next: (data: any) => {
         this.set = data;
         this.vclass = data.vclass_info
+        this.selectedWord = this.set.words[0];
         this.search();
       },
       error: () => {
