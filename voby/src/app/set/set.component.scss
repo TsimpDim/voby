@@ -24,6 +24,7 @@
 .mat-card-title {
     width: 300px;
     margin: 0;
+    margin-bottom: .3em;
 
     & .word {
         margin: 0;
@@ -34,6 +35,10 @@
         font-weight: 300;
         padding: 0;
         margin: 0;
+    }
+
+    & p {
+        margin-left: .5em;
     }
 }
 
@@ -126,6 +131,14 @@
     border-radius: 100px;
 }
 
+.action-icon {
+    margin-top: -1em;
+}
+
+.card-list-item-cont {
+    height: 40px;
+}
+
 .action-cont {
     margin-top: 1em;
     margin-bottom: auto;
@@ -189,7 +202,8 @@
 
 .word-date {
     opacity: 50%;
-    margin-top: .8em;
+    margin-top: 0em;
     margin-left: auto;
     margin-right: .4em;
+    margin-bottom: 0;
 }

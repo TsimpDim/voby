@@ -33,7 +33,7 @@
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
-                    <mat-card-content>
+                    <mat-card-content class="card-list-item-cont">
                         <mat-card-title class="card-title">
                             <p class="word">{{word.word}}</p>
                             <p class="plural">{{word.plural}}</p>
@@ -90,11 +90,11 @@
 
                 <mat-card-content>
                     <mat-card-title>Related words</mat-card-title>
-                    <mat-chip-list>
+                    <!-- <mat-chip-list> -->
                         <!-- <p *ngIf="selectedWord?.relatedWords?.length === 0">-</p> -->
                         <p>-</p>
-                        <mat-chip *ngFor="let related of selectedWord?.relatedWords">{{related}}</mat-chip>
-                    </mat-chip-list>
+                        <!-- <mat-chip *ngFor="let related of selectedWord?.relatedWords">{{related}}</mat-chip> -->
+                    <!-- </mat-chip-list> -->
                 </mat-card-content>
             </div>
         </mat-card>
