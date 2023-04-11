@@ -217,11 +217,7 @@ export class WordFormComponent {
 
           this.voby.createExample(word.id, tx, tr).subscribe({
             next: (data) => {
-              if (!Object.keys(this.dataForParent).includes('examples')) {
-                this.dataForParent['examples'] = [data];
-              } else {
-                this.dataForParent['examples'].push(data);
-              }
+              this.dataForParent.word['examples'].push(data);
             },
             error: () => {},
             complete: () => {

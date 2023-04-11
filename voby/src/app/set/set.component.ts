@@ -92,10 +92,6 @@ export class SetComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(data => {
-      if (data !== undefined && data.word && data.examples) {
-        data.examples.forEach((e: any) => data.word.examples.push(e));
-      }
-
       if (localStorage.getItem('sort') === 'date_asc') {
         this.set.words.push(data.word);
       } else {
