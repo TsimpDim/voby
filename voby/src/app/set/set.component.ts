@@ -108,8 +108,11 @@ export class SetComponent implements OnInit {
       this.voby.deleteWord(this.selectedWord.id)
       .subscribe({
         next: () => {
-          this.set.words.splice(this.set.words.findIndex((w: any) => w.id === this.selectedWord?.id), 1);
-          this.selectedWord = undefined;
+          const deletedWordIdx = this.set.words.findIndex((w: any) => w.id === this.selectedWord?.id);
+          this.set.words.splice(deletedWordIdx, 1);
+          if (this.set.words.length > 0) {
+            this.selectWord(this.set.words[deletedWordIdx].id);
+          }
           this.search();
         },
         error: () => {
@@ -248,5 +251,9 @@ export class SetComponent implements OnInit {
     newWords.forEach(nW => {
       this.filteredWords.push(nW);
     });
+
+    if (this.filteredWords.length === 0) {
+      this.deselectWord();
+    }
   }
 }

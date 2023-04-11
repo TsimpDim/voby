@@ -78,6 +78,9 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.classes = data;
+        if (this.classes.length === 1) {
+          this.selectClass(this.classes[0].id);
+        }
         this.dialog.closeAll();
       },
       error: () => {

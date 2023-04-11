@@ -105,11 +105,14 @@ export class WordFormComponent {
   }
 
   filterWords() {
+    this.filteredRelatedWords.slice(0, this.filteredRelatedWords.length-1);
+
     const newFilteredRelatedWords = this.passedData.allWords
       ?.filter((word) => word.word.toLowerCase().includes(this.relatedWordInput?.nativeElement.value.toLowerCase() || ''))
-      .filter(w => !this.relatedWordsValue.find(rw => w.id === rw.id));
+      .filter(w => !this.relatedWordsValue.find(rw => w.id === rw.id))
+      .filter(w => this.passedData.edit && w.id !== (this.passedData as PassedDataOnEdit).word.id);
 
-    this.filteredRelatedWords = newFilteredRelatedWords;
+    newFilteredRelatedWords.forEach(nFR => this.filteredRelatedWords.push(nFR));
   }
 
   removeRelatedWord(id: number) {
