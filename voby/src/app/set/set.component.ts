@@ -98,6 +98,7 @@ export class SetComponent implements OnInit {
         this.set.words.unshift(data.word);
       }
       this.set.words_today += 1;
+      this.selectWord(data.word.id);
       this.search();
     });
   }
