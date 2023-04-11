@@ -70,7 +70,7 @@ class VClass(models.Model):
         return f"{self.user}.{self.name}"
 
 class Set(models.Model):
-    name = models.CharField(max_length=20, null=False)
+    name = models.CharField(max_length=25, null=False)
     vclass = models.ForeignKey(VClass, on_delete=models.CASCADE, null=False, related_name='sets')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 

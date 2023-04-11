@@ -19,7 +19,7 @@ export class SetFormComponent {
     public voby: VobyService
   ) {
     this.setForm = new FormGroup({
-      name: new FormControl(data.name, [Validators.required, Validators.maxLength(20)])
+      name: new FormControl(data.name, [Validators.required, Validators.maxLength(25)])
     });
     this.data = data;
   }
