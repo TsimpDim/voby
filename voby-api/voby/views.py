@@ -72,9 +72,28 @@ class WordViewSet(viewsets.ModelViewSet):
         self.perform_create(serializer)
         headers = self.get_success_headers(serializer.data)
 
+        related_words = Word.objects.filter(id__in=[item['id'] for item in serializer.data['related_words']])
+        for rw in related_words.all():
+            rw.related_words.add(serializer.data['id'])
+            rw.save()
+
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        related_words = Word.objects.filter(id__in=[item['id'] for item in serializer.data['related_words']])
+        for rw in related_words.all():
+            if serializer.data['id'] not in rw.related_words.all():
+                rw.related_words.add(serializer.data['id'])
+                rw.save()
+
+        return Response(serializer.data)
 
     def get_queryset(self):
         return Word.objects.filter(user_id=self.request.user.id)
