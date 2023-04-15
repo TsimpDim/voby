@@ -207,3 +207,13 @@
     margin-right: .4em;
     margin-bottom: 0;
 }
+
+.header {
+    color: #673ab7;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    width: 300px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
