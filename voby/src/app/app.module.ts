@@ -31,6 +31,7 @@ import { SetFormComponent } from './set-form/set-form.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { OptionsComponent } from './options/options.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     WordFormComponent,
     LoginFormComponent,
     RegisterFormComponent,
-    SetFormComponent
+    SetFormComponent,
+    OptionsComponent
   ],
   imports: [
     BrowserModule,

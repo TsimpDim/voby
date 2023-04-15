@@ -5,6 +5,10 @@
             <mat-icon>login</mat-icon>
         </button>
 
+        <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="goToOptions()">
+            <mat-icon>settings</mat-icon>
+        </button>
+
         <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="logout()">
             <mat-icon>logout</mat-icon>
         </button>

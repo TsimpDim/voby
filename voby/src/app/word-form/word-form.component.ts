@@ -1,9 +1,10 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VobyService } from '../_services/voby.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { HotkeysService } from '../_services/hotkeys.service';
 
 interface RelatedWord {
   id: number;
@@ -37,7 +38,7 @@ interface Word {
   templateUrl: './word-form.component.html',
   styleUrls: ['./word-form.component.scss']
 })
-export class WordFormComponent {
+export class WordFormComponent implements OnInit {
 
   wordForm: FormGroup;
   loading = false;
@@ -45,6 +46,7 @@ export class WordFormComponent {
   passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
   deletedExamples: any[] = [];
+  focusedInput: any;
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
   relatedWordsValue: RelatedWord[] = [];
@@ -54,6 +56,7 @@ export class WordFormComponent {
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
+    private hotkeys: HotkeysService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
     this.wordForm = new FormGroup({
@@ -77,6 +80,20 @@ export class WordFormComponent {
 
     this.passedData = data;
     this.filterWords();
+    this.hotkeys.addShortcut({keys: 'alt.a'}).subscribe(this.processShortcuts.bind(this));
+    this.hotkeys.addShortcut({keys: 'alt.o'}).subscribe(this.processShortcuts.bind(this));
+    this.hotkeys.addShortcut({keys: 'alt.u'}).subscribe(this.processShortcuts.bind(this));
+    this.hotkeys.addShortcut({keys: 'alt.s'}).subscribe(this.processShortcuts.bind(this));
+  }
+
+  ngOnInit(): void {
+    document.getElementById('word-form-container')?.addEventListener('focusin', (event: any) => {
+      if(event.target.nodeName !== 'INPUT') {
+        return;
+      }
+
+      this.focusedInput = event.target;
+    })
   }
 
   onNoClick(): void {
@@ -91,6 +108,17 @@ export class WordFormComponent {
   removeExampleFormControls(idx: number) {
     this.wordForm.removeControl(idx + 'tx');
     this.wordForm.removeControl(idx + 'tr');
+  }
+
+  processShortcuts(e: any) {
+    const mapping: Record<string, string> = {
+      'a': 'ä',
+      'o': 'ö',
+      'u': 'ü',
+      's': 'ß'
+    }
+
+    this.focusedInput.value = this.focusedInput.value + mapping[e.key as string];
   }
 
   addExample() {

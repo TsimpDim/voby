@@ -30,6 +30,10 @@ export class HeaderComponent {
     this.router.navigateByUrl('/login');
   }
 
+  goToOptions() {
+    this.router.navigateByUrl('/options');
+  }
+
   checkIsLoggedIn() {
     this.isLoggedIn = this.authService.getIsLoggedIn();
     return this.isLoggedIn;

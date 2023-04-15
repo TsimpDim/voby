@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { OptionsComponent } from './options/options.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { SetComponent } from './set/set.component';
 import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
@@ -14,6 +15,10 @@ const routes: Routes = [
   },
   {
     path: 'dashboard', component: DashboardComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'options', component: OptionsComponent,
     canActivate: [AuthGuard]
   },
   {
