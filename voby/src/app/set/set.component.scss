@@ -50,6 +50,15 @@
     }
 }
 
+.active-chip {
+    background-color: #673ab7;
+    color: white;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .alternatives {
     margin-left: auto;
     margin-bottom: 0;

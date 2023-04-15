@@ -106,12 +106,12 @@ export class SetComponent implements OnInit {
         data.word.related_words.forEach((rw: any) => {
           const idx = this.set.words.findIndex((w: any) => w.id === rw.id);
           if (idx !== -1) {
-            this.set.words[idx].related_words.push({id:data.word.id, word:data.word.word});
+            this.set.words[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
           }
         });
       }
 
-      this.allWords.push({id: data.word.id, word: data.word.word});
+      this.allWords.push({id: data.word.id, word: data.word.word, set: data.word.set});
       this.set.words_today += 1;
       this.selectWord(data.word.id);
       this.search();
@@ -229,14 +229,14 @@ export class SetComponent implements OnInit {
       if (res) {
         let word = this.set.words.find((w: any) => w.id === this.selectedWord?.id);
         Object.assign(word, res);
-        
+
         if (word.related_words) {
           word.related_words.forEach((rw: any) => {
             const idx = this.set.words.findIndex((w: any) => w.id === rw.id);
             if (idx !== -1) {
               const rwRws = this.set.words[idx].related_words;
               if (rwRws.findIndex((w:any) => w.id === word.id) === -1) {
-                rwRws.push({id:word.id, word:word.word});
+                rwRws.push({id:word.id, word:word.word, set:word.set});
               }
             }
           });

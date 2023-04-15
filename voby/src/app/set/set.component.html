@@ -97,7 +97,13 @@
                     <mat-card-title>Related words</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.related_words?.length === 0">-</p>
-                        <mat-chip *ngFor="let related of selectedWord?.related_words">{{related.word}}</mat-chip>
+                        <mat-chip 
+                            *ngFor="let related of selectedWord?.related_words"
+                            (click)="related.set === this.id ? this.selectWord(related.id) : false"
+                            [ngClass]="{'active-chip': related.set === this.id}"
+                        >
+                            {{related.word}}
+                        </mat-chip>
                     </mat-chip-list>
                 </mat-card-content>
             </div>

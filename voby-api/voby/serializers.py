@@ -10,14 +10,14 @@ class ExampleSerializer(serializers.ModelSerializer):
 class RelatedWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
-        fields = ('id', 'word')
+        fields = ('id', 'word', 'set')
 
 class WordSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        new_related_words = Word.objects.filter(id__in=response['related_words']).values('id', 'word')
+        new_related_words = Word.objects.filter(id__in=response['related_words'])#.values('id', 'word', 'set')
         response["related_words"] = RelatedWordSerializer(new_related_words, many=True).data
         return response
 
