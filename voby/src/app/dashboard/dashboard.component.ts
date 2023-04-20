@@ -33,7 +33,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getClasses();
 
-    this.toShowTestButton = localStorage.getItem('test_show') === 'false';
+    const testShow = localStorage.getItem('test_show');
+    this.toShowTestButton =  testShow === 'false' || testShow === null;
   }
 
   showTest() {
