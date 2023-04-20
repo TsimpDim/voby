@@ -150,4 +150,10 @@ export class VobyService {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
+
+  getTestWord() {
+    return this.http.get(environment.apiUrl + '/voby/test', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
 }

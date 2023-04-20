@@ -2,8 +2,10 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework.views import APIView
 from .models import VClass, Set, Word, Example
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer
+from random import choice
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -117,3 +119,21 @@ class ExampleViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Example.objects.filter(user_id=self.request.user.id)
+
+class TestView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+
+        all_ids = list(Word.objects.filter(user=user, set__isnull=False).values_list('id', flat=True))
+        random_id = choice(all_ids)
+        random_word = Word.objects.get(id=random_id)
+        data = WordSerializer(random_word, many=False).data
+
+        return Response(
+            {
+                'word': data['word'],
+                'translation': data['translation']
+            }, status=status.HTTP_200_OK
+        )

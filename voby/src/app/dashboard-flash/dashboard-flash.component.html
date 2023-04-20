@@ -1,0 +1,27 @@
+<div class="flash-container" *ngIf="testWord !== undefined && !hide">
+    <ng-container *ngIf="answerCorrect === undefined">
+        <div style="display:flex; flex-direction: row;">
+            <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3>
+            <button mat-icon-button class="close-button" (click)="this.closeTest()"><mat-icon>close</mat-icon></button>
+        </div>
+        <p class="word-to-translate">{{testWord.word}}</p>
+
+        <div style="display: flex; flex-direction: row;">
+            <mat-form-field class="answer-input">
+                <mat-label>Answer</mat-label>
+                <input matInput placeholder="type your answer here..." #translation>
+            </mat-form-field>
+
+            <button mat-button type="submit" (click)="checkAnswer()" color="warn">Submit</button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="this.answerCorrect === true">
+        <p class="result">Correct!</p>
+    </ng-container>
+    
+    <ng-container *ngIf="this.answerCorrect === false">
+        <p class="result">False!</p>
+        <p class="explanation">The answer is:<br>"{{testWord.translation}}"</p>
+    </ng-container>
+</div>

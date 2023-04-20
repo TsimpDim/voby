@@ -32,6 +32,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { OptionsComponent } from './options/options.component';
+import { DashboardFlashComponent } from './dashboard-flash/dashboard-flash.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { OptionsComponent } from './options/options.component';
     LoginFormComponent,
     RegisterFormComponent,
     SetFormComponent,
-    OptionsComponent
+    OptionsComponent,
+    DashboardFlashComponent
   ],
   imports: [
     BrowserModule,
