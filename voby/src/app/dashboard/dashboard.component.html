@@ -5,7 +5,7 @@
 
 
 <voby-dashboard-flash [hide]="this.toShowTestButton" (close)="hideTest()"></voby-dashboard-flash>
-
+<voby-loading-ind *ngIf="loading"></voby-loading-ind>
 <mat-accordion>
   <mat-expansion-panel [expanded]="classes.length === 1" *ngFor="let class of classes; index as classIdx">
     <mat-expansion-panel-header (click)="selectClass(class.id)">

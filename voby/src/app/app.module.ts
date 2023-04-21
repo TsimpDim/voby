@@ -33,6 +33,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { OptionsComponent } from './options/options.component';
 import { DashboardFlashComponent } from './dashboard-flash/dashboard-flash.component';
+import { LoadingIndComponent } from './custom/loading-ind/loading-ind.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { DashboardFlashComponent } from './dashboard-flash/dashboard-flash.compo
     RegisterFormComponent,
     SetFormComponent,
     OptionsComponent,
-    DashboardFlashComponent
+    DashboardFlashComponent,
+    LoadingIndComponent
   ],
   imports: [
     BrowserModule,

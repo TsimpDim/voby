@@ -1,4 +1,6 @@
 <div class="flash-container" *ngIf="testWord !== undefined && !hide">
+    <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+
     <ng-container *ngIf="answerCorrect === undefined">
         <div style="display:flex; flex-direction: row;">
             <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3>

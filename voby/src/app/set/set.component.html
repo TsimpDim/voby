@@ -30,6 +30,8 @@
         </div>
     </div>
     <div class="layout-horizontal">
+        <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
