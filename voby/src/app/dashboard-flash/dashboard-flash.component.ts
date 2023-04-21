@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { VobyService } from '../_services/voby.service';
 import { stringSimilarity } from '../string-similarity';
 
@@ -7,7 +7,7 @@ import { stringSimilarity } from '../string-similarity';
   templateUrl: './dashboard-flash.component.html',
   styleUrls: ['./dashboard-flash.component.scss']
 })
-export class DashboardFlashComponent implements OnInit {
+export class DashboardFlashComponent implements OnInit, OnChanges {
 
   @ViewChild('translation') translation: ElementRef | undefined;
   @Output() close: EventEmitter<any> = new EventEmitter();
@@ -20,6 +20,13 @@ export class DashboardFlashComponent implements OnInit {
   answerCorrect: boolean | undefined;
 
   constructor(private voby: VobyService) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const toShow = localStorage.getItem('test_show');
+    if (toShow === 'true') {
+      this.getTestWord();
+    }
+  }
 
   ngOnInit(): void {
     const toShow = localStorage.getItem('test_show');
