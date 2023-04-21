@@ -10,62 +10,64 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 
-    & * {
+    * {
         color: white;
         padding: 1em;
         margin-bottom: 0;
     }
 
-    & .word-to-translate {
+    .word-to-translate {
         text-align: center;
         font-size: 1.5em;
         font-weight: 400;
-        margin-top: -2em;
+        margin-top: -1em;
+        padding: 0;
     }
 
-    & .answer-input {
-        margin-left: auto;
-        margin-right: 7em;
-        margin-top: -2em;
-        width: 70%;
+    .answer-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
 
-        * {
-            color: white;
-        }
-
-        input::placeholder {
-            color: white;
+        .answer-input {
+            flex-grow: 2;
+            input::placeholder {
+                color: white;
+            }
         }
     }
 
-    & button[type=submit] {
-        margin-right: 1em;
-        margin-top: 2em;
+    button[type=submit] {
+        margin-right: 2em;
+        margin-top: 3em;
         float: right;
         vertical-align: middle;
         padding: 0;
         height: 40px;
     }
 
-    & .close-button {
+    .close-button {
         margin: 0;
         padding: 0;
         margin-top: -.5em;
 
-        & mat-icon {
+        mat-icon {
             padding: 0;
         }
     }
 
-    & .result {
+    .result {
         margin: auto;
         font-weight: 500;
         font-size: 2em;
         color: white;
     }
 
-    & .explanation {
+    .explanation {
         margin: auto;
         margin-top: -2em;
         color: white;

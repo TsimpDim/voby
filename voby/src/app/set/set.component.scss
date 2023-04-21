@@ -16,7 +16,7 @@
     align-items: center;
     align-content: space-around;
 
-    & ul {
+    ul {
         list-style: none;
     }
 }
@@ -26,7 +26,7 @@
     margin: 0;
     margin-bottom: .3em;
 
-    & .word {
+    .word {
         margin: 0;
         width: 400px;
         white-space: nowrap;
@@ -35,7 +35,7 @@
         line-height: 1.1em;
     }
 
-    & .plural {
+    .plural {
         font-size: .5em;
         font-weight: 300;
         padding: 0;
@@ -45,7 +45,7 @@
         overflow: hidden;
     }
 
-    & p {
+    p {
         margin-left: .5em;
     }
 }
@@ -75,7 +75,7 @@
     align-content: space-between;
     justify-content:space-between;
 
-    & .set-data {
+    .set-data {
         margin: 1em;
         margin-bottom: 0;
     }
@@ -84,18 +84,20 @@
 .layout-horizontal {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .word-container {
     display: flex;
     flex-direction: column;
-    width: 1000px;
+    padding-right: 2.8em;
+    flex-grow: 2;
 }
 
 .word {
     width: 100%;
 
-    & .mat-card-content {
+    .mat-card-content {
         margin-bottom: 0;
     }
 
@@ -112,17 +114,14 @@
 }
 
 .word-detail-container {
-    margin-left: 50px;
-    width: 43%;
-    height: 70vh;
-    overflow-y: hidden;
-    position: fixed;
-    left: 52.15%;
-    overflow-y: scroll;
-
-    & .mat-card-content {
+    .mat-card-content {
         display: block;
         margin-bottom: 50px;
+    }
+
+    .word-card-content {
+        position: fixed;
+        width: inherit;
     }
 }
 
@@ -195,7 +194,7 @@
     display: flex;
     justify-content: center;
 
-    & .search-field {
+    .search-field {
         width: 50%;
     }
 }
