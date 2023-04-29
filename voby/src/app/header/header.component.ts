@@ -1,18 +1,43 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
+import { UserLevel as UserLevel } from '../user-levels';
 import { AuthService } from '../_services/auth.service';
+import { ExperienceService } from '../_services/experience.service';
 
 @Component({
   selector: 'voby-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements AfterViewInit {
   public isLoggedIn: Boolean | null = null;
   routerSubscription: Subscription | undefined;
+  userExperience: any;
+  userLevel: UserLevel = {level: 0, threshold: 0};
+  userLevelProgress: any;
 
-  constructor(private router: Router, private authService: AuthService) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private exp: ExperienceService
+  ) {
+    this.exp.experience$.subscribe({
+      next: (experience: any) => {
+        this.userExperience = experience;
+      }
+    });
+
+    this.exp.userLevel$.subscribe({
+      next: (level: UserLevel) => {
+        this.userLevel = level;
+      }
+    });
+
+    combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(([experience, level]) => {
+      this.userLevelProgress = (experience / (level.threshold + 100)) * 100;
+    })
+  }
 
   ngAfterViewInit(): void {
     this.routerSubscription = this.router.events.subscribe((event) => {

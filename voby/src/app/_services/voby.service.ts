@@ -156,4 +156,18 @@ export class VobyService {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
+
+  createTestAnswer(correct: boolean) {
+    return this.http.post(environment.apiUrl + '/voby/testanswer/',
+      {
+        correct: correct
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  getProfile() {
+    return this.http.get(environment.apiUrl + '/voby/profile', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
 }

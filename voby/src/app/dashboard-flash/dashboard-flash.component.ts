@@ -1,6 +1,7 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { VobyService } from '../_services/voby.service';
 import { stringSimilarity } from '../string-similarity';
+import { ExperienceService } from '../_services/experience.service';
 
 @Component({
   selector: 'voby-dashboard-flash',
@@ -19,7 +20,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
 
   answerCorrect: boolean | undefined;
 
-  constructor(private voby: VobyService) { }
+  constructor(private voby: VobyService, private exp: ExperienceService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
     const toShow = localStorage.getItem('test_show');
@@ -56,6 +57,10 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
     })
   }
 
+  createTestAnswer(correct: boolean) {
+    this.voby.createTestAnswer(correct).subscribe();
+  }
+
   checkAnswer() {
     if (this.testWord) {
       const answer = this.translation?.nativeElement.value;
@@ -65,10 +70,14 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
       if (similarity >= 0.7) {
         this.answerCorrect = true;
         timeToWait = 2000;
+        this.exp.add(4);
       } else {
         this.answerCorrect = false;
         timeToWait = 3000;
+        this.exp.add(1);
       }
+
+      this.createTestAnswer(this.answerCorrect);
 
       setTimeout(() => {
         this.getTestWord();

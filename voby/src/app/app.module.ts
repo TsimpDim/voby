@@ -34,6 +34,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { OptionsComponent } from './options/options.component';
 import { DashboardFlashComponent } from './dashboard-flash/dashboard-flash.component';
 import { LoadingIndComponent } from './custom/loading-ind/loading-ind.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -73,7 +74,8 @@ import { LoadingIndComponent } from './custom/loading-ind/loading-ind.component'
     MatSelectModule,
     MatMenuModule,
     MatAutocompleteModule,
-    MatGridListModule
+    MatGridListModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

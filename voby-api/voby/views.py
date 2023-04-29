@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from .models import VClass, Set, Word, Example
-from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer
+from .models import VClass, Set, Word, Example, TestAnswer, Profile
+from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, ProfileSerializer, TestAnswerSerializer
 from random import choice
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -120,6 +120,26 @@ class ExampleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Example.objects.filter(user_id=self.request.user.id)
 
+class TestAnswerViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TestAnswerSerializer
+    queryset = TestAnswer.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return TestAnswer.objects.filter(user_id=self.request.user.id)
+
 class TestView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -137,3 +157,23 @@ class TestView(APIView):
                 'translation': data['translation']
             }, status=status.HTTP_200_OK
         )
+    
+class ProfileViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = ProfileSerializer
+    queryset = Profile.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return Profile.objects.filter(user_id=self.request.user.id)

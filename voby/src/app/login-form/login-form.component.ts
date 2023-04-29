@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../_services/auth.service';
+import { ExperienceService } from '../_services/experience.service';
 
 @Component({
   selector: 'voby-login-form',
@@ -16,7 +17,8 @@ export class LoginFormComponent {
   
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private exp: ExperienceService
   ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -36,6 +38,7 @@ export class LoginFormComponent {
           this.loggedIn = 'key' in resp;
           if (this.loggedIn) {
             this.authService.storeSessionToken(resp['key']);
+            this.exp.forceRefresh();
             this.router.navigate(['/']);
           }
         },

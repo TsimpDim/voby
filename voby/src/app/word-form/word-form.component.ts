@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VobyService } from '../_services/voby.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { HotkeysService } from '../_services/hotkeys.service';
+import { ExperienceService } from '../_services/experience.service';
 
 interface RelatedWord {
   id: number;
@@ -57,6 +58,7 @@ export class WordFormComponent implements OnInit {
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
     private hotkeys: HotkeysService,
+    private exp: ExperienceService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
     this.wordForm = new FormGroup({
@@ -264,6 +266,7 @@ export class WordFormComponent implements OnInit {
       complete: () => { 
         this.loading = false;
         this.dialogRef.close(this.dataForParent);
+        this.exp.add(2);
       }
     });
   }

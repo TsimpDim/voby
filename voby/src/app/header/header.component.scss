@@ -5,3 +5,16 @@
 img:hover {
     cursor:pointer;
 }
+
+.xp {
+    vertical-align: middle;
+    align-items: center;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-right: 1em;
+
+    .mat-icon {
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+}

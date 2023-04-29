@@ -85,6 +85,15 @@ class Word(models.Model):
     set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
+class TestAnswer(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    answered_at = models.DateTimeField(auto_now_add=True)
+    correct = models.BooleanField(default=False)
+
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    experience = models.PositiveIntegerField(default=0)
+
 class Example(models.Model):
     word = models.ManyToManyField(Word, related_name='examples')
     text = models.TextField(null=False, blank=False)

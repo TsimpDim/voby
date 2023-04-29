@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word, Example
+from .models import VClass, Set, Word, Example, TestAnswer, Profile
 from datetime import datetime
 
 class ExampleSerializer(serializers.ModelSerializer):
@@ -57,4 +57,14 @@ class ClassSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VClass
+        fields = "__all__"
+
+class TestAnswerSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestAnswer
+        fields = "__all__"
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
         fields = "__all__"
