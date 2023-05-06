@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AllWordsComponent } from './all-words/all-words.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { OptionsComponent } from './options/options.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
   },
   {
     path: 'set/:id', component: SetComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'class/:id', component: AllWordsComponent,
     canActivate: [AuthGuard]
   },
   {

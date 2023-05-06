@@ -211,7 +211,9 @@ export class SetComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      this.set.name = res.name;
+      if (res) {
+        this.set.name = res.name;
+      }
     })
   }
 

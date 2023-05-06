@@ -1,0 +1,239 @@
+.mat-card {
+    width: 30%;
+    margin: 1em;
+    margin-bottom: 0;
+    margin-top: 0;
+    border-radius: 0;
+}
+
+.mat-form-field {
+    margin-top: 14px;
+}
+
+.mat-card-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-around;
+
+    ul {
+        list-style: none;
+    }
+}
+
+.mat-card-title {
+    width: 300px;
+    margin: 0;
+    margin-bottom: .3em;
+
+    .word {
+        margin: 0;
+        width: 400px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height: 1.1em;
+    }
+
+    .plural {
+        font-size: .5em;
+        font-weight: 300;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    p {
+        margin-left: .5em;
+    }
+}
+
+.active-chip {
+    background-color: #673ab7;
+    color: white;
+
+    &:hover {
+        cursor: pointer;
+    }
+}
+
+.alternatives {
+    margin-left: auto;
+    margin-bottom: 0;
+    font-size: 1.2em;
+}
+
+.favorite {
+    margin-left: auto;
+}
+
+.set-header {
+    display: flex;
+    flex-direction: row;
+    align-content: space-between;
+    justify-content:space-between;
+
+    .set-data {
+        margin: 1em;
+        margin-bottom: 0;
+    }
+}
+
+.layout-horizontal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.word-container {
+    display: flex;
+    flex-direction: column;
+    padding-right: 2.8em;
+    flex-grow: 2;
+}
+
+.word {
+    width: 100%;
+
+    .mat-card-content {
+        margin-bottom: 0;
+    }
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(235, 235, 235);
+    }
+}
+
+.class-title {
+    margin-left: 2em;
+    margin-top: -.5em;
+    color: rgb(96, 96, 96);
+}
+
+.word-detail-container {
+    min-height: 500px;
+
+    .mat-card-content {
+        display: block;
+        margin-bottom: 50px;
+    }
+
+    .word-card-content {
+        position: fixed;
+        width: inherit;
+    }
+}
+
+.empty-message {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5em;
+    font-size: 2em;
+    color: #cccc;
+    user-select: none;
+    text-align: center;
+}
+
+.action-single {
+    border: none;
+    background-color: #673ab7;
+    margin-top: auto;
+    margin-bottom: auto;
+    margin-left: 5em;
+    margin-right: 5em;
+    padding: 0 1em;
+    width: auto;
+    border-radius: 100px;
+}
+
+.action-icon {
+    margin-top: -1em;
+}
+
+.card-list-item-cont {
+    height: 40px;
+}
+
+.action-cont {
+    margin-top: 1em;
+    margin-bottom: auto;
+    margin-right: 5em;
+
+    button {
+        border: none;
+
+        &:first-of-type {
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 100px;
+            border-bottom-left-radius: 100px;
+
+            background-color: #673ab7;
+            max-width: 200em;
+            width: auto;
+            padding: 0 .6em;
+        }
+
+        &:last-of-type {
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            background-color: rgb(240, 240, 240);
+        }
+
+        &:not(:first-of-type):not(:last-of-type) {
+            border-radius: 0;
+            background-color: rgb(240, 240, 240);
+        }
+    }
+}
+
+.search-bar {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;
+
+    .search-field {
+        width: 50%;
+    }
+}
+
+.selected-word {
+    background-color: rgb(235, 235, 235);
+}
+
+.set-info {
+    display: flex;
+    flex-direction: row;
+}
+
+.set-length {
+    opacity: 50%;
+    margin-bottom: 0;
+    &:first-of-type {
+        margin-top: 2em;
+    }
+}
+
+.word-date {
+    opacity: 50%;
+    margin-top: 0em;
+    margin-left: auto;
+    margin-right: .4em;
+    margin-bottom: 0;
+}
+
+.header {
+    color: #673ab7;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    width: 300px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}

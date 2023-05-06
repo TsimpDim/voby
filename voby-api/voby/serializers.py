@@ -14,6 +14,10 @@ class RelatedWordSerializer(serializers.ModelSerializer):
 
 class WordSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
+    set_name = serializers.SerializerMethodField()
+
+    def get_set_name(self, obj):
+        return obj.set.name
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

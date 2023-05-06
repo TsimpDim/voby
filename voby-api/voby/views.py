@@ -24,14 +24,20 @@ class ClassViewSet(viewsets.ModelViewSet):
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
     
-    
     @action(methods=['get'], detail=True)
     def all(self, request, pk=None):
         user = self.request.user.id
-        return Response(
-            WordSerializer(Word.objects.filter(user=user, set__vclass=pk), many=True).data,
-            status=status.HTTP_200_OK
-        )
+        sort_param = request.query_params.get('sort')
+    
+        queryset = Word.objects.filter(user=user, set__vclass=pk)
+        serializer = WordSerializer(queryset, many=True)
+        vclass_info = VClass.objects.values('name', 'source_language', 'target_language').get(id=pk)
+
+        return Response({
+            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='date_desc'),
+            'vclass_info': vclass_info
+        }, status=status.HTTP_200_OK)
+
 
     def get_queryset(self):
         return VClass.objects.filter(user_id=self.request.user.id)

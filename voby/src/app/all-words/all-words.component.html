@@ -1,0 +1,110 @@
+<ng-container>
+    <div class="set-header">
+        <div class="set-info">
+            <div>
+                <h1 class="set-data" *ngIf="this.vclass">{{this.vclass.name}}  <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
+            </div>
+            <div>
+                <h4 class="set-length">{{this.allWords.length}} word(s) total</h4>
+            </div>
+        </div>
+        
+        <div class="search-bar">
+            <mat-form-field class="search-field">
+                <mat-label>Search</mat-label>
+                <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
+            </mat-form-field>
+            <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()"></voby-favorite> 
+            <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;"><mat-icon>sort</mat-icon></button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
+                <button mat-menu-item (click)="sortDateAsc()">Older first</button>
+            </mat-menu>
+        </div>
+    </div>
+    <div class="layout-horizontal">
+        <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+
+        <div class="word-container" *ngIf="this.filteredWords.length > 0">
+            <ng-container *ngFor="let word of this.filteredWords">
+                <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
+                    <mat-card-content class="card-list-item-cont">
+                        <mat-card-title class="card-title">
+                            <p class="word">{{word.word}}</p>
+                            <p class="plural">{{word.plural}}</p>
+                        </mat-card-title>
+                        <p class="alternatives">
+                            {{word.translation}}
+                        </p>
+                        <voby-favorite
+                            class="favorite"
+                            [isFavorite]="word.favorite"
+                            (click)="toggleFavorite(word.id, word.favorite)"
+                        ></voby-favorite>
+                    </mat-card-content>
+                </mat-card>
+            </ng-container>
+        </div>
+
+        <p *ngIf="this.filteredWords.length === 0" class="empty-message">No words found :(</p>
+        <mat-card *ngIf="selectedWord !== undefined" class="word-detail-container" (dblclick)="editWord()">
+            <div class="word-card-content">
+                <mat-card-content style="margin-bottom: 1em;">
+                    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <mat-card-title class="header">{{selectedWord.word}}</mat-card-title>
+                        <h4 class="word-date">Added {{selectedWord.created | date:'mediumDate'}}</h4>
+                        <div>
+                            <button mat-icon-button (click)="editWord()" class="action-icon"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
+                        </div>
+                    </div>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <mat-card-title>General</mat-card-title>
+                    </div>    
+                    
+                    <p *ngIf="!selectedWord?.general">-</p>
+                    <p style="white-space: pre">{{selectedWord.general}}</p>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <mat-card-title>Examples</mat-card-title>
+                        <p *ngIf="selectedWord?.examples?.length === 0">-</p>
+                        <p *ngFor="let example of selectedWord?.examples">
+                            {{this.getCountryEmoji(vclass.source_language)}} {{example.text}}
+                            <mat-divider></mat-divider>
+                            {{this.getCountryEmoji(vclass.target_language)}} {{example.translation}}
+                        </p>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <mat-card-title>Related words</mat-card-title>
+                    <mat-chip-list> 
+                        <p *ngIf="selectedWord?.related_words?.length === 0">-</p>
+                        <mat-chip 
+                            *ngFor="let related of selectedWord?.related_words"
+                            (click)="this.selectWord(related.id)"
+                            class="active-chip"
+                        >
+                            {{related.word}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <mat-card-title>Set</mat-card-title>
+                    <mat-chip-list> 
+                        <mat-chip 
+                            (click)="this.goToSet(selectedWord.set)"
+                            class="active-chip"
+                        >
+                            {{selectedWord.set_name}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+            </div>
+        </mat-card>
+    </div>
+</ng-container>

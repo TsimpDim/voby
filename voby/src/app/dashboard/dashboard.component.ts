@@ -86,6 +86,13 @@ export class DashboardComponent implements OnInit {
     })
   }
 
+  showAllWordsOfClass(classIdx: number) {
+    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
+    const allWords = selectedClass.sets.map((s: any) => s.words).flat();
+
+    this.router.navigate(['/class/' + classIdx], {state: {selectedClass, allWords}});
+  }
+
   getClasses() {
     this.voby.getClasses()
     .subscribe({
