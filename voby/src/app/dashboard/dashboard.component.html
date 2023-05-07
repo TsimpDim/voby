@@ -1,10 +1,11 @@
 <div id="action-bar">
   <button mat-raised-button color="accent" (click)="openClassForm()"><mat-icon>add</mat-icon> Create new class</button>
-  <button mat-raised-button color="primary" (click)="showTest()" style="margin-left: .2em" *ngIf="toShowTestButton"><mat-icon>bolt</mat-icon>Test</button>
+  <button mat-raised-button color="primary" (click)="startTest()" style="margin-left: .2em"><mat-icon>quiz</mat-icon> Test</button>
+  <button mat-raised-button color="primary" (click)="showQuiz()" style="margin-left: .2em" *ngIf="toShowQuizButton"><mat-icon>bolt</mat-icon>Quiz</button>
 </div>
 
 
-<voby-dashboard-flash [hide]="this.toShowTestButton" (close)="hideTest()"></voby-dashboard-flash>
+<voby-dashboard-flash [hide]="this.toShowQuizButton" (close)="hideQuiz()"></voby-dashboard-flash>
 <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 <mat-accordion>
   <mat-expansion-panel [expanded]="classes.length === 1" *ngFor="let class of classes; index as classIdx">

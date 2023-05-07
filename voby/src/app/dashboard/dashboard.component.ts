@@ -18,7 +18,7 @@ export interface DialogData {
 export class DashboardComponent implements OnInit {
   className = '';
   selectedClass: number = -1;
-  toShowTestButton = false;
+  toShowQuizButton = false;
   getCountryEmoji = getCountryEmoji;
 
   constructor(
@@ -33,17 +33,21 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getClasses();
 
-    const testShow = localStorage.getItem('test_show');
-    this.toShowTestButton =  testShow === 'false' || testShow === null;
+    const quizShow = localStorage.getItem('quiz_show');
+    this.toShowQuizButton =  quizShow === 'false' || quizShow === null;
   }
 
-  showTest() {
-    this.toShowTestButton = false;
-    localStorage.setItem('test_show', 'true');
+  showQuiz() {
+    this.toShowQuizButton = false;
+    localStorage.setItem('quiz_show', 'true');
   }
 
-  hideTest() {
-    this.toShowTestButton = true;
+  hideQuiz() {
+    this.toShowQuizButton = true;
+  }
+  
+  startTest() {
+    this.router.navigate(['/test/']);
   }
 
   redirect(setId: number) {
@@ -90,7 +94,7 @@ export class DashboardComponent implements OnInit {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const allWords = selectedClass.sets.map((s: any) => s.words).flat();
 
-    this.router.navigate(['/class/' + classIdx], {state: {selectedClass, allWords}});
+    this.router.navigate(['/class/' + classIdx]);
   }
 
   getClasses() {

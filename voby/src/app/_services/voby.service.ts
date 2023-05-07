@@ -152,16 +152,25 @@ export class VobyService {
     });
   }
 
-  getTestWord() {
+  getTestWord(amount: number = 1) {
     return this.http.get(environment.apiUrl + '/voby/test', {
-      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()},
+      params: {'amount': amount}
     });
   }
 
-  createTestAnswer(correct: boolean) {
-    return this.http.post(environment.apiUrl + '/voby/testanswer/',
+  createQuizAnswer(correct: boolean) {
+    return this.http.post(environment.apiUrl + '/voby/quizanswer/',
       {
         correct: correct
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  createTestAttempt(questionsCorrect: number) {
+    return this.http.post(environment.apiUrl + '/voby/testattempt/',
+      {
+        questions_correct: questionsCorrect
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }

@@ -6,6 +6,7 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { OptionsComponent } from './options/options.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { SetComponent } from './set/set.component';
+import { TwentyTestComponent } from './twenty-test/twenty-test.component';
 import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
 import { LoggedInGuardService as LoggedInGuard} from './_services/logged-in-guard.service';
 
@@ -20,6 +21,10 @@ const routes: Routes = [
   },
   {
     path: 'options', component: OptionsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'test', component: TwentyTestComponent,
     canActivate: [AuthGuard]
   },
   {

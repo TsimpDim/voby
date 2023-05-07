@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from .models import VClass, Set, Word, Example, TestAnswer, Profile
-from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, ProfileSerializer, TestAnswerSerializer
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
+from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer
 from random import choice
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -126,10 +126,10 @@ class ExampleViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Example.objects.filter(user_id=self.request.user.id)
 
-class TestAnswerViewSet(viewsets.ModelViewSet):
+class QuizAnswerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = TestAnswerSerializer
-    queryset = TestAnswer.objects.all()
+    serializer_class = QuizAnswerSerializer
+    queryset = QuizAnswer.objects.all()
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -144,25 +144,42 @@ class TestAnswerViewSet(viewsets.ModelViewSet):
         )
 
     def get_queryset(self):
-        return TestAnswer.objects.filter(user_id=self.request.user.id)
+        return QuizAnswer.objects.filter(user_id=self.request.user.id)
+
+class TestAttemptViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TestAttemptSerializer
+    queryset = TestAttempt.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return TestAttempt.objects.filter(user_id=self.request.user.id)
 
 class TestView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, format=None):
         user = self.request.user
+        amount = int(self.request.query_params.get("amount"))
+        if not amount: amount = 1
 
         all_ids = list(Word.objects.filter(user=user, set__isnull=False).values_list('id', flat=True))
-        random_id = choice(all_ids)
-        random_word = Word.objects.get(id=random_id)
-        data = WordSerializer(random_word, many=False).data
+        random_ids = [choice(all_ids) for _ in range(amount)]
+        random_words = Word.objects.filter(id__in=random_ids)
+        data = TestQuestionSerializer(random_words, many=True).data
 
-        return Response(
-            {
-                'word': data['word'],
-                'translation': data['translation']
-            }, status=status.HTTP_200_OK
-        )
+        return Response(data, status=status.HTTP_200_OK)
     
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

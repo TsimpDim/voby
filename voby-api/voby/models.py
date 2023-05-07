@@ -85,10 +85,15 @@ class Word(models.Model):
     set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
-class TestAnswer(models.Model):
+class QuizAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     answered_at = models.DateTimeField(auto_now_add=True)
     correct = models.BooleanField(default=False)
+
+class TestAttempt(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    took_at = models.DateTimeField(auto_now_add=True)
+    questions_correct = models.IntegerField(default=0)
 
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

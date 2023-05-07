@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word, Example, TestAnswer, Profile
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
 from datetime import datetime
+import random
 
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,6 +29,19 @@ class WordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
         fields = '__all__'
+
+class TestQuestionSerializer(serializers.ModelSerializer):
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        
+        if random.random() < 0.5:
+            response['word'], response['translation'] = response['translation'], response['word']
+        
+        return response
+
+    class Meta:
+        model = Word
+        fields = ('word', 'translation')
 
 class SetSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True)
@@ -63,12 +77,17 @@ class ClassSerializer(serializers.ModelSerializer):
         model = VClass
         fields = "__all__"
 
-class TestAnswerSerializer(serializers.ModelSerializer):
+class QuizAnswerSerializer(serializers.ModelSerializer):
     class Meta:
-        model = TestAnswer
+        model = QuizAnswer
         fields = "__all__"
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
+        fields = "__all__"
+
+class TestAttemptSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TestAttempt
         fields = "__all__"

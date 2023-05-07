@@ -23,14 +23,14 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   constructor(private voby: VobyService, private exp: ExperienceService) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    const toShow = localStorage.getItem('test_show');
+    const toShow = localStorage.getItem('quiz_show');
     if (toShow === 'true') {
       this.getTestWord();
     }
   }
 
   ngOnInit(): void {
-    const toShow = localStorage.getItem('test_show');
+    const toShow = localStorage.getItem('quiz_show');
     if (toShow === 'true') {
       this.getTestWord();
     } else {
@@ -39,7 +39,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   }
 
   closeTest() {
-    localStorage.setItem('test_show', 'false');
+    localStorage.setItem('quiz_show', 'false');
     this.hide = true;
     this.close.emit();
   }
@@ -48,7 +48,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
     this.voby.getTestWord()
     .subscribe({
       next: (data: any) => {
-        this.testWord = data;
+        this.testWord = data[0];
       },
       error: () => {
         this.loading = false;
@@ -58,7 +58,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   }
 
   createTestAnswer(correct: boolean) {
-    this.voby.createTestAnswer(correct).subscribe();
+    this.voby.createQuizAnswer(correct).subscribe();
   }
 
   checkAnswer() {
