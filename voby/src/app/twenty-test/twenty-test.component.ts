@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { stringSimilarity } from '../string-similarity';
+import { ExperienceService } from '../_services/experience.service';
 import { VobyService } from '../_services/voby.service';
 
 @Component({
@@ -18,7 +19,8 @@ export class TwentyTestComponent implements OnInit {
 
   @ViewChildren('input') inputs: any;
 
-  constructor(private voby: VobyService) { }
+  constructor(private voby: VobyService, private exp: ExperienceService) { }
+
   ngOnInit(): void {
     this.getTestQuestions();
   }
@@ -50,6 +52,7 @@ export class TwentyTestComponent implements OnInit {
 
         if (similarity >= 0.7) {
           this.questionState[index] = this.CORRECT;
+          this.exp.add(2);
           correct += 1;
         } else {
           this.questionState[index] = this.INCORRECT;
