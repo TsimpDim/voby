@@ -275,7 +275,12 @@ export class SetComponent implements OnInit {
 
     if(this.searchInput) {
       if(this.searchInput?.nativeElement.value !== '') {
-        newWords = this.set.words.filter((w: any) => w.word.toLowerCase().includes(this.searchInput?.nativeElement.value.toLowerCase())) || [];
+        const searchTerm = this.searchInput?.nativeElement.value.toLowerCase();
+        newWords = this.set.words.filter(
+          (w: any) => 
+            w.word.toLowerCase().includes(searchTerm) || 
+            w.translation.toLowerCase().includes(searchTerm)
+          );
       }
     }
 
