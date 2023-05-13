@@ -50,7 +50,6 @@ export class WordFormComponent implements OnInit {
   focusedInput: any;
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
-  relatedWordsValue: RelatedWord[] = [];
   filteredRelatedWords: RelatedWord[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -65,7 +64,8 @@ export class WordFormComponent implements OnInit {
       word: new FormControl(data.edit ? (data as PassedDataOnEdit).word.word : '', [Validators.required]),
       translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
-      general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', [])
+      general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
+      relatedWords: new FormControl(data.edit ? (data as PassedDataOnEdit).word.related_words : [], [])
     });
 
     if (data.edit) {
@@ -74,8 +74,6 @@ export class WordFormComponent implements OnInit {
         this.wordForm.addControl(this.examples.length + 'tr', new FormControl(ex.translation, [Validators.required]));
         this.examples.push([this.examples.length, ex.id]);
       }
-
-      this.relatedWordsValue = (data as PassedDataOnEdit).word.related_words;
     } else {
       this.addExampleFormControls();
     }
@@ -135,9 +133,10 @@ export class WordFormComponent implements OnInit {
   }
 
   filterWords() {
+    const relatedWordsValue = this.wordForm.get('relatedWords')?.value;
     let newFilteredRelatedWords = this.passedData.allWords
       ?.filter((word) => word.word.toLowerCase().includes(this.relatedWordInput?.nativeElement.value.toLowerCase() || ''))
-      .filter(w => !this.relatedWordsValue.find(rw => w.id === rw.id))
+      .filter(w => !relatedWordsValue.find((rw: RelatedWord) => w.id === rw.id))
 
     if (this.passedData.edit) {
       newFilteredRelatedWords = newFilteredRelatedWords.filter(w => w.id !== (this.passedData as PassedDataOnEdit).word.id);
@@ -147,19 +146,23 @@ export class WordFormComponent implements OnInit {
   }
 
   removeRelatedWord(id: number) {
-    const index = this.relatedWordsValue.findIndex((w: any) => w.id === id);
+    const relatedWordsValue = this.wordForm.get('relatedWords')?.value;
+    const index = relatedWordsValue.findIndex((w: any) => w.id === id);
 
     if (index >= 0) {
-      this.relatedWordsValue.splice(index, 1);
+      relatedWordsValue.splice(index, 1);
     }
 
     this.filterWords();
   }
 
   selectRelatedWord(event: MatAutocompleteSelectedEvent) {
-    const newValue = this.passedData.allWords?.find((word) => word.id == event.option.value);
+    const newValue = this.passedData.allWords?.find((word) => word.id == event.option.value) as RelatedWord;
     if (newValue) {
-      this.relatedWordsValue.push(newValue);
+      const relatedWords = this.wordForm.get('relatedWords')?.value || [];
+      const newRw = {id: newValue.id, word: newValue.word};
+      (relatedWords as RelatedWord[]).push(newRw);
+      this.wordForm.get('relatedWords')?.setValue(relatedWords);
     }
 
     if (this.relatedWordInput) {
@@ -184,7 +187,7 @@ export class WordFormComponent implements OnInit {
       this.wordForm.get('translation')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
-      this.relatedWordsValue.map(w => w.id)
+      this.wordForm.get('relatedWords')?.value.map((w: RelatedWord) => w.id)
     )
     .subscribe({
       next: (word) => {
@@ -239,8 +242,7 @@ export class WordFormComponent implements OnInit {
       this.wordForm.get('translation')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
-      this.relatedWordsValue.map(w => w.id)
-    )
+      this.wordForm.get('relatedWords')?.value.map((w: RelatedWord) => w.id)    )
     .subscribe({
       next: (word: any) => {
         this.dataForParent = { word };

@@ -35,7 +35,7 @@
         <mat-label>Related words</mat-label>
         <mat-chip-list #chipList>
             <mat-chip
-                *ngFor="let word of relatedWordsValue"
+                *ngFor="let word of wordForm.get('relatedWords')?.value"
                 (removed)="removeRelatedWord(word.id)"
             >
                 {{word.word}}
