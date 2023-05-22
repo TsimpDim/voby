@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const allWords = selectedClass.sets.map((s: any) => s.words).flat();
 
-    this.router.navigate(['/class/' + classIdx], { state: {vclass: selectedClass, allWords: allWords} });
+    this.router.navigate(['/class/' + classIdx], { state: {selectedClass, allWords} });
   }
 
   getClasses() {

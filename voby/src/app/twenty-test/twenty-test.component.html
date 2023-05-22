@@ -10,7 +10,7 @@
                     <mat-label>Answer</mat-label>
                     <input [disabled]="questionState[i] !== 0" matInput placeholder="type your answer here..." #input>
                 </mat-form-field>
-                <mat-icon *ngIf="questionState[i] === this.CORRECT" style="color:green;" [matTooltip]="q['translation']">check_circle</mat-icon>
+                <mat-icon *ngIf="questionState[i] === this.CORRECT" style="color: green;" [matTooltip]="q['translation']">check_circle</mat-icon>
                 <mat-icon *ngIf="questionState[i] === this.INCORRECT" style="color: red;" [matTooltip]="q['translation']">cancel</mat-icon>
             </div>
         </mat-card-content>

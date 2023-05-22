@@ -1,6 +1,6 @@
 <ng-container>
     <div class="set-header">
-        <div class="set-info">
+        <div class="set-info" *ngIf="!this.loading">
             <div>
                 <h1 class="set-data" *ngIf="this.vclass">{{this.vclass.name}}  <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
             </div>
@@ -22,9 +22,9 @@
             </mat-menu>
         </div>
     </div>
-    <div class="layout-horizontal">
-        <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 
+    <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+    <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
@@ -46,7 +46,7 @@
             </ng-container>
         </div>
 
-        <p *ngIf="this.filteredWords.length === 0" class="empty-message">No words found :(</p>
+        <p *ngIf="!this.loading && this.filteredWords.length === 0" class="empty-message">No words found :(</p>
         <mat-card *ngIf="selectedWord !== undefined" class="word-detail-container" (dblclick)="editWord()">
             <div class="word-card-content">
                 <mat-card-content style="margin-bottom: 1em;">
