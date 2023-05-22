@@ -45,7 +45,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   }
 
   getTestWord() {
-    this.voby.getTestWord()
+    this.voby.getTestWords()
     .subscribe({
       next: (data: any) => {
         this.testWord = data[0];

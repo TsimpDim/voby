@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { Router } from '@angular/router';
 import { stringSimilarity } from '../string-similarity';
 import { ExperienceService } from '../_services/experience.service';
 import { VobyService } from '../_services/voby.service';
@@ -17,16 +18,29 @@ export class TwentyTestComponent implements OnInit {
   questionsValidated = false;
   loading = true;
 
+  classId = -1;
+  setId = -1;
+
   @ViewChildren('input') inputs: any;
 
-  constructor(private voby: VobyService, private exp: ExperienceService) { }
-
-  ngOnInit(): void {
-    this.getTestQuestions();
+  constructor(
+    private voby: VobyService,
+    private exp: ExperienceService,
+    private router: Router
+  ) {
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state) {
+      this.classId = state['classId'];
+      this.setId = state['setId'];
+    }
   }
 
-  getTestQuestions() {
-    this.voby.getTestWord(20)
+  ngOnInit(): void {
+    this.getTestQuestions(this.classId, this.setId);
+  }
+
+  getTestQuestions(classId: number, setId: number) {
+    this.voby.getTestWords(20, classId, setId)
     .subscribe({
       next: (data: any) => {
         this.questions = data;
@@ -71,7 +85,7 @@ export class TwentyTestComponent implements OnInit {
   refreshTest() {
     this.questionsValidated = false;
     this.questionState = [];
-    this.getTestQuestions();
+    this.getTestQuestions(this.classId, this.setId);
   }
 }
 

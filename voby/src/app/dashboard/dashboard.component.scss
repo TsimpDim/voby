@@ -26,7 +26,7 @@
 .action-cont {
     margin-top: 1em;
     margin-bottom: auto;
-    margin-right: 5em;
+    margin-right: 1em;
 
     button {
         border: none;
@@ -54,6 +54,21 @@
             border-radius: 0;
             background-color: rgb(240, 240, 240);
         }
+    }
+}
+
+.sec-action-cont {
+    margin-top: 1em;
+    margin-bottom: auto;
+    margin-right: 5em;
+
+    button {
+        border: none;
+        border-radius: 100px;
+        max-width: 200em;
+        width: auto;
+        padding: 0 .8em;
+        background-color: #f0f0f0;
     }
 }
 

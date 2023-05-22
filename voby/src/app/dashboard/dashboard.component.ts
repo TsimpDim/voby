@@ -46,8 +46,8 @@ export class DashboardComponent implements OnInit {
     this.toShowQuizButton = true;
   }
   
-  startTest() {
-    this.router.navigate(['/test/']);
+  startTest(classId: number, setId: number) {
+    this.router.navigate(['/test/'], {state: {classId, setId}});
   }
 
   redirect(setId: number) {
@@ -94,7 +94,7 @@ export class DashboardComponent implements OnInit {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const allWords = selectedClass.sets.map((s: any) => s.words).flat();
 
-    this.router.navigate(['/class/' + classIdx]);
+    this.router.navigate(['/class/' + classIdx], { state: {vclass: selectedClass, allWords: allWords} });
   }
 
   getClasses() {

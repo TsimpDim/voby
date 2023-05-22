@@ -115,6 +115,7 @@ export class AllWordsComponent implements OnInit {
   }
 
   getAllWordsOfClass(classId: number, sort = localStorage.getItem('sort') || 'date_desc') {
+    this.loading = true;
     this.voby.getAllWordsOfClass(classId, sort)
     .subscribe({
       next: (data: any) => {

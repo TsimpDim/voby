@@ -172,9 +172,21 @@ class TestView(APIView):
     def get(self, request, format=None):
         user = self.request.user
         amount = int(self.request.query_params.get("amount"))
-        if not amount: amount = 1
+        class_id = int(self.request.query_params.get("classId"))
+        set_id = int(self.request.query_params.get("setId"))
 
-        all_ids = list(Word.objects.filter(user=user, set__isnull=False).values_list('id', flat=True))
+        if not amount: amount = 1
+        if not class_id: class_id = -1
+        if not set_id: set_id = -1
+
+
+        if set_id == -1 and class_id == -1:
+            all_ids = list(Word.objects.filter(user=user, set__isnull=False).values_list('id', flat=True))
+        elif set_id == -1 and class_id != -1:
+            all_ids = list(Word.objects.filter(user=user, set__vclass_id=class_id).values_list('id', flat=True))
+        else:
+            all_ids = list(Word.objects.filter(user=user, set__id=set_id, set__vclass_id=class_id).values_list('id', flat=True))
+
         random_ids = [choice(all_ids) for _ in range(amount)]
         random_words = Word.objects.filter(id__in=random_ids)
         data = TestQuestionSerializer(random_words, many=True).data
