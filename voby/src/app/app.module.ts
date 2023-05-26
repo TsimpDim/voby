@@ -38,6 +38,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { AllWordsComponent } from './all-words/all-words.component';
 import { TwentyTestComponent } from './twenty-test/twenty-test.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { SnackbarComponent } from './custom/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     DashboardFlashComponent,
     LoadingIndComponent,
     AllWordsComponent,
-    TwentyTestComponent
+    TwentyTestComponent,
+    SnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -81,7 +84,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatGridListModule,
     MatProgressBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

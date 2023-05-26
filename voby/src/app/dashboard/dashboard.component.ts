@@ -5,6 +5,8 @@ import { ClassFormComponent } from '../class-form/class-form.component';
 import { VobyService } from '../_services/voby.service';
 import { COUNTRY_MAPPING, getCountryEmoji } from '../countries';
 import { SetFormComponent } from '../set-form/set-form.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 
 export interface DialogData {
   className: string;
@@ -24,6 +26,7 @@ export class DashboardComponent implements OnInit {
   constructor(
     private router: Router,
     public voby: VobyService,
+    private _snackBar: MatSnackBar, 
     public dialog: MatDialog) { }
 
   classes: any = null;
@@ -83,8 +86,15 @@ export class DashboardComponent implements OnInit {
       next: (data) => {
         this.classes.find((c: any) => c.id === classIdx).sets.push(data);
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -107,8 +117,15 @@ export class DashboardComponent implements OnInit {
         }
         this.dialog.closeAll();
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -120,8 +137,15 @@ export class DashboardComponent implements OnInit {
       next: () => {
         this.getClasses();
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -173,8 +197,15 @@ export class DashboardComponent implements OnInit {
         const vclass = this.classes.find((c: any) => c.id === classIdx);
         vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })

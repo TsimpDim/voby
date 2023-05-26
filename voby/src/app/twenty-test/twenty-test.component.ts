@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { stringSimilarity } from '../string-similarity';
 import { ExperienceService } from '../_services/experience.service';
@@ -26,7 +27,8 @@ export class TwentyTestComponent implements OnInit {
   constructor(
     private voby: VobyService,
     private exp: ExperienceService,
-    private router: Router
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {

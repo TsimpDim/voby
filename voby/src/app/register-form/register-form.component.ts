@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { AuthService } from '../_services/auth.service';
 
 @Component({
@@ -16,8 +18,8 @@ export class RegisterFormComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
-
+    private router: Router,
+    private _snackBar: MatSnackBar
   ) {
     this.registerForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -39,8 +41,16 @@ export class RegisterFormComponent {
             this.router.navigate(['login']);
           }
         },
-        error: (err) => {
+        error: (error: any) => {
+          this.loading = false;
           this.registered = false;
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Error: ' + error.statusText,
+              icon: 'error'
+            },
+            duration: 3 * 1000
+          });
         },
         complete: () => this.loading = false
       })

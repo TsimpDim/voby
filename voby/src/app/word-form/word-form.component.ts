@@ -6,6 +6,8 @@ import { VobyService } from '../_services/voby.service';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { HotkeysService } from '../_services/hotkeys.service';
 import { ExperienceService } from '../_services/experience.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 
 interface RelatedWord {
   id: number;
@@ -57,6 +59,7 @@ export class WordFormComponent implements OnInit {
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
     private hotkeys: HotkeysService,
+    private _snackBar: MatSnackBar,
     private exp: ExperienceService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
@@ -201,7 +204,16 @@ export class WordFormComponent implements OnInit {
               next: (data) => {
                 newExamples.push(data as Word);
               },
-              error: () => {},
+              error: (error: any) => {
+                this.loading = false;
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                  data: {
+                    message: 'Error: ' + error.statusText,
+                    icon: 'error'
+                  },
+                  duration: 3 * 1000
+                });
+              },
               complete: () => {}
             });
           } else { // create new one
@@ -209,7 +221,16 @@ export class WordFormComponent implements OnInit {
               next: (data) => {
                 newExamples.push(data as Word);
               },
-              error: () => {},
+              error: (error: any) => {
+                this.loading = false;
+                this._snackBar.openFromComponent(SnackbarComponent, {
+                  data: {
+                    message: 'Error: ' + error.statusText,
+                    icon: 'error'
+                  },
+                  duration: 3 * 1000
+                });
+              },
               complete: () => {}
             });
           }
@@ -218,7 +239,16 @@ export class WordFormComponent implements OnInit {
         for (let dex of this.deletedExamples) {
           this.voby.deleteExample(dex[1]).subscribe({
             next: () => {},
-            error: () => {},
+            error: (error: any) => {
+              this.loading = false;
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Error: ' + error.statusText,
+                  icon: 'error'
+                },
+                duration: 3 * 1000
+              });
+            },
             complete: () => {}
           });
         }
@@ -255,7 +285,16 @@ export class WordFormComponent implements OnInit {
             next: (data) => {
               this.dataForParent.word['examples'].push(data);
             },
-            error: () => {},
+            error: (error: any) => {
+              this.loading = false;
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Error: ' + error.statusText,
+                  icon: 'error'
+                },
+                duration: 3 * 1000
+              });
+            },
             complete: () => {
               this.dialogRef.close(this.dataForParent);
             }

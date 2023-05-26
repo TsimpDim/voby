@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { VobyService } from '../_services/voby.service';
 
 @Component({
@@ -16,7 +18,8 @@ export class SetFormComponent {
   constructor(
     public dialogRef: MatDialogRef<SetFormComponent>,
     @Inject(MAT_DIALOG_DATA) data: {classId: number, setId: number, name: string},
-    public voby: VobyService
+    public voby: VobyService,
+    private _snackBar: MatSnackBar
   ) {
     this.setForm = new FormGroup({
       name: new FormControl(data.name, [Validators.required, Validators.maxLength(25)])
@@ -38,8 +41,15 @@ export class SetFormComponent {
       next: (data) => {
         this.dialogRef.close(data);
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })

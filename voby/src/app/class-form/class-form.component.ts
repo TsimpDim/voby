@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { COUNTRIES } from '../countries';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { VobyService } from '../_services/voby.service';
 
 export interface DialogData {
@@ -23,6 +25,7 @@ export class ClassFormComponent {
   constructor(
     public dialogRef: MatDialogRef<ClassFormComponent>,
     public voby: VobyService,
+    private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) data: {classId: number, name: string, source_language: string, target_language: string},
   ) {
     this.classForm = new FormGroup({
@@ -52,8 +55,15 @@ export class ClassFormComponent {
       next: (data) => {
         this.dialogRef.close(data);
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -65,8 +75,15 @@ export class ClassFormComponent {
       next: () => {
         this.dialogRef.close();
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })

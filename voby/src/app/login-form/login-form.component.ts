@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { AuthService } from '../_services/auth.service';
 import { ExperienceService } from '../_services/experience.service';
 
@@ -18,6 +20,7 @@ export class LoginFormComponent {
   constructor(
     private authService: AuthService,
     private router: Router,
+    private _snackBar: MatSnackBar, 
     private exp: ExperienceService
   ) {
     this.loginForm = new FormGroup({
@@ -42,9 +45,16 @@ export class LoginFormComponent {
             this.router.navigate(['/']);
           }
         },
-        error: (err) => {
+        error: (error: any) => {
           this.loading = false;
           this.loggedIn = false;
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Error: ' + error.statusText,
+              icon: 'error'
+            },
+            duration: 3 * 1000
+          });
         },
         complete: () => this.loading = false
       });

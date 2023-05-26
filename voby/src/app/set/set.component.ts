@@ -1,8 +1,10 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from '../countries';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
@@ -43,6 +45,7 @@ export class SetComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
     public voby: VobyService
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -130,8 +133,15 @@ export class SetComponent implements OnInit {
           }
           this.search();
         },
-        error: () => {
+        error: (error: any) => {
           this.loading = false;
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: 'Error: ' + error.statusText,
+              icon: 'error'
+            },
+            duration: 3 * 1000
+          });
         },
         complete: () => this.loading = false
       })
@@ -158,8 +168,15 @@ export class SetComponent implements OnInit {
         this.getAllWordsOfClass(data.vclass);
         this.search();
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -171,8 +188,15 @@ export class SetComponent implements OnInit {
       next: (data: any) => {
         this.allWords = data;
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
@@ -193,8 +217,15 @@ export class SetComponent implements OnInit {
       next: () => {
         this.router.navigate(['/']);
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
       },
       complete: () => this.loading = false
     })
