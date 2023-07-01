@@ -186,7 +186,7 @@ export class SetComponent implements OnInit {
     this.voby.getAllWordsOfClass(classId)
     .subscribe({
       next: (data: any) => {
-        this.allWords = data;
+        this.allWords = data.words;
       },
       error: (error: any) => {
         this.loading = false;
