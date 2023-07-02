@@ -98,6 +98,12 @@ class TestAttempt(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     experience = models.PositiveIntegerField(default=0)
+    
+class UserShortcuts(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    key_1 = models.CharField(max_length=10)
+    key_2 = models.CharField(max_length=10)
+    result = models.CharField(max_length=10)
 
 class Example(models.Model):
     word = models.ManyToManyField(Word, related_name='examples')

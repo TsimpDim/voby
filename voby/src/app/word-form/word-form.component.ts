@@ -8,6 +8,7 @@ import { HotkeysService } from '../_services/hotkeys.service';
 import { ExperienceService } from '../_services/experience.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
+import { Subscription } from 'rxjs';
 
 interface RelatedWord {
   id: number;
@@ -50,6 +51,7 @@ export class WordFormComponent implements OnInit {
   dataForParent: any = {};
   deletedExamples: any[] = [];
   focusedInput: any;
+  shortcutSubscriptions$: Subscription[] = [];
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
   filteredRelatedWords: RelatedWord[] = [];
@@ -83,10 +85,11 @@ export class WordFormComponent implements OnInit {
 
     this.passedData = data;
     this.filterWords();
-    this.hotkeys.addShortcut({keys: 'alt.a'}).subscribe(this.processShortcuts.bind(this));
-    this.hotkeys.addShortcut({keys: 'alt.o'}).subscribe(this.processShortcuts.bind(this));
-    this.hotkeys.addShortcut({keys: 'alt.u'}).subscribe(this.processShortcuts.bind(this));
-    this.hotkeys.addShortcut({keys: 'alt.s'}).subscribe(this.processShortcuts.bind(this));
+    this.hotkeys.shortcuts$.subscribe(shortcuts => {
+      for (const s of shortcuts) {
+        this.shortcutSubscriptions$.push(s.subscribe());
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -97,6 +100,12 @@ export class WordFormComponent implements OnInit {
 
       this.focusedInput = event.target;
     })
+  }
+
+  ngOnDestroy(): void {
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
   }
 
   onNoClick(): void {
@@ -111,17 +120,6 @@ export class WordFormComponent implements OnInit {
   removeExampleFormControls(idx: number) {
     this.wordForm.removeControl(idx + 'tx');
     this.wordForm.removeControl(idx + 'tr');
-  }
-
-  processShortcuts(e: any) {
-    const mapping: Record<string, string> = {
-      'a': 'ä',
-      'o': 'ö',
-      'u': 'ü',
-      's': 'ß'
-    }
-
-    this.focusedInput.value = this.focusedInput.value + mapping[e.key as string];
   }
 
   addExample() {

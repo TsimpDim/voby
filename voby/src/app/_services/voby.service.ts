@@ -180,4 +180,28 @@ export class VobyService {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
+
+  createUserShortcut(key_1: string, key_2: string, result: string) {
+    return this.http.post(environment.apiUrl + '/voby/usershortcuts/',
+      { key_1, key_2, result },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  updateUserShortcut(userShortcutId: number, key_1: string, key_2: string, result: string) {
+    return this.http.patch(environment.apiUrl + '/voby/usershortcuts/' + userShortcutId + '/',
+      { key_1, key_2, result },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  getUserShortcuts() {
+    return this.http.get(environment.apiUrl + '/voby/usershortcuts/', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} ,
+    });
+  }
+
+  deleteUserShortcut(index: number) {
+    return this.http.delete(environment.apiUrl + '/voby/usershortcuts/' + index, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
 }

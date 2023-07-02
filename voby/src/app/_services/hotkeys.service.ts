@@ -1,11 +1,20 @@
 import { DOCUMENT } from "@angular/common";
 import { Inject, Injectable } from "@angular/core";
 import { EventManager } from "@angular/platform-browser";
-import { Observable } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
+import { VobyService } from "./voby.service";
 
 type Option = {
   element: any;
   keys: string;
+  result: string;
+}
+
+interface UserShortcut {
+  key_1: string,
+  key_2: string,
+  result: string,
+  id: number
 }
 
 @Injectable({ providedIn: 'root' })
@@ -13,28 +22,60 @@ export class HotkeysService {
   defaults: Partial<Option> = {
     element: this.document
   }
+
+  shortcuts$: BehaviorSubject<Observable<unknown>[]> = new BehaviorSubject<Observable<unknown>[]>([]);
+  shortcutBehaviors: Observable<unknown>[] = [];
+  retrieved = false;
     
-  constructor(private eventManager: EventManager,
-              @Inject(DOCUMENT) private document: Document) {
-  }
+  constructor(
+    private eventManager: EventManager,
+    @Inject(DOCUMENT) private document: Document,
+    private voby: VobyService
+    ) {
+      this.voby.getUserShortcuts().subscribe({
+        next: (shortcuts: any) => {
+          for (let s of shortcuts) {
+            this.addShortcut({keys: s.key_1 + '.' + s.key_2, result: s.result});
+          }
+        },
+        complete: () => this.retrieved = true
+      });
+    }
 
   addShortcut(option: Partial<Option>) {
     const merged = { ...this.defaults, ...option };
     const event = `keydown.${merged.keys}`;
 
-    return new Observable(observer => {
-      const handler = (e: any) => {
-        e.preventDefault()
-        observer.next(e);
-      };
-      
-      const dispose = this.eventManager.addEventListener(
-         merged.element, event, handler
-      );
+    this.shortcutBehaviors.push(
+      new Observable(observer => {
+        const handler = (e: any) => {
+          e.preventDefault();
 
-      return () => {
-        dispose();
-      };
-    })
+          if(e.target.nodeName !== 'INPUT') {
+            return;
+          } else {
+            const caretIdx = e.target.selectionStart;
+            const targetValue = e.target.value;
+            e.target.value = targetValue.substring(0, caretIdx) + merged.result + targetValue.substring(caretIdx, targetValue.length+1);
+            
+            const newCaretIdx = caretIdx + merged.result?.length
+            e.target.selectionStart = newCaretIdx;
+            e.target.selectionEnd = newCaretIdx;
+          }
+
+          observer.next(e);
+        };
+        
+        const dispose = this.eventManager.addEventListener(
+          merged.element, event, handler
+        );
+
+        return () => {
+          dispose();
+        };
+      })
+    );
+
+    this.shortcuts$.next(this.shortcutBehaviors);
   }
 }

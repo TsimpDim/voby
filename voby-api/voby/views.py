@@ -3,8 +3,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
-from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts
+from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
+    ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
+    UserShortcutsSerializer
 from random import choice
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -212,3 +214,23 @@ class ProfileViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Profile.objects.filter(user_id=self.request.user.id)
+
+class UserShortcutsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = UserShortcutsSerializer
+    queryset = UserShortcuts.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return UserShortcuts.objects.filter(user_id=self.request.user.id)
