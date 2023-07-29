@@ -42,7 +42,7 @@ interface Word {
   templateUrl: './word-form.component.html',
   styleUrls: ['./word-form.component.scss']
 })
-export class WordFormComponent implements OnInit {
+export class WordFormComponent {
 
   wordForm: FormGroup;
   loading = false;
@@ -50,8 +50,6 @@ export class WordFormComponent implements OnInit {
   passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
   deletedExamples: any[] = [];
-  focusedInput: any;
-  shortcutSubscriptions$: Subscription[] = [];
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
   filteredRelatedWords: RelatedWord[] = [];
@@ -60,7 +58,6 @@ export class WordFormComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
-    private hotkeys: HotkeysService,
     private _snackBar: MatSnackBar,
     private exp: ExperienceService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
@@ -85,27 +82,6 @@ export class WordFormComponent implements OnInit {
 
     this.passedData = data;
     this.filterWords();
-    this.hotkeys.shortcuts$.subscribe(shortcuts => {
-      for (const s of shortcuts) {
-        this.shortcutSubscriptions$.push(s.subscribe());
-      }
-    });
-  }
-
-  ngOnInit(): void {
-    document.getElementById('word-form-container')?.addEventListener('focusin', (event: any) => {
-      if(event.target.nodeName !== 'INPUT') {
-        return;
-      }
-
-      this.focusedInput = event.target;
-    })
-  }
-
-  ngOnDestroy(): void {
-    for (const s of this.shortcutSubscriptions$) {
-      s.unsubscribe();
-    }
   }
 
   onNoClick(): void {

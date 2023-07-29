@@ -8,6 +8,7 @@ import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
+import { HotkeysService } from '../_services/hotkeys.service';
 
 interface word {
   id: number;
@@ -40,13 +41,15 @@ export class SetComponent implements OnInit {
   showingFavorites = false;
   allWords: any[] = [];
   getCountryEmoji = getCountryEmoji;
+  shortcutSubscriptions$: Subscription[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    public voby: VobyService
+    public voby: VobyService,
+    private hotkeys: HotkeysService
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
@@ -62,6 +65,12 @@ export class SetComponent implements OnInit {
 
       this.selectedWord = this.set.words[0];
     }
+
+      this.hotkeys.shortcuts$.subscribe(shortcuts => {
+      for (const s of shortcuts) {
+        this.shortcutSubscriptions$.push(s.subscribe());
+      }
+    });
   }
 
   ngOnInit() {
@@ -78,6 +87,9 @@ export class SetComponent implements OnInit {
 
   ngOnDestroy() {
     this.paramsSubscription?.unsubscribe();
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
   }
 
   selectWord(id: number) {
