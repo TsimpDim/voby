@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
-import { UserLevel as UserLevel } from '../user-levels';
+import { UserLevel as UserLevel, experienceLevelMapping } from '../user-levels';
 import { AuthService } from '../_services/auth.service';
 import { ExperienceService } from '../_services/experience.service';
 
@@ -35,7 +35,7 @@ export class HeaderComponent implements AfterViewInit {
     });
 
     combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(([experience, level]) => {
-      this.userLevelProgress = (experience / (level.threshold + 100)) * 100;
+      this.userLevelProgress = (experience % 100 / 100) * 100;
     })
   }
 

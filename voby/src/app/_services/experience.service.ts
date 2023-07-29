@@ -32,7 +32,7 @@ export class ExperienceService {
       next: (data: any) => {
         this.experience$.next(data[0].experience);
       }
-    })
+    });
   }
 
   forceRefresh() {
