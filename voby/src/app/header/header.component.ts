@@ -35,8 +35,13 @@ export class HeaderComponent implements AfterViewInit {
     });
 
     combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(([experience, level]) => {
-      this.userLevelProgress = (experience % 100 / 100) * 100;
-    })
+      const nextLevelThreshold = Object.keys(experienceLevelMapping).find(th => parseInt(th) > level.threshold);
+      if (!nextLevelThreshold) {
+        this.userLevelProgress = 0;
+      } else {
+        this.userLevelProgress = (experience  / parseInt(nextLevelThreshold)) * 100;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
