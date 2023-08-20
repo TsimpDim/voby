@@ -33,7 +33,7 @@
         <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
-            <ng-container *ngFor="let word of this.filteredWords">
+            <ng-container *ngFor="let word of this.filteredWords; index as i">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
                     <mat-card-content class="card-list-item-cont">
                         <mat-card-title class="card-title">
@@ -50,6 +50,10 @@
                         ></voby-favorite>
                     </mat-card-content>
                 </mat-card>
+                <p  
+                    *ngIf="i < this.filteredWords.length -1 && word.created.split('T')[0] != this.filteredWords[i+1].created.split('T')[0]"
+                    class="date-change"   
+                >{{this.filteredWords[i+1].created.split('T')[0]}}</p>
             </ng-container>
         </div>
 
