@@ -3,11 +3,13 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
+from django.http import HttpResponse
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
     UserShortcutsSerializer
 from random import choice
+import xlwt
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -194,6 +196,43 @@ class TestView(APIView):
         data = TestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
+    
+class ClassExcelView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, class_id: int):
+        # class_id = int(self.request.query_params.get("classId"))
+        user = self.request.user
+
+        vclass = VClass.objects.get(user=user.id, id=class_id)
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = f'attachment; filename="{vclass.name}.xls"'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet(vclass.name)
+
+        # Sheet header, first row
+        row_num = 0
+
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['word', 'translation', 'plural', 'general', 'examples', 'example_translations', 'set']
+
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+
+        # Sheet body, remaining rows
+        font_style = xlwt.XFStyle()
+
+        rows = Word.objects.filter(user=user.id, set__vclass_id=class_id).values_list('word', 'translation', 'plural', 'general', 'examples__text','examples__translation', 'set__name')
+        for row in rows:
+            row_num += 1
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, row[col_num], font_style)
+
+        wb.save(response)
+        return response
     
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

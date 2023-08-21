@@ -2,7 +2,7 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from .views import ClassViewSet, SetViewSet, WordViewSet, \
      ExampleViewSet, TestView, QuizAnswerViewSet, ProfileViewSet, \
-     TestAttemptViewSet, UserShortcutsViewSet
+     TestAttemptViewSet, UserShortcutsViewSet, ClassExcelView
 
 router = DefaultRouter()
 router.register(r"classes", ClassViewSet, basename="class")
@@ -16,5 +16,6 @@ router.register(r"usershortcuts", UserShortcutsViewSet, basename="usershortcuts"
 
 urlpatterns = [
     path("", include(router.urls)),
-    path('test', TestView.as_view(), name="test")
+    path('test', TestView.as_view(), name="test"),
+    path('class/<int:class_id>/download', ClassExcelView.as_view(), name='download_class')
 ]

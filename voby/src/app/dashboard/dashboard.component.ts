@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ClassFormComponent } from '../class-form/class-form.component';
@@ -32,6 +32,7 @@ export class DashboardComponent implements OnInit {
   classes: any = null;
   loading = true;
   countryMapping = COUNTRY_MAPPING;
+  @ViewChild('downloadZipLink') private downloadZipLink: ElementRef | undefined;
 
   ngOnInit(): void {
     this.getClasses();
@@ -196,6 +197,34 @@ export class DashboardComponent implements OnInit {
       next: () => {
         const vclass = this.classes.find((c: any) => c.id === classIdx);
         vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  downloadClassReport(classId: number) {
+    this.voby.downloadClassReport(classId)
+    .subscribe({
+      next: (blob: any) => {
+        const vclass = this.classes.find((c: any) => c.id === classId);
+        const url = window.URL.createObjectURL(blob);
+  
+        const link = this.downloadZipLink?.nativeElement;
+        link.href = url;
+        link.download = vclass.name + '.xls';
+        link.click();
+       
+        window.URL.revokeObjectURL(url);
       },
       error: (error: any) => {
         this.loading = false;

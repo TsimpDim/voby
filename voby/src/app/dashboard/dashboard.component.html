@@ -36,6 +36,7 @@
           </button>
           <button mat-icon-button (click)="showAllWordsOfClass(class.id)"><mat-icon>visibility</mat-icon></button> 
           <button mat-icon-button (click)="editClass(class.id)"><mat-icon>edit</mat-icon></button> 
+          <button mat-icon-button (click)="downloadClassReport(class.id)"><mat-icon>download</mat-icon></button>
           <button mat-icon-button (click)="deleteClass(class.id)"><mat-icon>delete</mat-icon></button>
         </div>
 
@@ -46,3 +47,4 @@
     </mat-list>
   </mat-expansion-panel>
 </mat-accordion>
+<a class="download-zip-link" #downloadZipLink></a>
