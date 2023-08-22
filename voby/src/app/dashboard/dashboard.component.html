@@ -34,14 +34,14 @@
           <button mat-icon-button color="accent" (click)="createVocabSet(class.id)">
             <mat-icon fontIcon="add"></mat-icon> set
           </button>
-          <button mat-icon-button (click)="showAllWordsOfClass(class.id)"><mat-icon>visibility</mat-icon></button> 
+          <button mat-icon-button (click)="showAllWordsOfClass(class.id)" [disabled]="!hasWords(class.id)"><mat-icon>visibility</mat-icon></button> 
           <button mat-icon-button (click)="editClass(class.id)"><mat-icon>edit</mat-icon></button> 
-          <button mat-icon-button (click)="downloadClassReport(class.id)"><mat-icon>download</mat-icon></button>
+          <button mat-icon-button (click)="downloadClassReport(class.id)" [disabled]="!hasWords(class.id)"><mat-icon>download</mat-icon></button>
           <button mat-icon-button (click)="deleteClass(class.id)"><mat-icon>delete</mat-icon></button>
         </div>
 
         <div class="sec-action-cont">
-          <button mat-icon-button (click)="startTest(class.id, -1)"><mat-icon>quiz</mat-icon> Test</button>
+          <button mat-icon-button (click)="startTest(class.id, -1)" [disabled]="!hasWords(class.id)"><mat-icon>quiz</mat-icon> Test</button>
         </div>
       </div>
     </mat-list>

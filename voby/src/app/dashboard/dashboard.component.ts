@@ -61,6 +61,11 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/test/'], {state: {classId, setId, hasFavorites}});
   }
 
+  hasWords(classId: number) {
+    const selectedClass = this.classes.find((o: any) => o.id === classId);
+    return selectedClass.sets.flatMap((s: any) => s.words).length > 0;
+  }
+
   redirect(setId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
