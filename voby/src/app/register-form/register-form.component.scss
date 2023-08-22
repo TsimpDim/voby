@@ -1,20 +1,30 @@
 .container {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
+}
+
+.intro {
+    background-color: #673ab7;
+    height: 93.25vh;
+    width: 50vw;
+    z-index: -1;
 }
 
 form {
     margin-top: 3em;
+    margin-right: auto;
+    margin-left: auto;
     display: flex;
     flex-direction: column;
+    justify-content: center;
 }
 
 img {
     margin-top: 4em;
-    width: 30%;
-    height: 30%;
+    width: 70%;
+    height: 70%;
 }
 
 .mat-form-field {
