@@ -44,7 +44,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: '*', component: DashboardComponent
+    path: '**', redirectTo: ''
   }
 ];
 
