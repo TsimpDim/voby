@@ -8,7 +8,7 @@ from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
     UserShortcutsSerializer
-from random import choice
+from random import sample
 import xlwt
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -178,21 +178,30 @@ class TestView(APIView):
         amount = int(self.request.query_params.get("amount"))
         class_id = int(self.request.query_params.get("classId"))
         set_id = int(self.request.query_params.get("setId"))
+        favorites_only = self.request.query_params.get('favoritesOnly')
 
         if not amount: amount = 1
-        if not class_id: class_id = -1
-        if not set_id: set_id = -1
 
+        filter_kwargs = {
+            'user': user,
+        }
 
-        if set_id == -1 and class_id == -1:
-            all_ids = list(Word.objects.filter(user=user, set__isnull=False).values_list('id', flat=True))
+        if favorites_only == 'true':
+            filter_kwargs['favorite'] = True
+
+        if set_id != -1 and class_id != -1:
+            filter_kwargs['set__id'] = set_id
+            filter_kwargs['set__vclass_id'] = class_id
         elif set_id == -1 and class_id != -1:
-            all_ids = list(Word.objects.filter(user=user, set__vclass_id=class_id).values_list('id', flat=True))
+            filter_kwargs['set__vclass_id'] = class_id
         else:
-            all_ids = list(Word.objects.filter(user=user, set__id=set_id, set__vclass_id=class_id).values_list('id', flat=True))
+            filter_kwargs['set__isnull'] = False
 
-        random_ids = [choice(all_ids) for _ in range(amount)]
-        random_words = Word.objects.filter(id__in=random_ids)
+        all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
+        amount = min(len(all_ids), amount)
+
+        random_ids = sample(all_ids, amount)
+        random_words = Word.objects.filter(id__in=random_ids).distinct()
         data = TestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
@@ -217,7 +226,7 @@ class ClassExcelView(APIView):
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
 
-        columns = ['word', 'translation', 'plural', 'general', 'examples', 'example_translations', 'set']
+        columns = ['word', 'translation', 'plural', 'favorite', 'general', 'examples', 'example_translations', 'set']
 
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
@@ -225,7 +234,7 @@ class ClassExcelView(APIView):
         # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
-        rows = Word.objects.filter(user=user.id, set__vclass_id=class_id).values_list('word', 'translation', 'plural', 'general', 'examples__text','examples__translation', 'set__name')
+        rows = Word.objects.filter(user=user.id, set__vclass_id=class_id).values_list('word', 'translation', 'plural', 'favorite', 'general', 'examples__text','examples__translation', 'set__name')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):

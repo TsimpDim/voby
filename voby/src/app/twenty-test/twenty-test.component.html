@@ -1,7 +1,11 @@
 <div class="container">
     <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 
-    <h3 style="padding: 1em;">Can you answer all {{questions.length}} questions correctly? </h3>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h3 style="padding: 1em;">Can you answer all {{questions.length}} questions correctly? </h3>
+        <mat-slide-toggle [disabled]="!hasFavorites" (click)="toggleFavorites()" style="margin-right: 3em;"><mat-icon>favorite</mat-icon>only</mat-slide-toggle>
+    </div>
+
     <mat-card *ngFor="let q of questions; index as i" style="margin: 2em">
         <mat-card-content>
             <h2>{{q['word']}}</h2>

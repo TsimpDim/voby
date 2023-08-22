@@ -18,31 +18,33 @@ export class TwentyTestComponent implements OnInit {
   questionState: number[] = [];
   questionsValidated = false;
   loading = true;
+  favoritesOnly = false;
 
   classId = -1;
   setId = -1;
+  hasFavorites = false;
 
   @ViewChildren('input') inputs: any;
 
   constructor(
     private voby: VobyService,
     private exp: ExperienceService,
-    private router: Router,
-    private _snackBar: MatSnackBar
+    private router: Router
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
       this.classId = state['classId'];
       this.setId = state['setId'];
+      this.hasFavorites = state['hasFavorites'];
     }
   }
 
   ngOnInit(): void {
-    this.getTestQuestions(this.classId, this.setId);
+    this.getTestQuestions(this.classId, this.setId, this.favoritesOnly);
   }
 
-  getTestQuestions(classId: number, setId: number) {
-    this.voby.getTestWords(20, classId, setId)
+  getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
+    this.voby.getTestWords(20, classId, setId, favoritesOnly)
     .subscribe({
       next: (data: any) => {
         this.questions = data;
@@ -87,7 +89,14 @@ export class TwentyTestComponent implements OnInit {
   refreshTest() {
     this.questionsValidated = false;
     this.questionState = [];
-    this.getTestQuestions(this.classId, this.setId);
+    this.getTestQuestions(this.classId, this.setId, this.favoritesOnly);
+  }
+
+  toggleFavorites() {
+    if (this.hasFavorites) {
+      this.favoritesOnly = !this.favoritesOnly;
+      this.refreshTest();
+    }
   }
 }
 

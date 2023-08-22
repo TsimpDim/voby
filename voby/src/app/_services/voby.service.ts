@@ -152,10 +152,10 @@ export class VobyService {
     });
   }
 
-  getTestWords(amount: number = 1, classId: number = -1, setId: number = -1) {
+  getTestWords(amount: number = 1, classId: number = -1, setId: number = -1, favoritesOnly: boolean = false) {
     return this.http.get(environment.apiUrl + '/voby/test', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()},
-      params: {amount, classId, setId}
+      params: {amount, classId, setId, favoritesOnly}
     });
   }
 

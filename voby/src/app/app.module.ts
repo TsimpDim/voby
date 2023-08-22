@@ -23,7 +23,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ClassFormComponent } from './class-form/class-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { WordFormComponent } from './word-form/word-form.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { RegisterFormComponent } from './register-form/register-form.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -40,6 +40,7 @@ import { TwentyTestComponent } from './twenty-test/twenty-test.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarComponent } from './custom/snackbar/snackbar.component';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,7 @@ import { SnackbarComponent } from './custom/snackbar/snackbar.component';
     MatDialogModule,
     MatOptionModule,
     ReactiveFormsModule,
+    FormsModule,
     HttpClientModule,
     MatSelectModule,
     MatMenuModule,
@@ -85,7 +87,8 @@ import { SnackbarComponent } from './custom/snackbar/snackbar.component';
     MatGridListModule,
     MatProgressBarModule,
     MatTooltipModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]
