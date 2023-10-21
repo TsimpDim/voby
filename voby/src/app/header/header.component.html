@@ -6,7 +6,7 @@
         </button>
 
         <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">
-            <div class="xp">
+            <div class="xp" matTooltip="{{this.remainingExp}} XP til next level">
                 <div [@xpAnimation]="this.userExperience">{{this.userExperience}}</div>
                 <mat-icon aria-label="xp">psychology</mat-icon>
                 <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>

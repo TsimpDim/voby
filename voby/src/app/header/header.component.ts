@@ -45,6 +45,7 @@ export class HeaderComponent implements AfterViewInit {
   userExperience: any;
   userLevel: UserLevel = {level: 0, threshold: 0};
   userLevelProgress: any;
+  remainingExp: any;
 
   constructor(
     private router: Router,
@@ -66,7 +67,7 @@ export class HeaderComponent implements AfterViewInit {
     combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(([experience, level]) => {
       const nextLevelThreshold = experienceLevelMapping.find(l => l.level == level.level+1)?.requiredXp || 0;
       const prevLevelThreshold = experienceLevelMapping.find(l => l.level == level.level)?.requiredXp || 0;
-
+      this.remainingExp = nextLevelThreshold - experience;
       if (!nextLevelThreshold) {
         this.userLevelProgress = 0;
       } else {
