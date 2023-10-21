@@ -3,6 +3,8 @@ import { BehaviorSubject } from 'rxjs';
 import { experienceLevelMapping, UserLevel } from '../user-levels';
 import { VobyService } from './voby.service';
 
+interface LevelMapping {level: number, requiredXp: number};
+
 @Injectable({
   providedIn: 'root'
 })
@@ -18,9 +20,10 @@ export class ExperienceService {
   private getUserLevel() {
     this.experience$.subscribe({
       next: (exp: number) => {
-        Object.keys(experienceLevelMapping).forEach((key) => {
-          if (exp >= parseInt(key)) {
-            this.userLevel$.next({level: experienceLevelMapping[parseInt(key)], threshold: parseInt(key)});
+        experienceLevelMapping.find((l: LevelMapping) => {
+          if (exp < l.requiredXp) {
+            const level: LevelMapping = experienceLevelMapping.find(lM => lM.level == l.level-1) || {level: 0, requiredXp: 0};
+            this.userLevel$.next({level: level.level, threshold: level.requiredXp});
           }
         });
       }

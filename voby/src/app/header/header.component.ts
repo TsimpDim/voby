@@ -64,11 +64,13 @@ export class HeaderComponent implements AfterViewInit {
     });
 
     combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(([experience, level]) => {
-      const nextLevelThreshold = Object.keys(experienceLevelMapping).find(th => parseInt(th) > level.threshold);
+      const nextLevelThreshold = experienceLevelMapping.find(l => l.level == level.level+1)?.requiredXp || 0;
+      const prevLevelThreshold = experienceLevelMapping.find(l => l.level == level.level)?.requiredXp || 0;
+
       if (!nextLevelThreshold) {
         this.userLevelProgress = 0;
       } else {
-        this.userLevelProgress = (experience  / parseInt(nextLevelThreshold)) * 100;
+        this.userLevelProgress = ((experience-prevLevelThreshold)  / (nextLevelThreshold-prevLevelThreshold) * 100);
       }
     });
   }
