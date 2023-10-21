@@ -1,14 +1,24 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import { UserLevel as UserLevel, experienceLevelMapping } from '../user-levels';
 import { AuthService } from '../_services/auth.service';
 import { ExperienceService } from '../_services/experience.service';
+import { trigger, style, transition, animate} from '@angular/animations';
 
 @Component({
   selector: 'voby-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
+  animations: [
+    trigger('valueAnimation', [
+      transition(':increment', [
+          style({ color: '#fed640', fontWeight: '500' }),
+          animate('1s ease-out', style('*'))
+        ]
+      )]
+    )
+  ]
 })
 export class HeaderComponent implements AfterViewInit {
   public isLoggedIn: Boolean | null = null;

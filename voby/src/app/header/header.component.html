@@ -6,7 +6,7 @@
         </button>
 
         <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">
-            <div class="xp">{{this.userExperience}}<mat-icon aria-label="xp">psychology</mat-icon>{{userLevel.level}} <mat-icon aria-label="level">workspace_premium</mat-icon></div>
+            <div class="xp"><span [@valueAnimation]="this.userExperience">{{this.userExperience}}</span><mat-icon aria-label="xp">psychology</mat-icon>{{userLevel.level}} <mat-icon aria-label="level">workspace_premium</mat-icon></div>
             <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" style="width: 80%"></mat-progress-bar>
         </div>
 
