@@ -9,8 +9,6 @@ import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
-import { EventManager } from '@angular/platform-browser';
-import { DOCUMENT } from '@angular/common';
 
 interface word {
   id: number;
@@ -44,6 +42,7 @@ export class SetComponent implements OnInit {
   allWords: any[] = [];
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
+  suggestedWord: string | undefined = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -104,7 +103,8 @@ export class SetComponent implements OnInit {
       data: {
         setId: this.set.id,
         allWords: this.allWords,
-        edit: false
+        edit: false,
+        suggestedWord: this.suggestedWord
       }
     });
 
@@ -320,12 +320,15 @@ export class SetComponent implements OnInit {
 
     if(this.searchInput) {
       if(this.searchInput?.nativeElement.value !== '') {
+        this.suggestedWord = this.searchInput?.nativeElement.value;
         const searchTerm = this.searchInput?.nativeElement.value.toLowerCase();
         newWords = this.set.words.filter(
           (w: any) => 
             w.word.toLowerCase().includes(searchTerm) || 
             w.translation.toLowerCase().includes(searchTerm)
           );
+      } else {
+        this.suggestedWord = '';
       }
     }
 
@@ -339,7 +342,12 @@ export class SetComponent implements OnInit {
     }
   }
 
-  @HostListener('document:keydown.alt.w', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+  @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
+    event.preventDefault();
+    this.openWordForm();
+  }
+
+  @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
     event.preventDefault();
     this.openWordForm();
   }

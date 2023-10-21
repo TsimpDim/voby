@@ -18,7 +18,8 @@ interface RelatedWord {
 interface PassedDataOnCreate {
   setId: number,
   allWords: RelatedWord[],
-  edit: boolean
+  edit: boolean,
+  suggestedWord: string
 };
 
 interface PassedDataOnEdit {
@@ -62,8 +63,16 @@ export class WordFormComponent {
     private exp: ExperienceService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
+    let initialWord = '';
+    if (data.edit) {
+      initialWord = (data as PassedDataOnEdit).word.word;
+    }
+    if ((data as PassedDataOnCreate).suggestedWord) {
+      initialWord = (data as PassedDataOnCreate).suggestedWord;
+    }
+
     this.wordForm = new FormGroup({
-      word: new FormControl(data.edit ? (data as PassedDataOnEdit).word.word : '', [Validators.required]),
+      word: new FormControl(initialWord, [Validators.required]),
       translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
