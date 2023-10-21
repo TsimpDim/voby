@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { getCountryEmoji } from '../countries';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
+import { HotkeysService } from '../_services/hotkeys.service';
 
 interface word {
   id: number;
@@ -37,13 +38,15 @@ export class AllWordsComponent implements OnInit {
   loading = false;
   showingFavorites = false;
   allWords: word[] = [];
+  shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    public voby: VobyService
+    public voby: VobyService,
+    private hotkeys: HotkeysService
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
@@ -58,6 +61,12 @@ export class AllWordsComponent implements OnInit {
 
       this.selectedWord = this.allWords[0];
     }
+
+    this.hotkeys.shortcuts$.subscribe(shortcuts => {
+      for (const s of shortcuts) {
+        this.shortcutSubscriptions$.push(s.subscribe());
+      }
+    });
   }
 
   ngOnInit() {
