@@ -4,17 +4,36 @@ import { combineLatest, Subscription } from 'rxjs';
 import { UserLevel as UserLevel, experienceLevelMapping } from '../user-levels';
 import { AuthService } from '../_services/auth.service';
 import { ExperienceService } from '../_services/experience.service';
-import { trigger, style, transition, animate} from '@angular/animations';
+import { trigger, style, transition, animate, keyframes, AUTO_STYLE} from '@angular/animations';
 
 @Component({
   selector: 'voby-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   animations: [
-    trigger('valueAnimation', [
+    trigger('xpAnimation', [
       transition(':increment', [
           style({ color: '#fed640', fontWeight: '500' }),
           animate('1s ease-out', style('*'))
+        ]
+      )]
+    ),
+    trigger('levelAnimation', [
+      transition(':increment', [
+          style({ color: '#fed640', fontWeight: '700' }),
+          animate('1.2s ease-out', keyframes([
+            style({ visibility: AUTO_STYLE, transform: 'scale3d(1, 1, 1)', easing: 'ease', offset: 0 }),
+            style({ transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.1 }),
+            style({ transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.2 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', easing: 'ease', offset: 0.3 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.4 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', easing: 'ease', offset: 0.5 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.6 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', easing: 'ease', offset: 0.7 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.8 }),
+            style({ transform: 'scale3d(1.1, 1.1, 1.1) rotate3d(0, 0, 1, 3deg)', easing: 'ease', offset: 0.9 }),
+            style({ transform: 'scale3d(1, 1, 1)', easing: 'ease', offset: 1 })
+          ]))
         ]
       )]
     )

@@ -12,6 +12,8 @@ img:hover {
     margin-top: auto;
     margin-bottom: auto;
     margin-right: 1em;
+    display: flex;
+    flex-direction: row;
 
     .mat-icon {
         margin-top: auto;
