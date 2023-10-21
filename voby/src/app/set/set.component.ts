@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,6 +9,8 @@ import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
+import { EventManager } from '@angular/platform-browser';
+import { DOCUMENT } from '@angular/common';
 
 interface word {
   id: number;
@@ -49,7 +51,7 @@ export class SetComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     public voby: VobyService,
-    private hotkeys: HotkeysService
+    private hotkeys: HotkeysService,
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
@@ -59,7 +61,7 @@ export class SetComponent implements OnInit {
 
       if (localStorage.getItem('sort') == 'date_asc') {
         this.set.words.sort((a: any, b: any) => a.created > b.created)
-      } else {
+      } else { 
         this.set.words.sort((a: any, b: any) => a.created < b.created)
       }
 
@@ -335,5 +337,10 @@ export class SetComponent implements OnInit {
     if (this.filteredWords.length === 0) {
       this.deselectWord();
     }
+  }
+
+  @HostListener('document:keydown.alt.w', ['$event']) onKeydownHandler(event: KeyboardEvent) {
+    event.preventDefault();
+    this.openWordForm();
   }
 }
