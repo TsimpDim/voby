@@ -4,9 +4,21 @@
         <input cdkFocusInitial
             matInput
             name="word"
+            #wordInput
             formControlName="word"
+            (keyup)="checkSimilar()"
         >
+        <div *ngIf="this.similarWord" matSuffix>
+            <mat-icon
+                fontIcon="fmd_bad"
+                matSuffix
+                matTooltip="Potentially duplicate: {{this.similarWord.word}}"
+                style="color: #686868"
+            >
+            </mat-icon>
+        </div>
     </mat-form-field>
+
 
     <mat-form-field appearance="fill">
         <mat-label>Translation</mat-label>

@@ -3,12 +3,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VobyService } from '../_services/voby.service';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { HotkeysService } from '../_services/hotkeys.service';
+import {CLOSE_SQUARE_BRACKET, COMMA, ENTER} from '@angular/cdk/keycodes';
 import { ExperienceService } from '../_services/experience.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { Subscription } from 'rxjs';
+import { stringSimilarity } from '../string-similarity';
 
 interface RelatedWord {
   id: number;
@@ -51,8 +50,11 @@ export class WordFormComponent {
   passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
   deletedExamples: any[] = [];
+  similarWord: RelatedWord | undefined;
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
+  @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
+
   filteredRelatedWords: RelatedWord[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
@@ -293,5 +295,13 @@ export class WordFormComponent {
         this.exp.add(2);
       }
     });
+  }
+
+  checkSimilar() {
+    const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
+    const similarWord = (this.passedData as PassedDataOnCreate | PassedDataOnEdit).allWords.find(w => stringSimilarity(w.word, word) >= 0.8);
+    console.log(word);
+    console.log(similarWord);
+    this.similarWord = similarWord;
   }
 }
