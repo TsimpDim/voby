@@ -1,13 +1,14 @@
-import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { VobyService } from '../_services/voby.service';
-import {CLOSE_SQUARE_BRACKET, COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER, SLASH} from '@angular/cdk/keycodes';
 import { ExperienceService } from '../_services/experience.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { stringSimilarity } from '../string-similarity';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 interface RelatedWord {
   id: number;
@@ -30,7 +31,7 @@ interface PassedDataOnEdit {
 interface Word {
   id: number;
   word: string;
-  translation: string;
+  translations: {id: number, value: string}[];
   plural: string;
   examples: {text: string, translation: string, id: number}[];
   general: string;
@@ -56,7 +57,10 @@ export class WordFormComponent {
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
 
   filteredRelatedWords: RelatedWord[] = [];
-  separatorKeysCodes: number[] = [ENTER, COMMA];
+  separatorKeysCodes: number[] = [ENTER, COMMA, SLASH];
+  translations: {id: number, value: string}[] = [];
+  translationsToBeCreated: string[] = [];
+  translationsToBeDeleted: {id: number, value: string}[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -73,9 +77,13 @@ export class WordFormComponent {
       initialWord = (data as PassedDataOnCreate).suggestedWord;
     }
 
+    if (data.edit) {
+      this.translations = (data as PassedDataOnEdit).word.translations;;
+    }
+
     this.wordForm = new FormGroup({
       word: new FormControl(initialWord, [Validators.required]),
-      translation: new FormControl(data.edit ? (data as PassedDataOnEdit).word.translation : '', [Validators.required]),
+      translation: new FormControl([], [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
       relatedWords: new FormControl(data.edit ? (data as PassedDataOnEdit).word.related_words : [], [])
@@ -172,14 +180,15 @@ export class WordFormComponent {
     this.voby.editWord(
       (this.passedData as PassedDataOnEdit).word.id,
       this.wordForm.get('word')?.value,
-      this.wordForm.get('translation')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
       this.wordForm.get('relatedWords')?.value.map((w: RelatedWord) => w.id)
     )
     .subscribe({
-      next: (word) => {
+      next: (word: any) => {
         const newExamples: Word[] = [];
+        this.dataForParent = { word };
+
         for (let ex of this.examples) {
           const tx = this.wordForm.get(ex[0] + 'tx')?.value;
           const tr = this.wordForm.get(ex[0] + 'tr')?.value;
@@ -198,8 +207,7 @@ export class WordFormComponent {
                   },
                   duration: 3 * 1000
                 });
-              },
-              complete: () => {}
+              }
             });
           } else { // create new one
             this.voby.createExample((word as any).id, tx, tr).subscribe({
@@ -215,8 +223,7 @@ export class WordFormComponent {
                   },
                   duration: 3 * 1000
                 });
-              },
-              complete: () => {}
+              }
             });
           }
         }
@@ -238,8 +245,39 @@ export class WordFormComponent {
           });
         }
 
-        (word as any).examples = newExamples;
-        this.dialogRef.close(word);
+        this.dataForParent.word.examples = newExamples;
+
+        for (let translation of this.translationsToBeCreated) {
+          this.voby.createTranslation(word.id, translation).subscribe({
+            next: (data) => {
+              this.dataForParent.word.translations.push(data);
+              const updateId = this.translations.findIndex(t => t.value === translation);
+              this.translations[updateId].id = (data as any).id;
+            },
+            error: (error: any) => {
+              this.loading = false;
+              this.dataForParent = undefined;
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Error: ' + error.statusText,
+                  icon: 'error'
+                },
+                duration: 3 * 1000
+              });
+            }
+          })
+        }
+
+        for (let translation of this.translationsToBeDeleted) {
+          this.voby.deleteTranslation(translation.id).subscribe({
+            next: () => {
+              const deletedIndex = this.dataForParent.word.translations.findIndex((t:any) => t.id === translation.id);
+              this.dataForParent.word.translations.splice(deletedIndex, 1);
+            },
+          });
+        }
+
+        this.dialogRef.close(this.dataForParent);
       },
       error: () => {
         this.loading = false;
@@ -254,10 +292,10 @@ export class WordFormComponent {
     this.voby.createWord(
       (this.passedData as PassedDataOnCreate).setId,
       this.wordForm.get('word')?.value,
-      this.wordForm.get('translation')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
-      this.wordForm.get('relatedWords')?.value.map((w: RelatedWord) => w.id)    )
+      this.wordForm.get('relatedWords')?.value.map((w: RelatedWord) => w.id)
+    )
     .subscribe({
       next: (word: any) => {
         this.dataForParent = { word };
@@ -272,6 +310,8 @@ export class WordFormComponent {
             },
             error: (error: any) => {
               this.loading = false;
+              this.voby.deleteWord(word.id).subscribe();
+              this.dataForParent = undefined
               this._snackBar.openFromComponent(SnackbarComponent, {
                 data: {
                   message: 'Error: ' + error.statusText,
@@ -279,19 +319,39 @@ export class WordFormComponent {
                 },
                 duration: 3 * 1000
               });
-            },
-            complete: () => {
-              this.dialogRef.close(this.dataForParent);
             }
           });
         }
+
+        for (let translation of this.translationsToBeCreated) {
+          this.voby.createTranslation(word.id, translation).subscribe({
+            next: (data) => {
+              this.dataForParent.word.translations.push(data);
+              const updateId = this.translations.findIndex(t => t.value === translation);
+              this.translations[updateId].id = (data as any).id;
+            },
+            error: (error: any) => {
+              this.loading = false;
+              this.voby.deleteWord(word.id).subscribe();
+              this.dataForParent = undefined;
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Error: ' + error.statusText,
+                  icon: 'error'
+                },
+                duration: 3 * 1000
+              });
+            }
+          })
+        }
+
+        this.dialogRef.close(this.dataForParent);
       },
       error: () => {
         this.loading = false;
       },
       complete: () => { 
         this.loading = false;
-        this.dialogRef.close(this.dataForParent);
         this.exp.add(2);
       }
     });
@@ -300,8 +360,25 @@ export class WordFormComponent {
   checkSimilar() {
     const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
     const similarWord = (this.passedData as PassedDataOnCreate | PassedDataOnEdit).allWords.find(w => stringSimilarity(w.word, word) >= 0.8);
-    console.log(word);
-    console.log(similarWord);
     this.similarWord = similarWord;
+  }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      this.translations.push({id: 0, value: value});
+      this.translationsToBeCreated.push(value);
+    }
+
+    event.chipInput!.clear();
+  }
+
+  remove(translation: string): void {
+    const index = this.translations.findIndex(o => o.value === translation);
+
+    if (index >= 0) {
+      this.translationsToBeDeleted.push(this.translations.splice(index, 1)[0]);
+    }
   }
 }

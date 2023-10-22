@@ -42,7 +42,7 @@
                             <p class="plural">{{word.plural}}</p>
                         </mat-card-title>
                         <p class="alternatives">
-                            {{word.translation}}
+                            {{this.displayTranslations(word.translations)}}
                         </p>
                         <voby-favorite
                             class="favorite"

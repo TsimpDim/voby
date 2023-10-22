@@ -13,7 +13,7 @@ import { HotkeysService } from '../_services/hotkeys.service';
 interface word {
   id: number;
   word: string;
-  translation: string;
+  translations: {id: number, value: string}[];
   examples: {text: string, translation: string, id: number}[];
   general: string;
   plural: string;
@@ -275,7 +275,7 @@ export class SetComponent implements OnInit {
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
         let word = this.set.words.find((w: any) => w.id === this.selectedWord?.id);
-        Object.assign(word, res);
+        Object.assign(word, res.word);
 
         if (word.related_words) {
           word.related_words.forEach((rw: any) => {
@@ -350,5 +350,9 @@ export class SetComponent implements OnInit {
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
     event.preventDefault();
     this.openWordForm();
+  }
+
+  displayTranslations(translations: {id: number, value: string}[]) {
+    return translations.map(o => o.value).join(' / ');
   }
 }

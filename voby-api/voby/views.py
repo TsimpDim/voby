@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from django.http import HttpResponse
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
-    UserShortcutsSerializer
+    UserShortcutsSerializer, TranslationSerializer
 from random import sample
 import xlwt
 
@@ -282,3 +282,23 @@ class UserShortcutsViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return UserShortcuts.objects.filter(user_id=self.request.user.id)
+
+class TranslationViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TranslationSerializer
+    queryset = Translation.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return Translation.objects.filter(word__user_id=self.request.user.id)

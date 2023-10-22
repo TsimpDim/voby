@@ -1,11 +1,17 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation
 from datetime import datetime
 import random
 
 class ExampleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Example
+        fields = "__all__"
+
+
+class TranslationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Translation
         fields = "__all__"
 
 class RelatedWordSerializer(serializers.ModelSerializer):
@@ -16,6 +22,7 @@ class RelatedWordSerializer(serializers.ModelSerializer):
 class WordSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
     set_name = serializers.SerializerMethodField()
+    translations = TranslationSerializer(many=True, read_only=True)
 
     def get_set_name(self, obj):
         return obj.set.name

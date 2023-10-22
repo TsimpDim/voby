@@ -22,11 +22,29 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Translation</mat-label>
-        <input
+        <!-- <input
             matInput
             name="translation"
             formControlName="translation"
-        >
+        > -->
+        <mat-chip-list #chipGrid aria-label="Translations">
+            <mat-chip *ngFor="let translation of translations"
+                          (removed)="remove(translation.value)">
+              {{translation.value}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+                placeholder="New translation..."
+                [matChipInputFor]="chipGrid"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matChipInputAddOnBlur="true"
+                (matChipInputTokenEnd)="add($event)"
+                name="translation"
+                formControlName="translation"
+            />
+          </mat-chip-list>
     </mat-form-field>
 
     <mat-form-field appearance="fill">

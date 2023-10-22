@@ -76,11 +76,10 @@ export class VobyService {
     });
   }
 
-  createWord(setId: number, word: string, translation: string, plural: string, general: string, relatedWordIds: number[]) {
+  createWord(setId: number, word: string, plural: string, general: string, relatedWordIds: number[]) {
     return this.http.post(environment.apiUrl + '/voby/words/',
       {
         word: word,
-        translation: translation,
         plural: plural || null,
         general: general,
         set: setId,
@@ -89,11 +88,10 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  editWord(wordId: number, word: string, translation: string, plural: string, general: string, relatedWordIds: number[]) {
+  editWord(wordId: number, word: string, plural: string, general: string, relatedWordIds: number[]) {
     return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
       {
         word: word,
-        translation: translation,
         plural: plural || null,
         general: general,
         related_words: relatedWordIds
@@ -209,6 +207,21 @@ export class VobyService {
     return this.http.get(environment.apiUrl + '/voby/class/' + classId + '/download', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()},
       responseType: 'blob'
+    });
+  }
+
+  createTranslation(wordId: number, value: string) {
+    return this.http.post(environment.apiUrl + '/voby/translations/',
+      {
+        word: wordId,
+        value: value
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  deleteTranslation(index: number) {
+    return this.http.delete(environment.apiUrl + '/voby/translations/' + index, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
 }

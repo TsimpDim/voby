@@ -76,7 +76,6 @@ class Set(models.Model):
 
 class Word(models.Model):
     word = models.CharField(max_length=120, null=False)
-    translation = models.CharField(max_length=120, null=False)
     plural = models.CharField(max_length=120, null=True)
     favorite = models.BooleanField(default=False)
     general = models.TextField(null=True, blank=True)
@@ -84,6 +83,10 @@ class Word(models.Model):
     related_words = models.ManyToManyField('Word', blank=True, related_name='rel_words')
     set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+class Translation(models.Model):
+    value = models.CharField(max_length=120, null=False)
+    word = models.ForeignKey(Word, on_delete=models.CASCADE, related_name='translations')
 
 class QuizAnswer(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
