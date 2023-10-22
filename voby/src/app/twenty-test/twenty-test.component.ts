@@ -65,10 +65,9 @@ export class TwentyTestComponent implements OnInit {
       this.inputs.toArray().forEach((input: ElementRef, index: number) => {
         
         const userAnswer = input?.nativeElement.value;
-        const correctAnswer = this.questions[index].translation;
-        const similarity = stringSimilarity(userAnswer, correctAnswer);
+        const correctAnswer = this.questions[index].translations;
 
-        if (similarity >= 0.7) {
+        if (correctAnswer.split(' / ').find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)) {
           this.questionState[index] = this.CORRECT;
           this.exp.add(2);
           correct += 1;
