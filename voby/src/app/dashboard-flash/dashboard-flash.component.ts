@@ -49,7 +49,6 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
     .subscribe({
       next: (data: any) => {
         this.testWord = data[0];
-        console.log(data[0]);
       },
       error: () => {
         this.loading = false;
