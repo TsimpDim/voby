@@ -13,7 +13,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   @ViewChild('translation') translation: ElementRef | undefined;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  testWord: {word: string, translation: string} | undefined;
+  testWord: {word: string, translations: string} | undefined;
   loading = false;
   @Input() hide = false;
   @Input() recalculate = false;
@@ -24,7 +24,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     const toShow = localStorage.getItem('quiz_show');
-    if (toShow === 'true') {
+    if (toShow === 'true' && changes['hide'].previousValue) {
       this.getTestWord();
     }
   }
@@ -49,6 +49,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
     .subscribe({
       next: (data: any) => {
         this.testWord = data[0];
+        console.log(data[0]);
       },
       error: () => {
         this.loading = false;
@@ -64,10 +65,9 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   checkAnswer() {
     if (this.testWord) {
       const answer = this.translation?.nativeElement.value;
-      const similarity = stringSimilarity(answer, this.testWord.translation);
 
       let timeToWait = 0;
-      if (similarity >= 0.7) {
+      if (this.testWord.translations.split(' / ').find(t => stringSimilarity(t, answer) >= 0.7)) {
         this.answerCorrect = true;
         timeToWait = 2000;
         this.exp.add(4);

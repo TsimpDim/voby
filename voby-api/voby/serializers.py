@@ -40,15 +40,15 @@ class WordSerializer(serializers.ModelSerializer):
 class TestQuestionSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        
+        response['translations'] = ' / '.join([t['value'] for t in TranslationSerializer(Translation.objects.filter(id__in=response['translations']), many=True).data])
         if random.random() < 0.5:
-            response['word'], response['translation'] = response['translation'], response['word']
+            response['word'], response['translations'] = response['translations'], response['word']
         
         return response
 
     class Meta:
         model = Word
-        fields = ('word', 'translation')
+        fields = ('word', 'translations')
 
 class SetSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True)
