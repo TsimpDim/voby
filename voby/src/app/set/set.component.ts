@@ -322,10 +322,11 @@ export class SetComponent implements OnInit {
       if(this.searchInput?.nativeElement.value !== '') {
         this.suggestedWord = this.searchInput?.nativeElement.value;
         const searchTerm = this.searchInput?.nativeElement.value.toLowerCase();
+
         newWords = this.set.words.filter(
           (w: any) => 
             w.word.toLowerCase().includes(searchTerm) || 
-            w.translation.toLowerCase().includes(searchTerm)
+            w.translations.filter((w: any) => w.value.toLowerCase().includes(searchTerm)).length > 0
           );
       } else {
         this.suggestedWord = '';
