@@ -57,7 +57,7 @@ export class WordFormComponent {
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
 
   filteredRelatedWords: RelatedWord[] = [];
-  separatorKeysCodes: number[] = [ENTER, COMMA, SLASH];
+  separatorKeysCodes: number[] = [ENTER, COMMA];
   translations: {id: number, value: string}[] = [];
   translationsToBeCreated: string[] = [];
   translationsToBeDeleted: {id: number, value: string}[] = [];

@@ -348,6 +348,11 @@ export class SetComponent implements OnInit {
     this.openWordForm();
   }
 
+  @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(event: KeyboardEvent) {
+    event.preventDefault();
+    this.editWord();
+  }
+
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
     event.preventDefault();
     this.openWordForm();
