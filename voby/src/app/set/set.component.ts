@@ -34,7 +34,7 @@ export class SetComponent implements OnInit {
 
   selectedWord: word | undefined = undefined;
   filteredWords: word[] = [];
-  paramsSubscription: Subscription | undefined;
+  paramsSubscription$: Subscription | undefined;
   set: any | undefined;
   vclass: any | undefined;
   loading = false;
@@ -75,7 +75,7 @@ export class SetComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.paramsSubscription = this.route.params.subscribe(params => {
+    this.paramsSubscription$ = this.route.params.subscribe(params => {
       this.id = +params['id']; // (+) converts string 'id' to a number
     });
 
@@ -87,7 +87,7 @@ export class SetComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.paramsSubscription?.unsubscribe();
+    this.paramsSubscription$?.unsubscribe();
     for (const s of this.shortcutSubscriptions$) {
       s.unsubscribe();
     }

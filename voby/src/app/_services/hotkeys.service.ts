@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@angular/core";
 import { EventManager } from "@angular/platform-browser";
 import { BehaviorSubject, Observable } from "rxjs";
 import { VobyService } from "./voby.service";
+import { FormDataService } from "./form-data.service";
 
 type Option = {
   element: any;
@@ -30,7 +31,8 @@ export class HotkeysService {
   constructor(
     private eventManager: EventManager,
     @Inject(DOCUMENT) private document: Document,
-    private voby: VobyService
+    private voby: VobyService,
+    private formData: FormDataService
     ) {
       this.voby.getUserShortcuts().subscribe({
         next: (shortcuts: any) => {
@@ -57,7 +59,8 @@ export class HotkeysService {
             const caretIdx = e.target.selectionStart;
             const targetValue = e.target.value;
             e.target.value = targetValue.substring(0, caretIdx) + merged.result + targetValue.substring(caretIdx, targetValue.length+1);
-            
+            this.formData.updateFormControlValue({fieldName: e.target.name, newValue: e.target.value});
+
             const newCaretIdx = caretIdx + merged.result?.length
             e.target.selectionStart = newCaretIdx;
             e.target.selectionEnd = newCaretIdx;

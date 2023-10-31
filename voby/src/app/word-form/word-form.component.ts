@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { stringSimilarity } from '../string-similarity';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { FormDataService } from '../_services/form-data.service';
+import { Subscription } from 'rxjs';
 
 interface RelatedWord {
   id: number;
@@ -43,7 +45,7 @@ interface Word {
   templateUrl: './word-form.component.html',
   styleUrls: ['./word-form.component.scss']
 })
-export class WordFormComponent {
+export class WordFormComponent implements OnInit, OnDestroy {
 
   wordForm: FormGroup;
   loading = false;
@@ -52,6 +54,7 @@ export class WordFormComponent {
   dataForParent: any = {};
   deletedExamples: any[] = [];
   similarWord: RelatedWord | undefined;
+  formDataSubscription$: Subscription = new Subscription();
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
@@ -67,6 +70,7 @@ export class WordFormComponent {
     public voby: VobyService,
     private _snackBar: MatSnackBar,
     private exp: ExperienceService,
+    private formData: FormDataService,
     @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
   ) {
     let initialWord = '';
@@ -101,6 +105,19 @@ export class WordFormComponent {
 
     this.passedData = data;
     this.filterWords();
+  }
+
+  ngOnDestroy(): void {
+    this.formDataSubscription$?.unsubscribe();
+    this.formData.clearQueue();
+  }
+
+  ngOnInit(): void {
+    this.formDataSubscription$ = this.formData.formControlValue$.subscribe((change) => {
+      if (change && this.wordForm && change.fieldName !== 'null') {
+        this.wordForm.get(change.fieldName)?.setValue(change.newValue);
+      }
+    });
   }
 
   onNoClick(): void {
