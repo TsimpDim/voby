@@ -376,9 +376,13 @@ export class WordFormComponent {
 
   remove(translation: string): void {
     const index = this.translations.findIndex(o => o.value === translation);
-
     if (index >= 0) {
       this.translationsToBeDeleted.push(this.translations.splice(index, 1)[0]);
+    }
+
+    const indexCreated = this.translationsToBeCreated.findIndex(o => o === translation);
+    if (indexCreated >= 0) {
+      this.translationsToBeCreated.splice(index, 1);
     }
   }
 }
