@@ -214,7 +214,7 @@ export class AllWordsComponent implements OnInit {
         newWords = this.allWords.filter(
           (w: any) => 
             w.word.toLowerCase().includes(searchTerm) || 
-            w.translation.toLowerCase().includes(searchTerm)
+            w.translations.filter((w: any) => w.value.toLowerCase().includes(searchTerm)).length > 0
           );
       }
     }

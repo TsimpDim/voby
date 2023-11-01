@@ -398,6 +398,14 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
     if (value) {
       this.translations.push({id: 0, value: value});
+      const translationsValue = this.wordForm.get('translation')?.value;
+      if (!translationsValue) {
+        this.wordForm.patchValue({'translation':[{id: 0, value: value}]});
+      } else {
+        ((translationsValue as any[]).push({id: 0, value: value}))
+        this.wordForm.patchValue({'translation': translationsValue});
+      }
+
       this.translationsToBeCreated.push(value);
     }
 
@@ -408,6 +416,11 @@ export class WordFormComponent implements OnInit, OnDestroy {
     const index = this.translations.findIndex(o => o.value === translation);
     if (index >= 0) {
       this.translationsToBeDeleted.push(this.translations.splice(index, 1)[0]);
+      const translationsValue = this.wordForm.get('translation')?.value;
+      if (translationsValue) {
+        translationsValue.splice(index, 1);
+        this.wordForm.patchValue({'translation': translationsValue});
+      }
     }
 
     const indexCreated = this.translationsToBeCreated.findIndex(o => o === translation);
