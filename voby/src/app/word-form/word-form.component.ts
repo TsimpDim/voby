@@ -194,6 +194,9 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   editWord() {
+    if (this.translations.length === 0) {
+      return;
+    }
     this.voby.editWord(
       (this.passedData as PassedDataOnEdit).word.id,
       this.wordForm.get('word')?.value,
@@ -306,6 +309,9 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   createWord() {
+    if (this.translations.length === 0) {
+      return;
+    }
     this.voby.createWord(
       (this.passedData as PassedDataOnCreate).setId,
       this.wordForm.get('word')?.value,
