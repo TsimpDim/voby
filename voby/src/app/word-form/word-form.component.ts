@@ -81,16 +81,23 @@ export class WordFormComponent implements OnInit, OnDestroy {
       initialWord = (data as PassedDataOnCreate).suggestedWord;
     }
 
+    const relatedWords: any[] = [];
     if (data.edit) {
-      this.translations = (data as PassedDataOnEdit).word.translations;;
+      (data as PassedDataOnEdit).word.translations.forEach(e => {
+        this.translations.push(e);
+      });
+
+      (data as PassedDataOnEdit).word.related_words.forEach(e => {
+        relatedWords.push(e);
+      })
     }
 
     this.wordForm = new FormGroup({
-      word: new FormControl(initialWord, [Validators.required]),
+      word: new FormControl('initialWord', [Validators.required]),
       translation: new FormControl([], [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
-      relatedWords: new FormControl(data.edit ? (data as PassedDataOnEdit).word.related_words : [], [])
+      relatedWords: new FormControl(data.edit ? relatedWords : [], [])
     });
 
     if (data.edit) {
