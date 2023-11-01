@@ -93,7 +93,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.wordForm = new FormGroup({
-      word: new FormControl('initialWord', [Validators.required]),
+      word: new FormControl(initialWord, [Validators.required]),
       translation: new FormControl([], [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
