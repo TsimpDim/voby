@@ -169,7 +169,7 @@ export class AllWordsComponent implements OnInit {
           return;
         }
 
-        Object.assign(word, res);
+        Object.assign(word, res.word);
 
         if (word && word.related_words) {
           word.related_words.forEach((rw: any) => {
