@@ -99,6 +99,10 @@
             border-radius: 0;
             background-color: rgb(240, 240, 240);
         }
+
+        &:first-of-type:last-of-type {
+            border-radius: 100px;
+        }
     }
 }
 

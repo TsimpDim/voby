@@ -42,7 +42,7 @@
 
         <div class="sec-action-cont">
           <button mat-icon-button (click)="startTest(class.id, -1)" [disabled]="!hasWords(class.id)"><mat-icon>quiz</mat-icon> Test</button>
-          <button *ngIf="class.target_language == 'German'" mat-icon-button (click)="startGermanNounTest(class.id, -1)" [disabled]="!hasWords(class.id)"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
+          <button *ngIf="class.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(class.id, -1)" [disabled]="!hasWords(class.id)"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
         </div>
       </div>
     </mat-list>
