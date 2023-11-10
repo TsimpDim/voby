@@ -50,6 +50,21 @@ class TestQuestionSerializer(serializers.ModelSerializer):
         model = Word
         fields = ('word', 'translations')
 
+class GermanNounTestQuestionSerializer(serializers.ModelSerializer):
+    gender = serializers.SerializerMethodField()
+    
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        response['word'] = response['word'][4:]
+        return response
+    
+    def get_gender(self, obj):
+        return obj.word[:3]
+
+    class Meta:
+        model = Word
+        fields = ('word', 'gender')
+
 class SetSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True)
     vclass_info = serializers.SerializerMethodField()

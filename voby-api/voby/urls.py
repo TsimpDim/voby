@@ -2,8 +2,9 @@ from rest_framework.routers import DefaultRouter
 from django.urls import path, include
 from .views import ClassViewSet, SetViewSet, WordViewSet, \
      ExampleViewSet, TestView, QuizAnswerViewSet, ProfileViewSet, \
-     TestAttemptViewSet, UserShortcutsViewSet, ClassExcelView, TranslationViewSet
-
+     TestAttemptViewSet, UserShortcutsViewSet, ClassExcelView, TranslationViewSet, \
+     GermanNounTestView
+ 
 router = DefaultRouter()
 router.register(r"classes", ClassViewSet, basename="class")
 router.register(r"sets", SetViewSet, basename="set")
@@ -18,5 +19,6 @@ router.register(r"translations", TranslationViewSet, basename="translations")
 urlpatterns = [
     path("", include(router.urls)),
     path('test', TestView.as_view(), name="test"),
+    path('german/noun-test', GermanNounTestView.as_view(), name="german-noun-test"),
     path('class/<int:class_id>/download', ClassExcelView.as_view(), name='download_class')
 ]

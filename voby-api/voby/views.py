@@ -7,7 +7,7 @@ from django.http import HttpResponse
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
-    UserShortcutsSerializer, TranslationSerializer
+    UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer
 from random import sample
 import xlwt
 
@@ -205,7 +205,44 @@ class TestView(APIView):
         data = TestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
-    
+
+class GermanNounTestView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        user = self.request.user
+        amount = int(self.request.query_params.get("amount"))
+        class_id = int(self.request.query_params.get("classId"))
+        set_id = int(self.request.query_params.get("setId"))
+        favorites_only = self.request.query_params.get('favoritesOnly')
+
+        if not amount: amount = 1
+
+        filter_kwargs = {
+            'user': user,
+        }
+
+        if favorites_only == 'true':
+            filter_kwargs['favorite'] = True
+
+        if set_id != -1 and class_id != -1:
+            filter_kwargs['set__id'] = set_id
+            filter_kwargs['set__vclass_id'] = class_id
+        elif set_id == -1 and class_id != -1:
+            filter_kwargs['set__vclass_id'] = class_id
+        else:
+            filter_kwargs['set__isnull'] = False
+
+        filter_kwargs['word__iregex'] = r'^.*(der).*$|^.*(die).*$|^.*(das).*$'
+        all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
+        amount = min(len(all_ids), amount)
+        print(all_ids)
+        random_ids = sample(all_ids, amount)
+        random_words = Word.objects.filter(id__in=random_ids).distinct()
+        data = GermanNounTestQuestionSerializer(random_words, many=True).data
+
+        return Response(data, status=status.HTTP_200_OK)
+
 class ClassExcelView(APIView):
     permission_classes = [IsAuthenticated]
 

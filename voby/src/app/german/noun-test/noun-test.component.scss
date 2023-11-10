@@ -1,0 +1,19 @@
+.container {
+    margin-top: 2em;
+}
+
+.mat-card-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.answer-input {
+    width: 700px;
+    margin-right: 3em;
+    
+    input {
+        width: 100%;
+    }
+}

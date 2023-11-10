@@ -157,6 +157,13 @@ export class VobyService {
     });
   }
 
+  getGermanNounTestWords(amount: number = 1, classId: number = -1, setId: number = -1, favoritesOnly: boolean = false) {
+    return this.http.get(environment.apiUrl + '/voby/german/noun-test', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()},
+      params: {amount, classId, setId, favoritesOnly}
+    });
+  }
+
   createQuizAnswer(correct: boolean) {
     return this.http.post(environment.apiUrl + '/voby/quizanswer/',
       {

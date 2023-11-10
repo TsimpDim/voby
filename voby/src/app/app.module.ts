@@ -41,6 +41,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarComponent } from './custom/snackbar/snackbar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NounTestComponent } from './german/noun-test/noun-test.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     LoadingIndComponent,
     AllWordsComponent,
     TwentyTestComponent,
-    SnackbarComponent
+    SnackbarComponent,
+    NounTestComponent
   ],
   imports: [
     BrowserModule,

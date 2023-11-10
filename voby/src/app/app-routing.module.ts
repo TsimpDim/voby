@@ -9,6 +9,7 @@ import { SetComponent } from './set/set.component';
 import { TwentyTestComponent } from './twenty-test/twenty-test.component';
 import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
 import { LoggedInGuardService as LoggedInGuard} from './_services/logged-in-guard.service';
+import { NounTestComponent } from './german/noun-test/noun-test.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,10 @@ const routes: Routes = [
   },
   {
     path: 'test', component: TwentyTestComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'german/noun-test', component: NounTestComponent,
     canActivate: [AuthGuard]
   },
   {
