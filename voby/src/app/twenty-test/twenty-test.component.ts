@@ -1,16 +1,17 @@
-import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
 import { stringSimilarity } from '../string-similarity';
 import { ExperienceService } from '../_services/experience.service';
 import { VobyService } from '../_services/voby.service';
+import { HotkeysService } from '../_services/hotkeys.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'voby-twenty-test',
   templateUrl: './twenty-test.component.html',
   styleUrls: ['./twenty-test.component.scss']
 })
-export class TwentyTestComponent implements OnInit {
+export class TwentyTestComponent implements OnInit, OnDestroy {
   NOT_ANSWERED = 0
   CORRECT = 1
   INCORRECT = 2
@@ -23,12 +24,14 @@ export class TwentyTestComponent implements OnInit {
   classId = -1;
   setId = -1;
   hasFavorites = false;
+  shortcutSubscriptions$: Subscription[] = [];
 
   @ViewChildren('input') inputs: any;
 
   constructor(
     private voby: VobyService,
     private exp: ExperienceService,
+    private hotkeys: HotkeysService,
     private router: Router
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -37,10 +40,22 @@ export class TwentyTestComponent implements OnInit {
       this.setId = state['setId'];
       this.hasFavorites = state['hasFavorites'];
     }
+
+    this.hotkeys.shortcuts$.subscribe(shortcuts => {
+      for (const s of shortcuts) {
+        this.shortcutSubscriptions$.push(s.subscribe());
+      }
+    });
   }
 
   ngOnInit(): void {
     this.getTestQuestions(this.classId, this.setId, this.favoritesOnly);
+  }
+
+  ngOnDestroy() {
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
   }
 
   getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
@@ -62,7 +77,6 @@ export class TwentyTestComponent implements OnInit {
   validateAnswers() {
     let correct = 0;
     if (this.inputs) {
-      console.log(this.inputs);
       this.inputs.toArray().forEach((input: ElementRef, index: number) => {
         const userAnswer = input?.nativeElement.value;
         const correctAnswer = this.questions[index].translations;
