@@ -62,8 +62,8 @@ export class TwentyTestComponent implements OnInit {
   validateAnswers() {
     let correct = 0;
     if (this.inputs) {
+      console.log(this.inputs);
       this.inputs.toArray().forEach((input: ElementRef, index: number) => {
-        
         const userAnswer = input?.nativeElement.value;
         const correctAnswer = this.questions[index].translations;
 

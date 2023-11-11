@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { stringSimilarity } from '../../string-similarity';
 import { ExperienceService } from '../../_services/experience.service';
@@ -62,9 +61,8 @@ export class NounTestComponent implements OnInit {
   validateAnswers() {
     let correct = 0;
     if (this.inputs) {
-      this.inputs.toArray().forEach((input: ElementRef, index: number) => {
-        
-        const userAnswer = input?.nativeElement.value;
+      this.inputs._results.forEach((input: any, index: number) => {
+        const userAnswer = input._elementRef.nativeElement.textContent;
         const correctAnswer = this.questions[index].gender;
 
         if (correctAnswer.split(' / ').find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)) {

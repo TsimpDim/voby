@@ -233,10 +233,10 @@ class GermanNounTestView(APIView):
         else:
             filter_kwargs['set__isnull'] = False
 
-        filter_kwargs['word__iregex'] = r'^.*(der).*$|^.*(die).*$|^.*(das).*$'
+        filter_kwargs['word__iregex'] = r'^.*(der ).*$|^.*(die ).*$|^.*(das ).*$'
         all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
         amount = min(len(all_ids), amount)
-        print(all_ids)
+
         random_ids = sample(all_ids, amount)
         random_words = Word.objects.filter(id__in=random_ids).distinct()
         data = GermanNounTestQuestionSerializer(random_words, many=True).data
