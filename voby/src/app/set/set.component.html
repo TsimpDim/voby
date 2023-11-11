@@ -17,17 +17,17 @@
                 <mat-label>Search</mat-label>
                 <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
             </mat-form-field>
-            <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()"></voby-favorite> 
-            <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;"><mat-icon>sort</mat-icon></button>
+            <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
+            <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
                 <button mat-menu-item (click)="sortDateAsc()">Older first</button>
             </mat-menu>
         </div>
         <div class="action-cont">
-            <button mat-icon-button color="accent" (click)="openWordForm()"><mat-icon>add</mat-icon>word</button>
-            <button mat-icon-button (click)="editSet()"><mat-icon>edit</mat-icon></button>
-            <button mat-icon-button (click)="deleteSet()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
+            <button mat-icon-button color="accent" (click)="openWordForm()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
+            <button mat-icon-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
+            <button mat-icon-button (click)="deleteSet()" class="action-icon" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
         </div>
     </div>
     <div class="layout-horizontal">
@@ -45,6 +45,7 @@
                             {{this.displayTranslations(word.translations)}}
                         </p>
                         <voby-favorite
+                            matTooltip="Set as favorite"
                             class="favorite"
                             [isFavorite]="word.favorite"
                             (click)="toggleFavorite(word.id, word.favorite)"
@@ -74,8 +75,8 @@
                         <mat-card-title class="header">{{selectedWord.word}}</mat-card-title>
                         <h4 class="word-date">Added {{selectedWord.created | date:'mediumDate'}}</h4>
                         <div>
-                            <button mat-icon-button (click)="editWord()" class="action-icon"><mat-icon>edit</mat-icon></button>
-                            <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon"><mat-icon>delete_outline</mat-icon></button>
+                            <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
+                            <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon" matTooltip="Delete word"><mat-icon>delete_outline</mat-icon></button>
                             <!-- <button mat-icon-button (click)="deselectWord()" class="action-icon"><mat-icon>close</mat-icon></button> -->
                         </div>
                     </div>
