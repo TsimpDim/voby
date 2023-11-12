@@ -25,6 +25,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   setId = -1;
   hasFavorites = false;
   shortcutSubscriptions$: Subscription[] = [];
+  numberTestQuestions: number = 20;
 
   @ViewChildren('input') inputs: any;
 
@@ -59,15 +60,25 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   }
 
   getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
-    this.voby.getTestWords(20, classId, setId, favoritesOnly)
+    this.voby.getOptions()
     .subscribe({
       next: (data: any) => {
-        this.questions = data;
-        this.questions.forEach(e => {
-          this.questionState.push(this.NOT_ANSWERED);
-        });
+        this.numberTestQuestions = data.find((o: any) => o.key === 'numTestQuestions').value;
+        this.voby.getTestWords(this.numberTestQuestions, classId, setId, favoritesOnly)
+        .subscribe({
+          next: (data: any) => {
+            this.questions = data;
+            this.questions.forEach(e => {
+              this.questionState.push(this.NOT_ANSWERED);
+            });
+          },
+          error: () => {
+            this.loading = false;
+          },
+          complete: () => this.loading = false
+        })
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
       },
       complete: () => this.loading = false

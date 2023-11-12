@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option
 from datetime import datetime
 import random
 
@@ -118,3 +118,9 @@ class UserShortcutsSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserShortcuts
         fields = "__all__"
+
+class OptionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Option
+        fields = "__all__"
+

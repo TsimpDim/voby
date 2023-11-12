@@ -85,4 +85,14 @@
             <button mat-icon-button color="accent" class="btn-main" (click)="addUserShortcut()"><mat-icon>add</mat-icon>Add new</button>
         </form>
     </mat-card>
+
+    <h2 style="margin-left:1em; margin-top: 2em;">Options</h2>
+    <mat-card>
+        <mat-card-content>
+            <mat-form-field>
+                <mat-label>Test Questions</mat-label>
+                <input type="number" #numTestQuestions (change)="saveOptions()" matInput max="20" min="1">
+            </mat-form-field>
+        </mat-card-content>
+    </mat-card>
 </div>

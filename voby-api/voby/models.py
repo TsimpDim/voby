@@ -101,7 +101,17 @@ class TestAttempt(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     experience = models.PositiveIntegerField(default=0)
-    
+
+class Option(models.Model):
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    key = models.TextField(null=False, blank=False)
+    value = models.TextField(null=False, blank=False)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'key'], name="unique-key-user")
+        ]
+
 class UserShortcuts(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     key_1 = models.CharField(max_length=10)

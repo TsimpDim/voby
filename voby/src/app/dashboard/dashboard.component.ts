@@ -56,6 +56,8 @@ export class DashboardComponent implements OnInit {
     let hasFavorites = false;
     if (selectedSet) {
       hasFavorites = selectedSet.words.find((w: any) => w.favorite === true) ? true : false;
+    } else {
+      hasFavorites = selectedClass.sets.map((s: any) => s.words).flat().find((w: any) => w.favorite === true) ? true : false;
     }
 
     this.router.navigate(['/test/'], {state: {classId, setId, hasFavorites}});
@@ -67,6 +69,9 @@ export class DashboardComponent implements OnInit {
     let hasFavorites = false;
     if (selectedSet) {
       hasFavorites = selectedSet.words.find((w: any) => w.favorite === true) ? true : false;
+    } else {
+      const regx = new RegExp(/^.*([dD]er [A-Z]).*$|^.*([dD]ie [A-Z]).*$|^.*([dD]as [A-Z]).*$/)
+      hasFavorites = selectedClass.sets.map((s: any) => s.words).flat().filter((w:any) => regx.test(w.word)).find((w: any) => w.favorite === true) ? true : false;
     }
 
     this.router.navigate(['/german/noun-test/'], {state: {classId, setId, hasFavorites}});

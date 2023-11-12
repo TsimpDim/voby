@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VobyService } from '../_services/voby.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { filter } from 'rxjs';
 
 interface UserShortcut {
   key_1: string,
@@ -21,6 +20,8 @@ export class OptionsComponent implements OnInit {
   userShortcuts: UserShortcut[] = [];
   loading = true;
   shortcutsForm: FormGroup = new FormGroup({});
+  options: any[] = [];
+  @ViewChild('numTestQuestions') numTestQ: any;
 
   constructor(
     private voby: VobyService,
@@ -29,6 +30,7 @@ export class OptionsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserShortcuts();
+    this.getOptions();
   }
 
   initializeForm() {
@@ -47,6 +49,27 @@ export class OptionsComponent implements OnInit {
         }
       }
     );
+  }
+
+  getOptions() {
+    this.voby.getOptions()
+    .subscribe({
+      next: (data: any) => {
+        this.options = data;
+        this.numTestQ.nativeElement.value = data.find((o:any) => o.key === 'numTestQuestions').value;
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
   }
 
   getUserShortcuts() {
@@ -142,5 +165,32 @@ export class OptionsComponent implements OnInit {
         }
       })
     }
+  }
+
+  saveOptions() {
+    const numTestQ = this.numTestQ?.nativeElement.value;
+    this.voby.updateOptions(numTestQ).subscribe({
+      next: () => {},
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Updated shortcut',
+            icon: 'done'
+          },
+          duration: 3 * 1000
+        });
+      }
+    })
   }
 }

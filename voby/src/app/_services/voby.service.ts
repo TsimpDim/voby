@@ -231,4 +231,20 @@ export class VobyService {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
     });
   }
+
+  getOptions() {
+    return this.http.get(environment.apiUrl + '/voby/options', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
+
+  updateOptions(numTestQ:string) {
+    return this.http.patch(environment.apiUrl + '/voby/options',
+      { 
+        options: {
+            'numTestQuestions': numTestQ
+          }
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
 }

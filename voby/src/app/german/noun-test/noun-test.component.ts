@@ -18,6 +18,7 @@ export class NounTestComponent implements OnInit {
   questionsValidated = false;
   loading = true;
   favoritesOnly = false;
+  numberTestQuestions: number = 20;
 
   classId = -1;
   setId = -1;
@@ -43,15 +44,25 @@ export class NounTestComponent implements OnInit {
   }
 
   getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
-    this.voby.getGermanNounTestWords(20, classId, setId, favoritesOnly)
+    this.voby.getOptions()
     .subscribe({
       next: (data: any) => {
-        this.questions = data;
-        this.questions.forEach(e => {
-          this.questionState.push(this.NOT_ANSWERED);
-        });
+        this.numberTestQuestions = data.find((o: any) => o.key === 'numTestQuestions').value;
+        this.voby.getGermanNounTestWords(this.numberTestQuestions, classId, setId, favoritesOnly)
+        .subscribe({
+          next: (data: any) => {
+            this.questions = data;
+            this.questions.forEach(e => {
+              this.questionState.push(this.NOT_ANSWERED);
+            });
+          },
+          error: () => {
+            this.loading = false;
+          },
+          complete: () => this.loading = false
+        })
       },
-      error: () => {
+      error: (error: any) => {
         this.loading = false;
       },
       complete: () => this.loading = false
@@ -64,7 +75,6 @@ export class NounTestComponent implements OnInit {
       this.inputs._results.forEach((input: any, index: number) => {
         const userAnswer = input._elementRef.nativeElement.textContent;
         const correctAnswer = this.questions[index].gender;
-
         if (correctAnswer.split(' / ').find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)) {
           this.questionState[index] = this.CORRECT;
           this.exp.add(2);

@@ -92,7 +92,7 @@ export class AllWordsComponent implements OnInit {
   goToSet(id: number) {
     this.router.navigate(['/set/'+id]);
   }
-  
+
   deleteSelectedWord() {
     if (this.selectedWord) {
       this.voby.deleteWord(this.selectedWord.id)

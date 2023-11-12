@@ -4,10 +4,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from django.http import HttpResponse
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option
 from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
-    UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer
+    UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer
 from random import sample
 import xlwt
 
@@ -339,3 +339,30 @@ class TranslationViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Translation.objects.filter(word__user_id=self.request.user.id)
+
+
+class OptionView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        # class_id = int(self.request.query_params.get("classId"))
+        user = self.request.user
+        options = Option.objects.filter(user=user)
+
+        return Response(
+            OptionSerializer(options, many=True).data,
+            status=status.HTTP_200_OK
+        )
+    
+    def patch(self, request):
+        user = self.request.user
+        options = self.request.data['options']
+        for key, value in options.items():
+            try:
+                existing_option = Option.objects.get(user=user, key=key)
+                existing_option.value = value
+                existing_option.save()
+            except Option.DoesNotExist:
+                Option.objects.create(user=user, key=key, value=value)
+
+        return Response(status=status.HTTP_200_OK)
