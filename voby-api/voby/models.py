@@ -107,11 +107,6 @@ class Option(models.Model):
     key = models.TextField(null=False, blank=False)
     value = models.TextField(null=False, blank=False)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['user', 'key'], name="unique-key-user")
-        ]
-
 class UserShortcuts(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     key_1 = models.CharField(max_length=10)
