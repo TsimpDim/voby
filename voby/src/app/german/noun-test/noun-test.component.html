@@ -59,8 +59,11 @@
                     <li>-anz (monosyllabic)</li>
                     <li>-ich</li>
                     <li>-ig</li>
+                    <li>-ling</li>
+                    <li>-er</li>
+                    <li>-ist</li>
                     <li>-or</li>
-                    <li>-ismus</li>
+                    <li>-smus</li>
                 </ul>
             </li>
             <li style="margin: 1em;">die
@@ -72,6 +75,8 @@
                     <li>-heit</li>
                     <li>-ie</li>
                     <li>-keit</li>
+                    <li>-tät</li>
+                    <li>-anz</li>
                     <li>-schaft</li>
                     <li>-sion</li>
                     <li>-tion</li>
@@ -91,8 +96,9 @@
                     <li>-an</li>
                     <li>-ar</li>
                     <li>-ett</li>
+                    <li>-nis</li>
+                    <li>-ment</li>
                     <li>-o</li>
-
                 </ul>
             </li>
           </ul>
@@ -102,7 +108,10 @@
     <div style="margin-top:10em">
         <mat-card *ngFor="let q of questions; index as i" style="margin: 2em">
             <mat-card-content>
-                <h2>{{q['word']}}</h2>
+                <div style="display: flex; flex-direction: column;">
+                    <h2>{{q['word']}}</h2>
+                    <h3>{{q['translations']}}</h3>
+                </div>
                 <div class="answer-container">
                     <mat-form-field class="answer-input">
                         <mat-label>Gender</mat-label>

@@ -52,10 +52,12 @@ class TestQuestionSerializer(serializers.ModelSerializer):
 
 class GermanNounTestQuestionSerializer(serializers.ModelSerializer):
     gender = serializers.SerializerMethodField()
+    translations = TranslationSerializer(many=True, read_only=True)
     
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['word'] = response['word'][4:]
+        response['translations'] = ' / '.join([v['value'] for v in response['translations']])
         return response
     
     def get_gender(self, obj):
@@ -63,7 +65,7 @@ class GermanNounTestQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = ('word', 'gender')
+        fields = ('word', 'gender', 'translations')
 
 class SetSerializer(serializers.ModelSerializer):
     words = WordSerializer(many=True, read_only=True)

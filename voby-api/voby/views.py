@@ -233,7 +233,7 @@ class GermanNounTestView(APIView):
         else:
             filter_kwargs['set__isnull'] = False
 
-        filter_kwargs['word__regex'] = r'^.*([dD]er [A-Z]).*$|^.*([dD]ie [A-Z]).*$|^.*([dD]as [A-Z]).*$'
+        filter_kwargs['word__regex'] = r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$'
         all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
         amount = min(len(all_ids), amount)
 
