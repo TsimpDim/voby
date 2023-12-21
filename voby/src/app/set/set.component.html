@@ -30,10 +30,10 @@
             <button mat-icon-button (click)="deleteSet()" class="action-icon" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
         </div>
     </div>
-    <div class="layout-horizontal">
-        <div class="word-container" *ngIf="this.filteredWords.length > 0">
-            <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+    <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 
+    <div class="layout-horizontal" *ngIf="!loading">
+        <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords; index as i">
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
                     <mat-card-content class="card-list-item-cont">

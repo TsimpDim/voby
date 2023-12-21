@@ -12,6 +12,7 @@
   background-position: left top , left bottom , right top , right bottom;
   animation: rotate 1s linear infinite;
   margin: auto;
+  z-index: 999;
 }
 
 @keyframes rotate {
