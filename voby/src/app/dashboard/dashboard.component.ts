@@ -55,9 +55,9 @@ export class DashboardComponent implements OnInit {
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
     let hasFavorites = false;
     if (selectedSet) {
-      hasFavorites = selectedSet.words.find((w: any) => w.favorite === true) ? true : false;
+      hasFavorites = selectedSet.has_favorites;
     } else {
-      hasFavorites = selectedClass.sets.map((s: any) => s.words).flat().find((w: any) => w.favorite === true) ? true : false;
+      hasFavorites = selectedClass.sets.filter((s: any) => s.has_favorites).length > 0;
     }
 
     this.router.navigate(['/test/'], {state: {classId, setId, hasFavorites}});
@@ -66,12 +66,12 @@ export class DashboardComponent implements OnInit {
   startGermanNounTest(classId: number, setId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
+
     let hasFavorites = false;
     if (selectedSet) {
-      hasFavorites = selectedSet.words.find((w: any) => w.favorite === true) ? true : false;
+      hasFavorites = selectedSet.has_favorites;
     } else {
-      const regx = new RegExp(/^.*([dD]er [A-Z]).*$|^.*([dD]ie [A-Z]).*$|^.*([dD]as [A-Z]).*$/)
-      hasFavorites = selectedClass.sets.map((s: any) => s.words).flat().filter((w:any) => regx.test(w.word)).find((w: any) => w.favorite === true) ? true : false;
+      hasFavorites = selectedClass.sets.filter((s: any) => s.has_german_favorites).length > 0;
     }
 
     this.router.navigate(['/german/noun-test/'], {state: {classId, setId, hasFavorites}});
@@ -79,19 +79,13 @@ export class DashboardComponent implements OnInit {
 
   hasWords(classId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === classId);
-    return selectedClass.sets.flatMap((s: any) => s.words).length > 0;
+    return selectedClass.sets.flatMap((s: any) => s.has_words);
   }
 
   redirect(setId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
-    const classWords: any[] = [];
-    selectedClass.sets.forEach((set: any) => {
-      set.words.forEach((word: any) => {
-        classWords.push({id: word.id, word: word.word});
-      });
-    });
-    this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass, allWords: classWords}});
+    this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass}});
   }
 
   selectClass(classIdx: number) {
@@ -103,9 +97,8 @@ export class DashboardComponent implements OnInit {
       width: '30%'
     });
 
-    //  TODO:: Remove this
     dialogRef.afterClosed().subscribe(result => {
-      this.getClasses();
+      this.classes.push(result);
     });
   }
 
@@ -131,9 +124,8 @@ export class DashboardComponent implements OnInit {
 
   showAllWordsOfClass(classIdx: number) {
     const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
-    const allWords = selectedClass.sets.map((s: any) => s.words).flat();
 
-    this.router.navigate(['/class/' + classIdx], { state: {selectedClass, allWords} });
+    this.router.navigate(['/class/' + classIdx], { state: {selectedClass} });
   }
 
   getClasses() {
@@ -164,7 +156,8 @@ export class DashboardComponent implements OnInit {
     this.voby.deleteClass(index)
     .subscribe({
       next: () => {
-        this.getClasses();
+        const classToRemove = this.classes.findIndex((c:any) => c.id === index);
+        this.classes.splice(classToRemove, 1);
       },
       error: (error: any) => {
         this.loading = false;
@@ -180,21 +173,22 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  editSet(event: any, classIdx: number, setIdx: number) {
+  editSet(event: any, setIdx: number) {
     event.stopPropagation();
 
-    let setToChange = this.classes.find((c: any) => c.id === classIdx).sets.find((s: any) => s.id === setIdx);
+    let setToChange = this.classes.flatMap((c: any) => c.sets).find((s: any) => s.id === setIdx);
     const dialogRef = this.dialog.open(SetFormComponent, {
       width: '30%',
       data: {
-        classId: classIdx,
         setId: setIdx,
         name: setToChange.name
       },
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      setToChange.name = res.name;
+      if (res) {
+        setToChange.name = res.name;
+      }
     })
   }
 
@@ -217,13 +211,13 @@ export class DashboardComponent implements OnInit {
     })
   }
 
-  deleteSet(event: any, classIdx: number, setIdx: number) {
+  deleteSet(event: any, setIdx: number) {
     event.stopPropagation();
 
     this.voby.deleteSet(setIdx)
     .subscribe({
       next: () => {
-        const vclass = this.classes.find((c: any) => c.id === classIdx);
+        const vclass = this.classes.find((c: any) => c.sets.find((c:any) => c.id == setIdx));
         vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
       },
       error: (error: any) => {

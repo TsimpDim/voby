@@ -35,9 +35,11 @@ export class SetComponent implements OnInit {
   selectedWord: word | undefined = undefined;
   filteredWords: word[] = [];
   paramsSubscription$: Subscription | undefined;
+  setWords: any | undefined;
+  setWordsToday: number = 0;
   set: any | undefined;
   vclass: any | undefined;
-  loading = false;
+  loading = true;
   showingFavorites = false;
   allWords: any[] = [];
   getCountryEmoji = getCountryEmoji;
@@ -55,16 +57,7 @@ export class SetComponent implements OnInit {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
       this.vclass = state['selectedClass'];
-      this.set = state['selectedSet'];
-      this.allWords = state['allWords'];
-
-      if (localStorage.getItem('sort') == 'date_asc') {
-        this.set.words.sort((a: any, b: any) => a.created > b.created)
-      } else { 
-        this.set.words.sort((a: any, b: any) => a.created < b.created)
-      }
-
-      this.selectedWord = this.set.words[0];
+      this.set = state['selectedSet']['name'];
     }
 
       this.hotkeys.shortcuts$.subscribe(shortcuts => {
@@ -79,8 +72,8 @@ export class SetComponent implements OnInit {
       this.id = +params['id']; // (+) converts string 'id' to a number
     });
 
-    if (!this.set) {
-      this.getSet(this.id);
+    if (!this.setWords) {
+      this.getSetWords(this.id);
     } else {
       this.search();
     }
@@ -94,7 +87,7 @@ export class SetComponent implements OnInit {
   }
 
   selectWord(id: number) {
-    this.selectedWord = this.set.words.find((o: any) => o.id === id);
+    this.selectedWord = this.setWords.find((o: any) => o.id === id);
   }
 
   openWordForm() {
@@ -114,22 +107,22 @@ export class SetComponent implements OnInit {
       }
 
       if (localStorage.getItem('sort') === 'date_asc') {
-        this.set.words.push(data.word);
+        this.setWords.push(data.word);
       } else {
-        this.set.words.unshift(data.word);
+        this.setWords.unshift(data.word);
       }
 
       if (data.word.related_words) {
         data.word.related_words.forEach((rw: any) => {
-          const idx = this.set.words.findIndex((w: any) => w.id === rw.id);
+          const idx = this.setWords.findIndex((w: any) => w.id === rw.id);
           if (idx !== -1) {
-            this.set.words[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
+            this.setWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
           }
         });
       }
 
       this.allWords.push({id: data.word.id, word: data.word.word, set: data.word.set});
-      this.set.words_today += 1;
+      this.setWordsToday += 1;
       this.selectWord(data.word.id);
       this.search();
     });
@@ -140,10 +133,10 @@ export class SetComponent implements OnInit {
       this.voby.deleteWord(this.selectedWord.id)
       .subscribe({
         next: () => {
-          const deletedWordIdx = this.set.words.findIndex((w: any) => w.id === this.selectedWord?.id);
-          this.set.words.splice(deletedWordIdx, 1);
-          if (this.set.words.length > 0) {
-            this.selectWord(this.set.words[deletedWordIdx].id);
+          const deletedWordIdx = this.setWords.findIndex((w: any) => w.id === this.selectedWord?.id);
+          this.setWords.splice(deletedWordIdx, 1);
+          if (this.setWords.length > 0) {
+            this.selectWord(this.setWords[deletedWordIdx].id);
           }
           this.search();
         },
@@ -164,22 +157,31 @@ export class SetComponent implements OnInit {
 
   sortDateDesc() {
     localStorage.setItem('sort', 'date_desc')
-    this.getSet(this.id, 'date_desc');
+    this.getSetWords(this.id, 'date_desc');
   }
 
   sortDateAsc() {
     localStorage.setItem('sort', 'date_asc')
-    this.getSet(this.id, 'date_asc');
+    this.getSetWords(this.id, 'date_asc');
   }
 
-  getSet(id: number, sort = localStorage.getItem('sort') || 'date_desc') {
-    this.voby.getSet(id, sort)
+  getSetWords(id: number, sort = localStorage.getItem('sort') || 'date_desc') {
+    this.loading = true;
+    this.voby.getSetWords(id, sort)
     .subscribe({
       next: (data: any) => {
-        this.set = data;
-        this.vclass = data.vclass_info
-        this.selectedWord = this.set.words[0];
-        this.getAllWordsOfClass(data.vclass);
+        this.setWords = data.words;
+        this.selectedWord = this.setWords[0];
+        this.set = data.set_info;
+        this.vclass = data.vclass_info;
+        if (localStorage.getItem('sort') == 'date_asc') {
+          this.setWords.sort((a: any, b: any) => a.created > b.created)
+        } else { 
+          this.setWords.sort((a: any, b: any) => a.created < b.created)
+        }
+  
+        this.selectedWord = this.setWords[0];
+        this.getAllWordsOfClass(data.vclass_info.id);
         this.search();
       },
       error: (error: any) => {
@@ -220,7 +222,7 @@ export class SetComponent implements OnInit {
     this.voby.editWordFavorite(id, !favorite)
     .subscribe({
       next: () => {
-        this.set.words.find((w: word) => w.id === id).favorite = !favorite;
+        this.setWords.find((w: word) => w.id === id).favorite = !favorite;
       }
     });
   }
@@ -274,14 +276,14 @@ export class SetComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       if (res) {
-        let word = this.set.words.find((w: any) => w.id === this.selectedWord?.id);
+        let word = this.setWords.find((w: any) => w.id === this.selectedWord?.id);
         Object.assign(word, res.word);
 
         if (word.related_words) {
           word.related_words.forEach((rw: any) => {
-            const idx = this.set.words.findIndex((w: any) => w.id === rw.id);
+            const idx = this.setWords.findIndex((w: any) => w.id === rw.id);
             if (idx !== -1) {
-              const rwRws = this.set.words[idx].related_words;
+              const rwRws = this.setWords[idx].related_words;
               if (rwRws.findIndex((w:any) => w.id === word.id) === -1) {
                 rwRws.push({id:word.id, word:word.word, set:word.set});
               }
@@ -305,7 +307,7 @@ export class SetComponent implements OnInit {
       this.showingFavorites = false;
     } else {
       let newWords: word[] = [];
-      this.set.words.filter((w: word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      this.setWords.filter((w: word) => w.favorite === true).forEach((i: any) => newWords.push(i));
       this.filteredWords.splice(0, this.filteredWords.length);
       newWords.forEach(nW => {
         this.filteredWords.push(nW);
@@ -316,14 +318,14 @@ export class SetComponent implements OnInit {
 
   search() {
     let newWords: word[] = [];
-    this.set.words.forEach((i: any) => newWords.push(i));
+    this.setWords.forEach((i: any) => newWords.push(i));
 
     if(this.searchInput) {
       if(this.searchInput?.nativeElement.value !== '') {
         this.suggestedWord = this.searchInput?.nativeElement.value;
         const searchTerm = this.searchInput?.nativeElement.value.toLowerCase();
 
-        newWords = this.set.words.filter(
+        newWords = this.setWords.filter(
           (w: any) => 
             w.word.toLowerCase().includes(searchTerm) || 
             w.translations.filter((w: any) => w.value.toLowerCase().includes(searchTerm)).length > 0

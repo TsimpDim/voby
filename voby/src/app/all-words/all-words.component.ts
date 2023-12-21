@@ -7,7 +7,7 @@ import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
 
-interface word {
+interface Word {
   id: number;
   word: string;
   set: number;
@@ -31,13 +31,13 @@ export class AllWordsComponent implements OnInit {
   classId: number = -1;
   @ViewChild('searchInput') searchInput: ElementRef | undefined;
 
-  selectedWord: word | undefined = undefined;
-  filteredWords: word[] = [];
+  selectedWord: Word | undefined = undefined;
+  filteredWords: Word[] = [];
   paramsSubscription: Subscription | undefined;
   vclass: any | undefined;
   loading = false;
   showingFavorites = false;
-  allWords: word[] = [];
+  allWords: Word[] = [];
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
 
@@ -52,14 +52,15 @@ export class AllWordsComponent implements OnInit {
     if (state) {
       this.vclass = state['selectedClass'];
       this.allWords = state['allWords'];
+      if (this.allWords) {
+        if (localStorage.getItem('sort') == 'date_asc') {
+          this.allWords.sort((a: any, b: any) => a.created > b.created ? 1 : -1)
+        } else {
+          this.allWords.sort((a: any, b: any) => a.created < b.created ? 1 : -1)
+        }
 
-      if (localStorage.getItem('sort') == 'date_asc') {
-        this.allWords.sort((a: any, b: any) => a.created > b.created ? 1 : -1)
-      } else {
-        this.allWords.sort((a: any, b: any) => a.created < b.created ? 1 : -1)
+        this.selectedWord = this.allWords[0];
       }
-
-      this.selectedWord = this.allWords[0];
     }
 
     this.hotkeys.shortcuts$.subscribe(shortcuts => {
@@ -74,7 +75,7 @@ export class AllWordsComponent implements OnInit {
       this.classId = +params['id']; // (+) converts string 'id' to a number
     });
 
-    if (!this.vclass) {
+    if (!this.allWords || !this.vclass) {
       this.getAllWordsOfClass(this.classId);
     } else {
       this.search();
@@ -144,7 +145,7 @@ export class AllWordsComponent implements OnInit {
     this.voby.editWordFavorite(id, !favorite)
     .subscribe({
       next: () => {
-        const word = this.allWords.find((w: word) => w.id === id);
+        const word = this.allWords.find((w: Word) => w.id === id);
         if (word) {
           word.favorite = !favorite;
         }
@@ -194,8 +195,8 @@ export class AllWordsComponent implements OnInit {
       this.search();
       this.showingFavorites = false;
     } else {
-      let newWords: word[] = [];
-      this.allWords.filter((w: word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      let newWords: Word[] = [];
+      this.allWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
       this.filteredWords.splice(0, this.filteredWords.length);
       newWords.forEach(nW => {
         this.filteredWords.push(nW);
@@ -205,7 +206,7 @@ export class AllWordsComponent implements OnInit {
   }
 
   search() {
-    let newWords: word[] = [];
+    let newWords: Word[] = [];
     this.allWords.forEach((i: any) => newWords.push(i));
 
     if(this.searchInput) {

@@ -144,6 +144,13 @@ export class VobyService {
     });
   }
 
+  getSetWords(id: number, sort: string) {
+    return this.http.get(environment.apiUrl + '/voby/sets/' + id + '/words/', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} ,
+      params: {'sort': sort}
+    });
+  }
+
   deleteSet(index: number) {
     return this.http.delete(environment.apiUrl + '/voby/sets/' + index, {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} 

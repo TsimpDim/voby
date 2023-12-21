@@ -5,9 +5,10 @@ from rest_framework.decorators import action
 from rest_framework.views import APIView
 from django.http import HttpResponse
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option
-from .serializers import ClassSerializer, SetSerializer, WordSerializer, ExampleSerializer, \
+from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
-    UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer
+    UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer, \
+    VClassInfoSerializer, SetAllSerializer, WordAllSerializer
 from random import sample
 import xlwt
 
@@ -34,7 +35,7 @@ class ClassViewSet(viewsets.ModelViewSet):
         sort_param = request.query_params.get('sort')
     
         queryset = Word.objects.filter(user=user, set__vclass=pk)
-        serializer = WordSerializer(queryset, many=True)
+        serializer = WordInfoSerializer(queryset, many=True)
         vclass_info = VClass.objects.values('name', 'source_language', 'target_language').get(id=pk)
 
         return Response({
@@ -48,7 +49,7 @@ class ClassViewSet(viewsets.ModelViewSet):
 
 class SetViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = SetSerializer
+    serializer_class = SetAllSerializer
     queryset = Set.objects.all()
 
     def create(self, request, *args, **kwargs):
@@ -66,14 +67,37 @@ class SetViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Set.objects.filter(user_id=self.request.user.id)
     
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return SetInfoSerializer
+        else:
+            return SetAllSerializer
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['sort'] = self.request.query_params.get('sort')
         return context
+    
+    @action(methods=['get'], detail=True)
+    def words(self, request, pk=None):
+        user = self.request.user.id
+        sort_param = request.query_params.get('sort')
+        set = Set.objects.get(id=pk)
+        queryset = Word.objects.filter(user=user, set=set.id)
+        serializer = WordInfoSerializer(queryset, many=True)
+
+        return Response({
+            'set_info': {
+                'name': set.name,
+                'id': set.id
+            },
+            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='date_desc'),
+            'vclass_info': VClassInfoSerializer(set.vclass).data
+        }, status=status.HTTP_200_OK)
 
 class WordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
-    serializer_class = WordSerializer
+    serializer_class = WordAllSerializer
     queryset = Word.objects.all()
 
     def create(self, request, *args, **kwargs):
@@ -109,6 +133,12 @@ class WordViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Word.objects.filter(user_id=self.request.user.id)
+    
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return WordInfoSerializer
+        else:
+            return WordAllSerializer
 
 class ExampleViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

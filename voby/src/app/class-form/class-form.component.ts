@@ -72,8 +72,8 @@ export class ClassFormComponent {
   createClass(className: string, sourceLanguage: string, targetLanguage: string) {
     this.voby.createClass(className, sourceLanguage, targetLanguage)
     .subscribe({
-      next: () => {
-        this.dialogRef.close();
+      next: (data) => {
+        this.dialogRef.close(data);
       },
       error: (error: any) => {
         this.loading = false;

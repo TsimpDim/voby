@@ -19,13 +19,33 @@ class RelatedWordSerializer(serializers.ModelSerializer):
         model = Word
         fields = ('id', 'word', 'set')
 
-class WordSerializer(serializers.ModelSerializer):
+class VClassInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = VClass
+        fields = ['name', 'source_language', 'target_language', 'id']
+
+class WordInfoSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
     set_name = serializers.SerializerMethodField()
     translations = TranslationSerializer(many=True, read_only=True)
 
     def get_set_name(self, obj):
         return obj.set.name
+
+    def to_representation(self, instance):
+        response = super().to_representation(instance)
+        new_related_words = Word.objects.filter(id__in=response['related_words'])#.values('id', 'word', 'set')
+        response["related_words"] = RelatedWordSerializer(new_related_words, many=True).data
+        return response
+
+    class Meta:
+        model = Word
+        fields = '__all__'
+
+class WordAllSerializer(serializers.ModelSerializer):
+    examples = ExampleSerializer(many=True, read_only=True)
+    translations = TranslationSerializer(many=True, read_only=True)
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
@@ -67,8 +87,54 @@ class GermanNounTestQuestionSerializer(serializers.ModelSerializer):
         model = Word
         fields = ('word', 'gender', 'translations')
 
-class SetSerializer(serializers.ModelSerializer):
-    words = WordSerializer(many=True, read_only=True)
+class SetInfoSerializer(serializers.ModelSerializer):
+    has_words = serializers.SerializerMethodField()
+    has_favorites = serializers.SerializerMethodField()
+    vclass_info = serializers.SerializerMethodField()
+
+    def get_has_words(self, obj):
+        return obj.words.count()
+
+    def get_has_favorites(self, obj):
+        return obj.words.filter(favorite=True).count()
+    
+    def get_vclass_info(self, obj):
+        vclass = obj.vclass
+        return {
+            'name': vclass.name,
+            'source_language': vclass.source_language,
+            'target_language': vclass.target_language
+        }
+    
+    class Meta:
+        model = Set
+        fields = ['id', 'name', 'has_words', 'vclass_info', 'has_favorites', 'has_german_favorites']
+
+class SetNoVClassSerializer(serializers.ModelSerializer):
+    has_words = serializers.SerializerMethodField()
+    has_favorites = serializers.SerializerMethodField()
+    has_german_favorites = serializers.SerializerMethodField()
+
+    def get_has_words(self, obj):
+        return obj.words.count()
+
+    def get_has_favorites(self, obj):
+        return obj.words.filter(favorite=True).count()
+
+    def get_has_german_favorites(self, obj):
+        return obj.words.filter(favorite=True, word__regex=r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$').count()
+
+    class Meta:
+        model = Set
+        fields = ['id', 'name', 'has_words', 'has_favorites', 'has_german_favorites']
+
+class SetAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Set
+        fields = '__all__'
+
+class SetWordsSerializer(serializers.ModelSerializer):
+    words = WordInfoSerializer(many=True, read_only=True)
     vclass_info = serializers.SerializerMethodField()
     words_today = serializers.SerializerMethodField()
 
@@ -95,7 +161,18 @@ class SetSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class ClassSerializer(serializers.ModelSerializer):
-    sets = SetSerializer(many=True, read_only=True)
+    sets = SetNoVClassSerializer(many=True, read_only=True)
+    has_german_nouns = serializers.SerializerMethodField()
+
+    def get_has_german_nouns(self, obj):
+        return Word.objects.filter(set__vclass=obj,word__regex=r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$').count() > 0
+
+    class Meta:
+        model = VClass
+        fields = "__all__"
+
+class ClassAllSerializer(serializers.ModelSerializer):
+    sets = SetWordsSerializer(many=True, read_only=True)
 
     class Meta:
         model = VClass

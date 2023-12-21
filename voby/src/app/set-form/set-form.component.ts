@@ -13,11 +13,11 @@ import { VobyService } from '../_services/voby.service';
 export class SetFormComponent {
   setForm: FormGroup;
   loading = false;
-  data: {classId: number, setId: number, name: string};
+  data: {setId: number, name: string};
 
   constructor(
     public dialogRef: MatDialogRef<SetFormComponent>,
-    @Inject(MAT_DIALOG_DATA) data: {classId: number, setId: number, name: string},
+    @Inject(MAT_DIALOG_DATA) data: {setId: number, name: string},
     public voby: VobyService,
     private _snackBar: MatSnackBar
   ) {
