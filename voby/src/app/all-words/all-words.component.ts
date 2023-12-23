@@ -12,7 +12,7 @@ interface Word {
   word: string;
   set: number;
   set_name: string;
-  translation: string;
+  translations: {id: number, value: string}[];
   examples: {text: string, translation: string, id: number}[];
   general: string;
   plural: string;
@@ -226,4 +226,7 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
+  displayTranslations(translations: {id: number, value: string}[]) {
+    return translations.map(o => o.value).join(' / ');
+  }
 }
