@@ -10,6 +10,7 @@ from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer,
     UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer, \
     VClassInfoSerializer, SetAllSerializer, WordAllSerializer
 from random import sample
+from datetime import datetime
 import xlwt
 
 class ClassViewSet(viewsets.ModelViewSet):
@@ -85,12 +86,14 @@ class SetViewSet(viewsets.ModelViewSet):
         set = Set.objects.get(id=pk)
         queryset = Word.objects.filter(user=user, set=set.id)
         serializer = WordInfoSerializer(queryset, many=True)
+        count = Word.objects.filter(set=set, created__date=datetime.today()).count()
 
         return Response({
             'set_info': {
                 'name': set.name,
                 'id': set.id
             },
+            'words_today': count,
             'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='date_desc'),
             'vclass_info': VClassInfoSerializer(set.vclass).data
         }, status=status.HTTP_200_OK)

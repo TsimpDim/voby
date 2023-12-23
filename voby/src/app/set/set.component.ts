@@ -172,6 +172,7 @@ export class SetComponent implements OnInit {
       next: (data: any) => {
         this.setWords = data.words;
         this.selectedWord = this.setWords[0];
+        this.setWordsToday = data.words_today;
         this.set = data.set_info;
         this.vclass = data.vclass_info;
         if (localStorage.getItem('sort') == 'date_asc') {
