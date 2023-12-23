@@ -8,11 +8,11 @@
             formControlName="word"
             (keyup)="checkSimilar()"
         >
-        <div *ngIf="this.similarWord" matSuffix>
+        <div *ngIf="this.similarWords.length > 0" matSuffix>
             <mat-icon
                 fontIcon="fmd_bad"
                 matSuffix
-                matTooltip="Potentially duplicate: {{this.similarWord.word}}"
+                matTooltip="Potentially duplicate(s): {{this.displaySimilarWords()}}"
                 style="color: #686868"
             >
             </mat-icon>

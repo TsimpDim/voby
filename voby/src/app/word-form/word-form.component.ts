@@ -53,7 +53,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   passedData: PassedDataOnCreate | PassedDataOnEdit;
   dataForParent: any = {};
   deletedExamples: any[] = [];
-  similarWord: RelatedWord | undefined;
+  similarWords: RelatedWord[] = [];
   formDataSubscription$: Subscription = new Subscription();
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
@@ -389,8 +389,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
   checkSimilar() {
     const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
-    const similarWord = (this.passedData as PassedDataOnCreate | PassedDataOnEdit).allWords.find(w => stringSimilarity(w.word, word) >= 0.8);
-    this.similarWord = similarWord;
+    const similarWords = (this.passedData as PassedDataOnCreate | PassedDataOnEdit).allWords.filter(w => stringSimilarity(w.word, word) >= 0.8);
+    this.similarWords = similarWords;
+  }
+
+  displaySimilarWords() {
+    return this.similarWords.map((w: any) => `${w.word} (${w.set_name})`).join('< | >');
   }
 
   add(event: MatChipInputEvent): void {
