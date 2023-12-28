@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
 
   hasWords(classId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === classId);
-    return selectedClass.sets.flatMap((s: any) => s.has_words);
+    return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
   }
 
   redirect(setId: number) {
