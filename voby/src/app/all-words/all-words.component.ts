@@ -64,7 +64,14 @@ export class AllWordsComponent implements OnInit {
     }
 
     this.hotkeys.shortcuts$.subscribe(shortcuts => {
+      for (const s of this.shortcutSubscriptions$) {
+        s.unsubscribe();
+      }
+
+      this.shortcutSubscriptions$ = [];
+
       for (const s of shortcuts) {
+        console.log(s);
         this.shortcutSubscriptions$.push(s.subscribe());
       }
     });

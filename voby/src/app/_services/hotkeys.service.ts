@@ -37,6 +37,7 @@ export class HotkeysService {
       this.voby.getUserShortcuts().subscribe({
         next: (shortcuts: any) => {
           for (let s of shortcuts) {
+            console.log(s);
             this.addShortcut({keys: s.key_1 + '.' + s.key_2, result: s.result});
           }
         },
