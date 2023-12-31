@@ -15,7 +15,31 @@
         <div class="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
-                <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
+                <mat-chip-list #chipList>
+                    <mat-chip
+                        *ngFor="let tag of selectedTags"
+                        (removed)="removeTag(tag.id)"
+                        (click)="addTagToSearch(tag.id)"
+                    >
+                        {{tag.value}}
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+
+                    <input
+                        #searchInput
+                        matInput
+                        (keyup)="search()"
+                        placeholder="Search for words or tags    here..."
+                        [matAutocomplete]="autocomplete"
+                        [matChipInputFor]="chipList"
+                    >
+                </mat-chip-list>
+                <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
+                    <mat-option *ngFor="let tag of allTags" [value]="tag.id">
+                        {{tag.value}}
+                    </mat-option>
+                </mat-autocomplete>
+
             </mat-form-field>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
             <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
@@ -25,7 +49,7 @@
             </mat-menu>
         </div>
         <div class="action-cont">
-            <button mat-icon-button color="accent" (click)="openWordForm()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
+            <button mat-icon-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
             <button mat-icon-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
             <button mat-icon-button (click)="deleteSet()" class="action-icon" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
         </div>
@@ -121,6 +145,8 @@
                         <p *ngIf="selectedWord?.tags?.length === 0">-</p>
                         <mat-chip 
                             *ngFor="let tag of selectedWord?.tags"
+                            (click)="addTagToSearch(tag.id)"
+                            class="pointer-on-hover"
                         >
                             {{tag.value}}
                         </mat-chip>

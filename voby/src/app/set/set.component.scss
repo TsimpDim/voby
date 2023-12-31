@@ -114,7 +114,7 @@
 }
 
 .word-detail-container {
-    min-height: 350px;
+    min-height: 400px;
 
     .mat-card-content {
         display: block;
@@ -243,4 +243,8 @@
     
     font-weight: 400;
     color: rgb(153, 153, 153);
+}
+
+.pointer-on-hover:hover {
+    cursor: pointer;
 }

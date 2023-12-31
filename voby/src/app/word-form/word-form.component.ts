@@ -27,13 +27,15 @@ interface PassedDataOnCreate {
   setId: number,
   allWords: RelatedWord[],
   edit: boolean,
+  allTags: Tag[],
   suggestedWord: string
 };
 
 interface PassedDataOnEdit {
   word: Word,
   allWords: RelatedWord[],
-  edit: boolean
+  edit: boolean,
+  allTags: Tag[]
 };
 
 interface Word {
@@ -74,7 +76,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
   tagsToBeCreated: string[] = [];
   tagsToBeAttached: Tag[] = [];
   tagsToBeDetached: Tag[] = [];
-  allTags: Tag[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   translations: {id: number, value: string}[] = [];
   translationsToBeCreated: string[] = [];
@@ -147,8 +148,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
         this.wordForm.get(change.fieldName)?.setValue(change.newValue);
       }
     });
-
-    this.getAllTags();
   }
 
   onNoClick(): void {
@@ -192,10 +191,10 @@ export class WordFormComponent implements OnInit, OnDestroy {
   filterTags() {
     const input = this.tagInput?.nativeElement.value.toLowerCase();
     const currentTags = this.wordForm.get('tags')?.value as Tag[];
-    let newTagsValue = this.allTags.filter(tag => currentTags.findIndex(ct => ct.id === tag.id) === -1);
+    let newTagsValue = this.passedData.allTags.filter(tag => currentTags.findIndex(ct => ct.id === tag.id) === -1);
 
     if (input) {
-      newTagsValue = this.allTags
+      newTagsValue = this.passedData.allTags
         ?.filter(tag => tag.value.toLowerCase().includes(this.tagInput?.nativeElement.value.toLowerCase() || ''))
         .filter(tag => !currentTags.filter(ct => ct.id === tag.id));
     }
@@ -212,27 +211,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterWords();
-  }
-
-  getAllTags() {
-    this.voby.getTags()
-    .subscribe({
-      next: (data: any) => {
-        this.allTags = data;
-        this.filterTags();
-      },
-      error: (error: any) => {
-        this.loading = false;
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Error: ' + error.statusText,
-            icon: 'error'
-          },
-          duration: 3 * 1000
-        });
-      },
-      complete: () => this.loading = false
-    })
   }
 
   selectRelatedWord(event: MatAutocompleteSelectedEvent) {
@@ -252,7 +230,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   selectTag(event: MatAutocompleteSelectedEvent) {
-    const selectedTag = this.allTags?.find((tag: Tag) => tag.id == event.option.value) as Tag;
+    const selectedTag = this.passedData.allTags?.find((tag: Tag) => tag.id == event.option.value) as Tag;
     if (selectedTag) {
       const currentTags = this.wordForm.get('tags')?.value || [];
       (currentTags as Tag[]).push(selectedTag);
@@ -404,10 +382,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
           });
         }
 
+        this.dataForParent.newTags = [];
         for (let tag of this.tagsToBeCreated) {
           this.voby.createTag(word.id, tag).subscribe({
             next: (data) => {
               this.dataForParent.word.tags.push(data);
+              this.dataForParent.newTags.push(data);
             },
           });
         }
@@ -491,10 +471,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
           })
         }
 
+        this.dataForParent.newTags = [];
         for (let tagToCreate of this.tagsToBeCreated) {
           this.voby.createTag(word.id, tagToCreate).subscribe({
             next: (data) => {
               this.dataForParent.word.tags.push(data);
+              this.dataForParent.newTags.push(data);
             }
           });
         }
@@ -582,7 +564,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
         this.wordForm.patchValue({'tags': currentTags});
       }
 
-      if (this.allTags.findIndex(f => f.value === value) === -1) {
+      if (this.passedData.allTags.findIndex(f => f.value === value) === -1) {
         this.tagsToBeCreated.push(value);
       }
     }

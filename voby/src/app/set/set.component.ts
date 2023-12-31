@@ -9,6 +9,7 @@ import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 interface Tag {
   id: number;
@@ -48,6 +49,9 @@ export class SetComponent implements OnInit {
   vclass: any | undefined;
   loading = true;
   showingFavorites = false;
+  allTags: Tag[] = [];
+  searchTags: Tag[] = [];
+  selectedTags: Tag[] = [];
   allWords: any[] = [];
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
@@ -90,6 +94,8 @@ export class SetComponent implements OnInit {
     } else {
       this.search();
     }
+
+    this.getAllTags();
   }
 
   ngOnDestroy() {
@@ -103,12 +109,34 @@ export class SetComponent implements OnInit {
     this.selectedWord = this.setWords.find((o: any) => o.id === id);
   }
 
-  openWordForm() {
+  removeTag(tagId: number) {
+    const indexToRemove = this.selectedTags.findIndex(t => t.id === tagId);
+    const removedTag = this.selectedTags.splice(indexToRemove, 1);
+    this.searchTags.push(removedTag[0]);
+    this.search();
+  }
+
+  addTagToSearch(selectedTagId: number) {
+    const newTag = this.allTags.find((tag) => tag.id == selectedTagId) as Tag;
+    if (newTag) {
+      if (!this.selectedTags.includes(newTag)) {
+        this.selectedTags.push(newTag);
+      }
+
+      const tagIndexToBeRemoved = this.searchTags.findIndex(t => t.id === newTag.id);
+      this.searchTags.splice(tagIndexToBeRemoved, 1);
+    }
+
+    this.search();
+  }
+
+  createWord() {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
         setId: this.set.id,
         allWords: this.allWords,
+        allTags: this.allTags,
         edit: false,
         suggestedWord: this.suggestedWord
       }
@@ -135,10 +163,35 @@ export class SetComponent implements OnInit {
       }
 
       this.allWords.push({id: data.word.id, word: data.word.word, set: data.word.set});
+      this.allTags.push(...data.newTags);
       this.setWordsToday += 1;
       this.selectWord(data.word.id);
       this.search();
     });
+  }
+
+  getAllTags() {
+    this.voby.getTags()
+    .subscribe({
+      next: (data: any) => {
+        this.allTags = data;
+
+        for (let t of data) {
+          this.searchTags.push(t);
+        }
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
   }
 
   deleteSelectedWord() {
@@ -284,6 +337,7 @@ export class SetComponent implements OnInit {
       data: {
         word: this.selectedWord,
         allWords: this.allWords,
+        allTags: this.allTags,
         edit: true
       },
     });
@@ -307,6 +361,7 @@ export class SetComponent implements OnInit {
 
         const wordIdx = this.allWords.findIndex(w => w.id === word.id);
         this.allWords[wordIdx].word = word.word;
+        this.allTags.push(...res.newTags);
       }
     })
   }
@@ -321,7 +376,12 @@ export class SetComponent implements OnInit {
       this.showingFavorites = false;
     } else {
       let newWords: Word[] = [];
-      this.setWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      if (this.selectedTags.length === 0) {
+        this.setWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      } else {
+        this.setWords.filter((w: Word) => w.favorite === true && w.tags.some(t => this.selectedTags.map(sT => sT.id).includes(t.id))).forEach((i: any) => newWords.push(i));
+      }
+
       this.filteredWords.splice(0, this.filteredWords.length);
       newWords.forEach(nW => {
         this.filteredWords.push(nW);
@@ -349,6 +409,10 @@ export class SetComponent implements OnInit {
       }
     }
 
+    if (this.selectedTags.length > 0) {
+      newWords = newWords.filter(nW => nW.tags.some(t => this.selectedTags.map(sT => sT.id).includes(t.id)));
+    }
+
     this.filteredWords.splice(0, this.filteredWords.length);
     newWords.forEach(nW => {
       this.filteredWords.push(nW);
@@ -361,7 +425,7 @@ export class SetComponent implements OnInit {
 
   @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
     event.preventDefault();
-    this.openWordForm();
+    this.createWord();
   }
 
   @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(event: KeyboardEvent) {
@@ -371,7 +435,7 @@ export class SetComponent implements OnInit {
 
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
     event.preventDefault();
-    this.openWordForm();
+    this.createWord();
   }
 
   displayTranslations(translations: {id: number, value: string}[]) {
