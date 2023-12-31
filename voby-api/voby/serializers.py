@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option, Tag
 from datetime import datetime
 import random
 
@@ -8,6 +8,10 @@ class ExampleSerializer(serializers.ModelSerializer):
         model = Example
         fields = "__all__"
 
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tag
+        fields = "__all__"
 
 class TranslationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -29,6 +33,7 @@ class WordInfoSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
     set_name = serializers.SerializerMethodField()
     translations = TranslationSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     def get_set_name(self, obj):
         return obj.set.name
@@ -46,6 +51,7 @@ class WordInfoSerializer(serializers.ModelSerializer):
 class WordAllSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
     translations = TranslationSerializer(many=True, read_only=True)
+    tags = TagSerializer(many=True, read_only=True)
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

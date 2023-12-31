@@ -4,11 +4,12 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from django.http import HttpResponse
-from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option
+from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, \
+    Option, Tag
 from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
     UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer, \
-    VClassInfoSerializer, SetAllSerializer, WordAllSerializer
+    VClassInfoSerializer, SetAllSerializer, WordAllSerializer, TagSerializer
 from random import sample
 from datetime import datetime
 import xlwt
@@ -162,6 +163,36 @@ class ExampleViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return Example.objects.filter(user_id=self.request.user.id)
+    
+class TagViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    serializer_class = TagSerializer
+    queryset = Tag.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data["user"] = self.request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
+
+    def get_queryset(self):
+        return Tag.objects.filter(user_id=self.request.user.id)
+    
+    @action(methods=['put'], detail=True, url_path=r'remove/(?P<word_id>[^/.]+)')
+    def remove(self, request, pk=None, word_id=None):
+        Tag.objects.get(id=pk).word.remove(word_id)
+        return Response({}, status=status.HTTP_200_OK)
+
+    @action(methods=['put'], detail=True, url_path=r'add/(?P<word_id>[^/.]+)')
+    def add(self, request, pk=None, word_id=None):
+        Tag.objects.get(id=pk).word.add(word_id)
+        return Response({}, status=status.HTTP_200_OK)
 
 class QuizAnswerViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]

@@ -31,7 +31,7 @@
         name="translation"
         formControlName="translation">
             <mat-chip *ngFor="let translation of translations"
-                          (removed)="remove(translation.value)">
+                          (removed)="removeTranslation(translation.value)">
               {{translation.value}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
@@ -42,7 +42,7 @@
                 [matChipInputFor]="chipGrid"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 matChipInputAddOnBlur="true"
-                (matChipInputTokenEnd)="add($event)"
+                (matChipInputTokenEnd)="addTranslation($event)"
                 matInput
             />
           </mat-chip-list>
@@ -85,6 +85,37 @@
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event)">
             <mat-option *ngFor="let word of filteredRelatedWords" [value]="word.id">
                 {{word.word}}
+            </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Tags</mat-label>
+        <mat-chip-list #chipGridTags aria-label="Tags"
+            name="tags"
+            formControlName="tags">
+            <mat-chip *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
+              {{tag.value}}
+              <button matChipRemove>
+                <mat-icon>cancel</mat-icon>
+              </button>
+            </mat-chip>
+            <input
+                placeholder="tag..."
+                [matChipInputFor]="chipGridTags"
+                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                matChipInputAddOnBlur="true"
+                (matChipInputTokenEnd)="addTag($event)"
+                [matAutocomplete]="autoTags"
+                matInput
+                #tagInput
+                (keyup)="filterTags()"
+            />
+          </mat-chip-list>
+
+        <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
+            <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
+                {{tag.value}}
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>

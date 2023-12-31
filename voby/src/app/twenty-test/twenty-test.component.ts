@@ -50,7 +50,6 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
       this.shortcutSubscriptions$ = [];
 
       for (const s of shortcuts) {
-        console.log(s);
         this.shortcutSubscriptions$.push(s.subscribe());
       }
     });

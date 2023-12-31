@@ -114,6 +114,18 @@
                         </mat-chip>
                     </mat-chip-list>
                 </mat-card-content>
+
+                <mat-card-content>
+                    <mat-card-title>Tags</mat-card-title>
+                    <mat-chip-list> 
+                        <p *ngIf="selectedWord?.tags?.length === 0">-</p>
+                        <mat-chip 
+                            *ngFor="let tag of selectedWord?.tags"
+                        >
+                            {{tag.value}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
             </div>
         </mat-card>
     </div>

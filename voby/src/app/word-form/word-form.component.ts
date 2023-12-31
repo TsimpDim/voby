@@ -17,6 +17,12 @@ interface RelatedWord {
   word: string;
 }
 
+interface Tag {
+  id: number;
+  value: string;
+  word: number[];
+}
+
 interface PassedDataOnCreate {
   setId: number,
   allWords: RelatedWord[],
@@ -34,10 +40,13 @@ interface Word {
   id: number;
   word: string;
   translations: {id: number, value: string}[];
-  plural: string;
   examples: {text: string, translation: string, id: number}[];
   general: string;
-  related_words: {id: number, word: string}[];
+  plural: string;
+  favorite: boolean;
+  related_words: any[];
+  created: string
+  tags: Tag[];
 }
 
 @Component({
@@ -57,9 +66,15 @@ export class WordFormComponent implements OnInit, OnDestroy {
   formDataSubscription$: Subscription = new Subscription();
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
+  @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
 
   filteredRelatedWords: RelatedWord[] = [];
+  filteredTags: Tag[] = [];
+  tagsToBeCreated: string[] = [];
+  tagsToBeAttached: Tag[] = [];
+  tagsToBeDetached: Tag[] = [];
+  allTags: Tag[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
   translations: {id: number, value: string}[] = [];
   translationsToBeCreated: string[] = [];
@@ -82,6 +97,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     const relatedWords: any[] = [];
+    const wordTags: any[] = [];
     if (data.edit) {
       (data as PassedDataOnEdit).word.translations.forEach(e => {
         this.translations.push(e);
@@ -89,7 +105,11 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
       (data as PassedDataOnEdit).word.related_words.forEach(e => {
         relatedWords.push(e);
-      })
+      });
+
+      (data as PassedDataOnEdit).word.tags.forEach(e => {
+        wordTags.push(e);
+      });
     }
 
     this.wordForm = new FormGroup({
@@ -97,7 +117,8 @@ export class WordFormComponent implements OnInit, OnDestroy {
       translation: new FormControl([], [Validators.required]),
       plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
       general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
-      relatedWords: new FormControl(data.edit ? relatedWords : [], [])
+      relatedWords: new FormControl(data.edit ? relatedWords : [], []),
+      tags: new FormControl(data.edit ? wordTags : [], [])
     });
 
     if (data.edit) {
@@ -112,6 +133,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
     this.passedData = data;
     this.filterWords();
+    this.filterTags();
   }
 
   ngOnDestroy(): void {
@@ -125,6 +147,8 @@ export class WordFormComponent implements OnInit, OnDestroy {
         this.wordForm.get(change.fieldName)?.setValue(change.newValue);
       }
     });
+
+    this.getAllTags();
   }
 
   onNoClick(): void {
@@ -165,6 +189,20 @@ export class WordFormComponent implements OnInit, OnDestroy {
     this.filteredRelatedWords = newFilteredRelatedWords;
   }
 
+  filterTags() {
+    const input = this.tagInput?.nativeElement.value.toLowerCase();
+    const currentTags = this.wordForm.get('tags')?.value as Tag[];
+    let newTagsValue = this.allTags.filter(tag => currentTags.findIndex(ct => ct.id === tag.id) === -1);
+
+    if (input) {
+      newTagsValue = this.allTags
+        ?.filter(tag => tag.value.toLowerCase().includes(this.tagInput?.nativeElement.value.toLowerCase() || ''))
+        .filter(tag => !currentTags.filter(ct => ct.id === tag.id));
+    }
+
+    this.filteredTags = newTagsValue;
+  }
+
   removeRelatedWord(id: number) {
     const relatedWordsValue = this.wordForm.get('relatedWords')?.value;
     const index = relatedWordsValue.findIndex((w: any) => w.id === id);
@@ -174,6 +212,27 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterWords();
+  }
+
+  getAllTags() {
+    this.voby.getTags()
+    .subscribe({
+      next: (data: any) => {
+        this.allTags = data;
+        this.filterTags();
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
   }
 
   selectRelatedWord(event: MatAutocompleteSelectedEvent) {
@@ -190,6 +249,38 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterWords();
+  }
+
+  selectTag(event: MatAutocompleteSelectedEvent) {
+    const selectedTag = this.allTags?.find((tag: Tag) => tag.id == event.option.value) as Tag;
+    if (selectedTag) {
+      const currentTags = this.wordForm.get('tags')?.value || [];
+      (currentTags as Tag[]).push(selectedTag);
+      
+      // On Edit, we should check if the tag.words attribute already contains the word id
+      // On Create, we do not want to create a new tag, but add the word.id to the selected tag
+      if (this.passedData.edit) {
+        if (!selectedTag.word.includes((this.passedData as PassedDataOnEdit).word.id)) {
+          this.tagsToBeAttached.push(selectedTag);
+        } else {
+          // This is to cover the case where we are editing a word, de-selecting a word that was already attached to the word by mistake,
+          // and then selecting the same tag again. In this case the tag should not be in the 'toBeDetached' list any longer, and instead
+          // it should not be touched at all
+          const indexToRemove = this.tagsToBeDetached.findIndex(t => t.id === selectedTag.id);
+          this.tagsToBeDetached.splice(indexToRemove, 1);
+        }
+      } else {
+        this.tagsToBeAttached.push(selectedTag);
+      }
+
+      this.wordForm.get('tags')?.setValue(currentTags);
+    }
+
+    if (this.tagInput) {
+      this.tagInput.nativeElement.value = '';
+    }
+
+    this.filterTags();
   }
 
   submit() {
@@ -304,6 +395,31 @@ export class WordFormComponent implements OnInit, OnDestroy {
           });
         }
 
+        for (let tag of this.tagsToBeDetached) {
+          this.voby.removeWordFromTag(tag.id, word.id).subscribe({
+            next: () => {
+              const deletedIndex = word.tags.findIndex((t:any) => t.id === tag.id);
+              this.dataForParent.word.tags.splice(deletedIndex, 1);
+            },
+          });
+        }
+
+        for (let tag of this.tagsToBeCreated) {
+          this.voby.createTag(word.id, tag).subscribe({
+            next: (data) => {
+              this.dataForParent.word.tags.push(data);
+            },
+          });
+        }
+
+        for (let tag of this.tagsToBeAttached) {
+          this.voby.addWordToTag(tag.id, word.id).subscribe({
+            next: () => {
+              this.dataForParent.word.tags.push(tag);
+            },
+          });
+        }
+
         this.dialogRef.close(this.dataForParent);
       },
       error: () => {
@@ -375,6 +491,22 @@ export class WordFormComponent implements OnInit, OnDestroy {
           })
         }
 
+        for (let tagToCreate of this.tagsToBeCreated) {
+          this.voby.createTag(word.id, tagToCreate).subscribe({
+            next: (data) => {
+              this.dataForParent.word.tags.push(data);
+            }
+          });
+        }
+
+        for (let tagToAttach of this.tagsToBeAttached) {
+          this.voby.addWordToTag(tagToAttach.id, word.id).subscribe({
+            next: (data) => {
+              this.dataForParent.word.tags.push(tagToAttach);
+            }
+          });
+        }
+
         this.dialogRef.close(this.dataForParent);
       },
       error: () => {
@@ -397,7 +529,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     return this.similarWords.map((w: any) => `${w.word} (${w.set_name})`).join('< | >');
   }
 
-  add(event: MatChipInputEvent): void {
+  addTranslation(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (value) {
@@ -416,7 +548,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     event.chipInput!.clear();
   }
 
-  remove(translation: string): void {
+  removeTranslation(translation: string): void {
     const index = this.translations.findIndex(o => o.value === translation);
     if (index >= 0) {
       this.translationsToBeDeleted.push(this.translations.splice(index, 1)[0]);
@@ -431,5 +563,55 @@ export class WordFormComponent implements OnInit, OnDestroy {
     if (indexCreated >= 0) {
       this.translationsToBeCreated.splice(index, 1);
     }
+  }
+
+  addTag(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      const currentTags = this.wordForm.get('tags')?.value;
+      if (currentTags.includes(value)) {
+        return;
+      }
+
+
+      if (!currentTags) {
+        this.wordForm.patchValue({'tags':[{id: 0, value: value}]});
+      } else {
+        ((currentTags as any[]).push({id: 0, value: value}))
+        this.wordForm.patchValue({'tags': currentTags});
+      }
+
+      if (this.allTags.findIndex(f => f.value === value) === -1) {
+        this.tagsToBeCreated.push(value);
+      }
+    }
+
+    event.chipInput!.clear();
+  }
+
+  removeTag(tagToBeRemoved: Tag): void {
+    const currentTags = this.wordForm.get('tags')?.value as Tag[];
+    if (!currentTags) {
+      return;
+    }
+
+    const index = currentTags.findIndex(o => o.value === tagToBeRemoved.value);
+    if (index >= 0) {
+      this.tagsToBeDetached.push(currentTags.splice(index, 1)[0]);
+      this.wordForm.patchValue({'tags': currentTags});
+    }
+
+    const indexCreated = this.tagsToBeCreated.findIndex(o => o === tagToBeRemoved.value);
+    if (indexCreated >= 0) {
+      this.tagsToBeCreated.splice(index, 1);
+    }
+
+    const indexAttached = this.tagsToBeAttached.findIndex(o => o.value === tagToBeRemoved.value);
+    if (indexAttached >= 0) {
+      this.tagsToBeAttached.splice(index, 1);
+    }
+
+    this.filterTags();
   }
 }

@@ -176,7 +176,8 @@ export class VobyService {
       {
         correct: correct
       },
-      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}
+    });
   }
 
   createTestAttempt(questionsCorrect: number) {
@@ -252,6 +253,32 @@ export class VobyService {
             'numTestQuestions': numTestQ
           }
       },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}
+    });
+  }
+
+  getTags() {
+    return this.http.get(environment.apiUrl + '/voby/tags', {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()} 
+    });
+  }
+  
+  createTag(word: number, value: string) {
+    return this.http.post(environment.apiUrl + '/voby/tags/',
+      {
+        word: [word],
+        value: value
+      },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  removeWordFromTag(tagId: number, wordId: number) {
+    return this.http.put(`${environment.apiUrl}/voby/tags/${tagId}/remove/${wordId}/`,
+      {}, { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  addWordToTag(tagId: number, wordId: number) {
+    return this.http.put(`${environment.apiUrl}/voby/tags/${tagId}/add/${wordId}/`,
+      {}, { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 }

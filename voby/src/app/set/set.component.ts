@@ -10,7 +10,13 @@ import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
 
-interface word {
+interface Tag {
+  id: number;
+  value: string;
+  words: number[];
+}
+
+interface Word {
   id: number;
   word: string;
   translations: {id: number, value: string}[];
@@ -20,6 +26,7 @@ interface word {
   favorite: boolean;
   related_words: any[];
   created: string
+  tags: Tag[];
 }
 
 @Component({
@@ -32,8 +39,8 @@ export class SetComponent implements OnInit {
   id: number = -1;
   @ViewChild('searchInput') searchInput: ElementRef | undefined;
 
-  selectedWord: word | undefined = undefined;
-  filteredWords: word[] = [];
+  selectedWord: Word | undefined = undefined;
+  filteredWords: Word[] = [];
   paramsSubscription$: Subscription | undefined;
   setWords: any | undefined;
   setWordsToday: number = 0;
@@ -68,7 +75,6 @@ export class SetComponent implements OnInit {
       this.shortcutSubscriptions$ = [];
 
       for (const s of shortcuts) {
-        console.log(s);
         this.shortcutSubscriptions$.push(s.subscribe());
       }
     });
@@ -230,7 +236,7 @@ export class SetComponent implements OnInit {
     this.voby.editWordFavorite(id, !favorite)
     .subscribe({
       next: () => {
-        this.setWords.find((w: word) => w.id === id).favorite = !favorite;
+        this.setWords.find((w: Word) => w.id === id).favorite = !favorite;
       }
     });
   }
@@ -314,8 +320,8 @@ export class SetComponent implements OnInit {
       this.search();
       this.showingFavorites = false;
     } else {
-      let newWords: word[] = [];
-      this.setWords.filter((w: word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      let newWords: Word[] = [];
+      this.setWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
       this.filteredWords.splice(0, this.filteredWords.length);
       newWords.forEach(nW => {
         this.filteredWords.push(nW);
@@ -325,7 +331,7 @@ export class SetComponent implements OnInit {
   }
 
   search() {
-    let newWords: word[] = [];
+    let newWords: Word[] = [];
     this.setWords.forEach((i: any) => newWords.push(i));
 
     if(this.searchInput) {

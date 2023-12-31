@@ -118,3 +118,8 @@ class Example(models.Model):
     text = models.TextField(null=False, blank=False)
     translation = models.TextField(null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+class Tag(models.Model):
+    word = models.ManyToManyField(Word, related_name='tags')
+    value = models.TextField(null=False, blank=False)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
