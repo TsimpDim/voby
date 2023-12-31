@@ -42,6 +42,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { SnackbarComponent } from './custom/snackbar/snackbar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NounTestComponent } from './german/noun-test/noun-test.component';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -90,7 +91,8 @@ import { NounTestComponent } from './german/noun-test/noun-test.component';
     MatProgressBarModule,
     MatTooltipModule,
     MatSnackBarModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatBadgeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -9,7 +9,6 @@ import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 interface Tag {
   id: number;
@@ -56,6 +55,7 @@ export class SetComponent implements OnInit {
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
   suggestedWord: string | undefined = undefined;
+  tagFrequency: any = {};
 
   constructor(
     private route: ActivatedRoute,
@@ -249,6 +249,8 @@ export class SetComponent implements OnInit {
   
         this.selectedWord = this.setWords[0];
         this.getAllWordsOfClass(data.vclass_info.id);
+
+        this.tagFrequency = data.words.flatMap((w: Word) => w.tags.map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {})
         this.search();
       },
       error: (error: any) => {

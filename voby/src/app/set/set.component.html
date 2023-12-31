@@ -21,7 +21,10 @@
                         (removed)="removeTag(tag.id)"
                         (click)="addTagToSearch(tag.id)"
                     >
-                        {{tag.value}}
+                        <div style="display: flex; flex-direction: row;">
+                            <div>{{tag.value}}</div>
+                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
+                        </div>
                         <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
 
@@ -36,7 +39,10 @@
                 </mat-chip-list>
                 <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
-                        {{tag.value}}
+                        <div style="display: flex; flex-direction: row;">
+                            <div>{{tag.value}}</div>
+                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
+                        </div>
                     </mat-option>
                 </mat-autocomplete>
 
