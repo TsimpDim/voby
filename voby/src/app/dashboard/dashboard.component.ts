@@ -7,6 +7,8 @@ import { COUNTRY_MAPPING, getCountryEmoji } from '../countries';
 import { SetFormComponent } from '../set-form/set-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
+import { HotkeysService } from '../_services/hotkeys.service';
+import { Subscription } from 'rxjs';
 
 export interface DialogData {
   className: string;
@@ -22,12 +24,26 @@ export class DashboardComponent implements OnInit {
   selectedClass: number = -1;
   toShowQuizButton = false;
   getCountryEmoji = getCountryEmoji;
+  shortcutSubscriptions$: Subscription[] = [];
 
   constructor(
     private router: Router,
     public voby: VobyService,
-    private _snackBar: MatSnackBar, 
-    public dialog: MatDialog) { }
+    private _snackBar: MatSnackBar,
+    private hotkeys: HotkeysService,
+    public dialog: MatDialog) {
+      this.hotkeys.shortcuts$.subscribe(shortcuts => {
+        for (const s of this.shortcutSubscriptions$) {
+          s.unsubscribe();
+        }
+  
+        this.shortcutSubscriptions$ = [];
+  
+        for (const s of shortcuts) {
+          this.shortcutSubscriptions$.push(s.subscribe());
+        }
+      });
+    }
 
   classes: any = null;
   loading = true;
@@ -39,6 +55,12 @@ export class DashboardComponent implements OnInit {
 
     const quizShow = localStorage.getItem('quiz_show');
     this.toShowQuizButton =  quizShow === 'false' || quizShow === null;
+  }
+
+  ngOnDestroy() {
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
   }
 
   showQuiz() {

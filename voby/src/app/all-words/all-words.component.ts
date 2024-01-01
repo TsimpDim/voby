@@ -77,6 +77,9 @@ export class AllWordsComponent implements OnInit {
 
   ngOnDestroy() {
     this.paramsSubscription?.unsubscribe();
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
   }
 
   selectWord(id: number) {
