@@ -20,3 +20,12 @@ form {
     border: 1px rgb(210, 210, 210) dashed;
     margin-top:-1em;
 }
+
+.similar-word-suggestion {
+    background-color: #fffbee;
+    border: 2px #fed53f dashed;
+
+    &:hover {
+        cursor: pointer;
+    }
+}

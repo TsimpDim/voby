@@ -48,6 +48,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   dataForParent: any = {};
   deletedExamples: any[] = [];
   similarWords: RelatedWord[] = [];
+  suggestedRelatedWords: RelatedWord[] = [];
   formDataSubscription$: Subscription = new Subscription();
 
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
@@ -194,10 +195,11 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterWords();
+    this.checkSimilar();
   }
 
-  selectRelatedWord(event: MatAutocompleteSelectedEvent) {
-    const newValue = this.passedData.allWords?.find((word) => word.id == event.option.value) as RelatedWord;
+  selectRelatedWord(wordId: number) {
+    const newValue = this.passedData.allWords?.find((word) => word.id === wordId) as RelatedWord;
     if (newValue) {
       const relatedWords = this.wordForm.get('relatedWords')?.value || [];
       const newRw = {id: newValue.id, word: newValue.word};
@@ -210,6 +212,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterWords();
+    this.checkSimilar();
   }
 
   selectTag(event: MatAutocompleteSelectedEvent) {
@@ -486,8 +489,13 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
   checkSimilar() {
     const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
-    const similarWords = (this.passedData as PassedDataOnCreate | PassedDataOnEdit).allWords.filter(w => stringSimilarity(w.word, word) >= 0.8);
+    const similarWords = this.passedData.allWords.filter(w => stringSimilarity(w.word, word) >= 0.8);
+    const suggestedRelatedWords = this.passedData.allWords
+      .filter(w => stringSimilarity(w.word, word) >= 0.8 || (word.length > 5 && w.word.includes(word)))
+      .filter(w => !this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id));
+
     this.similarWords = similarWords;
+    this.suggestedRelatedWords = suggestedRelatedWords;
   }
 
   displaySimilarWords() {

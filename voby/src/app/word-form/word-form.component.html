@@ -72,7 +72,7 @@
                 {{word.word}}
                 <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-            
+
             <input
                 placeholder="word..."
                 #relatedWordInput
@@ -80,9 +80,18 @@
                 [matChipInputFor]="chipList"
                 (keyup)="filterWords()"
             >
+
+            <mat-chip
+                *ngFor="let word of suggestedRelatedWords"
+                (click)="selectRelatedWord(word.id)"
+                class="similar-word-suggestion"
+                matTooltip="Suggested related word"
+            >
+                {{word.word}}
+            </mat-chip>
         </mat-chip-list>
 
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event)">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event.option.value)">
             <mat-option *ngFor="let word of filteredRelatedWords" [value]="word.id">
                 {{word.word}}
             </mat-option>
