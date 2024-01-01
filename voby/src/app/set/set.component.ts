@@ -114,6 +114,7 @@ export class SetComponent implements OnInit {
     const removedTag = this.selectedTags.splice(indexToRemove, 1);
     this.searchTags.push(removedTag[0]);
     this.search();
+    this.calculateTagFrequency();
   }
 
   addTagToSearch(selectedTagId: number) {
@@ -165,6 +166,7 @@ export class SetComponent implements OnInit {
       this.allWords.push({id: data.word.id, word: data.word.word, set: data.word.set});
       this.allTags.push(...data.newTags);
       this.setWordsToday += 1;
+      this.calculateTagFrequency();
       this.selectWord(data.word.id);
       this.search();
     });
@@ -204,6 +206,7 @@ export class SetComponent implements OnInit {
           if (this.setWords.length > 0) {
             this.selectWord(this.setWords[deletedWordIdx].id);
           }
+          this.calculateTagFrequency();
           this.search();
         },
         error: (error: any) => {
@@ -249,8 +252,7 @@ export class SetComponent implements OnInit {
   
         this.selectedWord = this.setWords[0];
         this.getAllWordsOfClass(data.vclass_info.id);
-
-        this.tagFrequency = data.words.flatMap((w: Word) => w.tags.map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {})
+        this.calculateTagFrequency();
         this.search();
       },
       error: (error: any) => {
@@ -267,6 +269,12 @@ export class SetComponent implements OnInit {
     })
   }
 
+  calculateTagFrequency(words: Word[] = this.setWords) {
+    if (words !== undefined) {
+      this.tagFrequency = words.flatMap((w: Word) => (w.tags || []).map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {});
+    }
+  }
+ 
   getAllWordsOfClass(classId: number) {
     this.voby.getAllWordsOfClass(classId)
     .subscribe({
@@ -363,7 +371,9 @@ export class SetComponent implements OnInit {
 
         const wordIdx = this.allWords.findIndex(w => w.id === word.id);
         this.allWords[wordIdx].word = word.word;
+        this.allWords[wordIdx].tags = word.tags;
         this.allTags.push(...res.newTags);
+        this.calculateTagFrequency();
       }
     })
   }
