@@ -9,25 +9,7 @@ import { SetFormComponent } from '../set-form/set-form.component';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
-
-interface Tag {
-  id: number;
-  value: string;
-  words: number[];
-}
-
-interface Word {
-  id: number;
-  word: string;
-  translations: {id: number, value: string}[];
-  examples: {text: string, translation: string, id: number}[];
-  general: string;
-  plural: string;
-  favorite: boolean;
-  related_words: any[];
-  created: string
-  tags: Tag[];
-}
+import { Tag, Word } from '../interfaces';
 
 @Component({
   selector: 'voby-set',

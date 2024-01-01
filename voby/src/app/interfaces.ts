@@ -1,0 +1,26 @@
+export interface Tag {
+    id: number;
+    value: string;
+    word: number[];
+}
+
+export interface Word {
+    id: number;
+    word: string;
+    set: number;
+    translations: {id: number, value: string}[];
+    examples: {text: string, translation: string, id: number}[];
+    general: string;
+    plural: string;
+    favorite: boolean;
+    related_words: any[];
+    created: string
+    tags: Tag[];
+}
+
+export interface UserShortcut {
+    key_1: string,
+    key_2: string,
+    result: string,
+    id: number
+  }

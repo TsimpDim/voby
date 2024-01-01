@@ -11,16 +11,11 @@ import { stringSimilarity } from '../string-similarity';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormDataService } from '../_services/form-data.service';
 import { Subscription } from 'rxjs';
+import { Tag, Word } from '../interfaces';
 
 interface RelatedWord {
   id: number;
   word: string;
-}
-
-interface Tag {
-  id: number;
-  value: string;
-  word: number[];
 }
 
 interface PassedDataOnCreate {
@@ -38,18 +33,6 @@ interface PassedDataOnEdit {
   allTags: Tag[]
 };
 
-interface Word {
-  id: number;
-  word: string;
-  translations: {id: number, value: string}[];
-  examples: {text: string, translation: string, id: number}[];
-  general: string;
-  plural: string;
-  favorite: boolean;
-  related_words: any[];
-  created: string
-  tags: Tag[];
-}
 
 @Component({
   selector: 'voby-word-form',

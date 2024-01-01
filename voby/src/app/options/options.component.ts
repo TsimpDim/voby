@@ -3,13 +3,7 @@ import { VobyService } from '../_services/voby.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-
-interface UserShortcut {
-  key_1: string,
-  key_2: string,
-  result: string,
-  id: number
-}
+import { UserShortcut } from '../interfaces';
 
 @Component({
   selector: 'voby-options',

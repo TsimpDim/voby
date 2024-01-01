@@ -6,20 +6,7 @@ import { getCountryEmoji } from '../countries';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
-
-interface Word {
-  id: number;
-  word: string;
-  set: number;
-  set_name: string;
-  translations: {id: number, value: string}[];
-  examples: {text: string, translation: string, id: number}[];
-  general: string;
-  plural: string;
-  favorite: boolean;
-  related_words: any[];
-  created: string
-}
+import { Word } from '../interfaces';
 
 @Component({
   selector: 'voby-all-words',
