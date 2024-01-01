@@ -6,7 +6,9 @@ import { getCountryEmoji } from '../countries';
 import { WordFormComponent } from '../word-form/word-form.component';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
-import { Word } from '../interfaces';
+import { Tag, Word } from '../interfaces';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'voby-all-words',
@@ -25,6 +27,10 @@ export class AllWordsComponent implements OnInit {
   loading = false;
   showingFavorites = false;
   allWords: Word[] = [];
+  allTags: Tag[] = [];
+  selectedTags: Tag[] = [];
+  searchTags: Tag[] = [];
+  tagFrequency: any = {};
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
 
@@ -33,6 +39,7 @@ export class AllWordsComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     public voby: VobyService,
+    private _snackBar: MatSnackBar,
     private hotkeys: HotkeysService
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -73,6 +80,8 @@ export class AllWordsComponent implements OnInit {
     } else {
       this.search();
     }
+
+    this.getAllTags();
   }
 
   ngOnDestroy() {
@@ -80,6 +89,44 @@ export class AllWordsComponent implements OnInit {
     for (const s of this.shortcutSubscriptions$) {
       s.unsubscribe();
     }
+  }
+
+  getAllTags() {
+    this.voby.getTags()
+    .subscribe({
+      next: (data: any) => {
+        this.allTags = data;
+
+        for (let t of data) {
+          this.searchTags.push(t);
+        }
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  addTagToSearch(selectedTagId: number) {
+    const newTag = this.allTags.find((tag) => tag.id == selectedTagId) as Tag;
+    if (newTag) {
+      if (!this.selectedTags.includes(newTag)) {
+        this.selectedTags.push(newTag);
+      }
+
+      const tagIndexToBeRemoved = this.searchTags.findIndex(t => t.id === newTag.id);
+      this.searchTags.splice(tagIndexToBeRemoved, 1);
+    }
+
+    this.search();
   }
 
   selectWord(id: number) {
@@ -100,6 +147,7 @@ export class AllWordsComponent implements OnInit {
           if (this.allWords.length > 0) {
             this.selectWord(this.allWords[deletedWordIdx].id);
           }
+          this.calculateTagFrequency();
           this.search();
         },
         error: () => {
@@ -129,6 +177,7 @@ export class AllWordsComponent implements OnInit {
         this.vclass = data['vclass_info'];
         this.selectedWord = this.allWords[0];
         this.search();
+        this.calculateTagFrequency();
       },
       error: () => {
         this.loading = false;
@@ -149,12 +198,27 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
+  calculateTagFrequency(words: Word[] = this.allWords) {
+    if (words !== undefined) {
+      this.tagFrequency = words.flatMap((w: Word) => (w.tags || []).map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {});
+    }
+  }
+
+  removeTag(tagId: number) {
+    const indexToRemove = this.selectedTags.findIndex(t => t.id === tagId);
+    const removedTag = this.selectedTags.splice(indexToRemove, 1);
+    this.searchTags.push(removedTag[0]);
+    this.search();
+    this.calculateTagFrequency();
+  }
+
   editWord() {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
         word: this.selectedWord,
         allWords: this.allWords,
+        allTags: this.allTags,
         edit: true
       },
     });
@@ -182,6 +246,8 @@ export class AllWordsComponent implements OnInit {
 
         const wordIdx = this.allWords.findIndex(w => w.id === word?.id);
         this.allWords[wordIdx].word = word.word;
+        this.calculateTagFrequency();
+        this.search();
       }
     })
   }

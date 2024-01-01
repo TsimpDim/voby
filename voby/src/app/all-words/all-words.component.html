@@ -12,7 +12,36 @@
         <div class="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
-                <input #searchInput matInput (keyup)="search()" placeholder="Search for words here...">
+                <mat-chip-list #chipList>
+                    <mat-chip
+                        *ngFor="let tag of selectedTags"
+                        (removed)="removeTag(tag.id)"
+                        (click)="addTagToSearch(tag.id)"
+                    >
+                        <div style="display: flex; flex-direction: row;">
+                            <div>{{tag.value}}</div>
+                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
+                        </div>
+                        <mat-icon matChipRemove>cancel</mat-icon>
+                    </mat-chip>
+
+                    <input
+                        #searchInput
+                        matInput
+                        (keyup)="search()"
+                        placeholder="Search for words or tags    here..."
+                        [matAutocomplete]="autocomplete"
+                        [matChipInputFor]="chipList"
+                    >
+                </mat-chip-list>
+                <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
+                    <mat-option *ngFor="let tag of allTags" [value]="tag.id">
+                        <div style="display: flex; flex-direction: row;">
+                            <div>{{tag.value}}</div>
+                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
             </mat-form-field>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
             <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
@@ -102,6 +131,20 @@
                             class="active-chip"
                         >
                             {{selectedWord.set_name}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+
+                <mat-card-content>
+                    <mat-card-title>Tags</mat-card-title>
+                    <mat-chip-list> 
+                        <p *ngIf="selectedWord?.tags?.length === 0">-</p>
+                        <mat-chip 
+                            *ngFor="let tag of selectedWord?.tags"
+                            (click)="addTagToSearch(tag.id)"
+                            class="pointer-on-hover"
+                        >
+                            {{tag.value}}
                         </mat-chip>
                     </mat-chip-list>
                 </mat-card-content>
