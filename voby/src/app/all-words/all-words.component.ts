@@ -33,6 +33,7 @@ export class AllWordsComponent implements OnInit {
   tagFrequency: any = {};
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
+  wordViewRelatedWord: Word|undefined = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -116,6 +117,10 @@ export class AllWordsComponent implements OnInit {
         if (this.allWords) { this.loading = false } 
       }
     })
+  }
+
+  getFullWordFromId(id: number) {
+    return this.allWords.find(w => w.id === id);
   }
 
   addTagToSearch(selectedTagId: number) {

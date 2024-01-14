@@ -117,6 +117,7 @@
                             *ngFor="let related of selectedWord?.related_words"
                             (click)="this.selectWord(related.id)"
                             class="active-chip"
+                            (mouseover)="this.wordViewRelatedWord=getFullWordFromId(related.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
                         >
                             {{related.word}}
                         </mat-chip>
