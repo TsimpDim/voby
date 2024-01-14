@@ -11,12 +11,7 @@ import { stringSimilarity } from '../string-similarity';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { FormDataService } from '../_services/form-data.service';
 import { Subscription } from 'rxjs';
-import { Tag, Word } from '../interfaces';
-
-interface RelatedWord {
-  id: number;
-  word: string;
-}
+import { RelatedWord, Tag, Word } from '../interfaces';
 
 interface PassedDataOnCreate {
   setId: number,
@@ -64,6 +59,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   translations: {id: number, value: string}[] = [];
   translationsToBeCreated: string[] = [];
   translationsToBeDeleted: {id: number, value: string}[] = [];
+  wordViewRelatedWord: RelatedWord|undefined = undefined;
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -485,6 +481,10 @@ export class WordFormComponent implements OnInit, OnDestroy {
         this.exp.add(2);
       }
     });
+  }
+
+  getFullWordFromId(id: number) {
+    return this.passedData.allWords.find(w => w.id === id);
   }
 
   checkSimilar() {

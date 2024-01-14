@@ -24,4 +24,9 @@ export interface UserShortcut {
     key_2: string,
     result: string,
     id: number
-  }
+}
+
+export interface RelatedWord {
+    id: number;
+    word: string;
+}

@@ -92,6 +92,7 @@ export class AllWordsComponent implements OnInit {
   }
 
   getAllTags() {
+    this.loading = true;
     this.voby.getTags()
     .subscribe({
       next: (data: any) => {
@@ -111,7 +112,9 @@ export class AllWordsComponent implements OnInit {
           duration: 3 * 1000
         });
       },
-      complete: () => this.loading = false
+      complete: () => {
+        if (this.allWords) { this.loading = false } 
+      }
     })
   }
 

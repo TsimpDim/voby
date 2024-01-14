@@ -68,6 +68,7 @@
             <mat-chip
                 *ngFor="let word of wordForm.get('relatedWords')?.value"
                 (removed)="removeRelatedWord(word.id)"
+                (mouseover)="this.wordViewRelatedWord=getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
             >
                 {{word.word}}
                 <mat-icon matChipRemove>cancel</mat-icon>
@@ -96,6 +97,8 @@
                 {{word.word}}
             </mat-option>
         </mat-autocomplete>
+        <voby-word-view [word]="this.wordViewRelatedWord"></voby-word-view>
+
     </mat-form-field>
 
     <mat-form-field appearance="fill">

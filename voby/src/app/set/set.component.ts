@@ -38,6 +38,7 @@ export class SetComponent implements OnInit {
   shortcutSubscriptions$: Subscription[] = [];
   suggestedWord: string | undefined = undefined;
   tagFrequency: any = {};
+  wordViewRelatedWord: Word|undefined = undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -155,6 +156,7 @@ export class SetComponent implements OnInit {
   }
 
   getAllTags() {
+    this.loading = true;
     this.voby.getTags()
     .subscribe({
       next: (data: any) => {
@@ -174,8 +176,14 @@ export class SetComponent implements OnInit {
           duration: 3 * 1000
         });
       },
-      complete: () => this.loading = false
+      complete: () => {
+        if (this.setWords) { this.loading = false } 
+      }
     })
+  }
+
+  getFullWordFromId(id: number) {
+    return this.allWords.find(w => w.id === id);
   }
 
   deleteSelectedWord() {

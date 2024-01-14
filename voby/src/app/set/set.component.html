@@ -139,10 +139,12 @@
                             *ngFor="let related of selectedWord?.related_words"
                             (click)="related.set === this.id ? this.selectWord(related.id) : false"
                             [ngClass]="{'active-chip': related.set === this.id}"
+                            (mouseover)="this.wordViewRelatedWord=getFullWordFromId(related.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
                         >
                             {{related.word}}
                         </mat-chip>
                     </mat-chip-list>
+                    <voby-word-view [word]="this.wordViewRelatedWord"></voby-word-view>
                 </mat-card-content>
 
                 <mat-card-content>
