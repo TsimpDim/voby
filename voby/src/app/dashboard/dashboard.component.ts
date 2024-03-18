@@ -21,7 +21,8 @@ export interface DialogData {
 })
 export class DashboardComponent implements OnInit {
   className = '';
-  selectedClass: number = -1;
+  selectedClassId: number = -1;
+  selectedClass: any = {};
   toShowQuizButton = false;
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
@@ -43,9 +44,11 @@ export class DashboardComponent implements OnInit {
           this.shortcutSubscriptions$.push(s.subscribe());
         }
       });
+
+
     }
 
-  classes: any = null;
+  classes: any = [];
   loading = true;
   countryMapping = COUNTRY_MAPPING;
   @ViewChild('downloadZipLink') private downloadZipLink: ElementRef | undefined;
@@ -73,27 +76,25 @@ export class DashboardComponent implements OnInit {
   }
   
   startTest(classId: number, setId: number) {
-    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
-    const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
+    const selectedSet = this.selectedClass.sets.find((s: any) => s.id === setId);
     let hasFavorites = false;
     if (selectedSet) {
       hasFavorites = selectedSet.has_favorites;
     } else {
-      hasFavorites = selectedClass.sets.filter((s: any) => s.has_favorites).length > 0;
+      hasFavorites = this.selectedClass.sets.filter((s: any) => s.has_favorites).length > 0;
     }
 
     this.router.navigate(['/test/'], {state: {classId, setId, hasFavorites}});
   }
 
   startGermanNounTest(classId: number, setId: number) {
-    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
-    const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
+    const selectedSet = this.selectedClass.sets.find((s: any) => s.id === setId);
 
     let hasFavorites = false;
     if (selectedSet) {
       hasFavorites = selectedSet.has_favorites;
     } else {
-      hasFavorites = selectedClass.sets.filter((s: any) => s.has_german_favorites).length > 0;
+      hasFavorites = this.selectedClass.sets.filter((s: any) => s.has_german_favorites).length > 0;
     }
 
     this.router.navigate(['/german/noun-test/'], {state: {classId, setId, hasFavorites}});
@@ -105,13 +106,15 @@ export class DashboardComponent implements OnInit {
   }
 
   redirect(setId: number) {
-    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
+    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClassId);
     const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
     this.router.navigate(['/set/' + setId], {state: {selectedSet, selectedClass}});
   }
 
   selectClass(classIdx: number) {
-    this.selectedClass = classIdx;
+    this.selectedClassId = classIdx;
+    this.selectedClass = this.classes.find((c: any) => c.id === classIdx);
+    window.localStorage.setItem('selectedClass', this.selectedClassId.toString());
   }
 
   openClassForm() {
@@ -145,7 +148,7 @@ export class DashboardComponent implements OnInit {
   }
 
   showAllWordsOfClass(classIdx: number) {
-    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClass);
+    const selectedClass = this.classes.find((o: any) => o.id === this.selectedClassId);
 
     this.router.navigate(['/class/' + classIdx], { state: {selectedClass} });
   }
@@ -155,9 +158,7 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.classes = data;
-        if (this.classes.length === 1) {
-          this.selectClass(this.classes[0].id);
-        }
+        this.selectClass(Number(window.localStorage.getItem('selectedClass') || 0));
         this.dialog.closeAll();
       },
       error: (error: any) => {

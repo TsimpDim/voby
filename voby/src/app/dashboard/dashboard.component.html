@@ -6,46 +6,44 @@
 
 <voby-dashboard-flash [hide]="this.toShowQuizButton" (close)="hideQuiz()"></voby-dashboard-flash>
 <voby-loading-ind *ngIf="loading"></voby-loading-ind>
-<mat-accordion>
-  <mat-expansion-panel [expanded]="classes.length === 1" *ngFor="let class of classes; index as classIdx">
-    <mat-expansion-panel-header (click)="selectClass(class.id)">
-      <mat-panel-title>
-        {{class.name}} <span class="country">{{this.getCountryEmoji(class.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(class.target_language)}}</span>
-      </mat-panel-title>
-      <mat-panel-description>
-        Contains {{class.sets.length}} vocabulary sets
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<div style="margin: 2em;" *ngIf="!loading">
+  <h2>
+    <mat-select [value]="selectedClassId" [placeholder]="this.selectedClass.name" (selectionChange)="selectClass($event.value)" style="width: 20%;">
+      <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
+    </mat-select>
+  </h2>
 
-    <mat-list>
-      <ng-container *ngFor="let set of class.sets; index as i">
-        <mat-list-item matRipple class="set-item" (click)="redirect(set.id)">{{set.name}}
-          <div style="margin-left:auto">
-            <button mat-icon-button [disabled]="!set.has_words" (click)="startTest(class.id, set.id)" matTooltip="Set test"><mat-icon>quiz</mat-icon></button>
-            <button mat-icon-button (click)="editSet($event, set.id)" matTooltip="Edit set"><mat-icon>edit</mat-icon></button> 
-            <button mat-icon-button (click)="deleteSet($event, set.id)" matTooltip="Delete set"><mat-icon>delete</mat-icon></button>
-          </div>
-        </mat-list-item>
-        <mat-divider *ngIf="i != class.sets.length -1"></mat-divider>
-      </ng-container>
+  <span class="country">{{this.getCountryEmoji(this.selectedClass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(this.selectedClass.target_language)}}</span>
+  Contains {{this.selectedClass.sets.length}} vocabulary sets
 
-      <div style="display: flex;flex-direction: row;">
-        <div class="action-cont">
-          <button mat-icon-button color="accent" (click)="createVocabSet(class.id)" matTooltip="Add new set">
-            <mat-icon fontIcon="add"></mat-icon> set
-          </button>
-          <button mat-icon-button (click)="showAllWordsOfClass(class.id)" matTooltip="Show all words of class" [disabled]="!hasWords(class.id)"><mat-icon>visibility</mat-icon></button> 
-          <button mat-icon-button (click)="editClass(class.id)" matTooltip="Edit class"><mat-icon>edit</mat-icon></button> 
-          <button mat-icon-button (click)="downloadClassReport(class.id)" matTooltip="Download class data" [disabled]="!hasWords(class.id)"><mat-icon>download</mat-icon></button>
-          <button mat-icon-button (click)="deleteClass(class.id)" matTooltip="Delete class"><mat-icon>delete</mat-icon></button>
+  <mat-list>
+    <ng-container *ngFor="let set of this.selectedClass.sets; index as i">
+      <mat-list-item matRipple class="set-item" (click)="redirect(set.id)">{{set.name}}
+        <div style="margin-left:auto">
+          <button mat-icon-button [disabled]="!set.has_words" (click)="startTest(this.selectedClass.id, set.id)" matTooltip="Set test"><mat-icon>quiz</mat-icon></button>
+          <button mat-icon-button (click)="editSet($event, set.id)" matTooltip="Edit set"><mat-icon>edit</mat-icon></button> 
+          <button mat-icon-button (click)="deleteSet($event, set.id)" matTooltip="Delete set"><mat-icon>delete</mat-icon></button>
         </div>
+      </mat-list-item>
+      <mat-divider *ngIf="i != this.selectedClass.sets.length -1"></mat-divider>
+    </ng-container>
 
-        <div class="sec-action-cont">
-          <button mat-icon-button (click)="startTest(class.id, -1)" [disabled]="!hasWords(class.id)" matTooltip="Class test"><mat-icon>quiz</mat-icon> Test</button>
-          <button *ngIf="class.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(class.id, -1)" matTooltip="Special test: Genders of nouns" [disabled]="!hasWords(class.id) || !class.has_german_nouns"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
-        </div>
+    <div style="display: flex;flex-direction: row;">
+      <div class="action-cont">
+        <button mat-icon-button color="accent" (click)="createVocabSet(this.selectedClass.id)" matTooltip="Add new set">
+          <mat-icon fontIcon="add"></mat-icon> set
+        </button>
+        <button mat-icon-button (click)="showAllWordsOfClass(this.selectedClass.id)" matTooltip="Show all words of class" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>visibility</mat-icon></button> 
+        <button mat-icon-button (click)="editClass(this.selectedClass.id)" matTooltip="Edit class"><mat-icon>edit</mat-icon></button> 
+        <button mat-icon-button (click)="downloadClassReport(this.selectedClass.id)" matTooltip="Download class data" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>download</mat-icon></button>
+        <button mat-icon-button (click)="deleteClass(this.selectedClass.id)" matTooltip="Delete class"><mat-icon>delete</mat-icon></button>
       </div>
-    </mat-list>
-  </mat-expansion-panel>
-</mat-accordion>
+
+      <div class="sec-action-cont">
+        <button mat-icon-button (click)="startTest(this.selectedClass.id, -1)" [disabled]="!hasWords(this.selectedClass.id)" matTooltip="Class test"><mat-icon>quiz</mat-icon> Test</button>
+        <button *ngIf="this.selectedClass.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(this.selectedClass.id, -1)" matTooltip="Special test: Genders of nouns" [disabled]="!hasWords(this.selectedClass.id) || !this.selectedClass.has_german_nouns"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
+      </div>
+    </div>
+  </mat-list>
+</div>  
 <a class="download-zip-link" #downloadZipLink></a>
