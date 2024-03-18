@@ -1,4 +1,8 @@
-::ng-deep .cdk-overlay-pane{
+::ng-deep .cdk-overlay-pane {
     overflow-y: scroll;
     max-height: 70vh;
+}
+
+::ng-deep body {
+    background-color: hsl(263, 52%, 97%); 
 }

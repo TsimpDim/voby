@@ -1,49 +1,50 @@
-<div id="action-bar">
-  <button mat-raised-button color="accent" (click)="openClassForm()"><mat-icon>add</mat-icon> Create new class</button>
-  <button mat-raised-button color="primary" (click)="showQuiz()" style="margin-left: .2em" *ngIf="toShowQuizButton"><mat-icon>bolt</mat-icon>Quiz</button>
-</div>
+  <div id="action-bar">
+    <button mat-raised-button color="accent" (click)="openClassForm()"><mat-icon>add</mat-icon> Create new class</button>
+    <button mat-raised-button color="primary" (click)="showQuiz()" style="margin-left: .2em" *ngIf="toShowQuizButton"><mat-icon>bolt</mat-icon>Quiz</button>
+  </div>
 
 
 <voby-dashboard-flash [hide]="this.toShowQuizButton" (close)="hideQuiz()"></voby-dashboard-flash>
 <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 <div style="margin: 2em;" *ngIf="!loading">
-  <h2>
-    <mat-select [value]="selectedClassId" [placeholder]="this.selectedClass.name" (selectionChange)="selectClass($event.value)" style="width: 20%;">
-      <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
-    </mat-select>
-  </h2>
+  <div style="display: flex;flex-direction: row;">
+    <h2>
+      <mat-select [value]="selectedClassId" [placeholder]="this.selectedClass.name" (selectionChange)="selectClass($event.value)">
+        <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
+      </mat-select>
+    </h2>
+    <span class="country">{{this.getCountryEmoji(this.selectedClass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(this.selectedClass.target_language)}}</span> Contains {{this.selectedClass.sets.length}} vocabulary sets
+  </div> 
 
-  <span class="country">{{this.getCountryEmoji(this.selectedClass.source_language)}}</span> > <span class="country">{{this.getCountryEmoji(this.selectedClass.target_language)}}</span>
-  Contains {{this.selectedClass.sets.length}} vocabulary sets
 
-  <mat-list>
+  <div class="set-container">
     <ng-container *ngFor="let set of this.selectedClass.sets; index as i">
-      <mat-list-item matRipple class="set-item" (click)="redirect(set.id)">{{set.name}}
-        <div style="margin-left:auto">
+      <mat-card matRipple class="set-item" (click)="redirect(set.id)">
+        <h3 style="padding: .6em;padding-bottom: 0;margin: 0;font-weight: 500;">{{set.name}}</h3>
+        <div class="card-footer">
           <button mat-icon-button [disabled]="!set.has_words" (click)="startTest(this.selectedClass.id, set.id)" matTooltip="Set test"><mat-icon>quiz</mat-icon></button>
           <button mat-icon-button (click)="editSet($event, set.id)" matTooltip="Edit set"><mat-icon>edit</mat-icon></button> 
           <button mat-icon-button (click)="deleteSet($event, set.id)" matTooltip="Delete set"><mat-icon>delete</mat-icon></button>
         </div>
-      </mat-list-item>
-      <mat-divider *ngIf="i != this.selectedClass.sets.length -1"></mat-divider>
+      </mat-card>
     </ng-container>
+  </div>
 
-    <div style="display: flex;flex-direction: row;">
-      <div class="action-cont">
-        <button mat-icon-button color="accent" (click)="createVocabSet(this.selectedClass.id)" matTooltip="Add new set">
-          <mat-icon fontIcon="add"></mat-icon> set
-        </button>
-        <button mat-icon-button (click)="showAllWordsOfClass(this.selectedClass.id)" matTooltip="Show all words of class" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>visibility</mat-icon></button> 
-        <button mat-icon-button (click)="editClass(this.selectedClass.id)" matTooltip="Edit class"><mat-icon>edit</mat-icon></button> 
-        <button mat-icon-button (click)="downloadClassReport(this.selectedClass.id)" matTooltip="Download class data" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>download</mat-icon></button>
-        <button mat-icon-button (click)="deleteClass(this.selectedClass.id)" matTooltip="Delete class"><mat-icon>delete</mat-icon></button>
-      </div>
-
-      <div class="sec-action-cont">
-        <button mat-icon-button (click)="startTest(this.selectedClass.id, -1)" [disabled]="!hasWords(this.selectedClass.id)" matTooltip="Class test"><mat-icon>quiz</mat-icon> Test</button>
-        <button *ngIf="this.selectedClass.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(this.selectedClass.id, -1)" matTooltip="Special test: Genders of nouns" [disabled]="!hasWords(this.selectedClass.id) || !this.selectedClass.has_german_nouns"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
-      </div>
+  <div style="display: flex;flex-direction: row;">
+    <div class="action-cont">
+      <button mat-icon-button color="accent" (click)="createVocabSet(this.selectedClass.id)" matTooltip="Add new set">
+        <mat-icon fontIcon="add"></mat-icon> set
+      </button>
+      <button mat-icon-button (click)="showAllWordsOfClass(this.selectedClass.id)" matTooltip="Show all words of class" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>visibility</mat-icon></button> 
+      <button mat-icon-button (click)="editClass(this.selectedClass.id)" matTooltip="Edit class"><mat-icon>edit</mat-icon></button> 
+      <button mat-icon-button (click)="downloadClassReport(this.selectedClass.id)" matTooltip="Download class data" [disabled]="!hasWords(this.selectedClass.id)"><mat-icon>download</mat-icon></button>
+      <button mat-icon-button (click)="deleteClass(this.selectedClass.id)" matTooltip="Delete class"><mat-icon>delete</mat-icon></button>
     </div>
-  </mat-list>
+
+    <div class="sec-action-cont">
+      <button mat-icon-button (click)="startTest(this.selectedClass.id, -1)" [disabled]="!hasWords(this.selectedClass.id)" matTooltip="Class test"><mat-icon>quiz</mat-icon> Test</button>
+      <button *ngIf="this.selectedClass.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(this.selectedClass.id, -1)" matTooltip="Special test: Genders of nouns" [disabled]="!hasWords(this.selectedClass.id) || !this.selectedClass.has_german_nouns"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
+    </div>
+  </div>
 </div>  
 <a class="download-zip-link" #downloadZipLink></a>
