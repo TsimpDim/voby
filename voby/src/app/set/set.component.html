@@ -1,18 +1,24 @@
 <ng-container *ngIf="this.set !== undefined && this.vclass !== undefined">
-    <div class="set-header">
-        <div class="set-info">
-            <div (dblclick)="editSet()">
-                <h1 class="set-data">{{this.set.name}}  <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
-                <h3 class="class-title">{{this.vclass.name}}</h3>
+    <div id="set-header">
+        <div id="set-info">
+            <div (dblclick)="editSet()" style="height: inherit;">
+                <h1 id="set-data">{{this.set.name}}  
+                    <div id="set-emojis">
+                        <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span>
+                        > 
+                        <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span>
+                    </div>
+                </h1>
+                <h3 id="class-title">{{this.vclass.name}}</h3>
             </div>
-            <div>
+            <div id="set-statistics">
                 <h4 class="set-length" *ngIf="this.setWords">{{this.setWords.length}} word(s) total</h4>
                 <h4 class="set-length" *ngIf="this.setWords">{{this.setWordsToday}} created today</h4>
                 <h4 class="set-length" *ngIf="this.setWords">{{this.filteredWords.length}} visible</h4>
             </div>
         </div>
         
-        <div class="search-bar">
+        <div id="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
                 <mat-chip-list #chipList>
@@ -106,22 +112,28 @@
                     </div>
                 </mat-card-content>
 
+                <!-- <mat-card-content class="info-container" *ngIf="selectedWord?.plural">
+                    <mat-card-title>Plural</mat-card-title>
+                    
+                    <p>{{selectedWord.plural}}</p>
+                </mat-card-content>
+
                 <mat-card-content class="info-container" *ngIf="selectedWord?.translations">
                     <mat-card-title>Translations</mat-card-title>
                     
                     <mat-chip-list>
                         <mat-chip *ngFor="let t of selectedWord.translations">{{t.value}}</mat-chip>
                     </mat-chip-list>
-                </mat-card-content>
+                </mat-card-content> -->
 
-                <mat-card-content class="info-container" *ngIf="selectedWord?.general">
+                <mat-card-content class="info-container">
                     <mat-card-title>General</mat-card-title>
                     
                     <p *ngIf="!selectedWord?.general">-</p>
                     <p style="white-space: pre">{{selectedWord.general}}</p>
                 </mat-card-content>
 
-                <mat-card-content class="info-container" *ngIf="selectedWord?.examples?.length !== 0">
+                <mat-card-content class="info-container">
                     <mat-card-title>Examples</mat-card-title>
                         <p *ngIf="selectedWord?.examples?.length === 0">-</p>
                         <p *ngFor="let example of selectedWord?.examples">
@@ -131,7 +143,7 @@
                         </p>
                 </mat-card-content>
 
-                <mat-card-content class="info-container" *ngIf="selectedWord?.related_words?.length !== 0">
+                <mat-card-content class="info-container">
                     <mat-card-title>Related words</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.related_words?.length === 0">-</p>
@@ -147,7 +159,7 @@
                     <voby-word-view [word]="this.wordViewRelatedWord"></voby-word-view>
                 </mat-card-content>
 
-                <mat-card-content class="info-container" *ngIf="selectedWord?.tags?.length !== 0"> 
+                <mat-card-content class="info-container"> 
                     <mat-card-title>Tags</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.tags?.length === 0">-</p>
