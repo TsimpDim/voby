@@ -89,13 +89,20 @@
 
 .word-container {
     display: flex;
-    flex-direction: column;
-    padding-right: 2.8em;
+    flex-direction: row;
     flex-grow: 2;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+    width: 60%;
 }
 
 .word {
-    width: 100%;
+    width: 45%;
+    border-radius: 10px;
+    margin-bottom: 1em;
+    max-height: 50px;
 
     .mat-card-content {
         margin-bottom: 0;
@@ -104,6 +111,7 @@
     &:hover {
         cursor: pointer;
         background-color: rgb(235, 235, 235);
+        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
     }
 }
 
@@ -114,12 +122,9 @@
 }
 
 .word-detail-container {
-    min-height: 400px;
-
-    .mat-card-content {
-        display: block;
-        margin-bottom: 50px;
-    }
+    min-height: 600px;
+    margin-left: 0;
+    border-radius: 10px;
 
     .word-card-content {
         position: fixed;
@@ -151,6 +156,13 @@
 
 .action-icon {
     margin-top: -1em;
+}
+
+.card-title {
+    .word-word {
+        padding: 0;
+        margin: 0;
+    }
 }
 
 .card-list-item-cont {
@@ -203,6 +215,7 @@
 
 .selected-word {
     background-color: rgb(235, 235, 235);
+    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
 }
 
 .set-info {
@@ -240,7 +253,8 @@
     margin-top: 1em;
     margin-bottom: 0;
     margin-left: 1em;
-    
+    flex-basis: 100%;
+
     font-weight: 400;
     color: rgb(153, 153, 153);
 }
@@ -254,4 +268,12 @@
     font-size: .7em;
     margin-left: .2em;
     margin-top: -.4em;
+}
+
+.info-container {
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    padding: 1em;
+    display: block;
+    margin-bottom: 10px;
 }

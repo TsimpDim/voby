@@ -68,7 +68,7 @@
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
                     <mat-card-content class="card-list-item-cont">
                         <mat-card-title class="card-title">
-                            <p class="word">{{word.word}}</p>
+                            <p class="word-word">{{word.word}}</p>
                             <p class="plural">{{word.plural}}</p>
                         </mat-card-title>
                         <p class="alternatives">
@@ -90,38 +90,38 @@
         </div>
 
         
-        <mat-card *ngIf="selectedWord === undefined && this.filteredWords.length > 0" class="word-detail-container">
-            <mat-card-content>
-                <mat-card-title>
-                    Please select a word
-                </mat-card-title>
-            </mat-card-content>
-        </mat-card>
+        <!-- <mat-card *ngIf="selectedWord === undefined && this.filteredWords.length > 0" class="word-detail-container"> -->
         <p *ngIf="this.filteredWords.length === 0" class="empty-message">No words found :(</p>
         <mat-card *ngIf="selectedWord !== undefined" class="word-detail-container" (dblclick)="editWord()">
             <div class="word-card-content">
                 <mat-card-content style="margin-bottom: 1em;">
-                    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                    <div style="display: flex; flex-direction: row; justify-content: space-between;width: 100%;">
                         <mat-card-title class="header">{{selectedWord.word}}</mat-card-title>
                         <h4 class="word-date">Added {{selectedWord.created | date:'mediumDate'}}</h4>
                         <div>
                             <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
                             <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon" matTooltip="Delete word"><mat-icon>delete_outline</mat-icon></button>
-                            <!-- <button mat-icon-button (click)="deselectWord()" class="action-icon"><mat-icon>close</mat-icon></button> -->
+                            <button mat-icon-button (click)="deselectWord()" class="action-icon"><mat-icon>close</mat-icon></button>
                         </div>
                     </div>
                 </mat-card-content>
 
-                <mat-card-content>
-                    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                        <mat-card-title>General</mat-card-title>
-                    </div>    
+                <mat-card-content class="info-container" *ngIf="selectedWord?.translations">
+                    <mat-card-title>Translations</mat-card-title>
+                    
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let t of selectedWord.translations">{{t.value}}</mat-chip>
+                    </mat-chip-list>
+                </mat-card-content>
+
+                <mat-card-content class="info-container" *ngIf="selectedWord?.general">
+                    <mat-card-title>General</mat-card-title>
                     
                     <p *ngIf="!selectedWord?.general">-</p>
                     <p style="white-space: pre">{{selectedWord.general}}</p>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container" *ngIf="selectedWord?.examples?.length !== 0">
                     <mat-card-title>Examples</mat-card-title>
                         <p *ngIf="selectedWord?.examples?.length === 0">-</p>
                         <p *ngFor="let example of selectedWord?.examples">
@@ -131,7 +131,7 @@
                         </p>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container" *ngIf="selectedWord?.related_words?.length !== 0">
                     <mat-card-title>Related words</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.related_words?.length === 0">-</p>
@@ -147,7 +147,7 @@
                     <voby-word-view [word]="this.wordViewRelatedWord"></voby-word-view>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container" *ngIf="selectedWord?.tags?.length !== 0"> 
                     <mat-card-title>Tags</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.tags?.length === 0">-</p>
