@@ -92,6 +92,10 @@ export class AllWordsComponent implements OnInit {
     }
   }
 
+  deselectWord() {
+    this.selectedWord = undefined;
+  }
+
   getAllTags() {
     this.loading = true;
     this.voby.getTags()

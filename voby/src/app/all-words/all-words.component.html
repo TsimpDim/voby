@@ -1,15 +1,20 @@
 <ng-container>
-    <div class="set-header">
-        <div class="set-info" *ngIf="!this.loading">
+    <div id="class-header">
+        <div id="class-info" *ngIf="!this.loading">
+            <h1 id="class-data" *ngIf="this.vclass">
+                {{this.vclass.name}}
+                <div id="class-emojis">
+                    <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span>
+                    > 
+                    <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span>
+                </div>
+            </h1>
             <div>
-                <h1 class="set-data" *ngIf="this.vclass">{{this.vclass.name}}  <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span> > <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span></h1>
-            </div>
-            <div>
-                <h4 class="set-length">{{this.allWords.length}} word(s) total</h4>
+                <h4 class="class-length">{{this.allWords.length}} word(s) total</h4>
             </div>
         </div>
         
-        <div class="search-bar">
+        <div id="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
                 <mat-chip-list #chipList>
@@ -59,7 +64,7 @@
                 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
                     <mat-card-content class="card-list-item-cont">
                         <mat-card-title class="card-title">
-                            <p class="word">{{word.word}}</p>
+                            <p class="word-word">{{word.word}}</p>
                             <p class="plural">{{word.plural}}</p>
                         </mat-card-title>
                         <p class="alternatives">
@@ -86,11 +91,12 @@
                         <div>
                             <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
                             <button mat-icon-button (click)="deleteSelectedWord()" class="action-icon" matTooltip="Delete word"><mat-icon>delete_outline</mat-icon></button>
+                            <button mat-icon-button (click)="deselectWord()" class="action-icon"><mat-icon>close</mat-icon></button>
                         </div>
                     </div>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container">
                     <div style="display: flex; flex-direction: row; justify-content: space-between;">
                         <mat-card-title>General</mat-card-title>
                     </div>    
@@ -99,7 +105,7 @@
                     <p style="white-space: pre">{{selectedWord.general}}</p>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container">
                     <mat-card-title>Examples</mat-card-title>
                         <p *ngIf="selectedWord?.examples?.length === 0">-</p>
                         <p *ngFor="let example of selectedWord?.examples">
@@ -109,7 +115,7 @@
                         </p>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container">
                     <mat-card-title>Related words</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.related_words?.length === 0">-</p>
@@ -124,7 +130,7 @@
                     </mat-chip-list>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container">
                     <mat-card-title>Set</mat-card-title>
                     <mat-chip-list> 
                         <mat-chip 
@@ -136,7 +142,7 @@
                     </mat-chip-list>
                 </mat-card-content>
 
-                <mat-card-content>
+                <mat-card-content class="info-container">
                     <mat-card-title>Tags</mat-card-title>
                     <mat-chip-list> 
                         <p *ngIf="selectedWord?.tags?.length === 0">-</p>
