@@ -4,23 +4,42 @@ import { combineLatest, Subscription } from 'rxjs';
 import { UserLevel as UserLevel, experienceLevelMapping } from '../user-levels';
 import { AuthService } from '../_services/auth.service';
 import { ExperienceService } from '../_services/experience.service';
-import { trigger, style, transition, animate, keyframes, AUTO_STYLE} from '@angular/animations';
+import { trigger, style, transition, animate, keyframes, AUTO_STYLE, group, state} from '@angular/animations';
 
 @Component({
   selector: 'voby-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
   animations: [
+    trigger('animationTrigger', [
+      state('visible', style({opacity: 1})),
+      state('invisible', style({opacity: 0})),
+      transition('invisible => visible', [
+        style({ opacity: 0 }),
+        animate('200ms linear')
+      ]),
+      state('shake', style({
+        transform: 'translateX(0) rotate(0)',
+        color: '#fed640'
+      })),
+      transition('visible => shake', [
+        animate('200ms linear', style({color: '#fffff'})),
+        animate('200ms linear', style({color: '#fed640'})),
+        animate('200ms linear', style({color: '#fffff'})),
+      ]),
+      transition('shake => invisible', [
+        animate('200ms ease-out')
+      ])
+    ]),
     trigger('xpAnimation', [
       transition(':increment', [
-          style({ color: '#fed640', fontWeight: '500' }),
-          animate('1s ease-out', style('*'))
-        ]
-      )]
-    ),
+        style({ color: '#fed640', fontWeight: '500' }),
+        animate('1s ease-out', style('*'))
+      ]
+    )]),
     trigger('levelAnimation', [
       transition(':increment', [
-          style({ color: '#fed640', fontWeight: '700' }),
+        style({ color: '#fed640', fontWeight: '700' }),
           animate('1.2s ease-out', keyframes([
             style({ visibility: AUTO_STYLE, transform: 'scale3d(1, 1, 1)', easing: 'ease', offset: 0 }),
             style({ transform: 'scale3d(0.9, 0.9, 0.9) rotate3d(0, 0, 1, -3deg)', easing: 'ease', offset: 0.1 }),
@@ -45,7 +64,9 @@ export class HeaderComponent implements AfterViewInit {
   userExperience: any;
   userLevel: UserLevel = {level: 0, threshold: 0};
   userLevelProgress: any;
+  userExperienceDiff: number = 0;
   remainingExp: any;
+  animationState: string = 'visible';
 
   constructor(
     private router: Router,
@@ -54,7 +75,14 @@ export class HeaderComponent implements AfterViewInit {
   ) {
     this.exp.experience$.subscribe({
       next: (experience: any) => {
+        this.userExperienceDiff = experience - this.userExperience;
         this.userExperience = experience;
+        setTimeout(() => {
+          this.animationState = 'shake';
+          setTimeout(() => {
+            this.animationState = 'invisible';
+          }, 1000);
+        }, 200);
       }
     });
 

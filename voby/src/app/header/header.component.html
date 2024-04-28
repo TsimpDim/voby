@@ -5,6 +5,12 @@
             <mat-icon>login</mat-icon>
         </button>
 
+        <div
+            [@animationTrigger]="animationState"
+            *ngIf="this.userExperienceDiff !== this.userExperience"
+            style="font-size: .7em;"    
+        >+{{this.userExperienceDiff}}</div>
+
         <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">
             <div class="xp" matTooltip="{{this.remainingExp}} XP til next level">
                 <div [@xpAnimation]="this.userExperience">{{this.userExperience}}</div>
@@ -12,7 +18,7 @@
                 <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
                 <mat-icon aria-label="level">workspace_premium</mat-icon>
             </div>
-            <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" style="width: 80%"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" style="height:100%;width: 80%"></mat-progress-bar>
         </div>
 
         <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="goToOptions()">
