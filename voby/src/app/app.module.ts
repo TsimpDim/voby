@@ -44,6 +44,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NounTestComponent } from './german/noun-test/noun-test.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { WordViewComponent } from './custom/word-view/word-view.component';
+import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail-panel.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { WordViewComponent } from './custom/word-view/word-view.component';
     TwentyTestComponent,
     SnackbarComponent,
     NounTestComponent,
-    WordViewComponent
+    WordViewComponent,
+    WordDetailPanelComponent
   ],
   imports: [
     BrowserModule,

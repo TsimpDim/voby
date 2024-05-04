@@ -1,0 +1,77 @@
+
+<mat-card *ngIf="word !== undefined" class="word-detail-container" (dblclick)="editWord()">
+    <div class="word-card-content">
+        <mat-card-content style="margin-bottom: 1em;">
+            <div style="display: flex; flex-direction: row; justify-content: space-between;width: 100%;">
+                <mat-card-title class="header">{{word.word}}</mat-card-title>
+                <div>
+                    <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="deleteWord()" class="action-icon" matTooltip="Delete word"><mat-icon>delete_outline</mat-icon></button>
+                    <button mat-icon-button (click)="deselectWord()" class="action-icon" matTooltip="Deselect word"><mat-icon>close</mat-icon></button>
+                </div>
+            </div>
+        </mat-card-content>
+
+        <!-- <mat-card-content class="info-container" *ngIf="word?.plural">
+            <mat-card-title>Plural</mat-card-title>
+            
+            <p>{{word.plural}}</p>
+        </mat-card-content>
+
+        <mat-card-content class="info-container" *ngIf="word?.translations">
+            <mat-card-title>Translations</mat-card-title>
+            
+            <mat-chip-list>
+                <mat-chip *ngFor="let t of word.translations">{{t.value}}</mat-chip>
+            </mat-chip-list>
+        </mat-card-content> -->
+
+        <h4 class="word-date">Added {{word.created | date:'mediumDate'}}</h4>
+        <mat-card-content class="info-container">
+            <mat-card-title>General</mat-card-title>
+            
+            <p *ngIf="!word?.general">-</p>
+            <p style="white-space: pre">{{word.general}}</p>
+        </mat-card-content>
+
+        <mat-card-content class="info-container">
+            <mat-card-title>Examples</mat-card-title>
+                <p *ngIf="word?.examples?.length === 0">-</p>
+                <p *ngFor="let example of word?.examples">
+                    {{this.getCountryEmoji(vclass.source_language)}} {{example.text}}
+                    <mat-divider></mat-divider>
+                    {{this.getCountryEmoji(vclass.target_language)}} {{example.translation}}
+                </p>
+        </mat-card-content>
+
+        <mat-card-content class="info-container">
+            <mat-card-title>Related words</mat-card-title>
+            <mat-chip-list> 
+                <p *ngIf="word?.related_words?.length === 0">-</p>
+                <mat-chip 
+                    *ngFor="let related of word?.related_words"
+                    (click)="related.set === this.setId ? this.selectWord(related.id) : false"
+                    [ngClass]="{'active-chip': related.set === this.setId}"
+                    (mouseover)="this.wordViewRelatedWord=getFullWordFromId(related.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
+                >
+                    {{related.word}}
+                </mat-chip>
+            </mat-chip-list>
+            <voby-word-view [word]="this.wordViewRelatedWord"></voby-word-view>
+        </mat-card-content>
+
+        <mat-card-content class="info-container"> 
+            <mat-card-title>Tags</mat-card-title>
+            <mat-chip-list> 
+                <p *ngIf="word?.tags?.length === 0">-</p>
+                <mat-chip 
+                    *ngFor="let tag of word?.tags"
+                    (click)="addTagToSearch(tag.id)"
+                    class="pointer-on-hover"
+                >
+                    {{tag.value}}
+                </mat-chip>
+            </mat-chip-list>
+        </mat-card-content>
+    </div>
+</mat-card>

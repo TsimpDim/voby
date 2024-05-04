@@ -44,8 +44,8 @@ export class SetComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,
     public voby: VobyService,
+    private _snackBar: MatSnackBar,
     private hotkeys: HotkeysService,
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -182,36 +182,14 @@ export class SetComponent implements OnInit {
     })
   }
 
-  getFullWordFromId(id: number) {
-    return this.allWords.find(w => w.id === id);
-  }
-
   deleteSelectedWord() {
-    if (this.selectedWord) {
-      this.voby.deleteWord(this.selectedWord.id)
-      .subscribe({
-        next: () => {
-          const deletedWordIdx = this.setWords.findIndex((w: any) => w.id === this.selectedWord?.id);
-          this.setWords.splice(deletedWordIdx, 1);
-          if (this.setWords.length > 0) {
-            this.selectWord(this.setWords[deletedWordIdx].id);
-          }
-          this.calculateTagFrequency();
-          this.search();
-        },
-        error: (error: any) => {
-          this.loading = false;
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            data: {
-              message: 'Error: ' + error.statusText,
-              icon: 'error'
-            },
-            duration: 3 * 1000
-          });
-        },
-        complete: () => this.loading = false
-      })
+    const deletedWordIdx = this.setWords.findIndex((w: any) => w.id === this.selectedWord?.id);
+    this.setWords.splice(deletedWordIdx, 1);
+    if (this.setWords.length > 0) {
+      this.selectWord(this.setWords[deletedWordIdx].id);
     }
+    this.calculateTagFrequency();
+    this.search();
   }
 
   sortDateDesc() {
@@ -294,6 +272,22 @@ export class SetComponent implements OnInit {
     });
   }
 
+  editWord() {
+    const dialogRef = this.dialog.open(WordFormComponent, {
+      width: '30%',
+      data: {
+        word: this.selectedWord,
+        allWords: this.allWords,
+        allTags: this.allTags,
+        edit: true
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((res: any) => {
+      this.processEditedWord(res);
+    })
+  }
+
   deleteSet() {
     this.voby.deleteSet(this.id)
     .subscribe({
@@ -331,45 +325,29 @@ export class SetComponent implements OnInit {
     })
   }
 
-  editWord() {
-    const dialogRef = this.dialog.open(WordFormComponent, {
-      width: '30%',
-      data: {
-        word: this.selectedWord,
-        allWords: this.allWords,
-        allTags: this.allTags,
-        edit: true
-      },
-    });
+  processEditedWord(event: any) {
+    if (event) {
+      let word = this.setWords.find((w: any) => w.id === this.selectedWord?.id);
+      Object.assign(word, event.word);
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        let word = this.setWords.find((w: any) => w.id === this.selectedWord?.id);
-        Object.assign(word, res.word);
-
-        if (word.related_words) {
-          word.related_words.forEach((rw: any) => {
-            const idx = this.setWords.findIndex((w: any) => w.id === rw.id);
-            if (idx !== -1) {
-              const rwRws = this.setWords[idx].related_words;
-              if (rwRws.findIndex((w:any) => w.id === word.id) === -1) {
-                rwRws.push({id:word.id, word:word.word, set:word.set});
-              }
+      if (word.related_words) {
+        word.related_words.forEach((rw: any) => {
+          const idx = this.setWords.findIndex((w: any) => w.id === rw.id);
+          if (idx !== -1) {
+            const rwRws = this.setWords[idx].related_words;
+            if (rwRws.findIndex((w:any) => w.id === word.id) === -1) {
+              rwRws.push({id:word.id, word:word.word, set:word.set});
             }
-          });
-        }
-
-        const wordIdx = this.allWords.findIndex(w => w.id === word.id);
-        this.allWords[wordIdx].word = word.word;
-        this.allWords[wordIdx].tags = word.tags;
-        this.allTags.push(...res.newTags);
-        this.calculateTagFrequency();
+          }
+        });
       }
-    })
-  }
 
-  deselectWord() {
-    this.selectedWord = undefined;
+      const wordIdx = this.allWords.findIndex(w => w.id === word.id);
+      this.allWords[wordIdx].word = word.word;
+      this.allWords[wordIdx].tags = word.tags;
+      this.allTags.push(...event.newTags);
+      this.calculateTagFrequency();
+    }
   }
 
   toggleShowFavorites() {
@@ -390,6 +368,10 @@ export class SetComponent implements OnInit {
       });
       this.showingFavorites = true;
     }
+  }
+
+  deselectWord() {
+    this.selectedWord = undefined
   }
 
   search() {
@@ -428,11 +410,6 @@ export class SetComponent implements OnInit {
   @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
     event.preventDefault();
     this.createWord();
-  }
-
-  @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(event: KeyboardEvent) {
-    event.preventDefault();
-    this.editWord();
   }
 
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
