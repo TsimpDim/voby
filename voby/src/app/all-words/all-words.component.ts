@@ -235,33 +235,37 @@ export class AllWordsComponent implements OnInit {
       },
     });
 
-    dialogRef.afterClosed().subscribe(res => {
-      if (res) {
-        let word = this.allWords.find((w: any) => w.id === this.selectedWord?.id);
-        if (!word) {
-          return;
-        }
-
-        Object.assign(word, res.word);
-
-        if (word && word.related_words) {
-          word.related_words.forEach((rw: any) => {
-            const idx = this.allWords.findIndex((w: any) => w.id === rw.id);
-            if (idx !== -1) {
-              const rwRws = this.allWords[idx].related_words;
-              if (rwRws.findIndex((w:any) => w.id === word?.id) === -1) {
-                rwRws.push({id:word?.id, word:word?.word, set:word?.set});
-              }
-            }
-          });
-        }
-
-        const wordIdx = this.allWords.findIndex(w => w.id === word?.id);
-        this.allWords[wordIdx].word = word.word;
-        this.calculateTagFrequency();
-        this.search();
-      }
+    dialogRef.afterClosed().subscribe((res: any) => {
+      this.processEditedWord(res);
     })
+  }
+
+  processEditedWord(data: any) {
+    if (data) {
+      let word = this.allWords.find((w: any) => w.id === this.selectedWord?.id);
+      if (!word) {
+        return;
+      }
+
+      Object.assign(word, data.word);
+
+      if (word && word.related_words) {
+        word.related_words.forEach((rw: any) => {
+          const idx = this.allWords.findIndex((w: any) => w.id === rw.id);
+          if (idx !== -1) {
+            const rwRws = this.allWords[idx].related_words;
+            if (rwRws.findIndex((w:any) => w.id === word?.id) === -1) {
+              rwRws.push({id:word?.id, word:word?.word, set:word?.set});
+            }
+          }
+        });
+      }
+
+      const wordIdx = this.allWords.findIndex(w => w.id === word?.id);
+      this.allWords[wordIdx].word = word.word;
+      this.calculateTagFrequency();
+      this.search();
+    }
   }
 
   toggleShowFavorites() {
