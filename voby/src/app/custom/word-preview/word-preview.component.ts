@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { RelatedWord, Word } from 'src/app/interfaces';
 
 @Component({
-  selector: 'voby-word-view',
-  templateUrl: './word-view.component.html',
-  styleUrls: ['./word-view.component.scss']
+  selector: 'voby-word-preview',
+  templateUrl: './word-preview.component.html',
+  styleUrls: ['./word-preview.component.scss']
 })
-export class WordViewComponent {
+export class WordPreviewComponent {
 
   // RelatedWord|Word
   @Input() word: any|undefined = undefined;

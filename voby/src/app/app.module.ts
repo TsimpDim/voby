@@ -43,7 +43,7 @@ import { SnackbarComponent } from './custom/snackbar/snackbar.component';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NounTestComponent } from './german/noun-test/noun-test.component';
 import { MatBadgeModule } from '@angular/material/badge';
-import { WordViewComponent } from './custom/word-view/word-view.component';
+import { WordPreviewComponent } from './custom/word-preview/word-preview.component';
 import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail-panel.component';
 
 @NgModule({
@@ -65,7 +65,7 @@ import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail
     TwentyTestComponent,
     SnackbarComponent,
     NounTestComponent,
-    WordViewComponent,
+    WordPreviewComponent,
     WordDetailPanelComponent
   ],
   imports: [

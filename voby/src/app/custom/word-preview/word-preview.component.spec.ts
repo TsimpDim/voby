@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { WordViewComponent } from './word-view.component';
+import { WordPreviewComponent } from './word-preview.component';
 
-describe('WordViewComponent', () => {
-  let component: WordViewComponent;
-  let fixture: ComponentFixture<WordViewComponent>;
+describe('WordPreviewComponent', () => {
+  let component: WordPreviewComponent;
+  let fixture: ComponentFixture<WordPreviewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WordViewComponent ]
+      declarations: [ WordPreviewComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(WordViewComponent);
+    fixture = TestBed.createComponent(WordPreviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
