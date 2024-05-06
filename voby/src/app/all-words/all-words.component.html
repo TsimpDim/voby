@@ -61,23 +61,13 @@
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords">
-                <mat-card matRipple [ngClass]="{'word': true, 'selected-word': word !== undefined && word.id === selectedWord?.id}" (click)="this.selectWord(word.id)" (dblclick)="this.selectWord(word.id);editWord()">
-                    <mat-card-content class="card-list-item-cont">
-                        <mat-card-title class="card-title">
-                            <p class="word-word">{{word.word}}</p>
-                            <p class="plural">{{word.plural}}</p>
-                        </mat-card-title>
-                        <p class="alternatives">
-                            {{this.displayTranslations(word.translations)}}
-                        </p>
-                        <voby-favorite
-                            matTooltip="Set as favorite"
-                            class="favorite"
-                            [isFavorite]="word.favorite"
-                            (click)="toggleFavorite(word.id, word.favorite)"
-                        ></voby-favorite>
-                    </mat-card-content>
-                </mat-card>
+                <voby-single-word-row
+                    [word]="word"
+                    [selected]="word !== undefined && word.id === selectedWord?.id"
+                    (click)="this.selectWord(word.id)"
+                    (dblclick)="this.selectWord(word.id);editWord()"
+                    (wordFavorited)="this.processFavoritedWord($event)"
+                ></voby-single-word-row>
             </ng-container>
         </div>
 

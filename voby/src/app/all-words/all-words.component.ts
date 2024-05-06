@@ -198,6 +198,11 @@ export class AllWordsComponent implements OnInit {
     })
   }
 
+  processFavoritedWord(data: {id:number, favorite:boolean}) {
+    const idx = this.allWords.findIndex((w: Word) => w.id === data.id);
+    this.allWords[idx].favorite = !data.favorite;
+  }
+
   toggleFavorite(id: number, favorite: boolean) {
     this.voby.editWordFavorite(id, !favorite)
     .subscribe({
