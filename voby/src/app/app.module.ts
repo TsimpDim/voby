@@ -45,6 +45,7 @@ import { NounTestComponent } from './german/noun-test/noun-test.component';
 import { MatBadgeModule } from '@angular/material/badge';
 import { WordPreviewComponent } from './custom/word-preview/word-preview.component';
 import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail-panel.component';
+import { SingleWordRowComponent } from './custom/single-word-row/single-word-row.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail
     SnackbarComponent,
     NounTestComponent,
     WordPreviewComponent,
-    WordDetailPanelComponent
+    WordDetailPanelComponent,
+    SingleWordRowComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,86 @@
+:host {
+    display: flex;
+    width: 100%;
+}
+
+.word {
+    width: 100%;
+    max-width: inherit;
+    border-radius: 10px;
+    margin: .5em 1em;
+    max-height: 50px;
+    flex-grow: 1;
+    display: inherit;
+
+    .card-list-item-cont {
+        margin-bottom: 0;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: space-around;
+        height: 40px;
+        width: 100%;
+
+        .alternatives {
+            margin-left: auto;
+            margin-bottom: 0;
+            font-size: 1.2em;
+        }
+    }
+
+
+    &:hover {
+        cursor: pointer;
+        background-color: rgb(235, 235, 235);
+        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    }
+}
+
+.selected-word {
+    background-color: rgb(235, 235, 235);
+    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+}
+
+.card-title {
+    width: 300px;
+    margin: 0;
+    margin-bottom: .3em;
+
+    .word {
+        margin: 0;
+        width: 400px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        line-height: 1.1em;
+    }
+
+    .plural {
+        font-size: .5em;
+        font-weight: 300;
+        padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    p {
+        margin-left: .5em;
+    }
+
+    .word-word {
+        padding: 0;
+        margin: 0;
+    }
+}
+
+.favorite {
+    margin-left: auto;
+}
+
+@media (width <= 900px) {
+    .word-word {
+        font-size: .8em;
+    }
+}

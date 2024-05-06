@@ -263,13 +263,8 @@ export class SetComponent implements OnInit {
     })
   }
 
-  toggleFavorite(id: number, favorite: boolean) {
-    this.voby.editWordFavorite(id, !favorite)
-    .subscribe({
-      next: () => {
-        this.setWords.find((w: Word) => w.id === id).favorite = !favorite;
-      }
-    });
+  processFavoritedWord(data: {id:number, favorite:boolean}) {
+    this.setWords.find((w: Word) => w.id === data.id).favorite = !data.favorite;
   }
 
   editWord() {
@@ -415,9 +410,5 @@ export class SetComponent implements OnInit {
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
     event.preventDefault();
     this.createWord();
-  }
-
-  displayTranslations(translations: {id: number, value: string}[]) {
-    return translations.map(o => o.value).join(' / ');
   }
 }

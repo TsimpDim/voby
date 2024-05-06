@@ -1,53 +1,5 @@
-.mat-card {
-    width: 30%;
-    margin: 1em;
-    margin-bottom: 0;
-    margin-top: 0;
-    border-radius: 0;
-}
-
 .mat-form-field {
     margin-top: 14px;
-}
-
-.mat-card-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    align-content: space-around;
-
-    ul {
-        list-style: none;
-    }
-}
-
-.mat-card-title {
-    width: 300px;
-    margin: 0;
-    margin-bottom: .3em;
-
-    .word {
-        margin: 0;
-        width: 400px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        line-height: 1.1em;
-    }
-
-    .plural {
-        font-size: .5em;
-        font-weight: 300;
-        padding: 0;
-        margin: 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-    }
-
-    p {
-        margin-left: .5em;
-    }
 }
 
 .active-chip {
@@ -57,16 +9,6 @@
     &:hover {
         cursor: pointer;
     }
-}
-
-.alternatives {
-    margin-left: auto;
-    margin-bottom: 0;
-    font-size: 1.2em;
-}
-
-.favorite {
-    margin-left: auto;
 }
 
 #set-header {
@@ -112,37 +54,7 @@
     justify-content: flex-start;
     align-items: flex-start;
     align-self: flex-start;
-    width: 60%;
-}
-
-.word {
-    width: 100%;
-    border-radius: 10px;
-    margin-bottom: 1em;
-    max-height: 50px;
-    flex-grow: 1;
-
-    .mat-card-content {
-        margin-bottom: 0;
-    }
-
-    &:hover {
-        cursor: pointer;
-        background-color: rgb(235, 235, 235);
-        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
-    }
-}
-
-.word-detail-container {
-    min-height: 600px;
-    margin-left: 0;
-    border-radius: 10px;
-    min-width: 300px;
-
-    .word-card-content {
-        position: fixed;
-        width: inherit;
-    }
+    width: 60%; 
 }
 
 .empty-message {
@@ -169,17 +81,6 @@
 
 .action-icon {
     margin-top: -1em;
-}
-
-.card-title {
-    .word-word {
-        padding: 0;
-        margin: 0;
-    }
-}
-
-.card-list-item-cont {
-    height: 40px;
 }
 
 .action-cont {
@@ -226,25 +127,12 @@
     }
 }
 
-.selected-word {
-    background-color: rgb(235, 235, 235);
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
-}
-
 .set-length {
     opacity: 50%;
     margin-bottom: 0;
     &:first-of-type {
         margin-top: 2em;
     }
-}
-
-.word-date {
-    opacity: 50%;
-    margin-top: 0em;
-    margin-left: auto;
-    margin-right: .4em;
-    margin-bottom: 0;
 }
 
 .header {
