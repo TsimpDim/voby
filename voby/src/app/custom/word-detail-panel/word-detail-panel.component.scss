@@ -1,13 +1,3 @@
-.empty-message {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 5em;
-    font-size: 2em;
-    color: #cccc;
-    user-select: none;
-    text-align: center;
-}
-
 .word-detail-container {
     min-height: 600px;
     margin-left: 0;
@@ -15,21 +5,13 @@
     width: 500px;
     border-radius: 10px;
     min-width: 300px;
+    height: 100%;
 
     .word-card-content {
         position: fixed;
         width: inherit;
+        height: 100%;
     }
-}
-
-.header {
-    color: #673ab7;
-    margin-bottom: 0;
-    padding-bottom: 0;
-    width: 300px;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
 }
 
 .word-date {
