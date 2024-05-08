@@ -244,7 +244,7 @@ export class SetComponent implements OnInit {
   }
  
   getAllWordsOfClass(classId: number) {
-    this.voby.getAllWordsOfClass(classId)
+    this.voby.getAllWordsOfClass(classId, 1, 9999)
     .subscribe({
       next: (data: any) => {
         this.allWords = data.words;

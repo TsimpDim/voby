@@ -3,6 +3,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 from django.http import HttpResponse
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, \
     Option, Tag
@@ -17,7 +18,8 @@ import xlwt
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ClassSerializer
-    queryset = VClass.objects.all()
+    queryset = VClass.objects.all().order_by('id')
+    pagination_class = PageNumberPagination
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -35,16 +37,24 @@ class ClassViewSet(viewsets.ModelViewSet):
     def all(self, request, pk=None):
         user = self.request.user.id
         sort_param = request.query_params.get('sort')
-    
-        queryset = Word.objects.filter(user=user, set__vclass=pk)
-        serializer = WordInfoSerializer(queryset, many=True)
-        vclass_info = VClass.objects.values('name', 'source_language', 'target_language').get(id=pk)
+        page_size = request.query_params.get('page_size')
+        if not page_size:
+            page_size = 50
 
-        return Response({
-            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='date_desc'),
-            'vclass_info': vclass_info
-        }, status=status.HTTP_200_OK)
+        order_field = 'created'
+        if sort_param=='date_desc':
+            order_field = '-created'
 
+        queryset = Word.objects.filter(user=user, set__vclass=pk).order_by(order_field)
+        serializer = WordInfoSerializer(queryset, many=True, context={'reverse':sort_param=='date_desc'})
+        # vclass_info = VClass.objects.values('name', 'source_language', 'target_language').get(id=pk)
+        self.paginator.page_size = page_size
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = WordInfoSerializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        return Response(serializer.data)
 
     def get_queryset(self):
         return VClass.objects.filter(user_id=self.request.user.id)
@@ -167,7 +177,7 @@ class ExampleViewSet(viewsets.ModelViewSet):
 class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = TagSerializer
-    queryset = Tag.objects.all()
+    queryset = Tag.objects.all().order_by('id')
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -347,7 +357,7 @@ class ClassExcelView(APIView):
 class ProfileViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ProfileSerializer
-    queryset = Profile.objects.all()
+    queryset = Profile.objects.all().order_by('id')
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -367,7 +377,7 @@ class ProfileViewSet(viewsets.ModelViewSet):
 class UserShortcutsViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = UserShortcutsSerializer
-    queryset = UserShortcuts.objects.all()
+    queryset = UserShortcuts.objects.all().order_by('id')
 
     def create(self, request, *args, **kwargs):
         data = request.data

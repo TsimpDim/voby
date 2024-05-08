@@ -27,6 +27,9 @@ export class AllWordsComponent implements OnInit {
   loading = false;
   showingFavorites = false;
   allWords: Word[] = [];
+  numberOfWords: number = 0;
+  numberOfPages: number = 0;
+  currentPage: number = 1;
   allTags: Tag[] = [];
   selectedTags: Tag[] = [];
   searchTags: Tag[] = [];
@@ -77,7 +80,8 @@ export class AllWordsComponent implements OnInit {
     });
 
     if (!this.allWords || !this.vclass) {
-      this.getAllWordsOfClass(this.classId);
+      this.getAllWordsOfClass(this.classId, this.currentPage);
+      this.getVClass(this.classId);
     } else {
       this.search();
     }
@@ -172,24 +176,44 @@ export class AllWordsComponent implements OnInit {
 
   sortDateDesc() {
     localStorage.setItem('sort', 'date_desc')
-    this.getAllWordsOfClass(this.classId, 'date_desc');
+    this.getAllWordsOfClass(this.classId, this.currentPage, 'date_desc');
   }
 
   sortDateAsc() {
     localStorage.setItem('sort', 'date_asc')
-    this.getAllWordsOfClass(this.classId, 'date_asc');
+    this.getAllWordsOfClass(this.classId, this.currentPage, 'date_asc');
   }
 
-  getAllWordsOfClass(classId: number, sort = localStorage.getItem('sort') || 'date_desc') {
+  getVClass(classId: number) {
     this.loading = true;
-    this.voby.getAllWordsOfClass(classId, sort)
+    this.voby.getClass(classId)
     .subscribe({
       next: (data: any) => {
-        this.allWords = data['words'];
-        this.vclass = data['vclass_info'];
+        this.vclass = data;
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  getAllWordsOfClass(classId: number, page: number = 1, sort = localStorage.getItem('sort') || 'date_desc') {
+    this.loading = true;
+    this.voby.getAllWordsOfClass(classId, page, 50, sort)
+    .subscribe({
+      next: (data: any) => {
+        this.allWords = data['results'];
+        this.numberOfWords = data['count'];
+        this.numberOfPages = Math.ceil(data['count'] / 50);
         this.selectedWord = this.allWords[0];
         this.search();
         this.calculateTagFrequency();
+        window.scroll({ 
+          top: 0, 
+          left: 0, 
+          behavior: 'smooth' 
+   });
       },
       error: () => {
         this.loading = false;

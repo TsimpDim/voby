@@ -113,10 +113,10 @@ export class VobyService {
     });
   }
 
-  getAllWordsOfClass(classId: number, sort: string = localStorage.getItem('sort') || 'date_desc') {
+  getAllWordsOfClass(classId: number, page: number = 1, page_size: number = 50, sort: string = localStorage.getItem('sort') || 'date_desc') {
     return this.http.get(environment.apiUrl + '/voby/classes/' + classId + '/all/', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()},
-      params: {'sort': sort}
+      params: {'sort': sort, 'page': page, 'page_size': page_size}
     });
   }
 

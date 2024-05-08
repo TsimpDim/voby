@@ -10,7 +10,7 @@
                 </div>
             </h1>
             <div>
-                <h4 class="class-length">{{this.allWords.length}} word(s) total</h4>
+                <h4 class="class-length">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</h4>
             </div>
         </div>
         
@@ -84,5 +84,15 @@
         ></voby-word-detail-panel>
 
         <p *ngIf="!this.loading && this.filteredWords.length === 0" class="empty-message">No words found :(</p>
+    </div>
+
+    <div class="page-number-cont">
+        <button mat-raised-button
+            *ngFor="let item of [].constructor(this.numberOfPages); let i = index"
+            (click)="this.getAllWordsOfClass(this.classId, i+1);this.currentPage = i+1"
+            [ngClass]="{'page-number': true, 'current-page': this.currentPage === i+1}"
+            >
+            {{i+1}}
+        </button>
     </div>
 </ng-container>

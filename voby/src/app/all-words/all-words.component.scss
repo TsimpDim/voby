@@ -261,6 +261,27 @@
     margin-bottom: 10px;
 }
 
+.page-number-cont {
+    margin: 1em auto;
+    width: 100%;
+
+    .page-number {
+        margin-left: 1em;
+        border-radius: 10px;
+
+        &:hover {
+            cursor: pointer;
+            background-color: rgb(235, 235, 235);
+            box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+        }
+    }
+
+    .current-page {
+        background-color: rgb(235, 235, 235);
+        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    }
+}
+
 @media (width <= 900px) {
     #class-header {
         flex-direction: column;
