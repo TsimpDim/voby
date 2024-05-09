@@ -262,6 +262,9 @@
 }
 
 .page-number-cont {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     margin: 1em auto;
     width: 100%;
 

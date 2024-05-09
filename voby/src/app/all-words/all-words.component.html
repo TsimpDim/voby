@@ -71,6 +71,16 @@
                     (wordFavorited)="this.processFavoritedWord($event)"
                 ></voby-single-word-row>
             </ng-container>
+
+            <div class="page-number-cont">
+                <button mat-raised-button
+                    *ngFor="let item of [].constructor(this.numberOfPages); let i = index"
+                    (click)="this.currentPage = i+1;this.search()"
+                    [ngClass]="{'page-number': true, 'current-page': this.currentPage === i+1}"
+                    >
+                    {{i+1}}
+                </button>
+            </div>
         </div>
 
         <voby-word-detail-panel
@@ -85,15 +95,5 @@
         ></voby-word-detail-panel>
 
         <p *ngIf="!this.loading && this.filteredWords.length === 0" class="empty-message">No words found :(</p>
-    </div>
-
-    <div class="page-number-cont">
-        <button mat-raised-button
-            *ngFor="let item of [].constructor(this.numberOfPages); let i = index"
-            (click)="this.currentPage = i+1;this.search()"
-            [ngClass]="{'page-number': true, 'current-page': this.currentPage === i+1}"
-            >
-            {{i+1}}
-        </button>
     </div>
 </ng-container>
