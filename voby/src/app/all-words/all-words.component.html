@@ -45,7 +45,6 @@
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
                         <div style="display: flex; flex-direction: row;">
                             <div>{{tag.value}}</div>
-                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
                         </div>
                     </mat-option>
                 </mat-autocomplete>
@@ -80,7 +79,7 @@
             [vclass]="this.vclass"
             (wordSelected)="this.selectWord($event)"
             (wordDeselected)="this.selectedWord = undefined"
-            (wordDeleted)="this.deleteSelectedWord()"
+            (wordDeleted)="this.selectedWordDeleted()"
             (wordEdited)="processEditedWord($event)"
             (tagSelected)="addTagToSearch($event)"
         ></voby-word-detail-panel>

@@ -137,8 +137,6 @@ export class AllWordsComponent implements OnInit {
       const tagIndexToBeRemoved = this.searchTags.findIndex(t => t.id === newTag.id);
       this.searchTags.splice(tagIndexToBeRemoved, 1);
     }
-
-    this.search();
   }
 
   selectWord(id: number) {
@@ -149,19 +147,11 @@ export class AllWordsComponent implements OnInit {
     this.router.navigate(['/set/'+id]);
   }
 
-  deleteSelectedWord() {
-    if (this.selectedWord) {
-      this.voby.deleteWord(this.selectedWord.id)
-      .subscribe({
-        next: () => {
-          this.search();
-          this.calculateTagFrequency();
-        },
-        error: () => {
-          this.loading = false;
-        },
-        complete: () => this.loading = false
-      })
+  selectedWordDeleted() {
+    const idx = this.filteredWords.findIndex(w => w.id === this.selectedWord?.id);
+    if (idx !== -1) {
+      this.filteredWords.splice(idx, 1);
+      this.selectWord(this.filteredWords[0].id);
     }
   }
 
@@ -205,7 +195,6 @@ export class AllWordsComponent implements OnInit {
         this.numberOfWords = data['count'];
         this.numberOfPages = Math.ceil(data['count'] / 50);
         this.selectedWord = this.filteredWords[0];
-        this.calculateTagFrequency();
         window.scroll({ 
           top: 0, 
           left: 0, 
@@ -236,18 +225,10 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
-  calculateTagFrequency(words: Word[] = this.filteredWords) {
-    if (words !== undefined) {
-      this.tagFrequency = words.flatMap((w: Word) => (w.tags || []).map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {});
-    }
-  }
-
   removeTag(tagId: number) {
     const indexToRemove = this.selectedTags.findIndex(t => t.id === tagId);
     const removedTag = this.selectedTags.splice(indexToRemove, 1);
     this.searchTags.push(removedTag[0]);
-    this.search();
-    this.calculateTagFrequency();
   }
 
   editWord() {
@@ -289,7 +270,6 @@ export class AllWordsComponent implements OnInit {
 
       const wordIdx = this.filteredWords.findIndex(w => w.id === word?.id);
       this.filteredWords[wordIdx].word = word.word;
-      this.calculateTagFrequency();
       this.search();
     }
   }
