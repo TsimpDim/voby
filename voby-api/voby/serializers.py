@@ -107,6 +107,7 @@ class SetInfoSerializer(serializers.ModelSerializer):
     def get_vclass_info(self, obj):
         vclass = obj.vclass
         return {
+            'id': vclass.id,
             'name': vclass.name,
             'source_language': vclass.source_language,
             'target_language': vclass.target_language
@@ -114,7 +115,7 @@ class SetInfoSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Set
-        fields = ['id', 'name', 'has_words', 'vclass_info', 'has_favorites', 'has_german_favorites']
+        fields = ['id', 'name', 'has_words', 'vclass_info', 'has_favorites']
 
 class SetNoVClassSerializer(serializers.ModelSerializer):
     has_words = serializers.SerializerMethodField()

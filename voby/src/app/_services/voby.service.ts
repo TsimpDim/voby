@@ -116,6 +116,7 @@ export class VobyService {
 
   getAllWordsOfClass(
     classId: number,
+    setId: number | undefined = undefined,
     wordSearchTerm: string | undefined = undefined,
     tags: Tag[] | undefined = undefined,
     favorite: boolean = false,
@@ -123,7 +124,6 @@ export class VobyService {
     page_size: number = 50,
     sort: string = localStorage.getItem('sort') || '-created',
     ) {
-
     let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort}
     if (wordSearchTerm && wordSearchTerm.length > 0) {
       wordSearchTerm.replace(/[\W\d]/g, ""); // Remove numbers
@@ -136,6 +136,10 @@ export class VobyService {
 
     if (favorite) {
       searchParams.favorite = true;
+    }
+
+    if (setId) {
+      searchParams.set = setId;
     }
 
     return this.http.get(environment.apiUrl + '/voby/words/', {
@@ -161,10 +165,9 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  getSet(id: number, sort: string) {
+  getSet(id: number) {
     return this.http.get(environment.apiUrl + '/voby/sets/' + id + '/', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()} ,
-      params: {'sort': sort}
     });
   }
 

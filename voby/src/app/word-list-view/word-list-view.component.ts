@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -9,22 +9,23 @@ import { HotkeysService } from '../_services/hotkeys.service';
 import { Tag, Word } from '../interfaces';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'voby-all-words',
-  templateUrl: './all-words.component.html',
-  styleUrls: ['./all-words.component.scss']
+  selector: 'voby-word-list-view',
+  templateUrl: './word-list-view.component.html',
+  styleUrls: ['./word-list-view.component.scss']
 })
-export class AllWordsComponent implements OnInit {
+export class WordListViewComponent {
 
   classId: number = -1;
-  @ViewChild('searchInput') searchInput: ElementRef | undefined;
+  setId: number = -1;
 
   selectedWord: Word | undefined = undefined;
   filteredWords: Word[] = [];
   paramsSubscription: Subscription | undefined;
   vclass: any | undefined;
+  set: any | undefined;
   loading = false;
   showingFavorites = false;
   numberOfWords: number = 0;
@@ -46,11 +47,14 @@ export class AllWordsComponent implements OnInit {
     public voby: VobyService,
     private _snackBar: MatSnackBar,
     private hotkeys: HotkeysService,
-    private formBuilder: FormBuilder
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
       this.vclass = state['selectedClass'];
+      if (Object.keys(state).includes('selectedSet')) {
+        this.set = state['selectedSet'];
+      }
+
     }
 
     this.hotkeys.shortcuts$.subscribe(shortcuts => {
@@ -71,15 +75,19 @@ export class AllWordsComponent implements OnInit {
   }
 
   ngOnInit() {
+    const needSet = window.location.pathname.includes('set');
     this.paramsSubscription = this.route.params.subscribe(params => {
-      this.classId = +params['id']; // (+) converts string 'id' to a number
+      if (!needSet) {
+        this.classId = +params['id']; // (+) converts string 'id' to a number
+      } else {
+        this.setId = +params['id']
+      }
     });
 
-    if (!this.filteredWords || !this.vclass) {
-      this.search();
-      this.getVClass(this.classId);
+    if (needSet) {
+      this.getSet(this.setId);
     } else {
-      this.search();
+      this.getVClass(this.classId);
     }
 
     this.getAllTags();
@@ -171,6 +179,7 @@ export class AllWordsComponent implements OnInit {
     .subscribe({
       next: (data: any) => {
         this.vclass = data;
+        this.search();
       },
       error: () => {
         this.loading = false;
@@ -179,13 +188,29 @@ export class AllWordsComponent implements OnInit {
     })
   }
 
-  getAllWordsOfClass(classId: number, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined, sort = localStorage.getItem('sort') || '-created') {
+  getSet(setId: number) {
+    this.loading = true;
+    this.voby.getSet(setId)
+    .subscribe({
+      next: (data: any) => {
+        this.set = data;
+        this.vclass = this.set.vclass_info;
+        this.search();
+      },
+      error: () => {
+        this.loading = false;
+      },
+      complete: () => this.loading = false
+    })
+  }
+
+  getAllWordsOfClass(classId: number, setId: number|undefined = undefined, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined, sort = localStorage.getItem('sort') || '-created') {
     this.loading = true;
     this.deselectWord();
     this.numberOfPages = 0;
     this.filteredWords.splice(0, this.filteredWords.length);
 
-    this.voby.getAllWordsOfClass(classId, searchTerm, tags, this.showingFavorites, page, 50, sort)
+    this.voby.getAllWordsOfClass(classId, setId, searchTerm, tags, this.showingFavorites, page, 50, sort)
     .subscribe({
       next: (data: any) => {
         data['results'].forEach((nW: any) => {
@@ -281,7 +306,8 @@ export class AllWordsComponent implements OnInit {
 
   search() {
     this.getAllWordsOfClass(
-      this.classId,
+      this.vclass?.id,
+      this.set?.id,
       this.currentPage,
       this.searchForm.get('search')?.value,
       this.selectedTags

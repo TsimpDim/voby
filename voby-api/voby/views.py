@@ -39,37 +39,6 @@ class ClassViewSet(viewsets.ModelViewSet):
         return Response(
             serializer.data, status=status.HTTP_201_CREATED, headers=headers
         )
-    
-    @action(methods=['get'], detail=True)
-    def all(self, request, pk=None):
-        user = self.request.user.id
-        sort_param = request.query_params.get('sort')
-        page_size = request.query_params.get('page_size')
-        q = request.query_params.get('q')
-        tags = request.query_params.get('tags')
-
-
-        if not page_size:
-            page_size = 50
-
-        order_field = 'created'
-        if sort_param=='-created':
-            order_field = '-created'
-
-        queryset = Word.objects.filter(
-            user=user,
-            set__vclass=pk
-        ).order_by(order_field)
-
-        serializer = WordInfoSerializer(queryset, many=True, context={'reverse':sort_param=='-created'})
-
-        self.paginator.page_size = page_size
-        page = self.paginate_queryset(queryset)
-        if page is not None:
-            serializer = WordInfoSerializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
-
-        return Response(serializer.data)
 
     def get_queryset(self):
         return VClass.objects.filter(user_id=self.request.user.id)
@@ -131,6 +100,7 @@ class WordViewSet(viewsets.ModelViewSet):
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = {
         'set__vclass': ['exact'],
+        'set': ['exact'],
         'word': ['icontains'],
         'tags__id': ['exact'],
         'favorite': ['exact']

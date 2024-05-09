@@ -14,7 +14,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule, MatRippleModule } from '@angular/material/core';
-import { SetComponent } from './set/set.component';
 import { FavoriteComponent } from './custom/favorite/favorite.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field'; 
@@ -35,7 +34,6 @@ import { OptionsComponent } from './options/options.component';
 import { DashboardFlashComponent } from './dashboard-flash/dashboard-flash.component';
 import { LoadingIndComponent } from './custom/loading-ind/loading-ind.component';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { AllWordsComponent } from './all-words/all-words.component';
 import { TwentyTestComponent } from './twenty-test/twenty-test.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
@@ -46,13 +44,13 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { WordPreviewComponent } from './custom/word-preview/word-preview.component';
 import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail-panel.component';
 import { SingleWordRowComponent } from './custom/single-word-row/single-word-row.component';
+import { WordListViewComponent } from './word-list-view/word-list-view.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     DashboardComponent,
-    SetComponent,
     FavoriteComponent,
     ClassFormComponent,
     WordFormComponent,
@@ -62,13 +60,13 @@ import { SingleWordRowComponent } from './custom/single-word-row/single-word-row
     OptionsComponent,
     DashboardFlashComponent,
     LoadingIndComponent,
-    AllWordsComponent,
     TwentyTestComponent,
     SnackbarComponent,
     NounTestComponent,
     WordPreviewComponent,
     WordDetailPanelComponent,
-    SingleWordRowComponent
+    SingleWordRowComponent,
+    WordListViewComponent
   ],
   imports: [
     BrowserModule,

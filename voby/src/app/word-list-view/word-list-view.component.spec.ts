@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SetComponent } from './set.component';
+import { WordListViewComponent } from './word-list-view.component';
 
-describe('SetComponent', () => {
-  let component: SetComponent;
-  let fixture: ComponentFixture<SetComponent>;
+describe('WordListViewComponent', () => {
+  let component: WordListViewComponent;
+  let fixture: ComponentFixture<WordListViewComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ SetComponent ]
+      declarations: [ WordListViewComponent ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(SetComponent);
+    fixture = TestBed.createComponent(WordListViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
