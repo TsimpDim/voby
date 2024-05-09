@@ -30,14 +30,16 @@
                         <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
 
-                    <input
-                        #searchInput
-                        matInput
-                        (keyup)="search()"
-                        placeholder="Search for words or tags    here..."
-                        [matAutocomplete]="autocomplete"
-                        [matChipInputFor]="chipList"
-                    >
+                    
+                    <form [formGroup]="searchForm" (ngSubmit)="search()">
+                        <input
+                            matInput
+                            formControlName="search"
+                            placeholder="Search for words or tags here..."
+                            [matAutocomplete]="autocomplete"
+                            [matChipInputFor]="chipList"
+                        >
+                    </form>
                 </mat-chip-list>
                 <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
@@ -48,6 +50,7 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
+            <button mat-icon-button (click)="search()" style="margin-top: auto;margin-bottom: auto;" matTooltip="Search"><mat-icon>search</mat-icon></button>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
             <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
             <mat-menu #menu="matMenu">
@@ -73,7 +76,6 @@
 
         <voby-word-detail-panel
             [word]="this.selectedWord"
-            [allWords]="this.allWords"
             [allTags]="this.allTags"
             [vclass]="this.vclass"
             (wordSelected)="this.selectWord($event)"
@@ -89,7 +91,7 @@
     <div class="page-number-cont">
         <button mat-raised-button
             *ngFor="let item of [].constructor(this.numberOfPages); let i = index"
-            (click)="this.getAllWordsOfClass(this.classId, i+1);this.currentPage = i+1"
+            (click)="this.currentPage = i+1;this.search()"
             [ngClass]="{'page-number': true, 'current-page': this.currentPage === i+1}"
             >
             {{i+1}}

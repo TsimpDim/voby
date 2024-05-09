@@ -158,7 +158,7 @@ class SetWordsSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         response = super().to_representation(instance)
-        to_sort_desc = self.context.get('sort') == 'date_desc'
+        to_sort_desc = self.context.get('sort') == '-created'
         response["words"] = sorted(response["words"], key=lambda x: x["created"], reverse=to_sort_desc)
         return response
 

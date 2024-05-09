@@ -113,10 +113,23 @@ export class VobyService {
     });
   }
 
-  getAllWordsOfClass(classId: number, page: number = 1, page_size: number = 50, sort: string = localStorage.getItem('sort') || 'date_desc') {
-    return this.http.get(environment.apiUrl + '/voby/classes/' + classId + '/all/', {
+  getAllWordsOfClass(
+    classId: number,
+    word_search_term: string | undefined = undefined,
+    favorite: boolean = false,
+    page: number = 1,
+    page_size: number = 50,
+    sort: string = localStorage.getItem('sort') || '-created',
+    ) {
+
+    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort, favorite}
+    if (word_search_term) {
+      searchParams.word__icontains = word_search_term;
+    }
+
+    return this.http.get(environment.apiUrl + '/voby/words/', {
       headers: {"Authorization": "Token " + this.authService.getSessionToken()},
-      params: {'sort': sort, 'page': page, 'page_size': page_size}
+      params: searchParams
     });
   }
 

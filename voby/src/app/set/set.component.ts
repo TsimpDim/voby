@@ -131,7 +131,7 @@ export class SetComponent implements OnInit {
         return;
       }
 
-      if (localStorage.getItem('sort') === 'date_asc') {
+      if (localStorage.getItem('sort') === 'created') {
         this.setWords.push(data.word);
       } else {
         this.setWords.unshift(data.word);
@@ -193,16 +193,16 @@ export class SetComponent implements OnInit {
   }
 
   sortDateDesc() {
-    localStorage.setItem('sort', 'date_desc')
-    this.getSetWords(this.id, 'date_desc');
+    localStorage.setItem('sort', '-created')
+    this.getSetWords(this.id, '-created');
   }
 
   sortDateAsc() {
-    localStorage.setItem('sort', 'date_asc')
-    this.getSetWords(this.id, 'date_asc');
+    localStorage.setItem('sort', 'created')
+    this.getSetWords(this.id, 'created');
   }
 
-  getSetWords(id: number, sort = localStorage.getItem('sort') || 'date_desc') {
+  getSetWords(id: number, sort = localStorage.getItem('sort') || '-created') {
     this.loading = true;
     this.voby.getSetWords(id, sort)
     .subscribe({
@@ -212,7 +212,7 @@ export class SetComponent implements OnInit {
         this.setWordsToday = data.words_today;
         this.set = data.set_info;
         this.vclass = data.vclass_info;
-        if (localStorage.getItem('sort') == 'date_asc') {
+        if (localStorage.getItem('sort') == 'created') {
           this.setWords.sort((a: any, b: any) => a.created > b.created)
         } else { 
           this.setWords.sort((a: any, b: any) => a.created < b.created)
@@ -244,7 +244,7 @@ export class SetComponent implements OnInit {
   }
  
   getAllWordsOfClass(classId: number) {
-    this.voby.getAllWordsOfClass(classId, 1, 9999)
+    this.voby.getAllWordsOfClass(classId, undefined, this.showingFavorites, 1, 9999)
     .subscribe({
       next: (data: any) => {
         this.allWords = data.words;

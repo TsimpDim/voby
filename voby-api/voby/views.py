@@ -4,6 +4,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from django.http import HttpResponse
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, \
     Option, Tag
@@ -14,6 +16,11 @@ from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer,
 from random import sample
 from datetime import datetime
 import xlwt
+
+class StandardPagination(PageNumberPagination):
+    page_size = 50
+    page_size_query_param = 'page_size'
+    max_page_size = 50
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -38,16 +45,24 @@ class ClassViewSet(viewsets.ModelViewSet):
         user = self.request.user.id
         sort_param = request.query_params.get('sort')
         page_size = request.query_params.get('page_size')
+        q = request.query_params.get('q')
+        tags = request.query_params.get('tags')
+
+
         if not page_size:
             page_size = 50
 
         order_field = 'created'
-        if sort_param=='date_desc':
+        if sort_param=='-created':
             order_field = '-created'
 
-        queryset = Word.objects.filter(user=user, set__vclass=pk).order_by(order_field)
-        serializer = WordInfoSerializer(queryset, many=True, context={'reverse':sort_param=='date_desc'})
-        # vclass_info = VClass.objects.values('name', 'source_language', 'target_language').get(id=pk)
+        queryset = Word.objects.filter(
+            user=user,
+            set__vclass=pk
+        ).order_by(order_field)
+
+        serializer = WordInfoSerializer(queryset, many=True, context={'reverse':sort_param=='-created'})
+
         self.paginator.page_size = page_size
         page = self.paginate_queryset(queryset)
         if page is not None:
@@ -105,7 +120,7 @@ class SetViewSet(viewsets.ModelViewSet):
                 'id': set.id
             },
             'words_today': count,
-            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='date_desc'),
+            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='-created'),
             'vclass_info': VClassInfoSerializer(set.vclass).data
         }, status=status.HTTP_200_OK)
 
@@ -113,6 +128,14 @@ class WordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = WordAllSerializer
     queryset = Word.objects.all()
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_fields = {
+        'set__vclass': ['exact'],
+        'word': ['icontains'],
+        'tags': ['icontains']
+    }
+    ordering_fields = ['created', 'favorite']
+    pagination_class = StandardPagination
 
     def create(self, request, *args, **kwargs):
         data = request.data

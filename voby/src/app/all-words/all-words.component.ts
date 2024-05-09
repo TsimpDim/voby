@@ -9,6 +9,7 @@ import { HotkeysService } from '../_services/hotkeys.service';
 import { Tag, Word } from '../interfaces';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'voby-all-words',
@@ -26,10 +27,10 @@ export class AllWordsComponent implements OnInit {
   vclass: any | undefined;
   loading = false;
   showingFavorites = false;
-  allWords: Word[] = [];
   numberOfWords: number = 0;
   numberOfPages: number = 0;
   currentPage: number = 1;
+  searchForm: FormGroup;
   allTags: Tag[] = [];
   selectedTags: Tag[] = [];
   searchTags: Tag[] = [];
@@ -44,21 +45,12 @@ export class AllWordsComponent implements OnInit {
     public dialog: MatDialog,
     public voby: VobyService,
     private _snackBar: MatSnackBar,
-    private hotkeys: HotkeysService
+    private hotkeys: HotkeysService,
+    private formBuilder: FormBuilder
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
       this.vclass = state['selectedClass'];
-      this.allWords = state['allWords'];
-      if (this.allWords) {
-        if (localStorage.getItem('sort') == 'date_asc') {
-          this.allWords.sort((a: any, b: any) => a.created > b.created ? 1 : -1)
-        } else {
-          this.allWords.sort((a: any, b: any) => a.created < b.created ? 1 : -1)
-        }
-
-        this.selectedWord = this.allWords[0];
-      }
     }
 
     this.hotkeys.shortcuts$.subscribe(shortcuts => {
@@ -72,6 +64,10 @@ export class AllWordsComponent implements OnInit {
         this.shortcutSubscriptions$.push(s.subscribe());
       }
     });
+
+    this.searchForm = new FormGroup({
+      search: new FormControl()
+    })
   }
 
   ngOnInit() {
@@ -79,8 +75,8 @@ export class AllWordsComponent implements OnInit {
       this.classId = +params['id']; // (+) converts string 'id' to a number
     });
 
-    if (!this.allWords || !this.vclass) {
-      this.getAllWordsOfClass(this.classId, this.currentPage);
+    if (!this.filteredWords || !this.vclass) {
+      this.search();
       this.getVClass(this.classId);
     } else {
       this.search();
@@ -122,13 +118,13 @@ export class AllWordsComponent implements OnInit {
         });
       },
       complete: () => {
-        if (this.allWords) { this.loading = false } 
+        if (this.filteredWords) { this.loading = false } 
       }
     })
   }
 
   getFullWordFromId(id: number) {
-    return this.allWords.find(w => w.id === id);
+    return this.filteredWords.find(w => w.id === id);
   }
 
   addTagToSearch(selectedTagId: number) {
@@ -146,7 +142,7 @@ export class AllWordsComponent implements OnInit {
   }
 
   selectWord(id: number) {
-    this.selectedWord = this.allWords.find((o: any) => o.id === id);
+    this.selectedWord = this.filteredWords.find((o: any) => o.id === id);
   }
 
   goToSet(id: number) {
@@ -158,13 +154,8 @@ export class AllWordsComponent implements OnInit {
       this.voby.deleteWord(this.selectedWord.id)
       .subscribe({
         next: () => {
-          const deletedWordIdx = this.allWords.findIndex((w: any) => w.id === this.selectedWord?.id);
-          this.allWords.splice(deletedWordIdx, 1);
-          if (this.allWords.length > 0) {
-            this.selectWord(this.allWords[deletedWordIdx].id);
-          }
-          this.calculateTagFrequency();
           this.search();
+          this.calculateTagFrequency();
         },
         error: () => {
           this.loading = false;
@@ -175,13 +166,13 @@ export class AllWordsComponent implements OnInit {
   }
 
   sortDateDesc() {
-    localStorage.setItem('sort', 'date_desc')
-    this.getAllWordsOfClass(this.classId, this.currentPage, 'date_desc');
+    localStorage.setItem('sort', '-created')
+    this.search();
   }
 
   sortDateAsc() {
-    localStorage.setItem('sort', 'date_asc')
-    this.getAllWordsOfClass(this.classId, this.currentPage, 'date_asc');
+    localStorage.setItem('sort', 'created')
+    this.search();
   }
 
   getVClass(classId: number) {
@@ -198,22 +189,28 @@ export class AllWordsComponent implements OnInit {
     })
   }
 
-  getAllWordsOfClass(classId: number, page: number = 1, sort = localStorage.getItem('sort') || 'date_desc') {
+  getAllWordsOfClass(classId: number, page: number = 1, searchTerm: string|undefined = undefined,  sort = localStorage.getItem('sort') || '-created') {
     this.loading = true;
-    this.voby.getAllWordsOfClass(classId, page, 50, sort)
+    this.deselectWord();
+    this.numberOfPages = 0;
+    this.filteredWords.splice(0, this.filteredWords.length);
+
+    this.voby.getAllWordsOfClass(classId, searchTerm, this.showingFavorites, page, 50, sort)
     .subscribe({
       next: (data: any) => {
-        this.allWords = data['results'];
+        data['results'].forEach((nW: any) => {
+          this.filteredWords.push(nW);
+        });
+
         this.numberOfWords = data['count'];
         this.numberOfPages = Math.ceil(data['count'] / 50);
-        this.selectedWord = this.allWords[0];
-        this.search();
+        this.selectedWord = this.filteredWords[0];
         this.calculateTagFrequency();
         window.scroll({ 
           top: 0, 
           left: 0, 
           behavior: 'smooth' 
-   });
+        });
       },
       error: () => {
         this.loading = false;
@@ -223,15 +220,15 @@ export class AllWordsComponent implements OnInit {
   }
 
   processFavoritedWord(data: {id:number, favorite:boolean}) {
-    const idx = this.allWords.findIndex((w: Word) => w.id === data.id);
-    this.allWords[idx].favorite = !data.favorite;
+    const idx = this.filteredWords.findIndex((w: Word) => w.id === data.id);
+    this.filteredWords[idx].favorite = !data.favorite;
   }
 
   toggleFavorite(id: number, favorite: boolean) {
     this.voby.editWordFavorite(id, !favorite)
     .subscribe({
       next: () => {
-        const word = this.allWords.find((w: Word) => w.id === id);
+        const word = this.filteredWords.find((w: Word) => w.id === id);
         if (word) {
           word.favorite = !favorite;
         }
@@ -239,7 +236,7 @@ export class AllWordsComponent implements OnInit {
     });
   }
 
-  calculateTagFrequency(words: Word[] = this.allWords) {
+  calculateTagFrequency(words: Word[] = this.filteredWords) {
     if (words !== undefined) {
       this.tagFrequency = words.flatMap((w: Word) => (w.tags || []).map(t => t.id)).reduce((x: any, y: any) => ((x[y] = (x[y] || 0) + 1 ), x), {});
     }
@@ -258,7 +255,7 @@ export class AllWordsComponent implements OnInit {
       width: '30%',
       data: {
         word: this.selectedWord,
-        allWords: this.allWords,
+        allWords: [],
         allTags: this.allTags,
         edit: true
       },
@@ -271,7 +268,7 @@ export class AllWordsComponent implements OnInit {
 
   processEditedWord(data: any) {
     if (data) {
-      let word = this.allWords.find((w: any) => w.id === this.selectedWord?.id);
+      let word = this.filteredWords.find((w: any) => w.id === this.selectedWord?.id);
       if (!word) {
         return;
       }
@@ -280,9 +277,9 @@ export class AllWordsComponent implements OnInit {
 
       if (word && word.related_words) {
         word.related_words.forEach((rw: any) => {
-          const idx = this.allWords.findIndex((w: any) => w.id === rw.id);
+          const idx = this.filteredWords.findIndex((w: any) => w.id === rw.id);
           if (idx !== -1) {
-            const rwRws = this.allWords[idx].related_words;
+            const rwRws = this.filteredWords[idx].related_words;
             if (rwRws.findIndex((w:any) => w.id === word?.id) === -1) {
               rwRws.push({id:word?.id, word:word?.word, set:word?.set});
             }
@@ -290,8 +287,8 @@ export class AllWordsComponent implements OnInit {
         });
       }
 
-      const wordIdx = this.allWords.findIndex(w => w.id === word?.id);
-      this.allWords[wordIdx].word = word.word;
+      const wordIdx = this.filteredWords.findIndex(w => w.id === word?.id);
+      this.filteredWords[wordIdx].word = word.word;
       this.calculateTagFrequency();
       this.search();
     }
@@ -303,7 +300,7 @@ export class AllWordsComponent implements OnInit {
       this.showingFavorites = false;
     } else {
       let newWords: Word[] = [];
-      this.allWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
+      this.filteredWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
       this.filteredWords.splice(0, this.filteredWords.length);
       newWords.forEach(nW => {
         this.filteredWords.push(nW);
@@ -313,24 +310,16 @@ export class AllWordsComponent implements OnInit {
   }
 
   search() {
-    let newWords: Word[] = [];
-    this.allWords.forEach((i: any) => newWords.push(i));
+    this.getAllWordsOfClass(
+      this.classId,
+      this.currentPage,
+      this.searchForm.get('search')?.value,
+    )
 
-    if(this.searchInput) {
-      if(this.searchInput?.nativeElement.value !== '') {
-        const searchTerm = this.searchInput?.nativeElement.value.toLowerCase();
-        newWords = this.allWords.filter(
-          (w: any) => 
-            w.word.toLowerCase().includes(searchTerm) || 
-            w.translations.filter((w: any) => w.value.toLowerCase().includes(searchTerm)).length > 0
-          );
-      }
+    if (this.filteredWords.length === 0) {
+      this.deselectWord();
+      this.numberOfPages = 0;
     }
-
-    this.filteredWords.splice(0, this.filteredWords.length);
-    newWords.forEach(nW => {
-      this.filteredWords.push(nW);
-    });
   }
 
   displayTranslations(translations: {id: number, value: string}[]) {
