@@ -179,13 +179,13 @@ export class AllWordsComponent implements OnInit {
     })
   }
 
-  getAllWordsOfClass(classId: number, page: number = 1, searchTerm: string|undefined = undefined,  sort = localStorage.getItem('sort') || '-created') {
+  getAllWordsOfClass(classId: number, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined, sort = localStorage.getItem('sort') || '-created') {
     this.loading = true;
     this.deselectWord();
     this.numberOfPages = 0;
     this.filteredWords.splice(0, this.filteredWords.length);
 
-    this.voby.getAllWordsOfClass(classId, searchTerm, this.showingFavorites, page, 50, sort)
+    this.voby.getAllWordsOfClass(classId, searchTerm, tags, this.showingFavorites, page, 50, sort)
     .subscribe({
       next: (data: any) => {
         data['results'].forEach((nW: any) => {
@@ -294,6 +294,7 @@ export class AllWordsComponent implements OnInit {
       this.classId,
       this.currentPage,
       this.searchForm.get('search')?.value,
+      this.selectedTags
     )
 
     if (this.filteredWords.length === 0) {

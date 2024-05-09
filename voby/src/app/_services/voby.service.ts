@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { Tag } from '../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -115,7 +116,8 @@ export class VobyService {
 
   getAllWordsOfClass(
     classId: number,
-    word_search_term: string | undefined = undefined,
+    wordSearchTerm: string | undefined = undefined,
+    tags: Tag[] | undefined = undefined,
     favorite: boolean = false,
     page: number = 1,
     page_size: number = 50,
@@ -123,8 +125,13 @@ export class VobyService {
     ) {
 
     let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort, favorite}
-    if (word_search_term) {
-      searchParams.word__icontains = word_search_term;
+    if (wordSearchTerm && wordSearchTerm.length > 0) {
+      wordSearchTerm.replace(/[\W\d]/g, ""); // Remove numbers
+      searchParams.word__icontains = wordSearchTerm;
+    }
+
+    if (tags && tags.length > 0) {
+      searchParams.tags__id = tags.map(t => t.id).join(',')
     }
 
     return this.http.get(environment.apiUrl + '/voby/words/', {

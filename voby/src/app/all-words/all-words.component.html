@@ -25,25 +25,25 @@
                     >
                         <div style="display: flex; flex-direction: row;">
                             <div>{{tag.value}}</div>
-                            <div class="badge">{{this.tagFrequency[tag.id] ?? 0}}</div>
                         </div>
                         <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
 
                     
-                    <form [formGroup]="searchForm" (ngSubmit)="search()">
+                    <form [formGroup]="searchForm" (ngSubmit)="search()" style="width: 100%; display: flex;flex-direction: row;">
                         <input
                             matInput
                             formControlName="search"
                             placeholder="Search for words or tags here..."
                             [matAutocomplete]="autocomplete"
                             [matChipInputFor]="chipList"
+                            style="width: 100%;"
                         >
                     </form>
                 </mat-chip-list>
                 <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
-                        <div style="display: flex; flex-direction: row;">
+                        <div style="display: flex; flex-direction: row;align-content: end;">
                             <div>{{tag.value}}</div>
                         </div>
                     </mat-option>

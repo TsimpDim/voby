@@ -132,7 +132,7 @@ class WordViewSet(viewsets.ModelViewSet):
     filterset_fields = {
         'set__vclass': ['exact'],
         'word': ['icontains'],
-        'tags': ['icontains']
+        'tags__id': ['exact']
     }
     ordering_fields = ['created', 'favorite']
     pagination_class = StandardPagination
