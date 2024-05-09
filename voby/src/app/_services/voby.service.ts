@@ -124,7 +124,7 @@ export class VobyService {
     sort: string = localStorage.getItem('sort') || '-created',
     ) {
 
-    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort, favorite}
+    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort}
     if (wordSearchTerm && wordSearchTerm.length > 0) {
       wordSearchTerm.replace(/[\W\d]/g, ""); // Remove numbers
       searchParams.word__icontains = wordSearchTerm;
@@ -132,6 +132,10 @@ export class VobyService {
 
     if (tags && tags.length > 0) {
       searchParams.tags__id = tags.map(t => t.id).join(',')
+    }
+
+    if (favorite) {
+      searchParams.favorite = true;
     }
 
     return this.http.get(environment.apiUrl + '/voby/words/', {

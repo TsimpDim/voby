@@ -275,18 +275,8 @@ export class AllWordsComponent implements OnInit {
   }
 
   toggleShowFavorites() {
-    if (this.showingFavorites) {
-      this.search();
-      this.showingFavorites = false;
-    } else {
-      let newWords: Word[] = [];
-      this.filteredWords.filter((w: Word) => w.favorite === true).forEach((i: any) => newWords.push(i));
-      this.filteredWords.splice(0, this.filteredWords.length);
-      newWords.forEach(nW => {
-        this.filteredWords.push(nW);
-      });
-      this.showingFavorites = true;
-    }
+    this.showingFavorites = !this.showingFavorites;
+    this.search();
   }
 
   search() {

@@ -132,9 +132,10 @@ class WordViewSet(viewsets.ModelViewSet):
     filterset_fields = {
         'set__vclass': ['exact'],
         'word': ['icontains'],
-        'tags__id': ['exact']
+        'tags__id': ['exact'],
+        'favorite': ['exact']
     }
-    ordering_fields = ['created', 'favorite']
+    ordering_fields = ['created']
     pagination_class = StandardPagination
 
     def create(self, request, *args, **kwargs):
