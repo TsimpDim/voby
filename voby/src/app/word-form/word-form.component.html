@@ -8,44 +8,33 @@
             formControlName="word"
             (keyup)="checkSimilar()"
         >
-        <div *ngIf="this.similarWords.length > 0" matSuffix>
-            <mat-icon
-                fontIcon="fmd_bad"
-                matSuffix
-                matTooltip="Potentially duplicate(s): {{this.displaySimilarWords()}}"
-                style="color: #686868"
-            >
-            </mat-icon>
-        </div>
     </mat-form-field>
 
 
     <mat-form-field appearance="fill">
         <mat-label>Translations</mat-label>
-        <!-- <input
-            matInput
+        <mat-chip-list
+            #chipGrid
+            aria-label="Translations"
             name="translation"
             formControlName="translation"
-        > -->
-        <mat-chip-list #chipGrid aria-label="Translations"
-        name="translation"
-        formControlName="translation">
+        >
             <mat-chip *ngFor="let translation of translations"
-                          (removed)="removeTranslation(translation.value)">
-              {{translation.value}}
-              <button matChipRemove>
+                            (removed)="removeTranslation(translation.value)">
+                {{translation.value}}
+                <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
-              </button>
+                </button>
             </mat-chip>
             <input
-                placeholder="translation..."
+                placeholder="type the translation..."
                 [matChipInputFor]="chipGrid"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 matChipInputAddOnBlur="true"
                 (matChipInputTokenEnd)="addTranslation($event)"
                 matInput
             />
-          </mat-chip-list>
+        </mat-chip-list>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -67,7 +56,7 @@
         <mat-chip-list #chipList>
             <mat-chip
                 *ngFor="let word of wordForm.get('relatedWords')?.value"
-                (removed)="removeRelatedWord(word.id)"
+                (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
                 (mouseover)="this.wordViewRelatedWord=getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
             >
                 {{word.word}}
@@ -75,7 +64,7 @@
             </mat-chip>
 
             <input
-                placeholder="word..."
+                placeholder="search an existing word..."
                 #relatedWordInput
                 [matAutocomplete]="auto"
                 [matChipInputFor]="chipList"

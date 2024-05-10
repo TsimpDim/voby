@@ -15,10 +15,10 @@ import { getCountryEmoji } from 'src/app/countries';
 export class WordDetailPanelComponent {
 
   @Input() word: Word|undefined = undefined;
-  @Input() allWords: Word[] = [];
   @Input() allTags: Tag[] = [];
   @Input() setId: number = -1;
   @Input() vclass: any|undefined;
+  @Input() isSet: boolean = true;
   @Output() wordSelected: EventEmitter<any> = new EventEmitter();
   @Output() wordDeselected: EventEmitter<any> = new EventEmitter();
   @Output() wordEdited: EventEmitter<any> = new EventEmitter();
@@ -41,19 +41,21 @@ export class WordDetailPanelComponent {
     this.wordSelected.emit(id);
   }
 
-  // getFullWordFromId(id: number) {
-  //   return this.allWords.find(w => w.id === id);
-  // }
-  // These word pills should be moved to their own custom component
-  // that contain their full information already
-  getFullWordFromId(id:number){ return undefined; }
+  getFullWordFromId(id:number){ 
+    this.voby.getWord(id).subscribe({
+      next: (data: any) => {
+        this.wordViewRelatedWord = data;
+      },
+      error: () => {}
+    })  
+  }
 
   editWord() {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
         word: this.word,
-        allWords: this.allWords,
+        vclassId: this.vclass.id,
         allTags: this.allTags,
         edit: true
       },

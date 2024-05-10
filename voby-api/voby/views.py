@@ -12,21 +12,19 @@ from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
 from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
     UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer, \
-    VClassInfoSerializer, SetAllSerializer, WordAllSerializer, TagSerializer
+    SetAllSerializer, WordAllSerializer, TagSerializer, RelatedWordSerializer
 from random import sample
-from datetime import datetime
 import xlwt
 
 class StandardPagination(PageNumberPagination):
     page_size = 50
     page_size_query_param = 'page_size'
-    max_page_size = 50
+    max_page_size = 999
 
 class ClassViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = ClassSerializer
     queryset = VClass.objects.all().order_by('id')
-    pagination_class = PageNumberPagination
 
     def create(self, request, *args, **kwargs):
         data = request.data
@@ -73,25 +71,6 @@ class SetViewSet(viewsets.ModelViewSet):
         context = super().get_serializer_context()
         context['sort'] = self.request.query_params.get('sort')
         return context
-    
-    @action(methods=['get'], detail=True)
-    def words(self, request, pk=None):
-        user = self.request.user.id
-        sort_param = request.query_params.get('sort')
-        set = Set.objects.get(id=pk)
-        queryset = Word.objects.filter(user=user, set=set.id)
-        serializer = WordInfoSerializer(queryset, many=True)
-        count = Word.objects.filter(set=set, created__date=datetime.today()).count()
-
-        return Response({
-            'set_info': {
-                'name': set.name,
-                'id': set.id
-            },
-            'words_today': count,
-            'words': sorted(serializer.data, key=lambda w: w['created'], reverse=sort_param=='-created'),
-            'vclass_info': VClassInfoSerializer(set.vclass).data
-        }, status=status.HTTP_200_OK)
 
 class WordViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
@@ -144,7 +123,10 @@ class WordViewSet(viewsets.ModelViewSet):
     
     def get_serializer_class(self):
         if self.request.method == 'GET':
-            return WordInfoSerializer
+            if self.request.query_params.get('related') == 'true':
+                return RelatedWordSerializer
+            else:
+                return WordInfoSerializer
         else:
             return WordAllSerializer
 

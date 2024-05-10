@@ -50,9 +50,10 @@
                 <p *ngIf="word?.related_words?.length === 0">-</p>
                 <mat-chip 
                     *ngFor="let related of word?.related_words"
-                    (click)="related.set === this.setId ? this.selectWord(related.id) : false"
-                    [ngClass]="{'active-chip': related.set === this.setId}"
-                    (mouseover)="this.wordViewRelatedWord=getFullWordFromId(related.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
+                    (click)="this.isSet && (related.set === this.setId) || !this.isSet ? this.selectWord(related.id) : false"
+                    [ngClass]="{'active-chip': this.isSet && (related.set === this.setId) || !this.isSet}"
+                    (mouseover)="getFullWordFromId(related.id)"
+                    (mouseleave)="this.wordViewRelatedWord=undefined"
                 >
                     {{related.word}}
                 </mat-chip>

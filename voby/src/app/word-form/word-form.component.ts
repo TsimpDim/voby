@@ -15,16 +15,16 @@ import { RelatedWord, Tag, Word } from '../interfaces';
 
 interface PassedDataOnCreate {
   setId: number,
-  allWords: RelatedWord[],
   edit: boolean,
+  vclassId: number,
   allTags: Tag[],
   suggestedWord: string
 };
 
 interface PassedDataOnEdit {
   word: Word,
-  allWords: RelatedWord[],
   edit: boolean,
+  vclassId: number,
   allTags: Tag[]
 };
 
@@ -60,6 +60,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   translationsToBeCreated: string[] = [];
   translationsToBeDeleted: {id: number, value: string}[] = [];
   wordViewRelatedWord: RelatedWord|undefined = undefined;
+  allWordsOfClass: Word[] = [];
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -113,8 +114,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.passedData = data;
-    this.filterWords();
-    this.filterTags();
+    this.getWordsOfClass();
   }
 
   ngOnDestroy(): void {
@@ -132,6 +132,26 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
   onNoClick(): void {
     this.dialogRef.close();
+  }
+
+  getWordsOfClass() {
+    this.voby.getWords(
+      this.passedData.vclassId,
+      undefined,
+      undefined,
+      undefined,
+      false,
+      1,
+      999,
+      true
+    ).subscribe({
+      next: (data: any) => {
+        this.allWordsOfClass = data['results'];
+        this.filterTags();
+        this.filterWords();
+      },
+      error: () => {}
+    });
   }
 
   addExampleFormControls() {
@@ -157,7 +177,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
   filterWords() {
     const relatedWordsValue = this.wordForm.get('relatedWords')?.value;
-    let newFilteredRelatedWords = this.passedData.allWords
+    let newFilteredRelatedWords = this.allWordsOfClass
       ?.filter((word) => word.word.toLowerCase().includes(this.relatedWordInput?.nativeElement.value.toLowerCase() || ''))
       .filter(w => !relatedWordsValue.find((rw: RelatedWord) => w.id === rw.id))
 
@@ -195,7 +215,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   selectRelatedWord(wordId: number) {
-    const newValue = this.passedData.allWords?.find((word) => word.id === wordId) as RelatedWord;
+    const newValue = this.allWordsOfClass?.find((word) => word.id === wordId) as RelatedWord;
     if (newValue) {
       const relatedWords = this.wordForm.get('relatedWords')?.value || [];
       const newRw = {id: newValue.id, word: newValue.word};
@@ -255,6 +275,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     if (this.translations.length === 0) {
       return;
     }
+
     this.voby.editWord(
       (this.passedData as PassedDataOnEdit).word.id,
       this.wordForm.get('word')?.value,
@@ -419,7 +440,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             error: (error: any) => {
               this.loading = false;
               this.voby.deleteWord(word.id).subscribe();
-              this.dataForParent = undefined
+              this.dataForParent = undefined;
               this._snackBar.openFromComponent(SnackbarComponent, {
                 data: {
                   message: 'Error: ' + error.statusText,
@@ -465,7 +486,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
         for (let tagToAttach of this.tagsToBeAttached) {
           this.voby.addWordToTag(tagToAttach.id, word.id).subscribe({
-            next: (data) => {
+            next: () => {
               this.dataForParent.word.tags.push(tagToAttach);
             }
           });
@@ -484,22 +505,18 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   getFullWordFromId(id: number) {
-    return this.passedData.allWords.find(w => w.id === id);
+    return this.allWordsOfClass.find(w => w.id === id);
   }
 
   checkSimilar() {
     const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
-    const similarWords = this.passedData.allWords.filter(w => stringSimilarity(w.word, word) >= 0.8);
-    const suggestedRelatedWords = this.passedData.allWords
+    const similarWords = this.allWordsOfClass.filter(w => stringSimilarity(w.word, word) >= 0.8);
+    const suggestedRelatedWords = this.allWordsOfClass
       .filter(w => stringSimilarity(w.word, word) >= 0.8 || (word.length > 5 && w.word.includes(word)))
       .filter(w => !this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id));
 
     this.similarWords = similarWords;
     this.suggestedRelatedWords = suggestedRelatedWords;
-  }
-
-  displaySimilarWords() {
-    return this.similarWords.map((w: any) => `${w.word} (${w.set_name})`).join('< | >');
   }
 
   addTranslation(event: MatChipInputEvent): void {

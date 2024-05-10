@@ -114,7 +114,13 @@ export class VobyService {
     });
   }
 
-  getAllWordsOfClass(
+  getWord(wordId: number) {
+    return this.http.get(environment.apiUrl + '/voby/words/' + wordId, {
+      headers: {"Authorization": "Token " + this.authService.getSessionToken()}
+    });
+  }
+
+  getWords(
     classId: number,
     setId: number | undefined = undefined,
     wordSearchTerm: string | undefined = undefined,
@@ -122,9 +128,10 @@ export class VobyService {
     favorite: boolean = false,
     page: number = 1,
     page_size: number = 50,
-    sort: string = localStorage.getItem('sort') || '-created',
-    ) {
-    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort}
+    related: boolean = false,
+  ) {
+    const sort = localStorage.getItem('sort') || '-created';
+    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort, related}
     if (wordSearchTerm && wordSearchTerm.length > 0) {
       wordSearchTerm.replace(/[\W\d]/g, ""); // Remove numbers
       searchParams.word__icontains = wordSearchTerm;

@@ -20,6 +20,7 @@ export class WordListViewComponent {
 
   classId: number = -1;
   setId: number = -1;
+  needSet: boolean = true;
 
   selectedWord: Word | undefined = undefined;
   filteredWords: Word[] = [];
@@ -35,7 +36,6 @@ export class WordListViewComponent {
   allTags: Tag[] = [];
   selectedTags: Tag[] = [];
   searchTags: Tag[] = [];
-  tagFrequency: any = {};
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
   wordViewRelatedWord: Word|undefined = undefined;
@@ -75,16 +75,16 @@ export class WordListViewComponent {
   }
 
   ngOnInit() {
-    const needSet = window.location.pathname.includes('set');
+    this.needSet = window.location.pathname.includes('set');
     this.paramsSubscription = this.route.params.subscribe(params => {
-      if (!needSet) {
+      if (!this.needSet) {
         this.classId = +params['id']; // (+) converts string 'id' to a number
       } else {
         this.setId = +params['id']
       }
     });
 
-    if (needSet) {
+    if (this.needSet) {
       this.getSet(this.setId);
     } else {
       this.getVClass(this.classId);
@@ -204,13 +204,13 @@ export class WordListViewComponent {
     })
   }
 
-  getAllWordsOfClass(classId: number, setId: number|undefined = undefined, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined, sort = localStorage.getItem('sort') || '-created') {
+  getWords(classId: number, setId: number|undefined = undefined, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined) {
     this.loading = true;
     this.deselectWord();
     this.numberOfPages = 0;
     this.filteredWords.splice(0, this.filteredWords.length);
 
-    this.voby.getAllWordsOfClass(classId, setId, searchTerm, tags, this.showingFavorites, page, 50, sort)
+    this.voby.getWords(classId, setId, searchTerm, tags, this.showingFavorites, page, 50)
     .subscribe({
       next: (data: any) => {
         data['results'].forEach((nW: any) => {
@@ -260,8 +260,8 @@ export class WordListViewComponent {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
+        vclassId: this.vclass.id,
         word: this.selectedWord,
-        allWords: [],
         allTags: this.allTags,
         edit: true
       },
@@ -295,7 +295,7 @@ export class WordListViewComponent {
 
       const wordIdx = this.filteredWords.findIndex(w => w.id === word?.id);
       this.filteredWords[wordIdx].word = word.word;
-      this.search();
+      // this.search();
     }
   }
 
@@ -305,7 +305,7 @@ export class WordListViewComponent {
   }
 
   search() {
-    this.getAllWordsOfClass(
+    this.getWords(
       this.vclass?.id,
       this.set?.id,
       this.currentPage,

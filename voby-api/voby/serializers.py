@@ -21,13 +21,7 @@ class TranslationSerializer(serializers.ModelSerializer):
 class RelatedWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
-        fields = ('id', 'word', 'set')
-
-class VClassInfoSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = VClass
-        fields = ['name', 'source_language', 'target_language', 'id']
+        fields = ('id', 'word', 'set', 'translations')
 
 class WordInfoSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
