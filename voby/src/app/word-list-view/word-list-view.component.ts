@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { Tag, Word } from '../interfaces';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
+import { SetFormComponent } from '../set-form/set-form.component';
 
 @Component({
   selector: 'voby-word-list-view',
@@ -102,6 +103,81 @@ export class WordListViewComponent {
 
   deselectWord() {
     this.selectedWord = undefined;
+  }
+
+  createWord() {
+    const dialogRef = this.dialog.open(WordFormComponent, {
+      width: '30%',
+      data: {
+        setId: this.set.id,
+        allTags: this.allTags,
+        vclassId: this.vclass.id,
+        edit: false,
+        suggestedWord: this.searchForm.get('search')?.value
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(data => {
+      if (!data) {
+        return;
+      }
+
+      if (localStorage.getItem('sort') === 'date_asc') {
+        this.filteredWords.push(data.word);
+      } else {
+        this.filteredWords.unshift(data.word);
+      }
+
+      if (data.word.related_words) {
+        data.word.related_words.forEach((rw: any) => {
+          const idx = this.filteredWords.findIndex((w: any) => w.id === rw.id);
+          if (idx !== -1) {
+            this.filteredWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
+          }
+        });
+      }
+
+      this.filteredWords.push(data.word);
+      this.allTags.push(...data.newTags);
+      this.selectWord(data.word.id);
+    });
+  }
+
+  editSet() {
+    const dialogRef = this.dialog.open(SetFormComponent, {
+      width: '30%',
+      data: {
+        classId: this.vclass.id,
+        setId: this.setId,
+        name: this.set.name
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res) {
+        this.set.name = res.name;
+      }
+    })
+  }
+
+  deleteSet() {
+    this.voby.deleteSet(this.setId)
+    .subscribe({
+      next: () => {
+        this.router.navigate(['/']);
+      },
+      error: (error: any) => {
+        this.loading = false;
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: 'Error: ' + error.statusText,
+            icon: 'error'
+          },
+          duration: 3 * 1000
+        });
+      },
+      complete: () => this.loading = false
+    })
   }
 
   getAllTags() {
@@ -321,5 +397,15 @@ export class WordListViewComponent {
 
   displayTranslations(translations: {id: number, value: string}[]) {
     return translations.map(o => o.value).join(' / ');
+  }
+
+  @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
+    event.preventDefault();
+    this.createWord();
+  }
+
+  @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
+    event.preventDefault();
+    this.createWord();
   }
 }

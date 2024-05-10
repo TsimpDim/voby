@@ -1,19 +1,29 @@
 <ng-container>
-    <div id="class-header">
-        <div id="class-info" *ngIf="!this.loading">
-            <h1 id="class-data" *ngIf="this.vclass">
-                {{this.vclass.name}}
-                <div id="class-emojis">
+    <div id="header">
+        <div id="info" *ngIf="!this.loading">
+            <div id="data" *ngIf="this.vclass">
+                <div (dblclick)="this.needSet && this.editSet()" style="display: flex;flex-direction: column;">
+                    <span *ngIf="this.needSet">{{this.set.name}}</span>
+                    <span *ngIf="!this.needSet">{{this.vclass.name}}</span>
+                    <span *ngIf="this.needSet" id="class-title">{{this.vclass.name}}</span>
+                </div>
+                <div id="emojis">
                     <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span>
                     > 
                     <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span>
                 </div>
-            </h1>
-            <div>
-                <h4 class="class-length">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</h4>
+                <div>
+                    <h4 class="size">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</h4>
+                </div>
+            </div>
+
+            <div class="action-cont" *ngIf="this.needSet">
+                <button mat-icon-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
+                <button mat-icon-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
+                <button mat-icon-button (click)="deleteSet()" class="action-icon" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
             </div>
         </div>
-        
+
         <div id="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>

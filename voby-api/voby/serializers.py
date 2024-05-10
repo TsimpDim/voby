@@ -1,6 +1,5 @@
 from rest_framework import serializers
 from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt, UserShortcuts, Translation, Option, Tag
-from datetime import datetime
 import random
 
 class ExampleSerializer(serializers.ModelSerializer):
@@ -134,46 +133,12 @@ class SetAllSerializer(serializers.ModelSerializer):
         model = Set
         fields = '__all__'
 
-class SetWordsSerializer(serializers.ModelSerializer):
-    words = WordInfoSerializer(many=True, read_only=True)
-    vclass_info = serializers.SerializerMethodField()
-    words_today = serializers.SerializerMethodField()
-
-    def get_words_today(self, obj):
-        count = Word.objects.filter(set=obj, created__date=datetime.today()).count()
-        return count
-
-    def get_vclass_info(self, obj):
-        vclass = obj.vclass
-        return {
-            'name': vclass.name,
-            'source_language': vclass.source_language,
-            'target_language': vclass.target_language
-        }
-    
-    def to_representation(self, instance):
-        response = super().to_representation(instance)
-        to_sort_desc = self.context.get('sort') == '-created'
-        response["words"] = sorted(response["words"], key=lambda x: x["created"], reverse=to_sort_desc)
-        return response
-
-    class Meta:
-        model = Set
-        fields = '__all__'
-
 class ClassSerializer(serializers.ModelSerializer):
     sets = SetNoVClassSerializer(many=True, read_only=True)
     has_german_nouns = serializers.SerializerMethodField()
 
     def get_has_german_nouns(self, obj):
         return Word.objects.filter(set__vclass=obj,word__regex=r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$').count() > 0
-
-    class Meta:
-        model = VClass
-        fields = "__all__"
-
-class ClassAllSerializer(serializers.ModelSerializer):
-    sets = SetWordsSerializer(many=True, read_only=True)
 
     class Meta:
         model = VClass
