@@ -72,7 +72,7 @@
     <voby-loading-ind *ngIf="loading"></voby-loading-ind>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
-            <ng-container *ngFor="let word of this.filteredWords">
+            <ng-container *ngFor="let word of this.filteredWords; index as i">
                 <voby-single-word-row
                     [word]="word"
                     [selected]="word !== undefined && word.id === selectedWord?.id"
@@ -80,6 +80,10 @@
                     (dblclick)="this.selectWord(word.id);editWord()"
                     (wordFavorited)="this.processFavoritedWord($event)"
                 ></voby-single-word-row>
+                <p  
+                *ngIf="i < this.filteredWords.length -1 && word.created.split('T')[0] != this.filteredWords[i+1].created.split('T')[0]"
+                class="date-change"   
+            >{{this.filteredWords[i+1].created.split('T')[0]}}</p>
             </ng-container>
 
             <div class="page-number-cont">
