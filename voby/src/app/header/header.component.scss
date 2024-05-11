@@ -28,6 +28,7 @@ img:hover {
     overflow: hidden;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
 ::ng-deep .mat-progress-bar-fill::before {
     content: "";
     position: absolute;

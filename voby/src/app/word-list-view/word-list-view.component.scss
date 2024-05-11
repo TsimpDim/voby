@@ -1,4 +1,4 @@
-.mat-card {
+.mat-mdc-card {
     width: 30%;
     margin: 1em;
     margin-bottom: 0;
@@ -6,11 +6,11 @@
     border-radius: 0;
 }
 
-.mat-form-field {
+.mat-mdc-form-field {
     margin-top: 14px;
 }
 
-.mat-card-content {
+.mat-mdc-card-content {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -21,7 +21,7 @@
     }
 }
 
-.mat-card-title {
+.mat-mdc-card-title {
     width: 300px;
     margin: 0;
     margin-bottom: .3em;

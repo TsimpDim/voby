@@ -19,7 +19,7 @@
 
   <div class="set-container">
     <ng-container *ngFor="let set of this.selectedClass.sets; index as i">
-      <mat-card matRipple class="set-item" (click)="redirect(set.id)">
+      <mat-card appearance="outlined" matRipple class="set-item" (click)="redirect(set.id)">
         <h3 style="padding: .6em;padding-bottom: 0;margin: 0;font-weight: 500;">{{set.name}}</h3>
         <div class="card-footer">
           <button mat-icon-button [disabled]="!set.has_words" (click)="startTest(this.selectedClass.id, set.id)" matTooltip="Set test"><mat-icon>quiz</mat-icon></button>

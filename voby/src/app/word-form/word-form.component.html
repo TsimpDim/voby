@@ -13,19 +13,19 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Translations</mat-label>
-        <mat-chip-list
+        <mat-chip-grid
             #chipGrid
             aria-label="Translations"
             name="translation"
             formControlName="translation"
         >
-            <mat-chip *ngFor="let translation of translations"
+            <mat-chip-row *ngFor="let translation of translations"
                             (removed)="removeTranslation(translation.value)">
                 {{translation.value}}
                 <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
                 </button>
-            </mat-chip>
+            </mat-chip-row>
             <input
                 placeholder="type the translation..."
                 [matChipInputFor]="chipGrid"
@@ -34,7 +34,7 @@
                 (matChipInputTokenEnd)="addTranslation($event)"
                 matInput
             />
-        </mat-chip-list>
+        </mat-chip-grid>
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -53,15 +53,15 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Related words</mat-label>
-        <mat-chip-list #chipList>
-            <mat-chip
+        <mat-chip-grid #chipList>
+            <mat-chip-row
                 *ngFor="let word of wordForm.get('relatedWords')?.value"
                 (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
                 (mouseover)="getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
             >
                 {{word.word}}
                 <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
+            </mat-chip-row>
 
             <input
                 placeholder="search an existing word..."
@@ -71,15 +71,15 @@
                 (keyup)="filterWords()"
             >
 
-            <mat-chip
+            <mat-chip-row
                 *ngFor="let word of suggestedRelatedWords"
                 (click)="selectRelatedWord(word.id)"
                 class="similar-word-suggestion"
                 matTooltip="Suggested related word"
             >
                 {{word.word}}
-            </mat-chip>
-        </mat-chip-list>
+            </mat-chip-row>
+        </mat-chip-grid>
 
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event.option.value)">
             <mat-option *ngFor="let word of filteredRelatedWords" [value]="word.id">
@@ -92,15 +92,15 @@
 
     <mat-form-field appearance="fill">
         <mat-label>Tags</mat-label>
-        <mat-chip-list #chipGridTags aria-label="Tags"
+        <mat-chip-grid #chipGridTags aria-label="Tags"
             name="tags"
             formControlName="tags">
-            <mat-chip *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
+            <mat-chip-row *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
               {{tag.value}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
-            </mat-chip>
+            </mat-chip-row>
             <input
                 placeholder="tag..."
                 [matChipInputFor]="chipGridTags"
@@ -112,7 +112,7 @@
                 #tagInput
                 (keyup)="filterTags()"
             />
-          </mat-chip-list>
+          </mat-chip-grid>
 
         <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
             <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">

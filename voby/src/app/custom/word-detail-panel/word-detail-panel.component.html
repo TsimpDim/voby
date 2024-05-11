@@ -1,5 +1,5 @@
 
-<mat-card *ngIf="word !== undefined" class="word-detail-container" (dblclick)="editWord()">
+<mat-card appearance="outlined" *ngIf="word !== undefined" class="word-detail-container" (dblclick)="editWord()">
     <div class="word-card-content">
         <mat-card-content style="margin-bottom: 1em;">
             <div style="display: flex; flex-direction: row; justify-content: space-between;width: 100%;">
@@ -46,9 +46,9 @@
 
         <mat-card-content class="info-container">
             <mat-card-title>Related words</mat-card-title>
-            <mat-chip-list> 
+            <mat-chip-listbox> 
                 <p *ngIf="word?.related_words?.length === 0">-</p>
-                <mat-chip 
+                <mat-chip-option 
                     *ngFor="let related of word?.related_words"
                     (click)="this.isSet && (related.set === this.setId) || !this.isSet ? this.selectWord(related.id) : false"
                     [ngClass]="{'active-chip': this.isSet && (related.set === this.setId) || !this.isSet}"
@@ -56,23 +56,23 @@
                     (mouseleave)="this.wordViewRelatedWord=undefined"
                 >
                     {{related.word}}
-                </mat-chip>
-            </mat-chip-list>
+                </mat-chip-option>
+            </mat-chip-listbox>
             <voby-word-preview [word]="this.wordViewRelatedWord"></voby-word-preview>
         </mat-card-content>
 
         <mat-card-content class="info-container"> 
             <mat-card-title>Tags</mat-card-title>
-            <mat-chip-list> 
+            <mat-chip-listbox> 
                 <p *ngIf="word?.tags?.length === 0">-</p>
-                <mat-chip 
+                <mat-chip-option 
                     *ngFor="let tag of word?.tags"
                     (click)="addTagToSearch(tag.id)"
                     class="pointer-on-hover"
                 >
                     {{tag.value}}
-                </mat-chip>
-            </mat-chip-list>
+                </mat-chip-option>
+            </mat-chip-listbox>
         </mat-card-content>
     </div>
 </mat-card>

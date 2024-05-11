@@ -27,8 +27,8 @@
         <div id="search-bar">
             <mat-form-field class="search-field">
                 <mat-label>Search</mat-label>
-                <mat-chip-list #chipList>
-                    <mat-chip
+                <mat-chip-grid #chipList>
+                    <mat-chip-row
                         *ngFor="let tag of selectedTags"
                         (removed)="removeTag(tag.id)"
                         (click)="addTagToSearch(tag.id)"
@@ -37,7 +37,7 @@
                             <div>{{tag.value}}</div>
                         </div>
                         <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip>
+                    </mat-chip-row>
 
                     
                     <form [formGroup]="searchForm" (ngSubmit)="search()" style="width: 100%; display: flex;flex-direction: row;">
@@ -50,7 +50,7 @@
                             style="width: 100%;"
                         >
                     </form>
-                </mat-chip-list>
+                </mat-chip-grid>
                 <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
                         <div style="display: flex; flex-direction: row;align-content: end;">
