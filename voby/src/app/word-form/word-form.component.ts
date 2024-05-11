@@ -504,8 +504,13 @@ export class WordFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFullWordFromId(id: number) {
-    return this.allWordsOfClass.find(w => w.id === id);
+  getFullWordFromId(id:number){ 
+    this.voby.getWord(id).subscribe({
+      next: (data: any) => {
+        this.wordViewRelatedWord = data as RelatedWord;
+      },
+      error: () => {}
+    })  
   }
 
   checkSimilar() {

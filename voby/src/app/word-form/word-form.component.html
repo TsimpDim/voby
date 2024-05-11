@@ -57,7 +57,7 @@
             <mat-chip
                 *ngFor="let word of wordForm.get('relatedWords')?.value"
                 (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
-                (mouseover)="this.wordViewRelatedWord=getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
+                (mouseover)="getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
             >
                 {{word.word}}
                 <mat-icon matChipRemove>cancel</mat-icon>
