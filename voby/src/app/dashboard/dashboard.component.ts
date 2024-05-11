@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ClassFormComponent } from '../class-form/class-form.component';
 import { VobyService } from '../_services/voby.service';
 import { COUNTRY_MAPPING, getCountryEmoji } from '../countries';
 import { SetFormComponent } from '../set-form/set-form.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { HotkeysService } from '../_services/hotkeys.service';
 import { Subscription } from 'rxjs';

@@ -1,5 +1,5 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from '../countries';
@@ -8,7 +8,7 @@ import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
 import { Tag, Word } from '../interfaces';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SetFormComponent } from '../set-form/set-form.component';
 

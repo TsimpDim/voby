@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { VobyService } from '../_services/voby.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserShortcut } from '../interfaces';
