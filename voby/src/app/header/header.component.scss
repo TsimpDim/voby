@@ -29,7 +29,7 @@ img:hover {
 }
 
 ::ng-deep .mat-progress-bar-fill::before {
-    content: "awds";
+    content: "";
     position: absolute;
     width: 80%;
     height: 50%;
@@ -41,8 +41,5 @@ img:hover {
     transform: scaleY(1.5) translateY(-50%);
     z-index: 99;
 }
-
-
-
 
 
