@@ -1,12 +1,15 @@
 ::ng-deep .cdk-overlay-pane {
     overflow-y: scroll;
+    width: auto !important;
     max-height: 70vh;
+    border-radius: 10px;
 }
 
 ::ng-deep body {
     background-color: hsl(263, 52%, 98%); 
 }
 
-::ng-deep .cdk-overlay-pane {
-    border-radius: 10px;
+::ng-deep .mat-mdc-icon-button.mat-mdc-button-base {
+    height: inherit;
+    width: inherit;
 }

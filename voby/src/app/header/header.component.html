@@ -8,7 +8,7 @@
         <div
             [@animationTrigger]="animationState"
             *ngIf="this.userExperienceDiff !== this.userExperience"
-            style="font-size: .7em;"    
+            style="font-size: .7em;"
         >+{{this.userExperienceDiff}}</div>
 
         <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">

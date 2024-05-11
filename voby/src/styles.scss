@@ -1,4 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: "Jost", "Helvetica Neue", sans-serif; }
+
+:root {
+    --mdc-linear-progress-active-indicator-height: 20px;
+    --mdc-linear-progress-track-height: 20px;
+    --mdc-icon-button-state-layer-size: None;
+}

@@ -14,6 +14,7 @@ img:hover {
     margin-right: 1em;
     display: flex;
     flex-direction: row;
+    font-weight: 600;
 
     .mat-icon {
         margin-top: auto;
@@ -23,13 +24,13 @@ img:hover {
 
 .xp-bar {
     height: 20px;
-    width: 110px;
+    width: 120px;
     border-radius: 100px;
     overflow: hidden;
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
-::ng-deep .mat-progress-bar-fill::before {
+::ng-deep .mdc-linear-progress__primary-bar::before {
     content: "";
     position: absolute;
     width: 80%;
