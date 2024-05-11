@@ -18,7 +18,7 @@
                 <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
                 <mat-icon aria-label="level">workspace_premium</mat-icon>
             </div>
-            <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" style="height:100%;width: 80%"></mat-progress-bar>
+            <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" class="xp-bar"></mat-progress-bar>
         </div>
 
         <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="goToOptions()">
