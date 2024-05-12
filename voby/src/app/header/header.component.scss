@@ -2,6 +2,17 @@
     cursor: pointer;
 }
 
+.mat-toolbar {
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    align-content: space-between;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    margin-bottom: 5px;
+}
+
 img:hover {
     cursor:pointer;
 }
@@ -34,12 +45,16 @@ img:hover {
     width: 80%;
     height: 50%;
     filter: blur(2px);
-    background: rgb(255, 237, 172);
+    background: rgb(254, 235, 164);
     top: 50%;
     left: 10%;
     border-radius: 50%;
     transform: scaleY(1.5) translateY(-50%);
     z-index: 99;
+}
+
+.menu-icon {
+    margin-top: .5em;
 }
 
 
