@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { ResolveStart, Router } from '@angular/router';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ClassFormComponent } from '../class-form/class-form.component';
 import { VobyService } from '../_services/voby.service';
@@ -123,7 +123,11 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.classes.push(result);
+      if (result) {
+        this.classes.push(result);
+        this.selectedClass = result;
+        this.selectedClassId = result.id;
+      }
     });
   }
 

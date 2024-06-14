@@ -6,7 +6,7 @@
 
     <div style="display:flex;flex-direction:row;justify-content: space-between;">
         <mat-form-field appearance="fill">
-            <mat-label>Source Language</mat-label>
+            <mat-label>From...</mat-label>
             <mat-select name="sourceLanguage" formControlName="sourceLanguage">
                 <mat-option *ngFor="let country of countries" [value]="country.value">
                     {{country.display}} {{country.value}}
@@ -17,7 +17,7 @@
         <span><mat-icon style="font-size: 2em;margin-top: 50%;">chevron_right</mat-icon></span>
 
         <mat-form-field appearance="fill">
-            <mat-label>Target Language</mat-label>
+            <mat-label>To...</mat-label>
             <mat-select name="targetLanguage" formControlName="targetLanguage">
                 <mat-option *ngFor="let country of countries" [value]="country.value">
                     {{country.display}} {{country.value}}
@@ -27,7 +27,7 @@
     </div>
 
     <div mat-dialog-actions>
-        <button mat-button type="button" (click)="onNoClick()">Cancel</button>
-        <button mat-button type="submit" color="primary" cdkFocusInitial (click)="submit()">Submit</button>
+        <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
+        <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create class</button>
     </div>
 </form>
