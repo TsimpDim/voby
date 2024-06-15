@@ -232,9 +232,11 @@ export class DashboardComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-      classToChange.name = res.name;
-      classToChange.source_language = res.source_language;
-      classToChange.target_language = res.target_language;
+      if (res) {
+        classToChange.name = res.name;
+        classToChange.source_language = res.source_language;
+        classToChange.target_language = res.target_language;
+      }
     })
   }
 

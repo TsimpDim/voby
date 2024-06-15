@@ -27,7 +27,7 @@
                 </button>
             </mat-chip>
             <input
-                placeholder="type the translation..."
+                placeholder="enter translations..."
                 [matChipInputFor]="chipGrid"
                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                 matChipInputAddOnBlur="true"
@@ -125,7 +125,7 @@
 
     <ng-container *ngFor="let example of examples; index as i">
         <div [style]="{'margin-top': i === 0 ? '-1em' : '1.5em', 'display': 'flex', 'flex-direction': 'row'}">
-            <button mat-flat-button type="button" (click)="removeExample(i)" class="remove-example-btn">-</button>
+            <button mat-button type="button" (click)="removeExample(i)" class="remove-example-btn"><mat-icon>close</mat-icon></button>
             <div style="display: flex; flex-direction: column;width:100%">
 
                 <mat-form-field class="input" appearance="fill">
@@ -148,10 +148,11 @@
         </div>
     </ng-container>
 
-    <button mat-flat-button type="button" class="add-example-btn" (click)="addExample()" ><mat-icon>add</mat-icon></button>
+    <button mat-button type="button" color="secondary" class="add-example-btn" (click)="addExample()" >+ Example </button>
 
     <div mat-dialog-actions>
-        <button mat-button type="button" (click)="onNoClick()">Cancel</button>
-        <button mat-button type="submit" color="primary" cdkFocusInitial (click)="submit()">Submit</button>
+        <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
+        <button mat-raised-button *ngIf="!this.passedData.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create word</button>
+        <button mat-raised-button *ngIf="this.passedData.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit word</button>
     </div>
 </form>
