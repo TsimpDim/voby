@@ -57,11 +57,23 @@ class WordAllSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class TestQuestionSerializer(serializers.ModelSerializer):
-    def to_representation(self, instance):
+    def to_representation(self, instance: Word):
         response = super().to_representation(instance)
         response['translations'] = ' / '.join([t['value'] for t in TranslationSerializer(Translation.objects.filter(id__in=response['translations']), many=True).data])
+        vclass = VClass.objects.get(id=instance.set.vclass.id)
+        if not vclass:
+            return None
+        
+        response['source_language'] = vclass.source_language
+        response['target_language'] = vclass.target_language
         if random.random() < 0.5:
-            response['word'], response['translations'] = response['translations'], response['word']
+            response['word'], \
+            response['translations'], \
+            response['source_language'], \
+            response['target_language'] = response['translations'], \
+            response['word'], \
+            response['target_language'], \
+            response['source_language']
         
         return response
 

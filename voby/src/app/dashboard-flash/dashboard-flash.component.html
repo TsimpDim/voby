@@ -3,18 +3,19 @@
 
     <ng-container *ngIf="answerCorrect === undefined">
         <div style="display:flex; flex-direction: row;">
-            <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3>
+            <!-- <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3> -->
             <button mat-icon-button class="close-button" (click)="this.closeTest()"><mat-icon>close</mat-icon></button>
         </div>
-        <p class="word-to-translate">{{testWord.word}}</p>
 
+        <p class="word-to-translate">{{this.getCountryEmoji(this.testWord.source_language)}} {{testWord.word}}</p>
+        <mat-icon style="margin-top: .6em;">arrow_forward</mat-icon>
         <div class="answer-container">
             <mat-form-field class="answer-input">
-                <mat-label>Answer</mat-label>
-                <input matInput placeholder="type your answer here..." #translation>
+                <input matInput #translation>
+                <p matPrefix>{{this.getCountryEmoji(this.testWord.target_language)}}</p>
             </mat-form-field>
 
-            <button mat-button type="submit" (click)="checkAnswer()" color="accent"><mat-icon fontIcon="check"></mat-icon> submit</button>
+            <button mat-icon-button type="submit" (click)="checkAnswer()" color="accent"><mat-icon fontIcon="check"></mat-icon></button>
         </div>
     </ng-container>
 

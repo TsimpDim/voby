@@ -2,6 +2,8 @@ import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, 
 import { VobyService } from '../_services/voby.service';
 import { stringSimilarity } from '../string-similarity';
 import { ExperienceService } from '../_services/experience.service';
+import { getCountryEmoji } from '../countries';
+import { TestWord } from '../interfaces';
 
 @Component({
   selector: 'voby-dashboard-flash',
@@ -13,10 +15,11 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   @ViewChild('translation') translation: ElementRef | undefined;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  testWord: {word: string, translations: string} | undefined;
+  testWord: TestWord | undefined;
   loading = false;
   @Input() hide = false;
   @Input() recalculate = false;
+  getCountryEmoji = getCountryEmoji;
 
   answerCorrect: boolean | undefined;
 

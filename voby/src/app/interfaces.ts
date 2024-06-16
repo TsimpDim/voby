@@ -30,3 +30,10 @@ export interface RelatedWord {
     id: number;
     word: string;
 }
+
+export interface TestWord {
+    word: string;
+    translations: string;
+    source_language: string;
+    target_language: string;
+}
