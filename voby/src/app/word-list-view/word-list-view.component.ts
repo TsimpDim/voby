@@ -137,7 +137,6 @@ export class WordListViewComponent {
         });
       }
 
-      this.filteredWords.push(data.word);
       this.allTags.push(...data.newTags);
       this.selectWord(data.word.id);
     });
