@@ -87,13 +87,29 @@
             </ng-container>
 
             <div class="page-number-cont">
-                <button mat-raised-button
-                    *ngFor="let item of [].constructor(this.numberOfPages); let i = index"
-                    (click)="this.currentPage = i+1;this.search()"
-                    [ngClass]="{'page-number': true, 'current-page': this.currentPage === i+1}"
+                <ng-container *ngIf="this.numberOfPages > 10 && this.currentPage != 1">
+                    <button mat-raised-button
+                        (click)="this.currentPage = 1;this.search()"
+                        class="page-number"
                     >
-                    {{i+1}}
+                        <<
+                    </button>
+                </ng-container>
+                <button mat-raised-button
+                    *ngFor="let page of this.pagesToDisplay"
+                    (click)="this.currentPage = page+1;this.search()"
+                    [ngClass]="{'page-number': true, 'current-page': this.currentPage === page+1}"
+                >
+                    {{page+1}}
                 </button>
+                <ng-container *ngIf="this.numberOfPages > 10 && this.currentPage != this.numberOfPages">
+                    <button mat-raised-button
+                        (click)="this.currentPage = this.numberOfPages;this.search()"
+                        class="page-number"
+                    >
+                        >>
+                    </button>
+                </ng-container>
             </div>
         </div>
 

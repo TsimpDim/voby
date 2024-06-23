@@ -32,6 +32,7 @@ export class WordListViewComponent {
   showingFavorites = false;
   numberOfWords: number = 0;
   numberOfPages: number = 0;
+  pagesToDisplay: number[] = [];
   currentPage: number = 1;
   searchForm: FormGroup;
   allTags: Tag[] = [];
@@ -234,7 +235,13 @@ export class WordListViewComponent {
     const idx = this.filteredWords.findIndex(w => w.id === this.selectedWord?.id);
     if (idx !== -1) {
       this.filteredWords.splice(idx, 1);
-      this.selectWord(this.filteredWords[0].id);
+      if (this.filteredWords.length === 0) {
+        this.currentPage = this.currentPage -= 1;
+        if (this.currentPage < 0) { this.selectedWord = undefined }
+        this.search();
+      } else {
+        this.selectWord(this.filteredWords[0].id);
+      }
     }
   }
 
@@ -294,6 +301,19 @@ export class WordListViewComponent {
 
         this.numberOfWords = data['count'];
         this.numberOfPages = Math.ceil(data['count'] / 50);
+        if (this.numberOfPages > 5) {
+          this.pagesToDisplay.splice(0, this.pagesToDisplay.length);
+          let startingPage = this.currentPage - 3;
+          if (startingPage < 0) { startingPage = 0 }
+
+          let endingPage = this.currentPage + 2;
+          if (endingPage > this.numberOfPages) { endingPage = this.numberOfPages }
+
+          for(let i = startingPage; i < endingPage; i++) {
+            this.pagesToDisplay.push(i);
+          }  
+        }
+
         this.selectedWord = this.filteredWords[0];
         window.scroll({ 
           top: 0, 
