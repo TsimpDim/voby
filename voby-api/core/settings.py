@@ -23,13 +23,14 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 
 DEBUG = True
 
-ALLOWED_HOSTS = ["localhost", "api.voby.local", "voby-api.tsdim.net"]
+ALLOWED_HOSTS = ["localhost", "api.voby.local", "voby-api.tsdim.net", "10.0.2.2"]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:82",
     "http://client.voby.local:82",
     "http://voby.tsdim.net",
     "https://voby.tsdim.net",
+    "http://127.0.0.1:8000"
 ]
 
 CORS_ALLOW_ALL_ORIGINS = False
