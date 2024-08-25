@@ -198,6 +198,22 @@ export class DashboardComponent implements OnInit {
       next: () => {
         const classToRemove = this.classes.findIndex((c:any) => c.id === index);
         this.classes.splice(classToRemove, 1);
+
+        this._snackBar.openFromComponent(SnackbarComponent, {
+          data: {
+            message: "Class successfuly deleted",
+            icon: 'info'
+          },
+          duration: 3 * 1000
+        });
+
+        // If the last class was deleted, show the 
+        // class creation form
+        if (this.classes.length === 0) {
+          this.openClassForm();
+        } else {
+          this.selectClass(-1);
+        }
       },
       error: (error: any) => {
         this.loading = false;
