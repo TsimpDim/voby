@@ -1,6 +1,6 @@
 <ng-container>
     <div id="header">
-        <div id="info" *ngIf="!this.loading">
+        <div id="info" *ngIf="!this.loadingHeader">
             <div id="data" *ngIf="this.vclass">
                 <div (dblclick)="this.needSet && this.editSet()" style="display: flex;flex-direction: column;">
                     <span *ngIf="this.needSet">{{this.set.name}}</span>
@@ -69,7 +69,7 @@
         </div>
     </div>
 
-    <voby-loading-ind *ngIf="loading"></voby-loading-ind>
+    <voby-loading-ind *ngIf="loadingWords"></voby-loading-ind>
     <div class="layout-horizontal">
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords; index as i">
@@ -126,6 +126,6 @@
             (tagSelected)="addTagToSearch($event)"
         ></voby-word-detail-panel>
 
-        <p *ngIf="!this.loading && this.filteredWords.length === 0" class="empty-message">No words found :(</p>
+        <p *ngIf="!this.loadingWords && this.filteredWords.length === 0" class="empty-message">No words found :(</p>
     </div>
 </ng-container>

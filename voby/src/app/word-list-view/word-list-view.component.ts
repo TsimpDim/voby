@@ -30,7 +30,8 @@ export class WordListViewComponent {
   paramsSubscription: Subscription | undefined;
   vclass: any | undefined;
   set: any | undefined;
-  loading = false;
+  loadingHeader = false;
+  loadingWords = false;
   showingFavorites = false;
   numberOfWords: number = 0;
   numberOfPages: number = 0;
@@ -173,7 +174,7 @@ export class WordListViewComponent {
             this.router.navigate(['/']);
           },
           error: (error: any) => {
-            this.loading = false;
+            this.loadingHeader = false;
             this._snackBar.openFromComponent(SnackbarComponent, {
               data: {
                 message: 'Error: ' + error.statusText,
@@ -182,14 +183,14 @@ export class WordListViewComponent {
               duration: 3 * 1000
             });
           },
-          complete: () => this.loading = false
+          complete: () => this.loadingHeader = false
         })
       }
     })
   }
 
   getAllTags() {
-    this.loading = true;
+    this.loadingHeader = true;
     this.voby.getTags()
     .subscribe({
       next: (data: any) => {
@@ -200,7 +201,7 @@ export class WordListViewComponent {
         }
       },
       error: (error: any) => {
-        this.loading = false;
+        this.loadingHeader = false;
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {
             message: 'Error: ' + error.statusText,
@@ -210,7 +211,7 @@ export class WordListViewComponent {
         });
       },
       complete: () => {
-        if (this.filteredWords) { this.loading = false } 
+        if (this.filteredWords) { this.loadingHeader = false } 
       }
     })
   }
@@ -264,7 +265,7 @@ export class WordListViewComponent {
   }
 
   getVClass(classId: number) {
-    this.loading = true;
+    this.loadingHeader = true;
     this.voby.getClass(classId)
     .subscribe({
       next: (data: any) => {
@@ -272,14 +273,14 @@ export class WordListViewComponent {
         this.search();
       },
       error: () => {
-        this.loading = false;
+        this.loadingHeader = false;
       },
-      complete: () => this.loading = false
+      complete: () => this.loadingHeader = false
     })
   }
 
   getSet(setId: number) {
-    this.loading = true;
+    this.loadingHeader = true;
     this.voby.getSet(setId)
     .subscribe({
       next: (data: any) => {
@@ -288,14 +289,14 @@ export class WordListViewComponent {
         this.search();
       },
       error: () => {
-        this.loading = false;
+        this.loadingHeader = false;
       },
-      complete: () => this.loading = false
+      complete: () => this.loadingHeader = false
     })
   }
 
   getWords(classId: number, setId: number|undefined = undefined, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined) {
-    this.loading = true;
+    this.loadingWords = true;
     this.deselectWord();
     this.numberOfPages = 0;
     this.filteredWords.splice(0, this.filteredWords.length);
@@ -330,9 +331,9 @@ export class WordListViewComponent {
         });
       },
       error: () => {
-        this.loading = false;
+        this.loadingWords = false;
       },
-      complete: () => this.loading = false
+      complete: () => this.loadingWords = false
     })
   }
 
