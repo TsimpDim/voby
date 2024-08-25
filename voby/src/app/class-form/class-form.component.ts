@@ -20,18 +20,25 @@ export class ClassFormComponent {
   loading = false;
   classForm: FormGroup;
   countries = COUNTRIES;
-  data: {classId: number, name: string, source_language: string, target_language: string};
+  data: {
+    classId: number,
+    name: string,
+    sourceLanguage: string,
+    targetLanguage: string,
+    firstClass: boolean,
+    edit: boolean
+  };
 
   constructor(
     public dialogRef: MatDialogRef<ClassFormComponent>,
     public voby: VobyService,
     private _snackBar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) data: {classId: number, name: string, source_language: string, target_language: string},
+    @Inject(MAT_DIALOG_DATA) data: {classId: number, name: string, sourceLanguage: string, targetLanguage: string, firstClass: boolean, edit: boolean},
   ) {
     this.classForm = new FormGroup({
       name: new FormControl(data ? data.name : '', [Validators.required, Validators.maxLength(25)]),
-      sourceLanguage: new FormControl(data ? data.source_language : '', [Validators.required]),
-      targetLanguage: new FormControl(data ? data.target_language : '', [Validators.required])
+      sourceLanguage: new FormControl(data ? data.sourceLanguage : '', [Validators.required]),
+      targetLanguage: new FormControl(data ? data.targetLanguage : '', [Validators.required])
     });
 
     this.data = data;
@@ -42,7 +49,7 @@ export class ClassFormComponent {
   }
 
   submit() {
-    if (this.data === null) {
+    if (!this.data.edit) {
       this.createClass(this.classForm.get('name')?.value, this.classForm.get('sourceLanguage')?.value, this.classForm.get('targetLanguage')?.value);
     } else {
       this.updateClass(this.data.classId, this.classForm.get('name')?.value, this.classForm.get('sourceLanguage')?.value, this.classForm.get('targetLanguage')?.value);

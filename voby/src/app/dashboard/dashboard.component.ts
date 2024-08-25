@@ -112,21 +112,30 @@ export class DashboardComponent implements OnInit {
   }
 
   selectClass(classIdx: number) {
-    this.selectedClassId = classIdx;
-    this.selectedClass = this.classes.find((c: any) => c.id === classIdx);
+    if (classIdx === -1) {
+      this.selectedClass = this.classes[0];
+      this.selectedClassId = this.selectedClass.id;
+    } else {
+      this.selectedClassId = classIdx;
+      this.selectedClass = this.classes.find((c: any) => c.id === classIdx);
+    }
+    
     window.localStorage.setItem('selectedClass', this.selectedClassId.toString());
   }
 
   openClassForm() {
     const dialogRef = this.dialog.open(ClassFormComponent, {
-      width: '30%'
+      width: '30%',
+      data: {
+        edit: false,
+        firstClass: this.classes.length === 0
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.classes.push(result);
-        this.selectedClass = result;
-        this.selectedClassId = result.id;
+        this.selectClass(result.id);
       }
     });
   }
@@ -162,8 +171,12 @@ export class DashboardComponent implements OnInit {
     .subscribe({
       next: (data) => {
         this.classes = data;
-        this.selectClass(Number(window.localStorage.getItem('selectedClass') || 0));
+        this.selectClass(Number(window.localStorage.getItem('selectedClass') || -1));
         this.dialog.closeAll();
+
+        if (this.classes.length === 0) {
+          this.openClassForm();
+        }
       },
       error: (error: any) => {
         this.loading = false;
@@ -224,10 +237,11 @@ export class DashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(ClassFormComponent, {
       width: '30%',
       data: {
+        edit: true,
         classId: classIdx,
         name: classToChange.name,
-        source_language: classToChange.source_language,
-        target_language: classToChange.target_language
+        sourceLanguage: classToChange.source_language,
+        targetLanguage: classToChange.target_language
       },
     });
 

@@ -1,11 +1,11 @@
-<div id="action-bar">
+<div id="action-bar" *ngIf="this.classes.length > 0">
   <button mat-raised-button color="accent" (click)="openClassForm()"><mat-icon>add</mat-icon> Create new class</button>
   <button mat-raised-button color="primary" (click)="showQuiz()" style="margin-left: .2em" *ngIf="toShowQuizButton"><mat-icon>bolt</mat-icon>Quiz</button>
 </div>
 
 <voby-dashboard-flash [hide]="this.toShowQuizButton" (close)="hideQuiz()"></voby-dashboard-flash>
 <voby-loading-ind *ngIf="loading"></voby-loading-ind>
-<div style="margin: 2em;" *ngIf="!loading">
+<div style="margin: 2em;" *ngIf="!loading && this.classes.length > 0">
   <mat-select style="width: auto;font-size: 2em;" [value]="selectedClassId" [placeholder]="this.selectedClass.name" (selectionChange)="selectClass($event.value)">
     <mat-option *ngFor="let class of classes" [value]="class.id" style="font-size: .7em;">{{class.name}}</mat-option>
   </mat-select>
@@ -41,5 +41,5 @@
       <button *ngIf="this.selectedClass.source_language == 'German'" mat-icon-button (click)="startGermanNounTest(this.selectedClass.id, -1)" matTooltip="Special test: Genders of nouns" [disabled]="!hasWords(this.selectedClass.id) || !this.selectedClass.has_german_nouns"><mat-icon>quiz</mat-icon><mat-icon class="special">star</mat-icon>Noun Gender Test</button>
     </div>
   </div>
-</div>  
+</div>
 <a class="download-zip-link" #downloadZipLink></a>
