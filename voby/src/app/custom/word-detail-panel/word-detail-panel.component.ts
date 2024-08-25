@@ -6,6 +6,7 @@ import { Tag, Word } from 'src/app/interfaces';
 import { WordFormComponent } from 'src/app/word-form/word-form.component';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 import { getCountryEmoji } from 'src/app/countries';
+import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'voby-word-detail-panel',
@@ -67,23 +68,28 @@ export class WordDetailPanelComponent {
   }
 
   deleteWord() {
-    if(this.word) {
-      this.voby.deleteWord(this.word.id)
-      .subscribe({
-        next: () => {
-          this.wordDeleted.emit(this.word);
-        },
-        error: (error: any) => {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            data: {
-              message: 'Error: ' + error.statusText,
-              icon: 'error'
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.confirmed === true) {
+        if(this.word) {
+          this.voby.deleteWord(this.word.id)
+          .subscribe({
+            next: () => {
+              this.wordDeleted.emit(this.word);
             },
-            duration: 3 * 1000
-          });
+            error: (error: any) => {
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Error: ' + error.statusText,
+                  icon: 'error'
+                },
+                duration: 3 * 1000
+              });
+            }
+          })
         }
-      })
-    }
+      }
+    })
   }
 
   addTagToSearch(selectedTagId: number) {

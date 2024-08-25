@@ -46,6 +46,7 @@ import { WordPreviewComponent } from './custom/word-preview/word-preview.compone
 import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail-panel.component';
 import { SingleWordRowComponent } from './custom/single-word-row/single-word-row.component';
 import { WordListViewComponent } from './word-list-view/word-list-view.component';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { WordListViewComponent } from './word-list-view/word-list-view.component
     WordPreviewComponent,
     WordDetailPanelComponent,
     SingleWordRowComponent,
-    WordListViewComponent
+    WordListViewComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,

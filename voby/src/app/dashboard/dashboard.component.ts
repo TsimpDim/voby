@@ -9,6 +9,7 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { HotkeysService } from '../_services/hotkeys.service';
 import { Subscription } from 'rxjs';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 export interface DialogData {
   className: string;
@@ -193,39 +194,44 @@ export class DashboardComponent implements OnInit {
   }
 
   deleteClass(index: number) {
-    this.voby.deleteClass(index)
-    .subscribe({
-      next: () => {
-        const classToRemove = this.classes.findIndex((c:any) => c.id === index);
-        this.classes.splice(classToRemove, 1);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.confirmed === true) {
+        this.voby.deleteClass(index)
+        .subscribe({
+          next: () => {
+            const classToRemove = this.classes.findIndex((c:any) => c.id === index);
+            this.classes.splice(classToRemove, 1);
 
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: "Class successfuly deleted",
-            icon: 'info'
-          },
-          duration: 3 * 1000
-        });
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message: "Class successfuly deleted",
+                icon: 'info'
+              },
+              duration: 3 * 1000
+            });
 
-        // If the last class was deleted, show the 
-        // class creation form
-        if (this.classes.length === 0) {
-          this.openClassForm();
-        } else {
-          this.selectClass(-1);
-        }
-      },
-      error: (error: any) => {
-        this.loading = false;
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Error: ' + error.statusText,
-            icon: 'error'
+            // If the last class was deleted, show the 
+            // class creation form
+            if (this.classes.length === 0) {
+              this.openClassForm();
+            } else {
+              this.selectClass(-1);
+            }
           },
-          duration: 3 * 1000
-        });
-      },
-      complete: () => this.loading = false
+          error: (error: any) => {
+            this.loading = false;
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message: 'Error: ' + error.statusText,
+                icon: 'error'
+              },
+              duration: 3 * 1000
+            });
+          },
+          complete: () => this.loading = false
+        })
+      }
     })
   }
 
@@ -273,23 +279,28 @@ export class DashboardComponent implements OnInit {
   deleteSet(event: any, setIdx: number) {
     event.stopPropagation();
 
-    this.voby.deleteSet(setIdx)
-    .subscribe({
-      next: () => {
-        const vclass = this.classes.find((c: any) => c.sets.find((c:any) => c.id == setIdx));
-        vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
-      },
-      error: (error: any) => {
-        this.loading = false;
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Error: ' + error.statusText,
-            icon: 'error'
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.confirmed === true) {
+        this.voby.deleteSet(setIdx)
+        .subscribe({
+          next: () => {
+            const vclass = this.classes.find((c: any) => c.sets.find((c:any) => c.id == setIdx));
+            vclass.sets.splice(vclass.sets.findIndex((s: any) => s.id === setIdx), 1);
           },
-          duration: 3 * 1000
-        });
-      },
-      complete: () => this.loading = false
+          error: (error: any) => {
+            this.loading = false;
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message: 'Error: ' + error.statusText,
+                icon: 'error'
+              },
+              duration: 3 * 1000
+            });
+          },
+          complete: () => this.loading = false
+        })
+      }
     })
   }
 

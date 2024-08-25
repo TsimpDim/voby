@@ -11,6 +11,7 @@ import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import { SetFormComponent } from '../set-form/set-form.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'voby-word-list-view',
@@ -161,22 +162,27 @@ export class WordListViewComponent {
   }
 
   deleteSet() {
-    this.voby.deleteSet(this.setId)
-    .subscribe({
-      next: () => {
-        this.router.navigate(['/']);
-      },
-      error: (error: any) => {
-        this.loading = false;
-        this._snackBar.openFromComponent(SnackbarComponent, {
-          data: {
-            message: 'Error: ' + error.statusText,
-            icon: 'error'
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.confirmed === true) {
+        this.voby.deleteSet(this.setId)
+        .subscribe({
+          next: () => {
+            this.router.navigate(['/']);
           },
-          duration: 3 * 1000
-        });
-      },
-      complete: () => this.loading = false
+          error: (error: any) => {
+            this.loading = false;
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message: 'Error: ' + error.statusText,
+                icon: 'error'
+              },
+              duration: 3 * 1000
+            });
+          },
+          complete: () => this.loading = false
+        })
+      }
     })
   }
 
