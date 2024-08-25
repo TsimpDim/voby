@@ -229,6 +229,7 @@ class TestView(APIView):
         class_id = int(self.request.query_params.get("classId"))
         set_id = int(self.request.query_params.get("setId"))
         favorites_only = self.request.query_params.get('favoritesOnly')
+        random = self.request.query_params.get('random')
 
         if not amount: amount = 1
 
@@ -236,18 +237,21 @@ class TestView(APIView):
             'user': user,
         }
 
-        if favorites_only == 'true':
-            filter_kwargs['favorite'] = True
-
-        if set_id != -1 and class_id != -1:
-            filter_kwargs['set__id'] = set_id
-            filter_kwargs['set__vclass_id'] = class_id
-        elif set_id == -1 and class_id != -1:
-            filter_kwargs['set__vclass_id'] = class_id
+        if random == 'true':
+            all_ids = list(Word.objects.values_list('id', flat=True))
         else:
-            filter_kwargs['set__isnull'] = False
+            if favorites_only == 'true':
+                filter_kwargs['favorite'] = True
 
-        all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
+            if set_id != -1 and class_id != -1:
+                filter_kwargs['set__id'] = set_id
+                filter_kwargs['set__vclass_id'] = class_id
+            elif set_id == -1 and class_id != -1:
+                filter_kwargs['set__vclass_id'] = class_id
+            else:
+                filter_kwargs['set__isnull'] = False
+
+            all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
         amount = min(len(all_ids), amount)
 
         random_ids = sample(all_ids, amount)
