@@ -12,6 +12,7 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { FormControl, FormGroup } from '@angular/forms';
 import { SetFormComponent } from '../set-form/set-form.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { COMMA } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'voby-word-list-view',
@@ -42,6 +43,7 @@ export class WordListViewComponent {
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
   wordViewRelatedWord: Word|undefined = undefined;
+  separatorKeysCodes: number[] = [COMMA];
 
   constructor(
     private route: ActivatedRoute,
