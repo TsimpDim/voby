@@ -8,11 +8,12 @@
 
     <mat-card *ngFor="let q of questions; index as i" style="margin: 2em">
         <mat-card-content>
-            <h2>{{q['word']}}</h2>
+            <div style="font-size: 2em;"><span style="font-size: 2em;vertical-align: -12px;">{{this.getCountryEmoji(q.source_language)}}</span> {{q['word']}}</div>
             <div class="answer-container">
                 <mat-form-field class="answer-input">
                     <mat-label>Answer</mat-label>
                     <input [disabled]="questionState[i] !== 0" matInput placeholder="type your answer here..." #input>
+                    <p matPrefix style="margin: .5em;font-size: 1.5em;">{{this.getCountryEmoji(q.target_language)}}</p>
                 </mat-form-field>
                 <mat-icon *ngIf="questionState[i] === this.CORRECT" style="color: green;" [matTooltip]="q['translations']">check_circle</mat-icon>
                 <mat-icon *ngIf="questionState[i] === this.INCORRECT" style="color: red;" [matTooltip]="q['translations']">cancel</mat-icon>
@@ -26,6 +27,6 @@
     </mat-card>
 
 
-    <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" color="accent" style="background-color: #673ab7;float:right; margin: 1em;font-size: 1.3em;">Submit</button>
-    <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" style="background-color: #ffd740;float:right; margin: 1em; margin-right: 0;font-size: 1.3em;"><mat-icon>refresh</mat-icon></button>
+    <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" id="submit-button">Submit <mat-icon fontIcon="check" style="color: #ffd740;vertical-align: -6px;"></mat-icon></button>
+    <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon></button>
 </div>

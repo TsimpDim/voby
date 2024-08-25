@@ -5,6 +5,7 @@ import { ExperienceService } from '../_services/experience.service';
 import { VobyService } from '../_services/voby.service';
 import { HotkeysService } from '../_services/hotkeys.service';
 import { Subscription } from 'rxjs';
+import { getCountryEmoji } from '../countries';
 
 @Component({
   selector: 'voby-twenty-test',
@@ -26,6 +27,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   hasFavorites = false;
   shortcutSubscriptions$: Subscription[] = [];
   numberTestQuestions: number = 20;
+  getCountryEmoji = getCountryEmoji;
 
   @ViewChildren('input') inputs: any;
 
