@@ -1,7 +1,15 @@
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from .models import Profile, QuizAnswer, Word
+from .models import Profile, QuizAnswer, Word, VClass, Set
 from django.contrib.auth.models import User
+
+@receiver(post_save, sender=VClass)
+def save_profile(sender, instance, created, **kwargs):
+    if created:
+        set = Set(user=instance.user)
+        set.vclass = instance
+        set.name = "Default set"
+        set.save()
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, created, **kwargs):
