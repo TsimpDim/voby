@@ -119,6 +119,9 @@ export class DashboardComponent implements OnInit {
     } else {
       this.selectedClassId = classIdx;
       this.selectedClass = this.classes.find((c: any) => c.id === classIdx);
+      if (!this.selectedClass) { // For some reason the specified class id was not found. Maybe it's a new user on the same browser
+        this.selectClass(-1);
+      }
     }
     
     window.localStorage.setItem('selectedClass', this.selectedClassId.toString());
