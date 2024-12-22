@@ -11,7 +11,7 @@ workers = 2
 
 # The socket to bind
 #bind = "/run/gunicorn.sock"
-bind = "0.0.0.0:8010"
+bind = "0.0.0.0:443"
 
 # Don't restart workers when code changes (development only!)
 reload = False
@@ -26,7 +26,7 @@ capture_output = True
 pidfile = "var/run/prod.pid"
 
 # Daemonize the Gunicorn process (detach & enter background)
-daemon = True
+daemon = False
 
 # ASGI Uvicorn worker class (instead of WSGI)
 worker_class = "uvicorn.workers.UvicornWorker"

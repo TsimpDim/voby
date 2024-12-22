@@ -3,7 +3,7 @@ from django.urls import path, include
 from .views import ClassViewSet, SetViewSet, WordViewSet, \
      ExampleViewSet, TestView, QuizAnswerViewSet, ProfileViewSet, \
      TestAttemptViewSet, UserShortcutsViewSet, ClassExcelView, TranslationViewSet, \
-     GermanNounTestView, OptionView, TagViewSet
+     GermanNounTestView, OptionView, TagViewSet, HealthCheckView
  
 router = DefaultRouter()
 router.register(r"classes", ClassViewSet, basename="class")
@@ -19,6 +19,7 @@ router.register(r"tags", TagViewSet, basename="tags")
 
 urlpatterns = [
     path("", include(router.urls)),
+    path('health', HealthCheckView.as_view(), name="health-check"),
     path('test', TestView.as_view(), name="test"),
     path('options', OptionView.as_view(), name="options"),
     path('german/noun-test', GermanNounTestView.as_view(), name="german-noun-test"),

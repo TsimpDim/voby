@@ -1,5 +1,5 @@
 from rest_framework import viewsets, status
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
@@ -420,3 +420,13 @@ class OptionView(APIView):
                 Option.objects.create(user=user, key=key, value=value)
 
         return Response(status=status.HTTP_200_OK)
+    
+class HealthCheckView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        return Response(
+            'OK',
+            status=status.HTTP_200_OK
+        )
+    
