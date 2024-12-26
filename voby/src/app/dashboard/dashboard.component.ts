@@ -114,8 +114,10 @@ export class DashboardComponent implements OnInit {
 
   selectClass(classIdx: number) {
     if (classIdx === -1) {
-      this.selectedClass = this.classes[0];
-      this.selectedClassId = this.selectedClass.id;
+      if (this.classes.length > 0) { // Separate if, to avoid recursion
+        this.selectedClass = this.classes[0];
+        this.selectedClassId = this.selectedClass.id;
+      }
     } else {
       this.selectedClassId = classIdx;
       this.selectedClass = this.classes.find((c: any) => c.id === classIdx);
