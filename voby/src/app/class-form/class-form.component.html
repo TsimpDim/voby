@@ -32,7 +32,7 @@
 
     <div mat-dialog-actions>
         <button mat-button type="button" *ngIf="!this.data.firstClass" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
-        <button mat-raised-button *ngIf="!this.data.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create class</button>
+        <button mat-raised-button *ngIf="!this.data.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;" [disabled]="!this.classForm.valid">Create class</button>
         <button mat-raised-button *ngIf="this.data.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit class</button>
     </div>
 </form>
