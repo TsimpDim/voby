@@ -75,6 +75,7 @@
                 (click)="selectRelatedWord(word.id)"
                 class="similar-word-suggestion"
                 matTooltip="Suggested related word"
+                (mouseover)="getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
             >
                 {{word.word}}
             </mat-chip>
