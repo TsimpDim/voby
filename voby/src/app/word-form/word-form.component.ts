@@ -518,8 +518,13 @@ export class WordFormComponent implements OnInit, OnDestroy {
     const similarWords = this.allWordsOfClass.filter(w => stringSimilarity(w.word, word) >= 0.8);
     const suggestedRelatedWords = this.allWordsOfClass
       .filter(w => stringSimilarity(w.word, word) >= 0.8 || (word.length > 5 && w.word.includes(word)))
-      .filter(w => !this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id));
-
+      .filter(w => !(this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id)));
+    
+    if (this.passedData.edit) {
+      const wordBeingEdited = suggestedRelatedWords.findIndex(w => w.id == (this.passedData as PassedDataOnEdit).word.id);
+      suggestedRelatedWords.splice(wordBeingEdited, 1);
+    }
+    
     this.similarWords = similarWords;
     this.suggestedRelatedWords = suggestedRelatedWords;
   }
