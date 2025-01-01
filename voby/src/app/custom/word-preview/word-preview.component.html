@@ -1,9 +1,8 @@
-<mat-card class="info-container" *ngIf="this.word !== undefined">
-    {{this.word.word}}
-    <hr>
+<mat-card class="info-container" #infoContainer *ngIf="this.word !== undefined" (click)="onClick()">
     <mat-card-content>
         <div *ngFor="let tr of this.word.translations">
             {{tr.value}}
         </div>
+        <h6>{{this.word.set_name}}</h6>
     </mat-card-content>
 </mat-card>

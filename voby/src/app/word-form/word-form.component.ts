@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
@@ -12,6 +12,8 @@ import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/
 import { FormDataService } from '../_services/form-data.service';
 import { Subscription } from 'rxjs';
 import { RelatedWord, Tag, Word } from '../interfaces';
+import { WordPreviewComponent } from '../custom/word-preview/word-preview.component';
+import { Router } from '@angular/router';
 
 interface PassedDataOnCreate {
   setId: number,
@@ -27,7 +29,6 @@ interface PassedDataOnEdit {
   vclassId: number,
   allTags: Tag[]
 };
-
 
 @Component({
   selector: 'voby-word-form',
@@ -49,6 +50,8 @@ export class WordFormComponent implements OnInit, OnDestroy {
   @ViewChild('relatedWordInput') relatedWordInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
+  @ViewChild(WordPreviewComponent) wordPreviewPanel?: WordPreviewComponent;
+  @Output() relatedWordClicked: EventEmitter<any> = new EventEmitter();
 
   filteredRelatedWords: RelatedWord[] = [];
   filteredTags: Tag[] = [];
@@ -59,7 +62,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   translations: {id: number, value: string}[] = [];
   translationsToBeCreated: string[] = [];
   translationsToBeDeleted: {id: number, value: string}[] = [];
-  wordViewRelatedWord: RelatedWord|undefined = undefined;
+  wordViewRelatedWord: Word|undefined = undefined;
   allWordsOfClass: Word[] = [];
 
   constructor(
@@ -68,7 +71,8 @@ export class WordFormComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private exp: ExperienceService,
     private formData: FormDataService,
-    @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit
+    @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit,
+    private router: Router
   ) {
     let initialWord = '';
     if (data.edit) {
@@ -149,6 +153,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
         this.allWordsOfClass = data['results'];
         this.filterTags();
         this.filterWords();
+        this.checkSimilar();
       },
       error: () => {}
     });
@@ -504,13 +509,33 @@ export class WordFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  getFullWordFromId(id:number){ 
+  relatedWordHover(event: MouseEvent, id:number){ 
     this.voby.getWord(id).subscribe({
       next: (data: any) => {
-        this.wordViewRelatedWord = data as RelatedWord;
+        this.wordViewRelatedWord = data as Word;
+        if (this.wordPreviewPanel) {
+          const { clientX, clientY } = event;
+          let posX = clientX;
+          let posY = clientY;
+
+          const hoverTargetRect = (event.target as HTMLElement).getBoundingClientRect();
+          const offsetY = 0;
+          const offsetX = 0;
+
+          posX = hoverTargetRect.left + offsetX;
+          posY = hoverTargetRect.bottom + offsetY;
+
+          this.wordPreviewPanel.updatePosition(posX, posY);
+        }
       },
       error: () => {}
     })  
+  }
+
+  relatedWordExit() {
+    setTimeout(() => {
+      this.wordViewRelatedWord = undefined;
+    }, 500);
   }
 
   checkSimilar() {
@@ -574,7 +599,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
         return;
       }
 
-
       if (!currentTags) {
         this.wordForm.patchValue({'tags':[{id: 0, value: value}]});
       } else {
@@ -613,5 +637,9 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.filterTags();
+  }
+
+  emitRelatedWordClicked() {
+    this.relatedWordClicked.emit(this.wordViewRelatedWord);
   }
 }

@@ -50,15 +50,15 @@
                 <p *ngIf="word?.related_words?.length === 0">-</p>
                 <mat-chip 
                     *ngFor="let related of word?.related_words"
-                    (click)="this.isSet && (related.set === this.setId) || !this.isSet ? this.selectWord(related.id) : false"
+                    (click)="!this.isSet ? this.selectWord(related.id) : selectOrRedirectPreviewWord(related)"
                     [ngClass]="{'active-chip': this.isSet && (related.set === this.setId) || !this.isSet}"
                     (mouseover)="getFullWordFromId(related.id)"
-                    (mouseleave)="this.wordViewRelatedWord=undefined"
+                    (mouseleave)="relatedWordExit()"
                 >
                     {{related.word}}
                 </mat-chip>
             </mat-chip-list>
-            <voby-word-preview [word]="this.wordViewRelatedWord"></voby-word-preview>
+            <voby-word-preview [word]="this.wordViewRelatedWord" (clicked)="selectOrRedirectPreviewWord(this.wordViewRelatedWord)"></voby-word-preview>
         </mat-card-content>
 
         <mat-card-content class="info-container"> 

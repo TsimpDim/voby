@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routes } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header/header.component';
@@ -47,6 +47,7 @@ import { WordDetailPanelComponent } from './custom/word-detail-panel/word-detail
 import { SingleWordRowComponent } from './custom/single-word-row/single-word-row.component';
 import { WordListViewComponent } from './word-list-view/word-list-view.component';
 import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { provideRouter, withRouterConfig } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,9 @@ import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.componen
     MatSlideToggleModule,
     MatBadgeModule
   ],
-  providers: [],
+  providers: [
+    provideRouter(routes, withRouterConfig({onSameUrlNavigation: 'reload'})),
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

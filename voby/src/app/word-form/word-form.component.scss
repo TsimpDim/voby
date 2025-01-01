@@ -2,6 +2,8 @@ form {
     display: flex;
     flex-direction: column;
     width: 500px;
+    height: 100%;
+    overflow-x: hidden;
 }
 
 .example-translation {

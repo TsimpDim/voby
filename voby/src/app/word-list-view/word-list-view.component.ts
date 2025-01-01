@@ -1,6 +1,6 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from '../countries';
 import { WordFormComponent } from '../word-form/word-form.component';
@@ -25,9 +25,10 @@ export class WordListViewComponent {
   setId: number = -1;
   needSet: boolean = true;
 
-  selectedWord: Word | undefined = undefined;
+  selectedWord: Word | undefined;
+  selectedWordOverride: number | undefined;
   filteredWords: Word[] = [];
-  paramsSubscription: Subscription | undefined;
+  paramsSubscription$: Subscription | undefined;
   vclass: any | undefined;
   set: any | undefined;
   loadingHeader = false;
@@ -43,8 +44,9 @@ export class WordListViewComponent {
   searchTags: Tag[] = [];
   shortcutSubscriptions$: Subscription[] = [];
   getCountryEmoji = getCountryEmoji;
-  wordViewRelatedWord: Word|undefined = undefined;
+  wordViewRelatedWord: Word|undefined;
   separatorKeysCodes: number[] = [COMMA];
+  navigationSubscription$: Subscription|undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -54,15 +56,12 @@ export class WordListViewComponent {
     private _snackBar: MatSnackBar,
     private hotkeys: HotkeysService,
   ) {
-    const state = this.router.getCurrentNavigation()?.extras.state;
-    if (state) {
-      this.vclass = state['selectedClass'];
-      if (Object.keys(state).includes('selectedSet')) {
-        this.set = state['selectedSet'];
-      }
+    this.searchForm = new FormGroup({
+      search: new FormControl()
+    })
+  }
 
-    }
-
+  ngOnInit() {
     this.hotkeys.shortcuts$.subscribe(shortcuts => {
       for (const s of this.shortcutSubscriptions$) {
         s.unsubscribe();
@@ -74,21 +73,39 @@ export class WordListViewComponent {
         this.shortcutSubscriptions$.push(s.subscribe());
       }
     });
+    
+    this.needSet = window.location.pathname.includes('set');
+    this.paramsSubscription$ = this.route.params.subscribe(params => {
+      if (!this.needSet) {
+        this.classId = +(params['id']); // (+) converts string 'id' to a number
+      } else {
+        this.setId = +(params['id']);
+      }
 
-    this.searchForm = new FormGroup({
-      search: new FormControl()
-    })
+      this.initializeComponentData();
+    });
   }
 
-  ngOnInit() {
-    this.needSet = window.location.pathname.includes('set');
-    this.paramsSubscription = this.route.params.subscribe(params => {
-      if (!this.needSet) {
-        this.classId = +params['id']; // (+) converts string 'id' to a number
-      } else {
-        this.setId = +params['id']
+  ngOnDestroy() {
+    this.paramsSubscription$?.unsubscribe();
+    for (const s of this.shortcutSubscriptions$) {
+      s.unsubscribe();
+    }
+  }
+
+  initializeComponentData() {
+    this.dialog.closeAll();
+    const state = this.router.getCurrentNavigation()?.extras.state;
+    if (state) {
+      this.vclass = state['selectedClass'];
+      if (Object.keys(state).includes('selectedSet')) {
+        this.set = state['selectedSet'];
       }
-    });
+      
+      if (state['selectedWord']) {
+        this.selectedWordOverride = (state['selectedWord'] as Word).id;
+      }
+    }
 
     if (this.needSet) {
       this.getSet(this.setId);
@@ -97,13 +114,6 @@ export class WordListViewComponent {
     }
 
     this.getAllTags();
-  }
-
-  ngOnDestroy() {
-    this.paramsSubscription?.unsubscribe();
-    for (const s of this.shortcutSubscriptions$) {
-      s.unsubscribe();
-    }
   }
 
   deselectWord() {
@@ -121,6 +131,7 @@ export class WordListViewComponent {
         suggestedWord: this.searchForm.get('search')?.value
       }
     });
+    dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 
     dialogRef.afterClosed().subscribe(data => {
       if (!data) {
@@ -236,10 +247,6 @@ export class WordListViewComponent {
     this.selectedWord = this.filteredWords.find((o: any) => o.id === id);
   }
 
-  goToSet(id: number) {
-    this.router.navigate(['/set/'+id]);
-  }
-
   selectedWordDeleted() {
     const idx = this.filteredWords.findIndex(w => w.id === this.selectedWord?.id);
     if (idx !== -1) {
@@ -323,7 +330,13 @@ export class WordListViewComponent {
           }  
         }
 
-        this.selectedWord = this.filteredWords[0];
+        if (this.selectedWordOverride) {
+          this.selectWord(this.selectedWordOverride);
+          this.selectedWordOverride = undefined;
+        } else {
+          this.selectWord(this.filteredWords[0].id);
+        }
+        
         window.scroll({ 
           top: 0, 
           left: 0, 
@@ -363,13 +376,15 @@ export class WordListViewComponent {
   editWord() {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
+      height: '70%',
       data: {
         vclassId: this.vclass.id,
         word: this.selectedWord,
         allTags: this.allTags,
         edit: true
-      },
+      }
     });
+    dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 
     dialogRef.afterClosed().subscribe((res: any) => {
       this.processEditedWord(res);
@@ -425,6 +440,15 @@ export class WordListViewComponent {
 
   displayTranslations(translations: {id: number, value: string}[]) {
     return translations.map(o => o.value).join(' / ');
+  }
+
+  selectOrRedirectWord(word: any) {
+    if (word?.set === this.setId) {
+      this.dialog.closeAll();
+      this.selectWord(word.id);
+    } else {
+      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+    }
   }
 
   @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {

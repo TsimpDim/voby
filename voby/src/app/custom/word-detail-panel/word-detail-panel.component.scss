@@ -43,6 +43,12 @@
     }
 }
 
+mat-chip {
+    &:hover {
+        cursor: pointer;
+    }
+}
+
 .pointer-on-hover:hover {
     cursor: pointer;
 }

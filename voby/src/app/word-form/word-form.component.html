@@ -1,4 +1,4 @@
-<form [formGroup]="wordForm" id="word-form-container">
+<form [formGroup]="wordForm" #form id="word-form-container">
     <mat-form-field appearance="fill">
         <mat-label>Word</mat-label>
         <input cdkFocusInitial
@@ -56,7 +56,7 @@
             <mat-chip
                 *ngFor="let word of wordForm.get('relatedWords')?.value"
                 (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
-                (mouseover)="getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
+                (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
             >
                 {{word.word}}
                 <mat-icon matChipRemove>cancel</mat-icon>
@@ -74,8 +74,7 @@
                 *ngFor="let word of suggestedRelatedWords"
                 (click)="selectRelatedWord(word.id)"
                 class="similar-word-suggestion"
-                matTooltip="Suggested related word"
-                (mouseover)="getFullWordFromId(word.id)" (mouseleave)="this.wordViewRelatedWord=undefined"
+                (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
             >
                 {{word.word}}
             </mat-chip>
@@ -86,8 +85,6 @@
                 {{word.word}}
             </mat-option>
         </mat-autocomplete>
-        <voby-word-preview [word]="this.wordViewRelatedWord"></voby-word-preview>
-
     </mat-form-field>
 
     <mat-form-field appearance="fill">
@@ -113,7 +110,6 @@
                 (keyup)="filterTags()"
             />
           </mat-chip-list>
-
         <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
             <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
                 {{tag.value}}
@@ -156,3 +152,5 @@
         <button mat-raised-button *ngIf="this.passedData.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit word</button>
     </div>
 </form>
+
+<voby-word-preview [word]="this.wordViewRelatedWord" (clicked)="emitRelatedWordClicked()"></voby-word-preview>

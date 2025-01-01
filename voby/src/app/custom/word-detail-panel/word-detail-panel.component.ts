@@ -2,11 +2,12 @@ import { Component, EventEmitter, HostListener, Input, Output } from '@angular/c
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { VobyService } from 'src/app/_services/voby.service';
-import { Tag, Word } from 'src/app/interfaces';
+import { RelatedWord, Tag, Word } from 'src/app/interfaces';
 import { WordFormComponent } from 'src/app/word-form/word-form.component';
 import { SnackbarComponent } from '../snackbar/snackbar.component';
 import { getCountryEmoji } from 'src/app/countries';
 import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'voby-word-detail-panel',
@@ -31,7 +32,8 @@ export class WordDetailPanelComponent {
   constructor(
     public dialog: MatDialog,
     public voby: VobyService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private router: Router
   ) { }
 
   deselectWord() {
@@ -94,6 +96,24 @@ export class WordDetailPanelComponent {
 
   addTagToSearch(selectedTagId: number) {
     this.tagSelected.emit(selectedTagId);
+  }
+
+  relatedWordExit() {
+    setTimeout(() => {
+      this.wordViewRelatedWord = undefined;
+    }, 500);
+  }
+
+  selectOrRedirectPreviewWord(word: any) {
+    if (!this.isSet) {
+      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+    }
+
+    if (this.isSet && word?.set === this.setId) {
+      this.selectWord(word.id);
+    } else {
+      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+    }
   }
 
   @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(event: KeyboardEvent) {

@@ -1,9 +1,9 @@
 ::ng-deep .cdk-overlay-pane {
     overflow-y: scroll;
-    width: auto !important;
-    max-height: 70vh;
-    border-radius: 10px;
     overflow-x: hidden;
+    width: auto !important;
+    max-height: 100vh;
+    border-radius: 10px;
 }
 
 ::ng-deep .mat-button-disabled {

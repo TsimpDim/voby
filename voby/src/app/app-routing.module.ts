@@ -10,7 +10,7 @@ import { LoggedInGuardService as LoggedInGuard} from './_services/logged-in-guar
 import { NounTestComponent } from './german/noun-test/noun-test.component';
 import { WordListViewComponent } from './word-list-view/word-list-view.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '', component: DashboardComponent,
     canActivate: [AuthGuard]
