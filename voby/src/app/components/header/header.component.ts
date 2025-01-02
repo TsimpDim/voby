@@ -1,10 +1,10 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
-import { UserLevel as UserLevel, experienceLevelMapping } from '../user-levels';
-import { AuthService } from '../_services/auth.service';
-import { ExperienceService } from '../_services/experience.service';
-import { trigger, style, transition, animate, keyframes, AUTO_STYLE, group, state} from '@angular/animations';
+import { trigger, style, transition, animate, keyframes, AUTO_STYLE, state} from '@angular/animations';
+import { experienceLevelMapping, UserLevel } from 'src/app/user-levels';
+import { AuthService } from 'src/app/services/auth.service';
+import { ExperienceService } from 'src/app/services/experience.service';
 
 @Component({
   selector: 'voby-header',

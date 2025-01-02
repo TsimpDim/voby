@@ -2,8 +2,9 @@ import { Component, Inject } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { VobyService } from '../_services/voby.service';
+import { VobyService } from 'src/app/services/voby.service';
+import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
+
 
 @Component({
   selector: 'voby-set-form',

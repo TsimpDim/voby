@@ -1,13 +1,13 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { VobyService } from 'src/app/_services/voby.service';
-import { RelatedWord, Tag, Word } from 'src/app/interfaces';
-import { WordFormComponent } from 'src/app/word-form/word-form.component';
-import { SnackbarComponent } from '../snackbar/snackbar.component';
+import { Tag, Word } from 'src/app/interfaces';
 import { getCountryEmoji } from 'src/app/countries';
-import { ConfirmDialogComponent } from 'src/app/confirm-dialog/confirm-dialog.component';
 import { Router } from '@angular/router';
+import { VobyService } from 'src/app/services/voby.service';
+import { WordFormComponent } from '../forms/word-form/word-form.component';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
+import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 
 @Component({
   selector: 'voby-word-detail-panel',

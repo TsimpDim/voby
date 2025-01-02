@@ -1,51 +1,52 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { LoginFormComponent } from './login-form/login-form.component';
-import { OptionsComponent } from './options/options.component';
-import { RegisterFormComponent } from './register-form/register-form.component';
-import { TwentyTestComponent } from './twenty-test/twenty-test.component';
-import { AuthGuardService as AuthGuard } from './_services/auth-guard.service';
-import { LoggedInGuardService as LoggedInGuard} from './_services/logged-in-guard.service';
-import { NounTestComponent } from './german/noun-test/noun-test.component';
-import { WordListViewComponent } from './word-list-view/word-list-view.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { OptionsComponent } from './pages/options/options.component';
+import { TwentyTestComponent } from './pages/twenty-test/twenty-test.component';
+import { NounTestComponent } from './pages/german/noun-test/noun-test.component';
+import { LoginFormComponent } from './components/forms/login-form/login-form.component';
+import { RegisterFormComponent } from './components/forms/register-form/register-form.component';
+import { WordListViewComponent } from './pages/word-list-view/word-list-view.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { LoggedInGuardService } from './services/logged-in-guard.service';
+
 
 export const routes: Routes = [
   {
     path: '', component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'dashboard', component: DashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'options', component: OptionsComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'test', component: TwentyTestComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'german/noun-test', component: NounTestComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'login', component: LoginFormComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuardService]
   },
   {
     path: 'register', component: RegisterFormComponent,
-    canActivate: [LoggedInGuard]
+    canActivate: [LoggedInGuardService]
   },
   {
     path: 'set/:id', component: WordListViewComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: 'class/:id', component: WordListViewComponent,
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuardService]
   },
   {
     path: '**', redirectTo: ''

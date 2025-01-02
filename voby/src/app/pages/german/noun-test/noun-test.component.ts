@@ -1,9 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { Component, OnInit, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { stringSimilarity } from '../../string-similarity';
-import { ExperienceService } from '../../_services/experience.service';
-import { VobyService } from '../../_services/voby.service';
-
+import { ExperienceService } from 'src/app/services/experience.service';
+import { VobyService } from 'src/app/services/voby.service';
+import { stringSimilarity } from 'src/app/string-similarity';
 @Component({
   selector: 'noun-test',
   templateUrl: './noun-test.component.html',

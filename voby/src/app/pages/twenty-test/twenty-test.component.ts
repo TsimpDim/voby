@@ -1,11 +1,11 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { stringSimilarity } from '../string-similarity';
-import { ExperienceService } from '../_services/experience.service';
-import { VobyService } from '../_services/voby.service';
-import { HotkeysService } from '../_services/hotkeys.service';
 import { Subscription } from 'rxjs';
-import { getCountryEmoji } from '../countries';
+import { getCountryEmoji } from 'src/app/countries';
+import { ExperienceService } from 'src/app/services/experience.service';
+import { HotkeysService } from 'src/app/services/hotkeys.service';
+import { VobyService } from 'src/app/services/voby.service';
+import { stringSimilarity } from 'src/app/string-similarity';
 
 @Component({
   selector: 'voby-twenty-test',

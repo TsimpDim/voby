@@ -1,9 +1,10 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
-import { VobyService } from '../_services/voby.service';
-import { stringSimilarity } from '../string-similarity';
-import { ExperienceService } from '../_services/experience.service';
-import { getCountryEmoji } from '../countries';
-import { TestWord } from '../interfaces';
+import { getCountryEmoji } from 'src/app/countries';
+import { TestWord } from 'src/app/interfaces';
+import { ExperienceService } from 'src/app/services/experience.service';
+import { VobyService } from 'src/app/services/voby.service';
+import { stringSimilarity } from 'src/app/string-similarity';
+
 
 @Component({
   selector: 'voby-dashboard-flash',

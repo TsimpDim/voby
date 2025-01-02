@@ -2,18 +2,18 @@ import { Component, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, Output,
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
-import { VobyService } from '../_services/voby.service';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ExperienceService } from '../_services/experience.service';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { stringSimilarity } from '../string-similarity';
 import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
-import { FormDataService } from '../_services/form-data.service';
 import { Subscription } from 'rxjs';
-import { RelatedWord, Tag, Word } from '../interfaces';
-import { WordPreviewComponent } from '../custom/word-preview/word-preview.component';
 import { Router } from '@angular/router';
+import { RelatedWord, Tag, Word } from 'src/app/interfaces';
+import { WordPreviewComponent } from '../../word-preview/word-preview.component';
+import { VobyService } from 'src/app/services/voby.service';
+import { ExperienceService } from 'src/app/services/experience.service';
+import { FormDataService } from 'src/app/services/form-data.service';
+import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
+import { stringSimilarity } from 'src/app/string-similarity';
 
 interface PassedDataOnCreate {
   setId: number,

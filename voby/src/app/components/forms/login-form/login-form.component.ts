@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
-import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { AuthService } from '../_services/auth.service';
-import { ExperienceService } from '../_services/experience.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ExperienceService } from 'src/app/services/experience.service';
+import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 
 @Component({
   selector: 'voby-login-form',

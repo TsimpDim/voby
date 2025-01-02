@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
-import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { AuthService } from '../_services/auth.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 
 @Component({
   selector: 'voby-register-form',

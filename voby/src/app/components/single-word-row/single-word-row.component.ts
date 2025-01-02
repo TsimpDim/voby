@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { VobyService } from 'src/app/_services/voby.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Word } from 'src/app/interfaces';
+import { VobyService } from 'src/app/services/voby.service';
 
 @Component({
   selector: 'voby-single-word-row',

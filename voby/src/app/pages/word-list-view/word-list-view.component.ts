@@ -1,18 +1,18 @@
 import { Component, HostListener } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { getCountryEmoji } from '../countries';
-import { WordFormComponent } from '../word-form/word-form.component';
-import { VobyService } from '../_services/voby.service';
-import { HotkeysService } from '../_services/hotkeys.service';
-import { Tag, Word } from '../interfaces';
-import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SetFormComponent } from '../set-form/set-form.component';
-import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { COMMA } from '@angular/cdk/keycodes';
+import { Tag, Word } from 'src/app/interfaces';
+import { getCountryEmoji } from 'src/app/countries';
+import { VobyService } from 'src/app/services/voby.service';
+import { HotkeysService } from 'src/app/services/hotkeys.service';
+import { WordFormComponent } from 'src/app/components/forms/word-form/word-form.component';
+import { SetFormComponent } from 'src/app/components/forms/set-form/set-form.component';
+import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'voby-word-list-view',
