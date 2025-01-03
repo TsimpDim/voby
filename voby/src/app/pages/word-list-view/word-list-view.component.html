@@ -40,7 +40,7 @@
                     </mat-chip>
 
                     
-                    <form [formGroup]="searchForm" (ngSubmit)="search()" style="width: 100%; display: flex;flex-direction: row;">
+                    <form [formGroup]="searchForm" (ngSubmit)="search(false, true)" style="width: 100%; display: flex;flex-direction: row;">
                         <input
                             matInput
                             formControlName="search"
@@ -59,7 +59,7 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <button mat-icon-button (click)="search()" style="margin-top: auto;margin-bottom: auto;" matTooltip="Search"><mat-icon>search</mat-icon></button>
+            <button mat-icon-button (click)="search(false, true)" style="margin-top: auto;margin-bottom: auto;" matTooltip="Search"><mat-icon>search</mat-icon></button>
             <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
             <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
             <mat-menu #menu="matMenu">
@@ -87,9 +87,9 @@
             </ng-container>
 
             <div class="page-number-cont">
-                <ng-container *ngIf="this.numberOfPages > 10 && this.currentPage != 1">
+                <ng-container *ngIf="this.numberOfPages > this.PAGE_SKIP_BUTTON_THRESHOLD && this.currentPage != 1">
                     <button mat-raised-button
-                        (click)="this.currentPage = 1;this.search()"
+                        (click)="this.currentPage = 1;this.search(true)"
                         class="page-number"
                     >
                         <<
@@ -97,14 +97,14 @@
                 </ng-container>
                 <button mat-raised-button
                     *ngFor="let page of this.pagesToDisplay"
-                    (click)="this.currentPage = page+1;this.search()"
+                    (click)="this.currentPage = page+1;this.search(true)"
                     [ngClass]="{'page-number': true, 'current-page': this.currentPage === page+1}"
                 >
                     {{page+1}}
                 </button>
-                <ng-container *ngIf="this.numberOfPages > 10 && this.currentPage != this.numberOfPages">
+                <ng-container *ngIf="this.numberOfPages > this.PAGE_SKIP_BUTTON_THRESHOLD && this.currentPage != this.numberOfPages">
                     <button mat-raised-button
-                        (click)="this.currentPage = this.numberOfPages;this.search()"
+                        (click)="this.currentPage = this.numberOfPages;this.search(true)"
                         class="page-number"
                     >
                         >>

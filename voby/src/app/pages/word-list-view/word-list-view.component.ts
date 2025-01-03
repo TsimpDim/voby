@@ -21,6 +21,10 @@ import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confir
 })
 export class WordListViewComponent {
 
+  PAGE_SIZE = 100;
+  PAGE_SKIP_BUTTON_THRESHOLD = 5;
+  MAX_SELECTABLE_PAGES = 5;
+
   classId: number = -1;
   setId: number = -1;
   needSet: boolean = true;
@@ -254,7 +258,7 @@ export class WordListViewComponent {
       if (this.filteredWords.length === 0) {
         this.currentPage = this.currentPage -= 1;
         if (this.currentPage < 0) { this.selectedWord = undefined }
-        this.search();
+        this.search(true);
       } else {
         this.selectWord(this.filteredWords[0].id);
       }
@@ -263,12 +267,12 @@ export class WordListViewComponent {
 
   sortDateDesc() {
     localStorage.setItem('sort', '-created')
-    this.search();
+    this.search(true);
   }
 
   sortDateAsc() {
     localStorage.setItem('sort', 'created')
-    this.search();
+    this.search(true);
   }
 
   getVClass(classId: number) {
@@ -277,7 +281,7 @@ export class WordListViewComponent {
     .subscribe({
       next: (data: any) => {
         this.vclass = data;
-        this.search();
+        this.search(false);
       },
       error: () => {
         this.loadingHeader = false;
@@ -293,7 +297,7 @@ export class WordListViewComponent {
       next: (data: any) => {
         this.set = data;
         this.vclass = this.set.vclass_info;
-        this.search();
+        this.search(false);
       },
       error: () => {
         this.loadingHeader = false;
@@ -302,13 +306,19 @@ export class WordListViewComponent {
     })
   }
 
-  getWords(classId: number, setId: number|undefined = undefined, page: number = 1, searchTerm: string|undefined = undefined,  tags: Tag[]|undefined = undefined) {
+  getWords(
+    classId: number,
+    setId: number|undefined = undefined,
+    page: number = 1,
+    searchTerm: string|undefined = undefined,
+    tags: Tag[]|undefined = undefined) {
     this.loadingWords = true;
     this.deselectWord();
     this.numberOfPages = 0;
+    this.pagesToDisplay.splice(0, this.pagesToDisplay.length);
     this.filteredWords.splice(0, this.filteredWords.length);
 
-    this.voby.getWords(classId, setId, searchTerm, tags, this.showingFavorites, page, 50)
+    this.voby.getWords(classId, setId, searchTerm, tags, this.showingFavorites, page, this.PAGE_SIZE)
     .subscribe({
       next: (data: any) => {
         data['results'].forEach((nW: any) => {
@@ -316,18 +326,23 @@ export class WordListViewComponent {
         });
 
         this.numberOfWords = data['count'];
-        this.numberOfPages = Math.ceil(data['count'] / 50);
-        if (this.numberOfPages > 5) {
-          this.pagesToDisplay.splice(0, this.pagesToDisplay.length);
-          let startingPage = this.currentPage - 3;
-          if (startingPage < 0) { startingPage = 0 }
-
-          let endingPage = this.currentPage + 2;
-          if (endingPage > this.numberOfPages) { endingPage = this.numberOfPages }
-
-          for(let i = startingPage; i < endingPage; i++) {
-            this.pagesToDisplay.push(i);
-          }  
+        this.numberOfPages = Math.ceil(data['count'] / this.PAGE_SIZE);
+        if (this.numberOfPages > 1) {
+          if (this.numberOfPages > this.MAX_SELECTABLE_PAGES) {
+            let startingPage = this.currentPage - 3;
+            if (startingPage < 0) { startingPage = 0 }
+  
+            let endingPage = this.currentPage + 2;
+            if (endingPage > this.numberOfPages) { endingPage = this.numberOfPages }
+  
+            for(let i = startingPage; i < endingPage; i++) {
+              this.pagesToDisplay.push(i);
+            }  
+          } else {
+            for(let i = 0; i < this.numberOfPages; i++) {
+              this.pagesToDisplay.push(i);
+            }  
+          }
         }
 
         if (this.selectedWordOverride) {
@@ -420,14 +435,16 @@ export class WordListViewComponent {
 
   toggleShowFavorites() {
     this.showingFavorites = !this.showingFavorites;
-    this.search();
+    this.search(true);
   }
 
-  search() {
+  search(onCurrentPage: boolean = false, resetPagination: boolean = false) {
+    if (resetPagination) this.currentPage = 1;
+
     this.getWords(
       this.vclass?.id,
       this.set?.id,
-      this.currentPage,
+      onCurrentPage ? this.currentPage : undefined,
       this.searchForm.get('search')?.value,
       this.selectedTags
     )
