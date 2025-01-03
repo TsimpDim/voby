@@ -471,12 +471,16 @@ export class WordListViewComponent {
   }
 
   @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
-    event.preventDefault();
-    this.createWord();
+    if (this.needSet) {
+      event.preventDefault();
+      this.createWord();
+    }
   }
 
   @HostListener('document:keydown.meta.w', ['$event']) openWordFormMeta(event: KeyboardEvent) {
-    event.preventDefault();
-    this.createWord();
+    if (this.needSet) {
+      event.preventDefault();
+      this.createWord();
+    }
   }
 }
