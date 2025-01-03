@@ -349,7 +349,9 @@ export class WordListViewComponent {
           this.selectWord(this.selectedWordOverride);
           this.selectedWordOverride = undefined;
         } else {
-          this.selectWord(this.filteredWords[0].id);
+          if (this.filteredWords.length > 1) {
+            this.selectWord(this.filteredWords[0].id);
+          }
         }
         
         window.scroll({ 
