@@ -93,7 +93,7 @@
             name="tags"
             formControlName="tags">
             <mat-chip *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
-              {{tag.value}}
+                <mat-icon>tag</mat-icon>{{tag.value}}
               <button matChipRemove>
                 <mat-icon>cancel</mat-icon>
               </button>
@@ -112,7 +112,7 @@
           </mat-chip-list>
         <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
             <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
-                {{tag.value}}
+                <mat-icon>tag</mat-icon>{{tag.value}}
             </mat-option>
         </mat-autocomplete>
     </mat-form-field>

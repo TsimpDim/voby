@@ -34,7 +34,7 @@
                         (click)="addTagToSearch(tag.id)"
                     >
                         <div style="display: flex; flex-direction: row;">
-                            <div>{{tag.value}}</div>
+                            <mat-icon>tag</mat-icon><div>{{tag.value}}</div>
                         </div>
                         <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
@@ -54,7 +54,7 @@
                 <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
                     <mat-option *ngFor="let tag of allTags" [value]="tag.id">
                         <div style="display: flex; flex-direction: row;align-content: end;">
-                            <div>{{tag.value}}</div>
+                            <div><mat-icon>tag</mat-icon>{{tag.value}}</div>
                         </div>
                     </mat-option>
                 </mat-autocomplete>
