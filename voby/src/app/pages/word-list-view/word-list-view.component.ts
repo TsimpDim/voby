@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -51,6 +51,8 @@ export class WordListViewComponent {
   wordViewRelatedWord: Word|undefined;
   separatorKeysCodes: number[] = [COMMA];
   navigationSubscription$: Subscription|undefined;
+
+  @ViewChild('searchInput') searchInput: ElementRef<HTMLElement> | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -470,6 +472,10 @@ export class WordListViewComponent {
     }
   }
 
+  focusOnSearch() {
+    this.searchInput?.nativeElement.focus();
+  }
+
   @HostListener('document:keydown.alt.w', ['$event']) openWordFormAlt(event: KeyboardEvent) {
     if (this.needSet) {
       event.preventDefault();
@@ -481,6 +487,20 @@ export class WordListViewComponent {
     if (this.needSet) {
       event.preventDefault();
       this.createWord();
+    }
+  }
+
+  @HostListener('document:keydown.alt.f', ['$event']) focusSearchAlt(event: KeyboardEvent) {
+    if (this.needSet) {
+      event.preventDefault();
+      this.focusOnSearch();
+    }
+  }
+
+  @HostListener('document:keydown.meta.f', ['$event']) focusSearchMeta(event: KeyboardEvent) {
+    if (this.needSet) {
+      event.preventDefault();
+      this.focusOnSearch();
     }
   }
 }

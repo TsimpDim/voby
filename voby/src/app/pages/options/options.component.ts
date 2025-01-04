@@ -15,6 +15,27 @@ export class OptionsComponent implements OnInit {
   loading = true;
   shortcutsForm: FormGroup = new FormGroup({});
   options: any[] = [];
+  defaultShortcuts: UserShortcut[] = [
+    {
+      key_1: 'ALT/META',
+      key_2: 'W',
+      result: 'Create word',
+      id: -1
+    },
+    {
+      key_1: 'ALT/META',
+      key_2: 'E',
+      result: 'Edit word',
+      id: -2
+    },
+    {
+      key_1: 'ALT/META',
+      key_2: 'F',
+      result: 'Search',
+      id: -3
+    }
+  ];
+
   @ViewChild('numTestQuestions') numTestQ: any;
 
   constructor(
