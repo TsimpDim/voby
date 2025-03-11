@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import { COMMA } from '@angular/cdk/keycodes';
-import { Tag, Word } from 'src/app/interfaces';
+import { PassedDataOnWordCreate, PassedDataOnWordEdit, Tag, Word } from 'src/app/interfaces';
 import { getCountryEmoji } from 'src/app/countries';
 import { VobyService } from 'src/app/services/voby.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
@@ -135,7 +135,7 @@ export class WordListViewComponent {
         vclassId: this.vclass.id,
         edit: false,
         suggestedWord: this.searchForm.get('search')?.value
-      }
+      } as PassedDataOnWordCreate
     });
     dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 
@@ -401,7 +401,7 @@ export class WordListViewComponent {
         word: this.selectedWord,
         allTags: this.allTags,
         edit: true
-      }
+      } as PassedDataOnWordEdit
     });
     dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 

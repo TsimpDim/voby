@@ -7,28 +7,13 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { RelatedWord, Tag, Word } from 'src/app/interfaces';
+import { PassedDataOnWordCreate, PassedDataOnWordEdit, RelatedWord, Tag, Word } from 'src/app/interfaces';
 import { WordPreviewComponent } from '../../word-preview/word-preview.component';
 import { VobyService } from 'src/app/services/voby.service';
 import { ExperienceService } from 'src/app/services/experience.service';
 import { FormDataService } from 'src/app/services/form-data.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { stringSimilarity } from 'src/app/string-similarity';
-
-interface PassedDataOnCreate {
-  setId: number,
-  edit: boolean,
-  vclassId: number,
-  allTags: Tag[],
-  suggestedWord: string
-};
-
-interface PassedDataOnEdit {
-  word: Word,
-  edit: boolean,
-  vclassId: number,
-  allTags: Tag[]
-};
 
 @Component({
   selector: 'voby-word-form',
@@ -40,7 +25,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   wordForm: FormGroup;
   loading = false;
   examples: any[] = [];
-  passedData: PassedDataOnCreate | PassedDataOnEdit;
+  passedData: PassedDataOnWordCreate | PassedDataOnWordEdit;
   dataForParent: any = {};
   deletedExamples: any[] = [];
   similarWords: RelatedWord[] = [];
@@ -71,29 +56,28 @@ export class WordFormComponent implements OnInit, OnDestroy {
     private _snackBar: MatSnackBar,
     private exp: ExperienceService,
     private formData: FormDataService,
-    @Inject(MAT_DIALOG_DATA) data: PassedDataOnCreate | PassedDataOnEdit,
-    private router: Router
+    @Inject(MAT_DIALOG_DATA) data: PassedDataOnWordCreate | PassedDataOnWordEdit
   ) {
     let initialWord = '';
     if (data.edit) {
-      initialWord = (data as PassedDataOnEdit).word.word;
+      initialWord = (data as PassedDataOnWordEdit).word.word;
     }
-    if ((data as PassedDataOnCreate).suggestedWord) {
-      initialWord = (data as PassedDataOnCreate).suggestedWord;
+    if ((data as PassedDataOnWordCreate).suggestedWord) {
+      initialWord = (data as PassedDataOnWordCreate).suggestedWord;
     }
 
     const relatedWords: any[] = [];
     const wordTags: any[] = [];
     if (data.edit) {
-      (data as PassedDataOnEdit).word.translations.forEach(e => {
+      (data as PassedDataOnWordEdit).word.translations.forEach(e => {
         this.translations.push(e);
       });
 
-      (data as PassedDataOnEdit).word.related_words.forEach(e => {
+      (data as PassedDataOnWordEdit).word.related_words.forEach(e => {
         relatedWords.push(e);
       });
 
-      (data as PassedDataOnEdit).word.tags.forEach(e => {
+      (data as PassedDataOnWordEdit).word.tags.forEach(e => {
         wordTags.push(e);
       });
     }
@@ -101,14 +85,14 @@ export class WordFormComponent implements OnInit, OnDestroy {
     this.wordForm = new FormGroup({
       word: new FormControl(initialWord, [Validators.required]),
       translation: new FormControl([], [Validators.required]),
-      plural: new FormControl(data.edit ? (data as PassedDataOnEdit).word.plural : '', []),
-      general: new FormControl(data.edit ? (data as PassedDataOnEdit).word.general : '', []),
+      plural: new FormControl(data.edit ? (data as PassedDataOnWordEdit).word.plural : '', []),
+      general: new FormControl(data.edit ? (data as PassedDataOnWordEdit).word.general : '', []),
       relatedWords: new FormControl(data.edit ? relatedWords : [], []),
       tags: new FormControl(data.edit ? wordTags : [], [])
     });
 
     if (data.edit) {
-      for (const ex of (data as PassedDataOnEdit).word.examples) {
+      for (const ex of (data as PassedDataOnWordEdit).word.examples) {
         this.wordForm.addControl(this.examples.length + 'tx', new FormControl(ex.text, [Validators.required]));
         this.wordForm.addControl(this.examples.length + 'tr', new FormControl(ex.translation, [Validators.required]));
         this.examples.push([this.examples.length, ex.id]);
@@ -187,7 +171,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
       .filter(w => !relatedWordsValue.find((rw: RelatedWord) => w.id === rw.id))
 
     if (this.passedData.edit) {
-      newFilteredRelatedWords = newFilteredRelatedWords.filter(w => w.id !== (this.passedData as PassedDataOnEdit).word.id);
+      newFilteredRelatedWords = newFilteredRelatedWords.filter(w => w.id !== (this.passedData as PassedDataOnWordEdit).word.id);
     }
 
     this.filteredRelatedWords = newFilteredRelatedWords;
@@ -219,21 +203,32 @@ export class WordFormComponent implements OnInit, OnDestroy {
     this.checkSimilar();
   }
 
-  selectRelatedWord(wordId: number) {
-    const newValue = this.allWordsOfClass?.find((word) => word.id === wordId) as RelatedWord;
-    if (newValue) {
-      const relatedWords = this.wordForm.get('relatedWords')?.value || [];
-      const newRw = {id: newValue.id, word: newValue.word};
-      (relatedWords as RelatedWord[]).push(newRw);
-      this.wordForm.get('relatedWords')?.setValue(relatedWords);
-    }
+  selectRelatedWord(event: any, wordId: number) {
+    if (event.ctrlKey) {
+      const word = this.allWordsOfClass.find(rW => rW.id == wordId);
+      const setId = (this.passedData as PassedDataOnWordCreate).setId;
+      if (setId && word) {
+        if (!word.set.includes(setId)) word.set.push(setId);
+        this.voby.linkWordToSet(word.set, wordId).subscribe();
+        console.log('TRIGGERED', setId, word);
 
-    if (this.relatedWordInput) {
-      this.relatedWordInput.nativeElement.value = '';
-    }
+      }
+    } else {
+      const newValue = this.allWordsOfClass?.find((word) => word.id === wordId) as RelatedWord;
+      if (newValue) {
+        const relatedWords = this.wordForm.get('relatedWords')?.value || [];
+        const newRw = {id: newValue.id, word: newValue.word};
+        (relatedWords as RelatedWord[]).push(newRw);
+        this.wordForm.get('relatedWords')?.setValue(relatedWords);
+      }
 
-    this.filterWords();
-    this.checkSimilar();
+      if (this.relatedWordInput) {
+        this.relatedWordInput.nativeElement.value = '';
+      }
+
+      this.filterWords();
+      this.checkSimilar();
+    }
   }
 
   selectTag(event: MatAutocompleteSelectedEvent) {
@@ -245,7 +240,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
       // On Edit, we should check if the tag.words attribute already contains the word id
       // On Create, we do not want to create a new tag, but add the word.id to the selected tag
       if (this.passedData.edit) {
-        if (!selectedTag.word.includes((this.passedData as PassedDataOnEdit).word.id)) {
+        if (!selectedTag.word.includes((this.passedData as PassedDataOnWordEdit).word.id)) {
           this.tagsToBeAttached.push(selectedTag);
         } else {
           // This is to cover the case where we are editing a word, de-selecting a word that was already attached to the word by mistake,
@@ -282,7 +277,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     }
 
     this.voby.editWord(
-      (this.passedData as PassedDataOnEdit).word.id,
+      (this.passedData as PassedDataOnWordEdit).word.id,
       this.wordForm.get('word')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
@@ -424,7 +419,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
       return;
     }
     this.voby.createWord(
-      (this.passedData as PassedDataOnCreate).setId,
+      [(this.passedData as PassedDataOnWordCreate).setId],
       this.wordForm.get('word')?.value,
       this.wordForm.get('plural')?.value,
       this.wordForm.get('general')?.value,
@@ -546,7 +541,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
       .filter(w => !(this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id)));
     
     if (this.passedData.edit) {
-      const wordBeingEdited = suggestedRelatedWords.findIndex(w => w.id == (this.passedData as PassedDataOnEdit).word.id);
+      const wordBeingEdited = suggestedRelatedWords.findIndex(w => w.id == (this.passedData as PassedDataOnWordEdit).word.id);
       suggestedRelatedWords.splice(wordBeingEdited, 1);
     }
     

@@ -28,6 +28,7 @@ class WordInfoSerializer(serializers.ModelSerializer):
     translations = TranslationSerializer(many=True, read_only=True)
     tags = TagSerializer(many=True, read_only=True)
 
+    # TODO: SET NAME DOES NOT WORK BECAUSE NOW SET IS AN ARRAY
     def get_set_name(self, obj):
         return obj.set.name
 

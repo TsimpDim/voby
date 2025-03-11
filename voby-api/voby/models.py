@@ -81,7 +81,7 @@ class Word(models.Model):
     general = models.TextField(null=True, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     related_words = models.ManyToManyField('Word', blank=True, related_name='rel_words')
-    set = models.ForeignKey(Set, on_delete=models.SET_NULL, null=True, related_name='words')
+    set = models.ManyToManyField(Set, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
 
 class Translation(models.Model):
