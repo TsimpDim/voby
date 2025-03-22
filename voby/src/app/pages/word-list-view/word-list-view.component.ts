@@ -159,7 +159,9 @@ export class WordListViewComponent {
         });
       }
 
-      this.allTags.push(...data.newTags);
+      if (data.newTags) {
+        this.allTags.push(...data.newTags);
+      }
       this.selectWord(data.word.id);
     });
   }

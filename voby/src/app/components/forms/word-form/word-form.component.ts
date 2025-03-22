@@ -207,11 +207,13 @@ export class WordFormComponent implements OnInit, OnDestroy {
     if (event.ctrlKey) {
       const word = this.allWordsOfClass.find(rW => rW.id == wordId);
       const setId = (this.passedData as PassedDataOnWordCreate).setId;
+      console.log(word, setId);
       if (setId && word) {
         if (!word.set.includes(setId)) word.set.push(setId);
         this.voby.linkWordToSet(word.set, wordId).subscribe();
-        console.log('TRIGGERED', setId, word);
-
+        this.voby.getWord(word.id).subscribe(word => {
+          this.dialogRef.close({word});
+        });
       }
     } else {
       const newValue = this.allWordsOfClass?.find((word) => word.id === wordId) as RelatedWord;
