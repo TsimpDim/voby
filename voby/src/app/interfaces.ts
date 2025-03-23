@@ -8,7 +8,7 @@ export interface Word {
     id: number;
     word: string;
     set: number[];
-    set_name: string;
+    set_names: string[];
     translations: {id: number, value: string}[];
     examples: {text: string, translation: string, id: number}[];
     general: string;

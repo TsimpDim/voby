@@ -51,7 +51,7 @@
                 <mat-chip 
                     *ngFor="let related of word?.related_words"
                     (click)="!this.isSet ? this.selectWord(related.id) : selectOrRedirectPreviewWord(related)"
-                    [ngClass]="{'active-chip': this.isSet && (related.set === this.setId) || !this.isSet}"
+                    [ngClass]="{'active-chip': this.isSet && (related.set.includes(this.setId)) || !this.isSet}"
                     (mouseover)="getFullWordFromId(related.id)"
                     (mouseleave)="relatedWordExit()"
                 >

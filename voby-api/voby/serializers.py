@@ -24,13 +24,12 @@ class RelatedWordSerializer(serializers.ModelSerializer):
 
 class WordInfoSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
-    set_name = serializers.SerializerMethodField()
+    set_names = serializers.SerializerMethodField()
     translations = TranslationSerializer(many=True, read_only=True)
     tags = TagSerializer(many=True, read_only=True)
 
-    # TODO: SET NAME DOES NOT WORK BECAUSE NOW SET IS AN ARRAY
-    def get_set_name(self, obj):
-        return obj.set.name
+    def get_set_names(self, obj):
+        return [s.name for s in obj.set.all()]
 
     def to_representation(self, instance):
         response = super().to_representation(instance)

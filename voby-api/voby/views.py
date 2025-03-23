@@ -119,7 +119,7 @@ class WordViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Word.objects.filter(user_id=self.request.user.id)
+        return Word.objects.filter(user_id=self.request.user.id).distinct()
     
     def get_serializer_class(self):
         if self.request.method == 'GET':

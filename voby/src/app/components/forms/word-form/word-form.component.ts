@@ -167,8 +167,8 @@ export class WordFormComponent implements OnInit, OnDestroy {
   filterWords() {
     const relatedWordsValue = this.wordForm.get('relatedWords')?.value;
     let newFilteredRelatedWords = this.allWordsOfClass
-      ?.filter((word) => word.word.toLowerCase().includes(this.relatedWordInput?.nativeElement.value.toLowerCase() || ''))
-      .filter(w => !relatedWordsValue.find((rw: RelatedWord) => w.id === rw.id))
+      ?.filter((word) => word.word.toLowerCase().includes(this.relatedWordInput?.nativeElement.value.toLowerCase() || '')) // Suggest the word the user searched
+      .filter(w => !relatedWordsValue.find((rw: RelatedWord) => w.id === rw.id)) // Don't show already chosen words
 
     if (this.passedData.edit) {
       newFilteredRelatedWords = newFilteredRelatedWords.filter(w => w.id !== (this.passedData as PassedDataOnWordEdit).word.id);
@@ -207,7 +207,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     if (event.ctrlKey) {
       const word = this.allWordsOfClass.find(rW => rW.id == wordId);
       const setId = (this.passedData as PassedDataOnWordCreate).setId;
-      console.log(word, setId);
+
       if (setId && word) {
         if (!word.set.includes(setId)) word.set.push(setId);
         this.voby.linkWordToSet(word.set, wordId).subscribe();
@@ -538,10 +538,11 @@ export class WordFormComponent implements OnInit, OnDestroy {
   checkSimilar() {
     const word = this.wordInput?.nativeElement.value.toLowerCase() || '';
     const similarWords = this.allWordsOfClass.filter(w => stringSimilarity(w.word, word) >= 0.8);
-    const suggestedRelatedWords = this.allWordsOfClass
+    let suggestedRelatedWords: Word[] = this.allWordsOfClass
       .filter(w => stringSimilarity(w.word, word) >= 0.8 || (word.length > 5 && w.word.includes(word)))
-      .filter(w => !(this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id)));
-    
+      .filter(w => !(this.wordForm.get('relatedWords')?.value.map((rW: RelatedWord) => rW.id).includes(w.id))) // Don't suggest already chosen words
+      .filter((w, i, arr) => arr.findIndex(v => v.id === w.id) === i); // Don't show words with the same ID twice
+      
     if (this.passedData.edit) {
       const wordBeingEdited = suggestedRelatedWords.findIndex(w => w.id == (this.passedData as PassedDataOnWordEdit).word.id);
       suggestedRelatedWords.splice(wordBeingEdited, 1);

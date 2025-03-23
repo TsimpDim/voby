@@ -101,7 +101,7 @@ export class WordListViewComponent {
 
   initializeComponentData() {
     this.dialog.closeAll();
-    const state = this.router.getCurrentNavigation()?.extras.state;
+    const state = history.state;
     if (state) {
       this.vclass = state['selectedClass'];
       if (Object.keys(state).includes('selectedSet')) {
