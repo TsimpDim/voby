@@ -76,7 +76,7 @@
                 class="similar-word-suggestion"
                 (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
             >
-                {{word.word}}
+                <mat-icon *ngIf="this.linkingIconsActive">link</mat-icon>{{word.word}}
             </mat-chip>
         </mat-chip-list>
 

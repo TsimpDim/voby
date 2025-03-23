@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
@@ -6,7 +6,6 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { PassedDataOnWordCreate, PassedDataOnWordEdit, RelatedWord, Tag, Word } from 'src/app/interfaces';
 import { WordPreviewComponent } from '../../word-preview/word-preview.component';
 import { VobyService } from 'src/app/services/voby.service';
@@ -49,6 +48,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   translationsToBeDeleted: {id: number, value: string}[] = [];
   wordViewRelatedWord: Word|undefined = undefined;
   allWordsOfClass: Word[] = [];
+  linkingIconsActive: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -209,11 +209,21 @@ export class WordFormComponent implements OnInit, OnDestroy {
       const setId = (this.passedData as PassedDataOnWordCreate).setId;
 
       if (setId && word) {
-        if (!word.set.includes(setId)) word.set.push(setId);
-        this.voby.linkWordToSet(word.set, wordId).subscribe();
-        this.voby.getWord(word.id).subscribe(word => {
-          this.dialogRef.close({word});
-        });
+        if (!word.set.includes(setId)) {
+          word.set.push(setId);
+          this.voby.linkWordToSet(word.set, wordId).subscribe();
+          this.voby.getWord(word.id).subscribe(word => {
+            this.dialogRef.close({word});
+          });
+        } else {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message: `The word '${word.word}' is already linked to the current set`,
+              icon: 'info'
+            },
+            duration: 3 * 1000
+          });
+        }
       }
     } else {
       const newValue = this.allWordsOfClass?.find((word) => word.id === wordId) as RelatedWord;
@@ -639,5 +649,15 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
   emitRelatedWordClicked() {
     this.relatedWordClicked.emit(this.wordViewRelatedWord);
+  }
+
+  @HostListener('document:keydown.control', ['$event']) 
+  activateLinkIcon(event: KeyboardEvent) {
+    this.linkingIconsActive = true;
+  }
+
+  @HostListener('document:keyup.control', ['$event']) 
+  deactivateLinkIcon(event: KeyboardEvent) {
+    this.linkingIconsActive = false;
   }
 }
