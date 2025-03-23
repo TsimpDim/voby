@@ -7,7 +7,7 @@ export interface Tag {
 export interface Word {
     id: number;
     word: string;
-    set: number[];
+    sets: number[];
     set_names: string[];
     translations: {id: number, value: string}[];
     examples: {text: string, translation: string, id: number}[];

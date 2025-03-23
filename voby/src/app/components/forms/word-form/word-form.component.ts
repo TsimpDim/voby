@@ -209,9 +209,9 @@ export class WordFormComponent implements OnInit, OnDestroy {
       const setId = (this.passedData as PassedDataOnWordCreate).setId;
 
       if (setId && word) {
-        if (!word.set.includes(setId)) {
-          word.set.push(setId);
-          this.voby.linkWordToSet(word.set, wordId).subscribe();
+        if (!word.sets.includes(setId)) {
+          word.sets.push(setId);
+          this.voby.linkWordToSet(word.sets, wordId).subscribe();
           this.voby.getWord(word.id).subscribe(word => {
             this.dialogRef.close({word});
           });

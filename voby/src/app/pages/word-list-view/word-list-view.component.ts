@@ -154,7 +154,7 @@ export class WordListViewComponent {
         data.word.related_words.forEach((rw: any) => {
           const idx = this.filteredWords.findIndex((w: any) => w.id === rw.id);
           if (idx !== -1) {
-            this.filteredWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
+            this.filteredWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.sets});
           }
         });
       }
@@ -427,7 +427,7 @@ export class WordListViewComponent {
           if (idx !== -1) {
             const rwRws = this.filteredWords[idx].related_words;
             if (rwRws.findIndex((w:any) => w.id === word?.id) === -1) {
-              rwRws.push({id:word?.id, word:word?.word, set:word?.set});
+              rwRws.push({id:word?.id, word:word?.word, sets:word?.sets});
             }
           }
         });
@@ -466,11 +466,11 @@ export class WordListViewComponent {
   }
 
   selectOrRedirectWord(word: any) {
-    if (word?.set === this.setId) {
+    if (word?.sets.includes(this.setId)) {
       this.dialog.closeAll();
       this.selectWord(word.id);
     } else {
-      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+      this.router.navigate([`/set/${word?.sets[0]}`], {state: {selectedWord: word}})
     }
   }
 

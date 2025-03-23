@@ -27,6 +27,8 @@
     </mat-card>
 
 
-    <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" id="submit-button">Submit <mat-icon fontIcon="check" style="color: #ffd740;vertical-align: -6px;"></mat-icon></button>
-    <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon></button>
+    <div class="action-container">
+        <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon></button>
+        <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" id="submit-button">Submit <mat-icon fontIcon="check" style="color: #ffd740;vertical-align: -6px;"></mat-icon></button>
+    </div>
 </div>

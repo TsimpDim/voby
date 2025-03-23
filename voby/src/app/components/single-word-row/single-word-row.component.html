@@ -2,7 +2,7 @@
     <mat-card-content class="card-list-item-cont">
         <mat-card-title class="card-title">
             <p class="word-word">
-                <mat-icon *ngIf="word.set.length > 1" matTooltip="This word is linked to multiple sets">link</mat-icon>
+                <mat-icon *ngIf="word.sets.length > 1" matTooltip="This word is linked to multiple sets">link</mat-icon>
                 {{word.word}}</p>
             <p class="plural">{{word.plural}}</p>
         </mat-card-title>

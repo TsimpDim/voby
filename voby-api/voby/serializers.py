@@ -20,7 +20,7 @@ class TranslationSerializer(serializers.ModelSerializer):
 class RelatedWordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Word
-        fields = ('id', 'word', 'set', 'translations')
+        fields = ('id', 'word', 'sets', 'translations')
 
 class WordInfoSerializer(serializers.ModelSerializer):
     examples = ExampleSerializer(many=True, read_only=True)
@@ -29,7 +29,7 @@ class WordInfoSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True, read_only=True)
 
     def get_set_names(self, obj):
-        return [s.name for s in obj.set.all()]
+        return [s.name for s in obj.sets.all()]
 
     def to_representation(self, instance):
         response = super().to_representation(instance)
@@ -60,7 +60,7 @@ class TestQuestionSerializer(serializers.ModelSerializer):
     def to_representation(self, instance: Word):
         response = super().to_representation(instance)
         response['translations'] = ' / '.join([t['value'] for t in TranslationSerializer(Translation.objects.filter(id__in=response['translations']), many=True).data])
-        vclass = VClass.objects.get(id=instance.set.vclass.id)
+        vclass = VClass.objects.get(id=instance.sets.all()[0].vclass.id)
         if not vclass:
             return None
         
@@ -150,7 +150,7 @@ class ClassSerializer(serializers.ModelSerializer):
     has_german_nouns = serializers.SerializerMethodField()
 
     def get_has_german_nouns(self, obj):
-        return Word.objects.filter(set__vclass=obj,word__regex=r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$').count() > 0
+        return Word.objects.filter(sets__vclass=obj,word__regex=r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$').count() > 0
 
     class Meta:
         model = VClass
