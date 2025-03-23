@@ -1,7 +1,9 @@
 <mat-card matRipple [ngClass]="{'word': true, 'selected-word': selected}" >
     <mat-card-content class="card-list-item-cont">
         <mat-card-title class="card-title">
-            <p class="word-word">{{word.word}}</p>
+            <p class="word-word">
+                <mat-icon *ngIf="word.sets.length > 1" matTooltip="This word is linked to multiple sets">link</mat-icon>
+                {{word.word}}</p>
             <p class="plural">{{word.plural}}</p>
         </mat-card-title>
         <p class="alternatives">

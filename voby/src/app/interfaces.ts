@@ -7,8 +7,8 @@ export interface Tag {
 export interface Word {
     id: number;
     word: string;
-    set: number;
-    set_name: string;
+    sets: number[];
+    set_names: string[];
     translations: {id: number, value: string}[];
     examples: {text: string, translation: string, id: number}[];
     general: string;
@@ -37,3 +37,18 @@ export interface TestWord {
     source_language: string;
     target_language: string;
 }
+
+export interface PassedDataOnWordCreate {
+  setId: number,
+  edit: boolean,
+  vclassId: number,
+  allTags: Tag[],
+  suggestedWord: string
+};
+
+export interface PassedDataOnWordEdit {
+  word: Word,
+  edit: boolean,
+  vclassId: number,
+  allTags: Tag[]
+};

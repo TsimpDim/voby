@@ -77,14 +77,22 @@ export class VobyService {
     });
   }
 
-  createWord(setId: number, word: string, plural: string, general: string, relatedWordIds: number[]) {
+  createWord(setIds: number[], word: string, plural: string, general: string, relatedWordIds: number[]) {
     return this.http.post(environment.apiUrl + '/voby/words/',
       {
         word: word,
         plural: plural || null,
         general: general,
-        set: setId,
+        sets: setIds,
         related_words: relatedWordIds
+      },
+      { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
+  }
+
+  linkWordToSet(newSetIds: number[], wordId: number) {
+    return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
+      {
+        sets: newSetIds
       },
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
@@ -131,7 +139,7 @@ export class VobyService {
     related: boolean = false,
   ) {
     const sort = localStorage.getItem('sort') || '-created';
-    let searchParams: any = {'set__vclass': classId, sort, page, page_size, 'ordering': sort, related}
+    let searchParams: any = {'sets__vclass': classId, sort, page, page_size, 'ordering': sort, related}
     if (wordSearchTerm && wordSearchTerm.length > 0) {
       wordSearchTerm.replace(/[\W\d]/g, ""); // Remove numbers
       searchParams.word__icontains = wordSearchTerm;
@@ -146,7 +154,7 @@ export class VobyService {
     }
 
     if (setId) {
-      searchParams.set = setId;
+      searchParams.sets = setId;
     }
 
     return this.http.get(environment.apiUrl + '/voby/words/', {

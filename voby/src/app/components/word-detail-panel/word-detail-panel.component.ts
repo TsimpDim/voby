@@ -106,13 +106,13 @@ export class WordDetailPanelComponent {
 
   selectOrRedirectPreviewWord(word: any) {
     if (!this.isSet) {
-      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+      this.router.navigate([`/set/${word?.sets[0]}`], {state: {selectedWord: word}})
     }
 
-    if (this.isSet && word?.set === this.setId) {
+    if (this.isSet && word?.sets.includes(this.setId)) {
       this.selectWord(word.id);
     } else {
-      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+      this.router.navigate([`/set/${word?.sets[0]}`], {state: {selectedWord: word}})
     }
   }
 

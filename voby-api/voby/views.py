@@ -78,8 +78,8 @@ class WordViewSet(viewsets.ModelViewSet):
     queryset = Word.objects.all()
     filter_backends = [DjangoFilterBackend, OrderingFilter]
     filterset_fields = {
-        'set__vclass': ['exact'],
-        'set': ['exact'],
+        'sets__vclass': ['exact'],
+        'sets': ['exact'],
         'word': ['icontains'],
         'tags__id': ['exact'],
         'favorite': ['exact']
@@ -119,7 +119,7 @@ class WordViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
     def get_queryset(self):
-        return Word.objects.filter(user_id=self.request.user.id)
+        return Word.objects.filter(user_id=self.request.user.id).distinct()
     
     def get_serializer_class(self):
         if self.request.method == 'GET':
@@ -244,12 +244,12 @@ class TestView(APIView):
                 filter_kwargs['favorite'] = True
 
             if set_id != -1 and class_id != -1:
-                filter_kwargs['set__id'] = set_id
-                filter_kwargs['set__vclass_id'] = class_id
+                filter_kwargs['sets__id'] = set_id
+                filter_kwargs['sets__vclass_id'] = class_id
             elif set_id == -1 and class_id != -1:
-                filter_kwargs['set__vclass_id'] = class_id
+                filter_kwargs['sets__vclass_id'] = class_id
             else:
-                filter_kwargs['set__isnull'] = False
+                filter_kwargs['sets__isnull'] = False
 
             all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
         amount = min(len(all_ids), amount)
@@ -280,12 +280,12 @@ class GermanNounTestView(APIView):
             filter_kwargs['favorite'] = True
 
         if set_id != -1 and class_id != -1:
-            filter_kwargs['set__id'] = set_id
-            filter_kwargs['set__vclass_id'] = class_id
+            filter_kwargs['sets__id'] = set_id
+            filter_kwargs['sets__vclass_id'] = class_id
         elif set_id == -1 and class_id != -1:
-            filter_kwargs['set__vclass_id'] = class_id
+            filter_kwargs['sets__vclass_id'] = class_id
         else:
-            filter_kwargs['set__isnull'] = False
+            filter_kwargs['sets__isnull'] = False
 
         filter_kwargs['word__regex'] = r'^([dD]er [A-Z][a-z]+)$|^([dD]ie [A-Z][a-z]+)$|^([dD]as [A-Z][a-z]+)$'
         all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))

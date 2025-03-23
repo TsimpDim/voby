@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { FormControl, FormGroup } from '@angular/forms';
 import { COMMA } from '@angular/cdk/keycodes';
-import { Tag, Word } from 'src/app/interfaces';
+import { PassedDataOnWordCreate, PassedDataOnWordEdit, Tag, Word } from 'src/app/interfaces';
 import { getCountryEmoji } from 'src/app/countries';
 import { VobyService } from 'src/app/services/voby.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
@@ -101,7 +101,7 @@ export class WordListViewComponent {
 
   initializeComponentData() {
     this.dialog.closeAll();
-    const state = this.router.getCurrentNavigation()?.extras.state;
+    const state = history.state;
     if (state) {
       this.vclass = state['selectedClass'];
       if (Object.keys(state).includes('selectedSet')) {
@@ -135,7 +135,7 @@ export class WordListViewComponent {
         vclassId: this.vclass.id,
         edit: false,
         suggestedWord: this.searchForm.get('search')?.value
-      }
+      } as PassedDataOnWordCreate
     });
     dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 
@@ -154,12 +154,14 @@ export class WordListViewComponent {
         data.word.related_words.forEach((rw: any) => {
           const idx = this.filteredWords.findIndex((w: any) => w.id === rw.id);
           if (idx !== -1) {
-            this.filteredWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.set});
+            this.filteredWords[idx].related_words.push({id:data.word.id, word:data.word.word, set:data.word.sets});
           }
         });
       }
 
-      this.allTags.push(...data.newTags);
+      if (data.newTags) {
+        this.allTags.push(...data.newTags);
+      }
       this.selectWord(data.word.id);
     });
   }
@@ -401,7 +403,7 @@ export class WordListViewComponent {
         word: this.selectedWord,
         allTags: this.allTags,
         edit: true
-      }
+      } as PassedDataOnWordEdit
     });
     dialogRef.componentInstance.relatedWordClicked.subscribe((word: any) => this.selectOrRedirectWord(word));
 
@@ -425,7 +427,7 @@ export class WordListViewComponent {
           if (idx !== -1) {
             const rwRws = this.filteredWords[idx].related_words;
             if (rwRws.findIndex((w:any) => w.id === word?.id) === -1) {
-              rwRws.push({id:word?.id, word:word?.word, set:word?.set});
+              rwRws.push({id:word?.id, word:word?.word, sets:word?.sets});
             }
           }
         });
@@ -464,11 +466,11 @@ export class WordListViewComponent {
   }
 
   selectOrRedirectWord(word: any) {
-    if (word?.set === this.setId) {
+    if (word?.sets.includes(this.setId)) {
       this.dialog.closeAll();
       this.selectWord(word.id);
     } else {
-      this.router.navigate([`/set/${word?.set}`], {state: {selectedWord: word}})
+      this.router.navigate([`/set/${word?.sets[0]}`], {state: {selectedWord: word}})
     }
   }
 
