@@ -123,7 +123,7 @@
             [isSet]="this.needSet"
             (wordSelected)="this.selectWord($event)"
             (wordDeselected)="this.selectedWord = undefined"
-            (wordDeleted)="this.selectedWordDeleted()"
+            (wordDeletedOrUnlinked)="this.selectedWordDeletedOrUnlinked()"
             (wordEdited)="processEditedWord($event)"
             (tagSelected)="addTagToSearch($event)"
         ></voby-word-detail-panel>

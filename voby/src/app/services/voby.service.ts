@@ -89,7 +89,7 @@ export class VobyService {
       { headers: {"Authorization": "Token " + this.authService.getSessionToken()}});
   }
 
-  linkWordToSet(newSetIds: number[], wordId: number) {
+  editSets(newSetIds: number[], wordId: number) {
     return this.http.patch(environment.apiUrl + '/voby/words/' + wordId + '/',
       {
         sets: newSetIds

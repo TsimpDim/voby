@@ -211,9 +211,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
       if (setId && word) {
         if (!word.sets.includes(setId)) {
           word.sets.push(setId);
-          this.voby.linkWordToSet(word.sets, wordId).subscribe();
-          this.voby.getWord(word.id).subscribe(word => {
-            this.dialogRef.close({word});
+          this.voby.editSets(word.sets, wordId).subscribe({
+            next: () => {
+              this.voby.getWord(word.id).subscribe(word => {
+                this.dialogRef.close({word});
+              });
+            }
           });
         } else {
           this._snackBar.openFromComponent(SnackbarComponent, {

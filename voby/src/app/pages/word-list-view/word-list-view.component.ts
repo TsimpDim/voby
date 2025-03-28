@@ -186,7 +186,7 @@ export class WordListViewComponent {
   deleteSet() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
     dialogRef.afterClosed().subscribe(res => {
-      if (res.confirmed === true) {
+      if (res && res.confirmed === true) {
         this.voby.deleteSet(this.setId)
         .subscribe({
           next: () => {
@@ -255,7 +255,7 @@ export class WordListViewComponent {
     this.selectedWord = this.filteredWords.find((o: any) => o.id === id);
   }
 
-  selectedWordDeleted() {
+  selectedWordDeletedOrUnlinked() {
     const idx = this.filteredWords.findIndex(w => w.id === this.selectedWord?.id);
     if (idx !== -1) {
       this.filteredWords.splice(idx, 1);

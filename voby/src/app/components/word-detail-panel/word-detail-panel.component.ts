@@ -24,7 +24,7 @@ export class WordDetailPanelComponent {
   @Output() wordSelected: EventEmitter<any> = new EventEmitter();
   @Output() wordDeselected: EventEmitter<any> = new EventEmitter();
   @Output() wordEdited: EventEmitter<any> = new EventEmitter();
-  @Output() wordDeleted: EventEmitter<any> = new EventEmitter();
+  @Output() wordDeletedOrUnlinked: EventEmitter<any> = new EventEmitter();
   @Output() tagSelected: EventEmitter<any> = new EventEmitter();
   getCountryEmoji = getCountryEmoji;
   wordViewRelatedWord: Word|undefined = undefined;
@@ -72,12 +72,12 @@ export class WordDetailPanelComponent {
   deleteWord() {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
     dialogRef.afterClosed().subscribe(res => {
-      if (res.confirmed === true) {
+      if (res && res.confirmed === true) {
         if(this.word) {
           this.voby.deleteWord(this.word.id)
           .subscribe({
             next: () => {
-              this.wordDeleted.emit(this.word);
+              this.wordDeletedOrUnlinked.emit(this.word);
             },
             error: (error: any) => {
               this._snackBar.openFromComponent(SnackbarComponent, {
@@ -88,10 +88,30 @@ export class WordDetailPanelComponent {
                 duration: 3 * 1000
               });
             }
-          })
+          });
         }
       }
-    })
+    });
+  }
+
+  unlinkWord() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {data: {verb: 'unlink'}});
+    dialogRef.afterClosed().subscribe(res => {
+      if (res && res.confirmed === true) {
+        if (this.word) {
+          const setIdx = this.word.sets.findIndex(s => s === this.setId);
+          if (setIdx !== -1) {
+            const newSets = structuredClone(this.word.sets).splice(setIdx, 1);
+            this.voby.editSets(newSets, this.word.id)
+            .subscribe({
+              next: () => {
+                this.wordDeletedOrUnlinked.emit(this.word);
+              }
+            });
+          }
+        }
+      }
+    });
   }
 
   addTagToSearch(selectedTagId: number) {
