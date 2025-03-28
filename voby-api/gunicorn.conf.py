@@ -7,11 +7,11 @@ wsgi_app = "core.asgi:application"
 loglevel = "info"
 
 # The number of worker processes for handling requests
-workers = 2
+workers = 1
 
 # The socket to bind
 #bind = "/run/gunicorn.sock"
-bind = "0.0.0.0:443"
+bind = "0.0.0.0:8010"
 
 # Don't restart workers when code changes (development only!)
 reload = False
@@ -26,7 +26,7 @@ capture_output = True
 pidfile = "var/run/prod.pid"
 
 # Daemonize the Gunicorn process (detach & enter background)
-daemon = False
+daemon = True
 
 # ASGI Uvicorn worker class (instead of WSGI)
 worker_class = "uvicorn.workers.UvicornWorker"
