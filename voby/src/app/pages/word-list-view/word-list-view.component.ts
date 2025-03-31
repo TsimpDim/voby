@@ -149,6 +149,7 @@ export class WordListViewComponent {
       } else {
         this.filteredWords.unshift(data.word);
       }
+      this.numberOfWords = this.filteredWords.length;
 
       if (data.word.related_words) {
         data.word.related_words.forEach((rw: any) => {
@@ -259,6 +260,8 @@ export class WordListViewComponent {
     const idx = this.filteredWords.findIndex(w => w.id === this.selectedWord?.id);
     if (idx !== -1) {
       this.filteredWords.splice(idx, 1);
+      this.numberOfWords = this.filteredWords.length;
+
       if (this.filteredWords.length === 0) {
         this.currentPage = this.currentPage -= 1;
         if (this.currentPage < 0) { this.selectedWord = undefined }
