@@ -100,8 +100,11 @@ export class WordDetailPanelComponent {
       if (res && res.confirmed === true) {
         if (this.word) {
           const setIdx = this.word.sets.findIndex(s => s === this.setId);
+
           if (setIdx !== -1) {
-            const newSets = structuredClone(this.word.sets).splice(setIdx, 1);
+            const newSets = structuredClone(this.word.sets);
+            newSets.splice(setIdx, 1);
+
             this.voby.editSets(newSets, this.word.id)
             .subscribe({
               next: () => {
