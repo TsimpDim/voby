@@ -8,11 +8,21 @@ import { VobyService } from 'src/app/services/voby.service';
 import { WordFormComponent } from '../forms/word-form/word-form.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
+import { WordPreviewComponent } from '../word-preview/word-preview.component';
+import { MatLegacyChipsModule } from '@angular/material/legacy-chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { NgIf, NgFor, NgClass, DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'voby-word-detail-panel',
-  templateUrl: './word-detail-panel.component.html',
-  styleUrls: ['./word-detail-panel.component.scss']
+    selector: 'voby-word-detail-panel',
+    templateUrl: './word-detail-panel.component.html',
+    styleUrls: ['./word-detail-panel.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatLegacyCardModule, MatLegacyButtonModule, MatLegacyTooltipModule, MatIconModule, NgFor, MatDividerModule, MatLegacyChipsModule, NgClass, WordPreviewComponent, DatePipe]
 })
 export class WordDetailPanelComponent {
 

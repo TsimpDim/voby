@@ -1,9 +1,12 @@
 import { Component, Inject } from '@angular/core';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA, MatLegacyDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
 @Component({
-  selector: 'voby-confirm-dialog',
-  templateUrl: './confirm-dialog.component.html',
-  styleUrls: ['./confirm-dialog.component.scss']
+    selector: 'voby-confirm-dialog',
+    templateUrl: './confirm-dialog.component.html',
+    styleUrls: ['./confirm-dialog.component.scss'],
+    standalone: true,
+    imports: [MatLegacyDialogModule, MatLegacyButtonModule]
 })
 export class ConfirmDialogComponent {
   verb: string = 'delete';

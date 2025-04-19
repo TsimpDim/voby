@@ -8,8 +8,8 @@ describe('WordPreviewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WordPreviewComponent ]
-    })
+    imports: [WordPreviewComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(WordPreviewComponent);

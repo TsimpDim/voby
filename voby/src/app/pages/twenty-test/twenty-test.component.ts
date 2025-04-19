@@ -6,11 +6,22 @@ import { ExperienceService } from 'src/app/services/experience.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyInputModule } from '@angular/material/legacy-input';
+import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacySlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'voby-twenty-test',
-  templateUrl: './twenty-test.component.html',
-  styleUrls: ['./twenty-test.component.scss']
+    selector: 'voby-twenty-test',
+    templateUrl: './twenty-test.component.html',
+    styleUrls: ['./twenty-test.component.scss'],
+    standalone: true,
+    imports: [NgIf, LoadingIndComponent, MatLegacySlideToggleModule, MatIconModule, NgFor, MatLegacyCardModule, MatLegacyFormFieldModule, MatLegacyInputModule, MatLegacyTooltipModule, MatLegacyButtonModule]
 })
 export class TwentyTestComponent implements OnInit, OnDestroy {
   NOT_ANSWERED = 0

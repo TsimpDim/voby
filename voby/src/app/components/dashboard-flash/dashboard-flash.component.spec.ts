@@ -8,8 +8,8 @@ describe('DashboardFlashComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DashboardFlashComponent ]
-    })
+    imports: [DashboardFlashComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(DashboardFlashComponent);

@@ -1,14 +1,25 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { UserShortcut } from 'src/app/interfaces';
 import { VobyService } from 'src/app/services/voby.service';
 import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
+import { MatLegacyInputModule } from '@angular/material/legacy-input';
+import { MatLegacyOptionModule } from '@angular/material/legacy-core';
+import { MatLegacySelectModule } from '@angular/material/legacy-select';
+import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'voby-options',
-  templateUrl: './options.component.html',
-  styleUrls: ['./options.component.scss']
+    selector: 'voby-options',
+    templateUrl: './options.component.html',
+    styleUrls: ['./options.component.scss'],
+    standalone: true,
+    imports: [NgIf, LoadingIndComponent, MatLegacyCardModule, NgFor, MatLegacyButtonModule, MatIconModule, MatLegacyFormFieldModule, MatLegacySelectModule, MatLegacyOptionModule, MatLegacyInputModule, ReactiveFormsModule]
 })
 export class OptionsComponent implements OnInit {
   userShortcuts: UserShortcut[] = [];

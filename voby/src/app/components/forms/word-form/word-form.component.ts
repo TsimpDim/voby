@@ -1,10 +1,10 @@
 import { Component, ElementRef, EventEmitter, HostListener, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent, MatLegacyAutocompleteModule } from '@angular/material/legacy-autocomplete';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogModule } from '@angular/material/legacy-dialog';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent, MatLegacyChipsModule } from '@angular/material/legacy-chips';
 import { Subscription } from 'rxjs';
 import { PassedDataOnWordCreate, PassedDataOnWordEdit, RelatedWord, Tag, Word } from 'src/app/interfaces';
 import { WordPreviewComponent } from '../../word-preview/word-preview.component';
@@ -13,11 +13,19 @@ import { ExperienceService } from 'src/app/services/experience.service';
 import { FormDataService } from 'src/app/services/form-data.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { stringSimilarity } from 'src/app/string-similarity';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyOptionModule } from '@angular/material/legacy-core';
+import { MatIconModule } from '@angular/material/icon';
+import { NgFor, NgIf } from '@angular/common';
+import { MatLegacyInputModule } from '@angular/material/legacy-input';
+import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
 
 @Component({
-  selector: 'voby-word-form',
-  templateUrl: './word-form.component.html',
-  styleUrls: ['./word-form.component.scss']
+    selector: 'voby-word-form',
+    templateUrl: './word-form.component.html',
+    styleUrls: ['./word-form.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatLegacyFormFieldModule, MatLegacyInputModule, MatLegacyChipsModule, NgFor, MatIconModule, MatLegacyAutocompleteModule, NgIf, MatLegacyOptionModule, MatLegacyButtonModule, MatLegacyDialogModule, WordPreviewComponent]
 })
 export class WordFormComponent implements OnInit, OnDestroy {
 

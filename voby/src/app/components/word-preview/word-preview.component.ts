@@ -1,10 +1,14 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { NgIf, NgFor } from '@angular/common';
 
 @Component({
-  selector: 'voby-word-preview',
-  templateUrl: './word-preview.component.html',
-  styleUrls: ['./word-preview.component.scss']
+    selector: 'voby-word-preview',
+    templateUrl: './word-preview.component.html',
+    styleUrls: ['./word-preview.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatLegacyCardModule, NgFor]
 })
 export class WordPreviewComponent {
 

@@ -8,8 +8,8 @@ describe('WordListViewComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WordListViewComponent ]
-    })
+    imports: [WordListViewComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(WordListViewComponent);

@@ -8,8 +8,8 @@ describe('WordDetailPanelComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WordDetailPanelComponent ]
-    })
+    imports: [WordDetailPanelComponent]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(WordDetailPanelComponent);

@@ -3,10 +3,23 @@ import { Router } from '@angular/router';
 import { ExperienceService } from 'src/app/services/experience.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatLegacyOptionModule } from '@angular/material/legacy-core';
+import { MatLegacySelectModule } from '@angular/material/legacy-select';
+import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacySlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { LoadingIndComponent } from '../../../components/custom/loading-ind/loading-ind.component';
+import { NgIf, NgFor } from '@angular/common';
 @Component({
-  selector: 'noun-test',
-  templateUrl: './noun-test.component.html',
-  styleUrls: ['./noun-test.component.scss']
+    selector: 'noun-test',
+    templateUrl: './noun-test.component.html',
+    styleUrls: ['./noun-test.component.scss'],
+    standalone: true,
+    imports: [NgIf, LoadingIndComponent, MatLegacySlideToggleModule, MatIconModule, MatExpansionModule, NgFor, MatLegacyCardModule, MatLegacyFormFieldModule, MatLegacySelectModule, MatLegacyOptionModule, MatLegacyTooltipModule, MatLegacyButtonModule]
 })
 export class NounTestComponent implements OnInit {
   NOT_ANSWERED = 0

@@ -1,15 +1,20 @@
 import { Component, Inject } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { FormControl, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogModule } from '@angular/material/legacy-dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { VobyService } from 'src/app/services/voby.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatLegacyInputModule } from '@angular/material/legacy-input';
+import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
 
 
 @Component({
-  selector: 'voby-set-form',
-  templateUrl: './set-form.component.html',
-  styleUrls: ['./set-form.component.scss']
+    selector: 'voby-set-form',
+    templateUrl: './set-form.component.html',
+    styleUrls: ['./set-form.component.scss'],
+    standalone: true,
+    imports: [ReactiveFormsModule, MatLegacyFormFieldModule, MatLegacyInputModule, MatLegacyDialogModule, MatLegacyButtonModule]
 })
 export class SetFormComponent {
   setForm: FormGroup;

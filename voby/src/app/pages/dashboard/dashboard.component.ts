@@ -10,15 +10,27 @@ import { ClassFormComponent } from 'src/app/components/forms/class-form/class-fo
 import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SetFormComponent } from 'src/app/components/forms/set-form/set-form.component';
+import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatRippleModule } from '@angular/material/core';
+import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatLegacyOptionModule } from '@angular/material/legacy-core';
+import { MatLegacySelectModule } from '@angular/material/legacy-select';
+import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
+import { DashboardFlashComponent } from '../../components/dashboard-flash/dashboard-flash.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { NgIf, NgFor } from '@angular/common';
 
 export interface DialogData {
   className: string;
 }
 
 @Component({
-  selector: 'voby-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'voby-dashboard',
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss'],
+    standalone: true,
+    imports: [NgIf, MatLegacyButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatLegacySelectModule, NgFor, MatLegacyOptionModule, MatLegacyCardModule, MatRippleModule, MatLegacyTooltipModule]
 })
 export class DashboardComponent implements OnInit {
   className = '';
