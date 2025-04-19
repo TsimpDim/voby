@@ -1,6 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { NgIf, NgFor } from '@angular/common';
 
 @Component({
@@ -8,7 +7,7 @@ import { NgIf, NgFor } from '@angular/common';
     templateUrl: './word-preview.component.html',
     styleUrls: ['./word-preview.component.scss'],
     standalone: true,
-    imports: [NgIf, MatLegacyCardModule, NgFor]
+    imports: [NgIf, MatCardModule, NgFor]
 })
 export class WordPreviewComponent {
 

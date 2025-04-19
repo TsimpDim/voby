@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
 import { COUNTRY_MAPPING, getCountryEmoji } from 'src/app/countries';
 import { VobyService } from 'src/app/services/voby.service';
@@ -10,15 +10,15 @@ import { ClassFormComponent } from 'src/app/components/forms/class-form/class-fo
 import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 import { SetFormComponent } from 'src/app/components/forms/set-form/set-form.component';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
-import { MatLegacyOptionModule } from '@angular/material/legacy-core';
-import { MatLegacySelectModule } from '@angular/material/legacy-select';
+import { MatCardModule } from '@angular/material/card';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
 import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
 import { DashboardFlashComponent } from '../../components/dashboard-flash/dashboard-flash.component';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { NgIf, NgFor } from '@angular/common';
 
 export interface DialogData {
@@ -30,7 +30,7 @@ export interface DialogData {
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
     standalone: true,
-    imports: [NgIf, MatLegacyButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatLegacySelectModule, NgFor, MatLegacyOptionModule, MatLegacyCardModule, MatRippleModule, MatLegacyTooltipModule]
+    imports: [NgIf, MatButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatSelectModule, NgFor, MatOptionModule, MatCardModule, MatRippleModule, MatTooltipModule]
 })
 export class DashboardComponent implements OnInit {
   className = '';

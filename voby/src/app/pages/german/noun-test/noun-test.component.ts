@@ -3,15 +3,15 @@ import { Router } from '@angular/router';
 import { ExperienceService } from 'src/app/services/experience.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyOptionModule } from '@angular/material/legacy-core';
-import { MatLegacySelectModule } from '@angular/material/legacy-select';
-import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatOptionModule } from '@angular/material/core';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacySlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingIndComponent } from '../../../components/custom/loading-ind/loading-ind.component';
 import { NgIf, NgFor } from '@angular/common';
 @Component({
@@ -19,7 +19,7 @@ import { NgIf, NgFor } from '@angular/common';
     templateUrl: './noun-test.component.html',
     styleUrls: ['./noun-test.component.scss'],
     standalone: true,
-    imports: [NgIf, LoadingIndComponent, MatLegacySlideToggleModule, MatIconModule, MatExpansionModule, NgFor, MatLegacyCardModule, MatLegacyFormFieldModule, MatLegacySelectModule, MatLegacyOptionModule, MatLegacyTooltipModule, MatLegacyButtonModule]
+    imports: [NgIf, LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatExpansionModule, NgFor, MatCardModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatTooltipModule, MatButtonModule]
 })
 export class NounTestComponent implements OnInit {
   NOT_ANSWERED = 0

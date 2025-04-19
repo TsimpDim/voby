@@ -1,13 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
     selector: 'voby-favorite',
     templateUrl: './favorite.component.html',
     styleUrls: ['./favorite.component.scss'],
     standalone: true,
-    imports: [MatLegacyButtonModule, MatIconModule]
+    imports: [MatButtonModule, MatIconModule]
 })
 export class FavoriteComponent {
 

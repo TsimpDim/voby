@@ -2,18 +2,18 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Word } from 'src/app/interfaces';
 import { VobyService } from 'src/app/services/voby.service';
 import { FavoriteComponent } from '../custom/favorite/favorite.component';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { NgClass, NgIf } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
     selector: 'voby-single-word-row',
     templateUrl: './single-word-row.component.html',
     styleUrls: ['./single-word-row.component.scss'],
     standalone: true,
-    imports: [MatLegacyCardModule, MatRippleModule, NgClass, NgIf, MatIconModule, MatLegacyTooltipModule, FavoriteComponent]
+    imports: [MatCardModule, MatRippleModule, NgClass, NgIf, MatIconModule, MatTooltipModule, FavoriteComponent]
 })
 export class SingleWordRowComponent {
 

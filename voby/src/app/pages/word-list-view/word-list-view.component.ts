@@ -1,8 +1,8 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { COMMA } from '@angular/cdk/keycodes';
 import { PassedDataOnWordCreate, PassedDataOnWordEdit, Tag, Word } from 'src/app/interfaces';
@@ -16,16 +16,16 @@ import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confir
 import { WordDetailPanelComponent } from '../../components/word-detail-panel/word-detail-panel.component';
 import { SingleWordRowComponent } from '../../components/single-word-row/single-word-row.component';
 import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
-import { MatLegacyMenuModule } from '@angular/material/legacy-menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { FavoriteComponent } from '../../components/custom/favorite/favorite.component';
-import { MatLegacyOptionModule } from '@angular/material/legacy-core';
-import { MatLegacyAutocompleteModule } from '@angular/material/legacy-autocomplete';
-import { MatLegacyInputModule } from '@angular/material/legacy-input';
-import { MatLegacyChipsModule } from '@angular/material/legacy-chips';
-import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
 import { NgIf, NgFor, NgClass } from '@angular/common';
 
 @Component({
@@ -33,7 +33,7 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
     templateUrl: './word-list-view.component.html',
     styleUrls: ['./word-list-view.component.scss'],
     standalone: true,
-    imports: [NgIf, MatLegacyButtonModule, MatLegacyTooltipModule, MatIconModule, MatLegacyFormFieldModule, MatLegacyChipsModule, NgFor, ReactiveFormsModule, MatLegacyInputModule, MatLegacyAutocompleteModule, MatLegacyOptionModule, FavoriteComponent, MatLegacyMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
+    imports: [NgIf, MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, NgFor, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
 })
 export class WordListViewComponent {
 

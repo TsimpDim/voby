@@ -6,13 +6,13 @@ import { ExperienceService } from 'src/app/services/experience.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyInputModule } from '@angular/material/legacy-input';
-import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacySlideToggleModule } from '@angular/material/legacy-slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
 import { NgIf, NgFor } from '@angular/common';
 
@@ -21,7 +21,7 @@ import { NgIf, NgFor } from '@angular/common';
     templateUrl: './twenty-test.component.html',
     styleUrls: ['./twenty-test.component.scss'],
     standalone: true,
-    imports: [NgIf, LoadingIndComponent, MatLegacySlideToggleModule, MatIconModule, NgFor, MatLegacyCardModule, MatLegacyFormFieldModule, MatLegacyInputModule, MatLegacyTooltipModule, MatLegacyButtonModule]
+    imports: [NgIf, LoadingIndComponent, MatSlideToggleModule, MatIconModule, NgFor, MatCardModule, MatFormFieldModule, MatInputModule, MatTooltipModule, MatButtonModule]
 })
 export class TwentyTestComponent implements OnInit, OnDestroy {
   NOT_ANSWERED = 0

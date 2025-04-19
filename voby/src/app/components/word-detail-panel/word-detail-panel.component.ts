@@ -1,6 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Tag, Word } from 'src/app/interfaces';
 import { getCountryEmoji } from 'src/app/countries';
 import { Router } from '@angular/router';
@@ -9,12 +9,12 @@ import { WordFormComponent } from '../forms/word-form/word-form.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
 import { WordPreviewComponent } from '../word-preview/word-preview.component';
-import { MatLegacyChipsModule } from '@angular/material/legacy-chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyCardModule } from '@angular/material/legacy-card';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { NgIf, NgFor, NgClass, DatePipe } from '@angular/common';
 
 @Component({
@@ -22,7 +22,7 @@ import { NgIf, NgFor, NgClass, DatePipe } from '@angular/common';
     templateUrl: './word-detail-panel.component.html',
     styleUrls: ['./word-detail-panel.component.scss'],
     standalone: true,
-    imports: [NgIf, MatLegacyCardModule, MatLegacyButtonModule, MatLegacyTooltipModule, MatIconModule, NgFor, MatDividerModule, MatLegacyChipsModule, NgClass, WordPreviewComponent, DatePipe]
+    imports: [NgIf, MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, NgFor, MatDividerModule, MatChipsModule, NgClass, WordPreviewComponent, DatePipe]
 })
 export class WordDetailPanelComponent {
 

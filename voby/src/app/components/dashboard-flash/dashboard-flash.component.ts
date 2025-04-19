@@ -4,10 +4,10 @@ import { TestWord } from 'src/app/interfaces';
 import { ExperienceService } from 'src/app/services/experience.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
-import { MatLegacyInputModule } from '@angular/material/legacy-input';
-import { MatLegacyFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { LoadingIndComponent } from '../custom/loading-ind/loading-ind.component';
 import { NgIf } from '@angular/common';
 
@@ -17,7 +17,7 @@ import { NgIf } from '@angular/common';
     templateUrl: './dashboard-flash.component.html',
     styleUrls: ['./dashboard-flash.component.scss'],
     standalone: true,
-    imports: [NgIf, LoadingIndComponent, MatLegacyButtonModule, MatIconModule, MatLegacyFormFieldModule, MatLegacyInputModule]
+    imports: [NgIf, LoadingIndComponent, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule]
 })
 export class DashboardFlashComponent implements OnInit, OnChanges {
 

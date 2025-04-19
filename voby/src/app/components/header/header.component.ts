@@ -5,10 +5,10 @@ import { trigger, style, transition, animate, keyframes, AUTO_STYLE, state} from
 import { experienceLevelMapping, UserLevel } from 'src/app/user-levels';
 import { AuthService } from 'src/app/services/auth.service';
 import { ExperienceService } from 'src/app/services/experience.service';
-import { MatLegacyProgressBarModule } from '@angular/material/legacy-progress-bar';
-import { MatLegacyTooltipModule } from '@angular/material/legacy-tooltip';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { MatLegacyButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
@@ -63,7 +63,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         ])
     ],
     standalone: true,
-    imports: [MatToolbarModule, NgIf, MatLegacyButtonModule, MatIconModule, MatLegacyTooltipModule, MatLegacyProgressBarModule]
+    imports: [MatToolbarModule, NgIf, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule]
 })
 export class HeaderComponent implements AfterViewInit {
   public isLoggedIn: Boolean | null = null;
