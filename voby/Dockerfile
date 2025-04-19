@@ -1,4 +1,4 @@
-FROM node:18.10
+FROM node:18.13
 
 # Set the working directory
 WORKDIR /voby
