@@ -13,8 +13,8 @@ fi
 
 if [[ $2 == "all" ]]; then
     for key in "${!dcfiles[@]}"; do
-        docker-compose -f ${dcfiles[$key]} $cmd
+        docker compose -f ${dcfiles[$key]} $cmd
     done
 else
-    docker-compose -f ${dcfiles[$2]} $cmd
+    docker compose -f ${dcfiles[$2]} $cmd
 fi
