@@ -51,9 +51,9 @@
 
         <mat-card-content class="info-container">
             <mat-card-title>Related words</mat-card-title>
-            <mat-chip-list> 
+            <mat-chip-listbox> 
                 <p *ngIf="word?.related_words?.length === 0">-</p>
-                <mat-chip 
+                <mat-chip-option 
                     *ngFor="let related of word?.related_words"
                     (click)="!this.isSet ? this.selectWord(related.id) : selectOrRedirectPreviewWord(related)"
                     [ngClass]="{'active-chip': this.isSet && (related.sets.includes(this.setId)) || !this.isSet}"
@@ -61,23 +61,23 @@
                     (mouseleave)="relatedWordExit()"
                 >
                     {{related.word}}
-                </mat-chip>
-            </mat-chip-list>
+                </mat-chip-option>
+            </mat-chip-listbox>
             <voby-word-preview [word]="this.wordViewRelatedWord" (clicked)="selectOrRedirectPreviewWord(this.wordViewRelatedWord)"></voby-word-preview>
         </mat-card-content>
 
         <mat-card-content class="info-container"> 
             <mat-card-title>Tags</mat-card-title>
-            <mat-chip-list> 
+            <mat-chip-listbox> 
                 <p *ngIf="word?.tags?.length === 0">-</p>
-                <mat-chip 
+                <mat-chip-option 
                     *ngFor="let tag of word?.tags"
                     (click)="addTagToSearch(tag.id)"
                     class="pointer-on-hover"
                 >
                 <mat-icon>tag</mat-icon>{{tag.value}}
-                </mat-chip>
-            </mat-chip-list>
+                </mat-chip-option>
+            </mat-chip-listbox>
         </mat-card-content>
     </div>
 </mat-card>
