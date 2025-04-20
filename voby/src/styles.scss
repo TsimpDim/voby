@@ -18,3 +18,7 @@ $voby: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+button {
+    box-shadow: none !important;
+}
