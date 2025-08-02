@@ -6,7 +6,7 @@ import { VobyService } from 'src/app/services/voby.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
 
 @Component({
@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     templateUrl: './set-form.component.html',
     styleUrls: ['./set-form.component.scss'],
     standalone: true,
+    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatButtonModule]
 })
 export class SetFormComponent {

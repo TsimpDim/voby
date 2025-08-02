@@ -3,13 +3,13 @@
 </mat-card>
 
 <form [formGroup]="classForm">
-    <mat-form-field class="input" appearance="fill">
+    <mat-form-field class="input" appearance="outline">
         <mat-label>Class name</mat-label>
         <input matInput cdkFocusInitial name="name" formControlName="name">
     </mat-form-field>
 
     <div style="display:flex;flex-direction:row;justify-content: space-between;">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>I want to learn...</mat-label>
             <mat-select name="sourceLanguage" formControlName="sourceLanguage">
                 <mat-option *ngFor="let country of countries" [value]="country.value">
@@ -20,7 +20,7 @@
 
         <span><mat-icon style="font-size: 2em;margin-top: 50%;">chevron_right</mat-icon></span>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="outline">
             <mat-label>translated to...</mat-label>
             <mat-select name="targetLanguage" formControlName="targetLanguage">
                 <mat-option *ngFor="let country of countries" [value]="country.value">

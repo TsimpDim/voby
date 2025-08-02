@@ -11,7 +11,7 @@ $voby: mat.define-light-theme((
         accent: $my-accent
     ),
     typography: mat.define-typography-config(),
-    density: 0,
+    density: 0
 ));
 
 @include mat.all-component-themes($voby);
