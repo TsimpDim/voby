@@ -57,6 +57,9 @@
 
     button {
         border: none;
+        height: 48px;
+        font-size: 1.3em;
+        padding: 0;
 
         &:first-of-type {
             border-top-right-radius: 0;
@@ -71,9 +74,8 @@
         }
 
         &:last-of-type {
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-
+            border-top-right-radius: 100px;
+            border-bottom-right-radius: 100px;
             background-color: rgb(240, 240, 240);
         }
 
@@ -104,6 +106,8 @@
         width: auto;
         padding: 0 .8em;
         background-color: #f0f0f0;
+        height: 48px;
+        font-size: 1.3em;
 
         &:first-of-type {
             border-top-right-radius: 0;
