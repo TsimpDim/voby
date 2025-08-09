@@ -6,11 +6,11 @@
 <voby-dashboard-flash [hide]="this.toShowQuizButton" (close)="hideQuiz()"></voby-dashboard-flash>
 <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 <div style="margin: 2em;" *ngIf="!loading && this.classes.length > 0">
-  <div style="display: flex;flex-direction: row;">
+  <div style="display: flex;flex-direction: row;align-items: center;">
     <mat-select style="width: auto;font-size: 2em;" [value]="selectedClassId" [placeholder]="this.selectedClass.name" (selectionChange)="selectClass($event.value)">
       <mat-option *ngFor="let class of classes" [value]="class.id">{{class.name}}</mat-option>
     </mat-select>
-    <div style="display: flex; flex-direction: row;">
+    <div style="display: flex; flex-direction: row;align-items: center;">
       <div class="country">{{this.getCountryEmoji(this.selectedClass.source_language)}}</div>
       <p>></p>
       <div class="country">{{this.getCountryEmoji(this.selectedClass.target_language)}}</div> Contains {{this.selectedClass.sets.length}} vocabulary sets
