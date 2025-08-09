@@ -37,11 +37,25 @@
         width: 50%;
         padding: 0;
         margin-top: .5em;
+
+        .answer-input {
+            --mdc-outlined-text-field-outline-color: white;
+            --mdc-outlined-text-field-focus-outline-color: white;
+            --mdc-outlined-text-field-hover-outline-color: white;
+
+            input {
+                color: white;
+
+                &::placeholder {
+                    color: white;
+                }
+            }
+        }
     }
 
     button[type=submit] {
         margin-right: 2em;
-        margin-top: 2em;
+        margin-top: 1em;
         // float: right;
         // vertical-align: top;
         color: #fdd441;
