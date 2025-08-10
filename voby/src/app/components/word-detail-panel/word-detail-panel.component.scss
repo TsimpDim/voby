@@ -16,16 +16,16 @@
 
 .word-date {
     opacity: 50%;
-    margin-top: 0em;
-    margin-left: auto;
-    margin-right: .4em;
-    margin-bottom: 0;
+    font-size: .7em;
+    font-weight: 300;
+    margin-top: -.3em;
 }
 
 .info-container {
     background-color: #f9f9f9;
     border-radius: 10px;
-    padding: 1em;
+    
+    margin: .5em;
     display: block;
     margin-bottom: 10px;
 }
@@ -51,4 +51,20 @@ mat-chip {
 
 .pointer-on-hover:hover {
     cursor: pointer;
+}
+
+.default-dash {
+    margin: 0;
+
+    &.chip {
+        margin-left: 8px;
+    }
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+    width: 100%;
 }
