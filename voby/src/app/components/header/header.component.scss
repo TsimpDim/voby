@@ -2,6 +2,11 @@
     cursor: pointer;
 }
 
+.mat-mdc-progress-bar {
+    --mdc-linear-progress-track-height: 20px;
+    --mdc-linear-progress-active-indicator-height: 20px;
+}
+
 .mat-toolbar {
     display: flex;
     flex-direction:row;
@@ -19,11 +24,9 @@ img:hover {
 .xp {
     vertical-align: middle;
     align-items: center;
-    margin-top: auto;
-    margin-bottom: auto;
-    margin-right: 1em;
     display: flex;
     flex-direction: row;
+    margin: 0 auto;
 
     .mat-icon {
         margin-top: auto;
@@ -32,7 +35,6 @@ img:hover {
 }
 
 .xp-bar {
-    height: 20px;
     width: 110px;
     border-radius: 100px;
     overflow: hidden;
