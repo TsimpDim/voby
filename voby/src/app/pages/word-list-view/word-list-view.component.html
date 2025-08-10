@@ -70,6 +70,7 @@
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords; index as i">
                 <voby-single-word-row
+                    style="margin-bottom: 1em;"
                     [word]="word"
                     [selected]="word !== undefined && word.id === selectedWord?.id"
                     (click)="this.selectWord(word.id)"
