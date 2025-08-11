@@ -2,15 +2,17 @@
     margin-top: 2em;
 }
 
-.mat-card-content {
+.question-container {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 }
 
-.mat-card {
-    border-radius: 10px;
+.call-to-action {
+    margin: 0;
+    margin-left: 1em;
+    font-weight: 400;
 }
 
 .answer-input {
@@ -29,21 +31,36 @@
 
     #submit-button {
         background-color: #673ab7;
+        padding: 1em;
         margin: 1em;
-        font-size: 1.3em;
-        color: white;
+        margin-left: 0;
+        font-size: 1em;
+        color: #ffd740;
         border-radius: 100px;
     
         &:disabled {
             color: lightgray;
+            mat-icon {
+                color: lightgray;
+            }
+            background-color: #3a2068;
+        }
+
+        mat-icon {
+            color: #ffd740;
+            vertical-align: -6px;
         }
     }
     
     #refresh-button {
         background-color: #ffd740;
         margin: 1em;
-        margin-right: 0;
-        font-size: 1.3em;
+        padding: 1em;
+        font-size: 1em;
         border-radius: 100px;
+
+        mat-icon {
+            margin-right: 0;
+        }
     }
 }
