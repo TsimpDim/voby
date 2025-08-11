@@ -1,12 +1,24 @@
 .btn-main {
     border: none;
-    border-top-right-radius: 100px;
-    border-bottom-right-radius: 100px;
-    border-top-left-radius: 100px;
-    border-bottom-left-radius: 100px;
-
+    border-radius: 100px;
     background-color: #673ab7;
     max-width: 200em;
     width: auto;
-    padding: 0 1em;
+    margin: 1em;
+
+    mat-icon {
+        margin-right: 0;
+    }
+}
+
+mat-card {
+    margin: 1em;
+    border-radius: 10px;
+
+    mat-card-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-bottom: 1.2em;
+    }
 }

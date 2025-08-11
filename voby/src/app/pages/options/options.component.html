@@ -5,7 +5,7 @@
     <mat-card>
         <mat-card-content *ngFor="let defaultShortcut of this.defaultShortcuts">
             <button mat-icon-button color="primary" disabled><mat-icon>close</mat-icon></button>
-            <mat-form-field>
+            <mat-form-field subscriptSizing="dynamic" appearance="outline">
                 <mat-label>Main Key</mat-label>
                 <mat-select disabled [value]="defaultShortcut.key_1">
                     <mat-option selected [value]="defaultShortcut.key_1">{{defaultShortcut.key_1}}</mat-option>
@@ -14,14 +14,14 @@
 
             <span style="margin: 0 1em; font-size: .8em;color:grey"><mat-icon>add</mat-icon></span>
 
-            <mat-form-field style="width: 5em">
+            <mat-form-field subscriptSizing="dynamic" style="width: 5em" appearance="outline">
                 <mat-label>Secondary Key</mat-label>
                 <input disabled matInput [value]="defaultShortcut.key_2">
             </mat-form-field>
 
             <span style="margin: 0 1em; font-size: .8em;color:grey"><mat-icon>arrow_forward</mat-icon></span>
 
-            <mat-form-field style="width: 8em">
+            <mat-form-field subscriptSizing="dynamic" style="width: 8em" appearance="outline">
                 <mat-label>Result</mat-label>
                 <input disabled matInput [value]="defaultShortcut.result">
             </mat-form-field>           
@@ -33,7 +33,7 @@
             <ng-container *ngFor="let us of userShortcuts; index as i">
                 <mat-card-content *ngIf="userShortcuts.length > 0">
                     <button mat-icon-button color="primary" (click)="deleteUserShortcut(us.id)"><mat-icon>close</mat-icon></button>
-                    <mat-form-field>
+                    <mat-form-field subscriptSizing="dynamic" appearance="outline">
                         <mat-label>Main Key</mat-label>
                         <mat-select [formControlName]="i.toString() + 'k1'" matNativeControl required [value]="us.key_1">
                             <mat-option selected value="ALT">ALT</mat-option>
@@ -45,27 +45,27 @@
 
                     <span style="margin: 0 1em; font-size: .8em;color:grey"><mat-icon>add</mat-icon></span>
     
-                    <mat-form-field style="width: 5em">
+                    <mat-form-field subscriptSizing="dynamic" style="width: 5em" appearance="outline">
                         <mat-label>Secondary Key</mat-label>
                         <input [formControlName]="i.toString() + 'k2'" matInput placeholder="A" [value]="us.key_2" maxlength="1">
                     </mat-form-field>
     
                     <span style="margin: 0 1em; font-size: .8em;color:grey"><mat-icon>arrow_forward</mat-icon></span>
     
-                    <mat-form-field style="width: 5em">
+                    <mat-form-field subscriptSizing="dynamic" style="width: 5em" appearance="outline">
                         <mat-label>Result</mat-label>
                         <input [formControlName]="i.toString() + 'r'" matInput placeholder="A" [value]="us.result" maxlength="2">
                     </mat-form-field>           
                 </mat-card-content>
             </ng-container>
-            <button mat-icon-button color="accent" class="btn-main" (click)="addUserShortcut()"><mat-icon>add</mat-icon>Add new</button>
+            <button mat-button color="accent" class="btn-main" (click)="addUserShortcut()"><mat-icon>add</mat-icon>Add new</button>
         </form>
     </mat-card>
 
     <h2 style="margin-left:1em; margin-top: 2em;">Options</h2>
     <mat-card>
         <mat-card-content>
-            <mat-form-field>
+            <mat-form-field subscriptSizing="dynamic" appearance="outline">
                 <mat-label>Test Questions</mat-label>
                 <input type="number" #numTestQuestions (change)="saveOptions()" matInput max="20" min="1">
             </mat-form-field>
