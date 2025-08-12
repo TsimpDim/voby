@@ -50,7 +50,7 @@
                 </mat-autocomplete>
             </mat-form-field>
             <button mat-icon-button (click)="search(false, true)" matTooltip="Search"><mat-icon>search</mat-icon></button>
-            <voby-favorite (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
+            <voby-favorite (click)="toggleShowFavorites()" [isFavorite]="this.showingFavorites" matTooltip="Show only favorites"></voby-favorite> 
             <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
