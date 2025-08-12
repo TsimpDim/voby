@@ -58,11 +58,14 @@
             </mat-menu>
         </div>
 
-        <div class="action-cont" *ngIf="this.needSet">
+        <div class="action-cont" *ngIf="this.needSet; else placeholder">
             <button mat-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
             <button mat-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
             <button mat-button (click)="deleteSet()" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
         </div>
+        <ng-template #placeholder>
+            <div style="visibility: hidden;"></div>
+          </ng-template>
     </div>
 
     <voby-loading-ind *ngIf="loadingWords"></voby-loading-ind>
