@@ -7,9 +7,18 @@
 
 .intro {
     background-color: #673ab7;
-    height: 93.25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
     width: 50vw;
     z-index: -1;
+}
+
+.visual {
+    margin-top: 1em;
+    width: 50%;
+    height: 50%;
 }
 
 form {
@@ -20,12 +29,6 @@ form {
     flex-direction: column;
     justify-content: center;
     width: 400px;
-}
-
-img {
-    margin-top: 4em;
-    width: 70%;
-    height: 70%;
 }
 
 .mat-form-field {
