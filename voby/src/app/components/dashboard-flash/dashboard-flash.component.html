@@ -10,8 +10,8 @@
         <p class="word-to-translate">{{this.getCountryEmoji(this.testWord.source_language)}} {{testWord.word}}</p>
         <mat-icon style="margin-top: .6em;">arrow_forward</mat-icon>
         <div class="answer-container">
-            <mat-form-field class="answer-input">
-                <input matInput #translation>
+            <mat-form-field class="answer-input" appearance="outline">
+                <input matInput #translation placeholder="?">
                 <p matPrefix>{{this.getCountryEmoji(this.testWord.target_language)}}</p>
             </mat-form-field>
 
@@ -24,7 +24,7 @@
     </ng-container>
     
     <ng-container *ngIf="this.answerCorrect === false">
-        <p class="result">False!</p>
-        <p class="explanation">The answer is:<br>"{{testWord.translations}}"</p>
+        <p class="result">False</p>
+        <p class="explanation">The answer is:<br>"<strong>{{testWord.translations}}</strong>"</p>
     </ng-container>
 </div>

@@ -18,13 +18,14 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { NgFor, NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'voby-word-form',
     templateUrl: './word-form.component.html',
     styleUrls: ['./word-form.component.scss'],
     standalone: true,
+    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatChipsModule, NgFor, MatIconModule, MatAutocompleteModule, NgIf, MatOptionModule, MatButtonModule, MatDialogModule, WordPreviewComponent]
 })
 export class WordFormComponent implements OnInit, OnDestroy {

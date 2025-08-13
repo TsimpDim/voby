@@ -317,7 +317,7 @@ class ClassExcelView(APIView):
         font_style = xlwt.XFStyle()
         font_style.font.bold = True
 
-        columns = ['word', 'translations', 'plural', 'favorite', 'general', 'examples', 'example_translations', 'set']
+        columns = ['word', 'translations', 'plural', 'favorite', 'general', 'examples', 'example_translations', 'sets']
 
         for col_num in range(len(columns)):
             ws.write(row_num, col_num, columns[col_num], font_style)
@@ -325,7 +325,7 @@ class ClassExcelView(APIView):
         # Sheet body, remaining rows
         font_style = xlwt.XFStyle()
 
-        rows = Word.objects.filter(user=user.id, set__vclass_id=class_id).values_list('word', 'translations', 'plural', 'favorite', 'general', 'examples__text','examples__translation', 'set__name')
+        rows = Word.objects.filter(user=user.id, sets__vclass_id=class_id).values_list('word', 'translations', 'plural', 'favorite', 'general', 'examples__text','examples__translation', 'sets__name')
         for row in rows:
             row_num += 1
             for col_num in range(len(row)):

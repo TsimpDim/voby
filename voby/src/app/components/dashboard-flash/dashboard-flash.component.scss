@@ -25,7 +25,7 @@
         font-weight: 400;
         padding: 0;
         position: relative;
-        top: 40%;
+        top: 10%;
         width: 60%;
     }
 
@@ -37,11 +37,29 @@
         width: 50%;
         padding: 0;
         margin-top: .5em;
+
+        .answer-input {
+            --mdc-outlined-text-field-outline-color: white;
+            --mdc-outlined-text-field-focus-outline-color: white;
+            --mdc-outlined-text-field-hover-outline-color: white;
+
+            p {
+                margin: 0;
+            }
+
+            input {
+                color: white;
+
+                &::placeholder {
+                    color: white;
+                }
+            }
+        }
     }
 
     button[type=submit] {
         margin-right: 2em;
-        margin-top: 2em;
+        margin-top: 1em;
         // float: right;
         // vertical-align: top;
         color: #fdd441;
@@ -82,7 +100,6 @@
 
     .explanation {
         margin: auto;
-        margin-top: 1em;
         color: white;
         font-size: 1.2em;
         font-weight: normal;

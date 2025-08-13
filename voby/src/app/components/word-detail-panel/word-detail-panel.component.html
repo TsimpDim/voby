@@ -2,8 +2,11 @@
 <mat-card *ngIf="word !== undefined" class="word-detail-container" (dblclick)="editWord()">
     <div class="word-card-content">
         <mat-card-content style="margin-bottom: 1em;">
-            <div style="display: flex; flex-direction: row; justify-content: space-between;width: 100%;">
-                <mat-card-title class="header">{{word.word}}</mat-card-title>
+            <div class="header">
+                <mat-card-title>
+                    {{word.word}}
+                    <p class="word-date">Added {{word.created | date:'mediumDate'}}</p>
+                </mat-card-title>
                 <div>
                     <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
                     <button mat-icon-button *ngIf="this.word.sets.length === 1" (click)="deleteWord()" class="action-icon" matTooltip="Delete word">
@@ -31,17 +34,15 @@
             </mat-chip-list>
         </mat-card-content> -->
 
-        <h4 class="word-date">Added {{word.created | date:'mediumDate'}}</h4>
         <mat-card-content class="info-container">
             <mat-card-title>General</mat-card-title>
-            
-            <p *ngIf="!word?.general">-</p>
+            <p *ngIf="!word?.general" class="default-dash">-</p>
             <p style="white-space: pre">{{word.general}}</p>
         </mat-card-content>
 
         <mat-card-content class="info-container">
             <mat-card-title>Examples</mat-card-title>
-                <p *ngIf="word?.examples?.length === 0">-</p>
+                <p *ngIf="word?.examples?.length === 0" class="default-dash">-</p>
                 <p *ngFor="let example of word?.examples">
                     {{this.getCountryEmoji(vclass.source_language)}} {{example.text}}
                     <mat-divider></mat-divider>
@@ -52,7 +53,7 @@
         <mat-card-content class="info-container">
             <mat-card-title>Related words</mat-card-title>
             <mat-chip-listbox> 
-                <p *ngIf="word?.related_words?.length === 0">-</p>
+                <p *ngIf="word?.related_words?.length === 0" class="default-dash chip">-</p>
                 <mat-chip-option 
                     *ngFor="let related of word?.related_words"
                     (click)="!this.isSet ? this.selectWord(related.id) : selectOrRedirectPreviewWord(related)"
@@ -69,7 +70,7 @@
         <mat-card-content class="info-container"> 
             <mat-card-title>Tags</mat-card-title>
             <mat-chip-listbox> 
-                <p *ngIf="word?.tags?.length === 0">-</p>
+                <p *ngIf="word?.tags?.length === 0" class="default-dash chip">-</p>
                 <mat-chip-option 
                     *ngFor="let tag of word?.tags"
                     (click)="addTagToSearch(tag.id)"

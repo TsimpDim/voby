@@ -6,13 +6,14 @@ import { AuthService } from 'src/app/services/auth.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'voby-register-form',
     templateUrl: './register-form.component.html',
     styleUrls: ['./register-form.component.scss'],
     standalone: true,
+    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })
 export class RegisterFormComponent {

@@ -4,6 +4,7 @@ form {
     width: 500px;
     height: 100%;
     overflow-x: hidden;
+    margin: 2em;
 }
 
 .example-translation {
@@ -11,11 +12,6 @@ form {
 }
 
 .remove-example-btn {
-    width: 35px;
-    height: 35px;
-    min-width: 0;
-    min-height: 0;
-    padding: 0;
     border-radius: 100px;
 }
 
@@ -24,11 +20,13 @@ form {
     margin-top:-1em;
 }
 
+
 .similar-word-suggestion {
-    background-color: #fffbee;
+    background-color: #fffbee !important;
     border: 2px #fed53f dashed;
+    font-size: 1.2em;
 
     &:hover {
-        cursor: pointer;
+        cursor: pointer !important;
     }
 }

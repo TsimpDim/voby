@@ -7,13 +7,14 @@ import { ExperienceService } from 'src/app/services/experience.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
 @Component({
     selector: 'voby-login-form',
     templateUrl: './login-form.component.html',
     styleUrls: ['./login-form.component.scss'],
     standalone: true,
+    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule]
 })
 export class LoginFormComponent {

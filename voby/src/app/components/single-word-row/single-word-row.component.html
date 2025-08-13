@@ -1,12 +1,13 @@
-<mat-card matRipple [ngClass]="{'word': true, 'selected-word': selected}" >
-    <mat-card-content class="card-list-item-cont">
-        <mat-card-title class="card-title">
-            <p class="word-word">
+<mat-card matRipple [ngClass]="{'card': true, 'selected-word': selected}" >
+    <mat-card-content class="card-content">
+        <div class="card-title">
+            <div class="word-cont">
                 <mat-icon *ngIf="word.sets.length > 1" matTooltip="This word is linked to multiple sets">link</mat-icon>
-                {{word.word}}</p>
+                <p class="word">{{word.word}}</p>
+            </div>
             <p class="plural">{{word.plural}}</p>
-        </mat-card-title>
-        <p class="alternatives">
+        </div>
+        <p class="translations">
             {{this.displayTranslations(word.translations)}}
         </p>
         <voby-favorite

@@ -1,31 +1,19 @@
 <ng-container>
     <div id="header">
         <div id="info" *ngIf="!this.loadingHeader">
-            <div id="data" *ngIf="this.vclass">
-                <div (dblclick)="this.needSet && this.editSet()" style="display: flex;flex-direction: column;">
-                    <span *ngIf="this.needSet">{{this.set.name}}</span>
-                    <span *ngIf="!this.needSet">{{this.vclass.name}}</span>
-                    <span *ngIf="this.needSet" id="class-title">{{this.vclass.name}}</span>
-                </div>
+            <div id="data" *ngIf="this.vclass" (dblclick)="this.needSet && this.editSet()" style="display: flex;flex-direction: column;">
                 <div id="emojis">
-                    <span class="country" [title]="vclass.source_language">{{this.getCountryEmoji(vclass.source_language)}}</span>
-                    > 
-                    <span class="country" [title]="vclass.target_language">{{this.getCountryEmoji(vclass.target_language)}}</span>
+                    <div *ngIf="this.needSet">{{this.set.name}}</div>
+                    <div style="font-size: .8em; margin-left: .2em;">{{this.getCountryEmoji(this.vclass.source_language)}} > {{this.getCountryEmoji(this.vclass.target_language)}}</div>
                 </div>
-                <div>
-                    <h4 class="size">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</h4>
-                </div>
-            </div>
-
-            <div class="action-cont" *ngIf="this.needSet">
-                <button mat-icon-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
-                <button mat-icon-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
-                <button mat-icon-button (click)="deleteSet()" class="action-icon" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
+                <span *ngIf="!this.needSet">{{this.vclass.name}}</span>
+                <span *ngIf="this.needSet" id="class-title">{{this.vclass.name}}</span>
+                <div class="size">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</div>
             </div>
         </div>
 
-        <div id="search-bar">
-            <mat-form-field class="search-field">
+        <div id="search-bar" *ngIf="!this.loadingHeader">
+            <mat-form-field class="search-field" subscriptSizing="dynamic" appearance="outline">
                 <mat-label>Search</mat-label>
                 <mat-chip-grid #chipList>
                     <mat-chip-row
@@ -61,14 +49,23 @@
                     </mat-option>
                 </mat-autocomplete>
             </mat-form-field>
-            <button mat-icon-button (click)="search(false, true)" style="margin-top: auto;margin-bottom: auto;" matTooltip="Search"><mat-icon>search</mat-icon></button>
-            <voby-favorite style="margin-top: auto;margin-bottom:auto;" (click)="toggleShowFavorites()" matTooltip="Show only favorites"></voby-favorite> 
-            <button mat-icon-button [matMenuTriggerFor]="menu" style="margin-top: auto;margin-bottom: auto;" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
+            <button mat-icon-button (click)="search(false, true)" matTooltip="Search"><mat-icon>search</mat-icon></button>
+            <voby-favorite (click)="toggleShowFavorites()" [isFavorite]="this.showingFavorites" matTooltip="Show only favorites"></voby-favorite> 
+            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
                 <button mat-menu-item (click)="sortDateAsc()">Older first</button>
             </mat-menu>
         </div>
+
+        <div class="action-cont" *ngIf="this.needSet; else placeholder">
+            <button mat-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
+            <button mat-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
+            <button mat-button (click)="deleteSet()" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
+        </div>
+        <ng-template #placeholder>
+            <div style="visibility: hidden;"></div>
+          </ng-template>
     </div>
 
     <voby-loading-ind *ngIf="loadingWords"></voby-loading-ind>
@@ -76,6 +73,7 @@
         <div class="word-container" *ngIf="this.filteredWords.length > 0">
             <ng-container *ngFor="let word of this.filteredWords; index as i">
                 <voby-single-word-row
+                    style="margin-bottom: 1em;"
                     [word]="word"
                     [selected]="word !== undefined && word.id === selectedWord?.id"
                     (click)="this.selectWord(word.id)"

@@ -26,16 +26,8 @@
         box-shadow: rgb(255, 215, 64) 5px 5px 0px;
     }
 
-    mat-card-content {
+    mat-card-content p {
         margin: 0;
-        padding: 0;
-
-        div {
-            overflow: hidden;
-            white-space: nowrap;
-            text-overflow: ellipsis;
-            height: inherit;
-            width: inherit;
-        }
+        font-size: .7em;
     }
 }

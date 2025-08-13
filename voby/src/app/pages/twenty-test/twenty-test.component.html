@@ -2,15 +2,18 @@
     <voby-loading-ind *ngIf="loading"></voby-loading-ind>
 
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h3 style="padding: 1em;">Can you answer all {{questions.length}} questions correctly? </h3>
+        <h2 class="call-to-action">Can you answer all {{questions.length}} questions correctly? </h2>
         <mat-slide-toggle [disabled]="!hasFavorites" (click)="toggleFavorites()" style="margin-right: 3em;"><mat-icon>favorite</mat-icon>only</mat-slide-toggle>
     </div>
 
     <mat-card *ngFor="let q of questions; index as i" style="margin: 2em">
-        <mat-card-content>
-            <div style="font-size: 2em;"><span style="font-size: 2em;vertical-align: -12px;">{{this.getCountryEmoji(q.source_language)}}</span> {{q['word']}}</div>
-            <div class="answer-container">
-                <mat-form-field class="answer-input">
+        <mat-card-content class="question-container">
+            <div style="font-size: 2em;">
+                <span style="font-size: inherit;">{{this.getCountryEmoji(q.source_language)}}</span>
+                {{q['word']}}
+            </div>
+            <div>
+                <mat-form-field class="answer-input" appearance="outline">
                     <mat-label>Answer</mat-label>
                     <input [disabled]="questionState[i] !== 0" matInput placeholder="type your answer here..." #input>
                     <p matPrefix style="margin: .5em;font-size: 1.5em;">{{this.getCountryEmoji(q.target_language)}}</p>
@@ -28,7 +31,7 @@
 
 
     <div class="action-container">
-        <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon></button>
-        <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" id="submit-button">Submit <mat-icon fontIcon="check" style="color: #ffd740;vertical-align: -6px;"></mat-icon></button>
+        <button mat-button *ngIf="this.questionsValidated" (click)="refreshTest()" [disabled]="!this.questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon>Again</button>
+        <button mat-button type="submit" (click)="validateAnswers()" [disabled]="this.questionsValidated" id="submit-button"><mat-icon>check</mat-icon>Submit</button>
     </div>
 </div>

@@ -1,5 +1,5 @@
 <form [formGroup]="wordForm" #form id="word-form-container">
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline" style="margin-top: .3em;">
         <mat-label>Word</mat-label>
         <input cdkFocusInitial
             matInput
@@ -10,7 +10,7 @@
         >
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label>Translations</mat-label>
         <mat-chip-grid
             #chipGrid
@@ -18,8 +18,7 @@
             name="translation"
             formControlName="translation"
         >
-            <mat-chip-row *ngFor="let translation of translations"
-                            (removed)="removeTranslation(translation.value)">
+            <mat-chip-row *ngFor="let translation of translations" (removed)="removeTranslation(translation.value)">
                 {{translation.value}}
                 <button matChipRemove>
                     <mat-icon>cancel</mat-icon>
@@ -36,7 +35,7 @@
         </mat-chip-grid>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label>Plural</mat-label>
         <input
             matInput
@@ -45,12 +44,12 @@
         >
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label>General</mat-label>
         <textarea matInput formControlName="general"></textarea>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label>Related words</mat-label>
         <mat-chip-grid #chipList>
             <mat-chip-row
@@ -70,14 +69,16 @@
                 (keyup)="filterWords()"
             >
 
-            <mat-chip
-                *ngFor="let word of suggestedRelatedWords"
-                (click)="selectRelatedWord($event, word.id)"
-                class="similar-word-suggestion"
-                (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
-            >
-                <mat-icon *ngIf="this.linkingIconsActive">link</mat-icon>{{word.word}}
-            </mat-chip>
+            <mat-chip-listbox>
+                <mat-chip-option trailingIco="link"
+                    *ngFor="let word of suggestedRelatedWords"
+                    (click)="selectRelatedWord($event, word.id)"
+                    class="similar-word-suggestion"
+                    (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
+                >
+                    <span style="display: flex;flex-direction: row;align-items: center;"><mat-icon *ngIf="this.linkingIconsActive">link</mat-icon>{{word.word}}</span>
+                </mat-chip-option>
+            </mat-chip-listbox>
         </mat-chip-grid>
 
         <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event, $event.option.value)">
@@ -87,16 +88,16 @@
         </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline">
         <mat-label>Tags</mat-label>
         <mat-chip-grid #chipGridTags aria-label="Tags"
             name="tags"
             formControlName="tags">
             <mat-chip-row *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
                 <mat-icon>tag</mat-icon>{{tag.value}}
-              <button matChipRemove>
-                <mat-icon>cancel</mat-icon>
-              </button>
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
             </mat-chip-row>
             <input
                 placeholder="tag..."
@@ -124,7 +125,7 @@
             <button mat-button type="button" (click)="removeExample(i)" class="remove-example-btn"><mat-icon>close</mat-icon></button>
             <div style="display: flex; flex-direction: column;width:100%">
 
-                <mat-form-field class="input" appearance="fill">
+                <mat-form-field class="input" appearance="outline">
                     <mat-label>Text</mat-label>
                     <input
                         matInput
@@ -132,7 +133,7 @@
                         [formControlName]="i.toString() + 'tx'"
                     >
                 </mat-form-field>
-                <mat-form-field class="input example-translation" appearance="fill">
+                <mat-form-field class="input example-translation" appearance="outline">
                     <mat-label>Translation</mat-label>
                     <input
                         matInput

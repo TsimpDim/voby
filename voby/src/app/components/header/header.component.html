@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="checkIsLoggedIn()">
     <img  src="../../assets/voby_full_tsp.png" height="130px" (click)="goHome()">
     <div style="display: flex;flex-direction:row;">
         <button mat-icon-button *ngIf="!checkIsLoggedIn()" class="menu-icon" (click)="goToLogin()">
