@@ -10,7 +10,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { provideRouter, withRouterConfig } from '@angular/router';
@@ -47,10 +47,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 
-@NgModule({
-    declarations: [AppComponent],
-    imports: [
-        BrowserModule,
+@NgModule({ declarations: [AppComponent],
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
         BrowserAnimationsModule,
         MatToolbarModule,
@@ -68,7 +66,6 @@ import { MatChipsModule } from '@angular/material/chips';
         MatOptionModule,
         ReactiveFormsModule,
         FormsModule,
-        HttpClientModule,
         MatSelectModule,
         MatMenuModule,
         MatAutocompleteModule,
@@ -96,11 +93,8 @@ import { MatChipsModule } from '@angular/material/chips';
         WordDetailPanelComponent,
         SingleWordRowComponent,
         WordListViewComponent,
-        ConfirmDialogComponent
-    ],
-    providers: [
+        ConfirmDialogComponent], providers: [
         provideRouter(routes, withRouterConfig({ onSameUrlNavigation: 'reload' })),
-    ],
-    bootstrap: [AppComponent]
-})
+        provideHttpClient(withInterceptorsFromDi()),
+    ] })
 export class AppModule { }
