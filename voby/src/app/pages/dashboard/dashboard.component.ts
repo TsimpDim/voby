@@ -29,7 +29,6 @@ export interface DialogData {
     selector: 'voby-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    standalone: true,
     imports: [NgIf, MatButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatSelectModule, NgFor, MatOptionModule, MatCardModule, MatRippleModule, MatTooltipModule]
 })
 export class DashboardComponent implements OnInit {

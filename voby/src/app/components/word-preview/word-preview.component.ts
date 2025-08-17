@@ -6,7 +6,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'voby-word-preview',
     templateUrl: './word-preview.component.html',
     styleUrls: ['./word-preview.component.scss'],
-    standalone: true,
     imports: [NgIf, MatCardModule, NgFor]
 })
 export class WordPreviewComponent {

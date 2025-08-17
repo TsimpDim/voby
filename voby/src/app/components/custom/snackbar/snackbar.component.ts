@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
     selector: 'voby-snackbar',
     templateUrl: './snackbar.component.html',
     styleUrls: ['./snackbar.component.scss'],
-    standalone: true,
     imports: [MatIconModule]
 })
 export class SnackbarComponent implements OnInit {

@@ -18,7 +18,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'noun-test',
     templateUrl: './noun-test.component.html',
     styleUrls: ['./noun-test.component.scss'],
-    standalone: true,
     imports: [NgIf, LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatExpansionModule, NgFor, MatCardModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatTooltipModule, MatButtonModule]
 })
 export class NounTestComponent implements OnInit {

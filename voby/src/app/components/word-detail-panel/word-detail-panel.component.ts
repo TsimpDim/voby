@@ -21,7 +21,6 @@ import { NgIf, NgFor, NgClass, DatePipe } from '@angular/common';
     selector: 'voby-word-detail-panel',
     templateUrl: './word-detail-panel.component.html',
     styleUrls: ['./word-detail-panel.component.scss'],
-    standalone: true,
     imports: [NgIf, MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, NgFor, MatDividerModule, MatChipsModule, NgClass, WordPreviewComponent, DatePipe]
 })
 export class WordDetailPanelComponent {

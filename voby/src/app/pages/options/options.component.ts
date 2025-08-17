@@ -18,7 +18,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'voby-options',
     templateUrl: './options.component.html',
     styleUrls: ['./options.component.scss'],
-    standalone: true,
     imports: [NgIf, LoadingIndComponent, MatCardModule, NgFor, MatButtonModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatInputModule, ReactiveFormsModule]
 })
 export class OptionsComponent implements OnInit {

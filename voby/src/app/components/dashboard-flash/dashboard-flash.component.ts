@@ -16,7 +16,6 @@ import { NgIf } from '@angular/common';
     selector: 'voby-dashboard-flash',
     templateUrl: './dashboard-flash.component.html',
     styleUrls: ['./dashboard-flash.component.scss'],
-    standalone: true,
     imports: [NgIf, LoadingIndComponent, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule]
 })
 export class DashboardFlashComponent implements OnInit, OnChanges {

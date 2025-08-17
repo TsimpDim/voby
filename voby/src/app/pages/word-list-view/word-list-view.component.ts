@@ -32,7 +32,6 @@ import { NgIf, NgFor, NgClass } from '@angular/common';
     selector: 'voby-word-list-view',
     templateUrl: './word-list-view.component.html',
     styleUrls: ['./word-list-view.component.scss'],
-    standalone: true,
     imports: [NgIf, MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, NgFor, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
 })
 export class WordListViewComponent {

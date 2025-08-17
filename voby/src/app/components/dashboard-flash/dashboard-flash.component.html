@@ -7,12 +7,12 @@
             <button mat-icon-button class="close-button" (click)="this.closeTest()"><mat-icon>close</mat-icon></button>
         </div>
 
-        <p class="word-to-translate">{{this.getCountryEmoji(this.testWord.source_language)}} {{testWord.word}}</p>
+        <p class="word-to-translate">getCountryEmoji(this.testWord.source_language)}} {{testWord.word}}</p>
         <mat-icon style="margin-top: .6em;">arrow_forward</mat-icon>
         <div class="answer-container">
             <mat-form-field class="answer-input" appearance="outline">
                 <input matInput #translation placeholder="?">
-                <p matPrefix>{{this.getCountryEmoji(this.testWord.target_language)}}</p>
+                <p matPrefix>getCountryEmoji(this.testWord.target_language)}}</p>
             </mat-form-field>
 
             <button mat-icon-button type="submit" (click)="checkAnswer()" color="accent"><mat-icon fontIcon="check"></mat-icon></button>

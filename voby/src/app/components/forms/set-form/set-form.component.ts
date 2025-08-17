@@ -13,8 +13,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/mat
     selector: 'voby-set-form',
     templateUrl: './set-form.component.html',
     styleUrls: ['./set-form.component.scss'],
-    standalone: true,
-    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+    providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
     imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatDialogModule, MatButtonModule]
 })
 export class SetFormComponent {

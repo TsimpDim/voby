@@ -44,9 +44,9 @@
             <mat-card-title>Examples</mat-card-title>
                 <p *ngIf="word?.examples?.length === 0" class="default-dash">-</p>
                 <p *ngFor="let example of word?.examples">
-                    {{this.getCountryEmoji(vclass.source_language)}} {{example.text}}
+                    getCountryEmoji(vclass.source_language)}} {{example.text}}
                     <mat-divider></mat-divider>
-                    {{this.getCountryEmoji(vclass.target_language)}} {{example.translation}}
+                    getCountryEmoji(vclass.target_language)}} {{example.translation}}
                 </p>
         </mat-card-content>
 

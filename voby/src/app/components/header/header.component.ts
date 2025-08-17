@@ -62,7 +62,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
             ])
         ])
     ],
-    standalone: true,
     imports: [MatToolbarModule, NgIf, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule]
 })
 export class HeaderComponent implements AfterViewInit {

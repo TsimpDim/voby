@@ -9,11 +9,11 @@
             [@animationTrigger]="animationState"
             *ngIf="this.userExperienceDiff !== this.userExperience"
             style="font-size: .7em;"    
-        >+{{this.userExperienceDiff}}</div>
+        >+userExperienceDiff}}</div>
 
         <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">
-            <div class="xp" matTooltip="{{this.remainingExp}} XP til next level">
-                <div [@xpAnimation]="this.userExperience">{{this.userExperience}}</div>
+            <div class="xp" matTooltip="remainingExp}} XP til next level">
+                <div [@xpAnimation]="this.userExperience">userExperience}}</div>
                 <mat-icon aria-label="xp">psychology</mat-icon>
                 <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
                 <mat-icon aria-label="level">workspace_premium</mat-icon>

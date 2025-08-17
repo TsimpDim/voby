@@ -12,7 +12,6 @@ import { MatCardModule } from '@angular/material/card';
     selector: 'voby-single-word-row',
     templateUrl: './single-word-row.component.html',
     styleUrls: ['./single-word-row.component.scss'],
-    standalone: true,
     imports: [MatCardModule, MatRippleModule, NgClass, NgIf, MatIconModule, MatTooltipModule, FavoriteComponent]
 })
 export class SingleWordRowComponent {

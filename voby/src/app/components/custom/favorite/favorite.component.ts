@@ -6,7 +6,6 @@ import { MatButtonModule } from '@angular/material/button';
     selector: 'voby-favorite',
     templateUrl: './favorite.component.html',
     styleUrls: ['./favorite.component.scss'],
-    standalone: true,
     imports: [MatButtonModule, MatIconModule]
 })
 export class FavoriteComponent {

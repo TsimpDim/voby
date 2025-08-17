@@ -3,12 +3,12 @@
         <div id="info" *ngIf="!this.loadingHeader">
             <div id="data" *ngIf="this.vclass" (dblclick)="this.needSet && this.editSet()" style="display: flex;flex-direction: column;">
                 <div id="emojis">
-                    <div *ngIf="this.needSet">{{this.set.name}}</div>
-                    <div style="font-size: .8em; margin-left: .2em;">{{this.getCountryEmoji(this.vclass.source_language)}} > {{this.getCountryEmoji(this.vclass.target_language)}}</div>
+                    <div *ngIf="this.needSet">set.name}}</div>
+                    <div style="font-size: .8em; margin-left: .2em;">getCountryEmoji(this.vclass.source_language)}} > getCountryEmoji(this.vclass.target_language)}}</div>
                 </div>
-                <span *ngIf="!this.needSet">{{this.vclass.name}}</span>
-                <span *ngIf="this.needSet" id="class-title">{{this.vclass.name}}</span>
-                <div class="size">{{this.numberOfWords}} word(s) total (page {{this.currentPage}}/{{this.numberOfPages}})</div>
+                <span *ngIf="!this.needSet">vclass.name}}</span>
+                <span *ngIf="this.needSet" id="class-title">vclass.name}}</span>
+                <div class="size">numberOfWords}} word(s) total (page currentPage}}/numberOfPages}})</div>
             </div>
         </div>
 
@@ -83,7 +83,7 @@
                 <p  
                 *ngIf="i < this.filteredWords.length -1 && word.created.split('T')[0] != this.filteredWords[i+1].created.split('T')[0]"
                 class="date-change"   
-            >{{this.filteredWords[i+1].created.split('T')[0]}}</p>
+            >filteredWords[i+1].created.split('T')[0]}}</p>
             </ng-container>
 
             <div class="page-number-cont">

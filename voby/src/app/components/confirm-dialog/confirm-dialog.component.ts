@@ -7,7 +7,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     selector: 'voby-confirm-dialog',
     templateUrl: './confirm-dialog.component.html',
     styleUrls: ['./confirm-dialog.component.scss'],
-    standalone: true,
     imports: [MatDialogModule, MatButtonModule]
 })
 export class ConfirmDialogComponent {

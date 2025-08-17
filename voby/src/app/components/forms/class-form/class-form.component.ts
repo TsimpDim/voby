@@ -22,8 +22,7 @@ export interface DialogData {
     selector: 'voby-class-form',
     templateUrl: './class-form.component.html',
     styleUrls: ['./class-form.component.scss'],
-    standalone: true,
-    providers: [{provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}],
+    providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
     imports: [NgIf, MatCardModule, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, NgFor, MatOptionModule, MatDialogModule, MatButtonModule]
 })
 export class ClassFormComponent {

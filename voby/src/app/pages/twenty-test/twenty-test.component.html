@@ -9,14 +9,14 @@
     <mat-card *ngFor="let q of questions; index as i" style="margin: 2em">
         <mat-card-content class="question-container">
             <div style="font-size: 2em;">
-                <span style="font-size: inherit;">{{this.getCountryEmoji(q.source_language)}}</span>
+                <span style="font-size: inherit;">getCountryEmoji(q.source_language)}}</span>
                 {{q['word']}}
             </div>
             <div>
                 <mat-form-field class="answer-input" appearance="outline">
                     <mat-label>Answer</mat-label>
                     <input [disabled]="questionState[i] !== 0" matInput placeholder="type your answer here..." #input>
-                    <p matPrefix style="margin: .5em;font-size: 1.5em;">{{this.getCountryEmoji(q.target_language)}}</p>
+                    <p matPrefix style="margin: .5em;font-size: 1.5em;">getCountryEmoji(q.target_language)}}</p>
                 </mat-form-field>
                 <mat-icon *ngIf="questionState[i] === this.CORRECT" style="color: green;" [matTooltip]="q['translations']">check_circle</mat-icon>
                 <mat-icon *ngIf="questionState[i] === this.INCORRECT" style="color: red;" [matTooltip]="q['translations']">cancel</mat-icon>

@@ -20,7 +20,6 @@ import { NgIf, NgFor } from '@angular/common';
     selector: 'voby-twenty-test',
     templateUrl: './twenty-test.component.html',
     styleUrls: ['./twenty-test.component.scss'],
-    standalone: true,
     imports: [NgIf, LoadingIndComponent, MatSlideToggleModule, MatIconModule, NgFor, MatCardModule, MatFormFieldModule, MatInputModule, MatTooltipModule, MatButtonModule]
 })
 export class TwentyTestComponent implements OnInit, OnDestroy {
