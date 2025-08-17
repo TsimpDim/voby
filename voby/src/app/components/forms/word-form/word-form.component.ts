@@ -212,7 +212,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
           this.filterWords();
           this.checkSimilar();
         },
-        error: () => {},
       });
   }
 
@@ -452,7 +451,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
           for (const dex of this.deletedExamples) {
             this.voby.deleteExample(dex[1]).subscribe({
-              next: () => {},
               error: (error: any) => {
                 this.loading = false;
                 this._snackBar.openFromComponent(SnackbarComponent, {
@@ -463,7 +461,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
                   duration: 3 * 1000,
                 });
               },
-              complete: () => {},
             });
           }
 
@@ -658,7 +655,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
           this.wordPreviewPanel.updatePosition(posX, posY);
         }
       },
-      error: () => {},
     });
   }
 
@@ -797,12 +793,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('document:keydown.control', ['$event'])
-  activateLinkIcon(event: KeyboardEvent) {
+  activateLinkIcon() {
     this.linkingIconsActive = true;
   }
 
   @HostListener('document:keyup.control', ['$event'])
-  deactivateLinkIcon(event: KeyboardEvent) {
+  deactivateLinkIcon() {
     this.linkingIconsActive = false;
   }
 }

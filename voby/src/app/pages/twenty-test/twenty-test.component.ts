@@ -102,7 +102,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
           .subscribe({
             next: (data: any) => {
               this.questions = data;
-              this.questions.forEach((e) => {
+              this.questions.forEach(() => {
                 this.questionState.push(this.NOT_ANSWERED);
               });
             },
@@ -112,7 +112,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
             complete: () => (this.loading = false),
           });
       },
-      error: (error: any) => {
+      error: () => {
         this.loading = false;
       },
       complete: () => (this.loading = false),

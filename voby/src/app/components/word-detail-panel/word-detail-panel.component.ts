@@ -73,7 +73,6 @@ export class WordDetailPanelComponent {
       next: (data: any) => {
         this.wordViewRelatedWord = data;
       },
-      error: () => {},
     });
   }
 

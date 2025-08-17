@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'voby-loading-ind',
@@ -6,8 +6,4 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./loading-ind.component.scss'],
   standalone: true,
 })
-export class LoadingIndComponent implements OnInit {
-  constructor() {}
-
-  ngOnInit(): void {}
-}
+export class LoadingIndComponent {}

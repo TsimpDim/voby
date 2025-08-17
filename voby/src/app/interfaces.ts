@@ -52,3 +52,9 @@ export interface PassedDataOnWordEdit {
   vclassId: number;
   allTags: Tag[];
 }
+
+export interface Option {
+  element: any;
+  keys: string;
+  result: string;
+}

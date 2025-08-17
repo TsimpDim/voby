@@ -89,7 +89,7 @@ export class OptionsComponent implements OnInit {
     }
 
     this.shortcutsForm.valueChanges // subscribe to all changes
-      .subscribe((data) => {
+      .subscribe(() => {
         if (this.shortcutsForm.valid) {
           this.updateUserShortcuts();
         }
@@ -187,7 +187,6 @@ export class OptionsComponent implements OnInit {
       const r = this.shortcutsForm.get(idx + 'r')?.value;
 
       this.voby.updateUserShortcut(us.id, k1, k2, r).subscribe({
-        next: () => {},
         error: (error: any) => {
           this.loading = false;
           this._snackBar.openFromComponent(SnackbarComponent, {
@@ -215,7 +214,6 @@ export class OptionsComponent implements OnInit {
   saveOptions() {
     const numTestQ = this.numTestQ?.nativeElement.value;
     this.voby.updateOptions(numTestQ).subscribe({
-      next: () => {},
       error: (error: any) => {
         this.loading = false;
         this._snackBar.openFromComponent(SnackbarComponent, {

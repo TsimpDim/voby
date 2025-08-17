@@ -81,7 +81,7 @@ export class NounTestComponent implements OnInit {
           .subscribe({
             next: (data: any) => {
               this.questions = data;
-              this.questions.forEach((e) => {
+              this.questions.forEach(() => {
                 this.questionState.push(this.NOT_ANSWERED);
               });
             },
@@ -91,7 +91,7 @@ export class NounTestComponent implements OnInit {
             complete: () => (this.loading = false),
           });
       },
-      error: (error: any) => {
+      error: () => {
         this.loading = false;
       },
       complete: () => (this.loading = false),

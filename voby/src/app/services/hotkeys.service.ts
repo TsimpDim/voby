@@ -3,19 +3,7 @@ import { EventManager } from '@angular/platform-browser';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { VobyService } from './voby.service';
 import { FormDataService } from './form-data.service';
-
-interface Option {
-  element: any;
-  keys: string;
-  result: string;
-}
-
-interface UserShortcut {
-  key_1: string;
-  key_2: string;
-  result: string;
-  id: number;
-}
+import { Option } from '../interfaces';
 
 @Injectable({ providedIn: 'root' })
 export class HotkeysService {
