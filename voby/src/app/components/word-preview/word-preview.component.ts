@@ -20,7 +20,7 @@ export class WordPreviewComponent {
   @ViewChild('infoContainer') infoContainer:
     | ElementRef<HTMLElement>
     | undefined;
-  @Output() clicked: EventEmitter<any> = new EventEmitter();
+  @Output() clicked = new EventEmitter<any>();
 
   constructor(private elementRef: ElementRef) {}
 

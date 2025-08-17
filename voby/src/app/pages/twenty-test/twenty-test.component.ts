@@ -50,7 +50,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   setId = -1;
   hasFavorites = false;
   shortcutSubscriptions$: Subscription[] = [];
-  numberTestQuestions: number = 20;
+  numberTestQuestions = 20;
   getCountryEmoji = getCountryEmoji;
 
   @ViewChildren('input') inputs: any;

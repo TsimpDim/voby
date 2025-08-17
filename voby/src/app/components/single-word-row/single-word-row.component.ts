@@ -25,8 +25,8 @@ export class SingleWordRowComponent {
   constructor(private voby: VobyService) {}
 
   @Input() word: Word = {} as Word;
-  @Input() selected: boolean = false;
-  @Output() wordFavorited: EventEmitter<any> = new EventEmitter();
+  @Input() selected = false;
+  @Output() wordFavorited = new EventEmitter<any>();
 
   displayTranslations(translations: { id: number; value: string }[]) {
     return translations.map((o) => o.value).join(' / ');

@@ -34,7 +34,7 @@ import { LoadingIndComponent } from '../custom/loading-ind/loading-ind.component
 })
 export class DashboardFlashComponent implements OnInit, OnChanges {
   @ViewChild('translation') translation: ElementRef | undefined;
-  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() close = new EventEmitter<any>();
 
   testWord: TestWord | undefined;
   loading = false;

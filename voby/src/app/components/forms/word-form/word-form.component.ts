@@ -91,7 +91,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   @ViewChild('tagInput') tagInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild('wordInput') wordInput: ElementRef<HTMLInputElement> | undefined;
   @ViewChild(WordPreviewComponent) wordPreviewPanel?: WordPreviewComponent;
-  @Output() relatedWordClicked: EventEmitter<any> = new EventEmitter();
+  @Output() relatedWordClicked = new EventEmitter<any>();
 
   filteredRelatedWords: RelatedWord[] = [];
   filteredTags: Tag[] = [];
@@ -104,7 +104,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
   translationsToBeDeleted: { id: number; value: string }[] = [];
   wordViewRelatedWord: Word | undefined = undefined;
   allWordsOfClass: Word[] = [];
-  linkingIconsActive: boolean = false;
+  linkingIconsActive = false;
 
   constructor(
     public dialogRef: MatDialogRef<WordFormComponent>,
@@ -409,7 +409,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
           const newExamples: Word[] = [];
           this.dataForParent = { word };
 
-          for (let ex of this.examples) {
+          for (const ex of this.examples) {
             const tx = this.wordForm.get(ex[0] + 'tx')?.value;
             const tr = this.wordForm.get(ex[0] + 'tr')?.value;
 
@@ -450,7 +450,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             }
           }
 
-          for (let dex of this.deletedExamples) {
+          for (const dex of this.deletedExamples) {
             this.voby.deleteExample(dex[1]).subscribe({
               next: () => {},
               error: (error: any) => {
@@ -469,7 +469,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
           this.dataForParent.word.examples = newExamples;
 
-          for (let translation of this.translationsToBeCreated) {
+          for (const translation of this.translationsToBeCreated) {
             this.voby.createTranslation(word.id, translation).subscribe({
               next: (data) => {
                 this.dataForParent.word.translations.push(data);
@@ -492,7 +492,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             });
           }
 
-          for (let translation of this.translationsToBeDeleted) {
+          for (const translation of this.translationsToBeDeleted) {
             this.voby.deleteTranslation(translation.id).subscribe({
               next: () => {
                 const deletedIndex =
@@ -504,7 +504,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             });
           }
 
-          for (let tag of this.tagsToBeDetached) {
+          for (const tag of this.tagsToBeDetached) {
             this.voby.removeWordFromTag(tag.id, word.id).subscribe({
               next: () => {
                 const deletedIndex = word.tags.findIndex(
@@ -516,7 +516,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
           }
 
           this.dataForParent.newTags = [];
-          for (let tag of this.tagsToBeCreated) {
+          for (const tag of this.tagsToBeCreated) {
             this.voby.createTag(word.id, tag).subscribe({
               next: (data) => {
                 this.dataForParent.word.tags.push(data);
@@ -525,7 +525,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             });
           }
 
-          for (let tag of this.tagsToBeAttached) {
+          for (const tag of this.tagsToBeAttached) {
             this.voby.addWordToTag(tag.id, word.id).subscribe({
               next: () => {
                 this.dataForParent.word.tags.push(tag);
@@ -560,7 +560,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
         next: (word: any) => {
           this.dataForParent = { word };
 
-          for (let ex of this.examples) {
+          for (const ex of this.examples) {
             const tx = this.wordForm.get(ex[0] + 'tx')?.value;
             const tr = this.wordForm.get(ex[0] + 'tr')?.value;
 
@@ -583,7 +583,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             });
           }
 
-          for (let translation of this.translationsToBeCreated) {
+          for (const translation of this.translationsToBeCreated) {
             this.voby.createTranslation(word.id, translation).subscribe({
               next: (data) => {
                 this.dataForParent.word.translations.push(data);
@@ -608,7 +608,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
           }
 
           this.dataForParent.newTags = [];
-          for (let tagToCreate of this.tagsToBeCreated) {
+          for (const tagToCreate of this.tagsToBeCreated) {
             this.voby.createTag(word.id, tagToCreate).subscribe({
               next: (data) => {
                 this.dataForParent.word.tags.push(data);
@@ -617,7 +617,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
             });
           }
 
-          for (let tagToAttach of this.tagsToBeAttached) {
+          for (const tagToAttach of this.tagsToBeAttached) {
             this.voby.addWordToTag(tagToAttach.id, word.id).subscribe({
               next: () => {
                 this.dataForParent.word.tags.push(tagToAttach);
@@ -673,7 +673,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     const similarWords = this.allWordsOfClass.filter(
       (w) => stringSimilarity(w.word, word) >= 0.8,
     );
-    let suggestedRelatedWords: Word[] = this.allWordsOfClass
+    const suggestedRelatedWords: Word[] = this.allWordsOfClass
       .filter(
         (w) =>
           stringSimilarity(w.word, word) >= 0.8 ||

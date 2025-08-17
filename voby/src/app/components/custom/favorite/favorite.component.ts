@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
   imports: [MatButtonModule, MatIconModule],
 })
 export class FavoriteComponent {
-  @Input() isFavorite: boolean = false;
+  @Input() isFavorite = false;
 
   toggleFavorite() {
     this.isFavorite = !this.isFavorite;

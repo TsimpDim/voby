@@ -42,14 +42,14 @@ import { WordPreviewComponent } from '../word-preview/word-preview.component';
 export class WordDetailPanelComponent {
   @Input() word: Word | undefined = undefined;
   @Input() allTags: Tag[] = [];
-  @Input() setId: number = -1;
+  @Input() setId = -1;
   @Input() vclass: any | undefined;
-  @Input() isSet: boolean = true;
-  @Output() wordSelected: EventEmitter<any> = new EventEmitter();
-  @Output() wordDeselected: EventEmitter<any> = new EventEmitter();
-  @Output() wordEdited: EventEmitter<any> = new EventEmitter();
-  @Output() wordDeletedOrUnlinked: EventEmitter<any> = new EventEmitter();
-  @Output() tagSelected: EventEmitter<any> = new EventEmitter();
+  @Input() isSet = true;
+  @Output() wordSelected = new EventEmitter<any>();
+  @Output() wordDeselected = new EventEmitter<any>();
+  @Output() wordEdited = new EventEmitter<any>();
+  @Output() wordDeletedOrUnlinked = new EventEmitter<any>();
+  @Output() tagSelected = new EventEmitter<any>();
   getCountryEmoji = getCountryEmoji;
   wordViewRelatedWord: Word | undefined = undefined;
 

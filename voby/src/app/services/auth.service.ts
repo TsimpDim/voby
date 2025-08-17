@@ -12,14 +12,14 @@ export class AuthService {
     private router: Router,
   ) {}
 
-  login(username: String, password: String) {
+  login(username: string, password: string) {
     return this.http.post(environment.apiUrl + '/auth/login/', {
       username: username,
       password: password,
     });
   }
 
-  register(username: String, password1: String, password2: String) {
+  register(username: string, password1: string, password2: string) {
     return this.http.post(environment.apiUrl + '/auth/registration/', {
       username: username,
       password1: password1,

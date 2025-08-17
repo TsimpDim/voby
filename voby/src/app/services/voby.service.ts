@@ -197,13 +197,13 @@ export class VobyService {
     setId: number | undefined = undefined,
     wordSearchTerm: string | undefined = undefined,
     tags: Tag[] | undefined = undefined,
-    favorite: boolean = false,
-    page: number = 1,
-    page_size: number = 50,
-    related: boolean = false,
+    favorite = false,
+    page = 1,
+    page_size = 50,
+    related = false,
   ) {
     const sort = localStorage.getItem('sort') || '-created';
-    let searchParams: any = {
+    const searchParams: any = {
       sets__vclass: classId,
       sort,
       page,
@@ -283,10 +283,10 @@ export class VobyService {
   }
 
   getTestWords(
-    amount: number = 1,
-    classId: number = -1,
-    setId: number = -1,
-    favoritesOnly: boolean = false,
+    amount = 1,
+    classId = -1,
+    setId = -1,
+    favoritesOnly = false,
   ) {
     return this.http.get(environment.apiUrl + '/voby/test', {
       headers: { Authorization: 'Token ' + this.authService.getSessionToken() },
@@ -295,10 +295,10 @@ export class VobyService {
   }
 
   getGermanNounTestWords(
-    amount: number = 1,
-    classId: number = -1,
-    setId: number = -1,
-    favoritesOnly: boolean = false,
+    amount = 1,
+    classId = -1,
+    setId = -1,
+    favoritesOnly = false,
   ) {
     return this.http.get(environment.apiUrl + '/voby/german/noun-test', {
       headers: { Authorization: 'Token ' + this.authService.getSessionToken() },

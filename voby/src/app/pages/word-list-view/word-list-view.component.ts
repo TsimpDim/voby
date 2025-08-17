@@ -60,9 +60,9 @@ export class WordListViewComponent {
   PAGE_SKIP_BUTTON_THRESHOLD = 5;
   MAX_SELECTABLE_PAGES = 5;
 
-  classId: number = -1;
-  setId: number = -1;
-  needSet: boolean = true;
+  classId = -1;
+  setId = -1;
+  needSet = true;
 
   selectedWord: Word | undefined;
   selectedWordOverride: number | undefined;
@@ -73,10 +73,10 @@ export class WordListViewComponent {
   loadingHeader = false;
   loadingWords = false;
   showingFavorites = false;
-  numberOfWords: number = 0;
-  numberOfPages: number = 0;
+  numberOfWords = 0;
+  numberOfPages = 0;
   pagesToDisplay: number[] = [];
-  currentPage: number = 1;
+  currentPage = 1;
   searchForm: FormGroup;
   allTags: Tag[] = [];
   selectedTags: Tag[] = [];
@@ -255,7 +255,7 @@ export class WordListViewComponent {
       next: (data: any) => {
         this.allTags = data;
 
-        for (let t of data) {
+        for (const t of data) {
           this.searchTags.push(t);
         }
       },
@@ -361,7 +361,7 @@ export class WordListViewComponent {
   getWords(
     classId: number,
     setId: number | undefined = undefined,
-    page: number = 1,
+    page = 1,
     searchTerm: string | undefined = undefined,
     tags: Tag[] | undefined = undefined,
   ) {
@@ -477,7 +477,7 @@ export class WordListViewComponent {
 
   processEditedWord(data: any) {
     if (data) {
-      let word = this.filteredWords.find(
+      const word = this.filteredWords.find(
         (w: any) => w.id === this.selectedWord?.id,
       );
       if (!word) {
@@ -509,8 +509,8 @@ export class WordListViewComponent {
     this.search(true);
   }
 
-  search(onCurrentPage: boolean = false, resetPagination: boolean = false) {
-    if (resetPagination) this.currentPage = 1;
+  search(onCurrentPage = false, resetPagination = false) {
+    if (resetPagination) {this.currentPage = 1;}
 
     this.getWords(
       this.vclass?.id,

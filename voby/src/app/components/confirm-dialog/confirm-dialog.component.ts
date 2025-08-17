@@ -10,7 +10,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   imports: [MatDialogModule, MatButtonModule],
 })
 export class ConfirmDialogComponent {
-  verb: string = 'delete';
+  verb = 'delete';
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,

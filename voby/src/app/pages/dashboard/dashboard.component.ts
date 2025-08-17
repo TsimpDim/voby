@@ -42,7 +42,7 @@ export interface DialogData {
 })
 export class DashboardComponent implements OnInit {
   className = '';
-  selectedClassId: number = -1;
+  selectedClassId = -1;
   selectedClass: any = {};
   toShowQuizButton = false;
   getCountryEmoji = getCountryEmoji;
@@ -285,7 +285,7 @@ export class DashboardComponent implements OnInit {
   editSet(event: any, setIdx: number) {
     event.stopPropagation();
 
-    let setToChange = this.classes
+    const setToChange = this.classes
       .flatMap((c: any) => c.sets)
       .find((s: any) => s.id === setIdx);
     const dialogRef = this.dialog.open(SetFormComponent, {
@@ -304,7 +304,7 @@ export class DashboardComponent implements OnInit {
   }
 
   editClass(classIdx: number) {
-    let classToChange = this.classes.find((c: any) => c.id === classIdx);
+    const classToChange = this.classes.find((c: any) => c.id === classIdx);
     const dialogRef = this.dialog.open(ClassFormComponent, {
       width: '30%',
       data: {

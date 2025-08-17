@@ -40,7 +40,7 @@ export class NounTestComponent implements OnInit {
   questionsValidated = false;
   loading = true;
   favoritesOnly = false;
-  numberTestQuestions: number = 20;
+  numberTestQuestions = 20;
 
   classId = -1;
   setId = -1;

@@ -100,8 +100,8 @@ export class RegisterFormComponent {
   checkPasswords: ValidatorFn = (
     group: AbstractControl,
   ): ValidationErrors | null => {
-    let pass = group.get('password1')?.value;
-    let confirmPass = group.get('password2')?.value;
+    const pass = group.get('password1')?.value;
+    const confirmPass = group.get('password2')?.value;
     return pass === confirmPass ? null : { notSame: true };
   };
 }

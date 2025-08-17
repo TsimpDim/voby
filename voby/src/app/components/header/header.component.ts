@@ -124,14 +124,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   ],
 })
 export class HeaderComponent implements AfterViewInit {
-  public isLoggedIn: Boolean | null = null;
+  public isLoggedIn: boolean | null = null;
   routerSubscription: Subscription | undefined;
   userExperience: any;
   userLevel: UserLevel = { level: 0, threshold: 0 };
   userLevelProgress: any;
-  userExperienceDiff: number = 0;
+  userExperienceDiff = 0;
   remainingExp: any;
-  animationState: string = 'visible';
+  animationState = 'visible';
 
   constructor(
     private router: Router,

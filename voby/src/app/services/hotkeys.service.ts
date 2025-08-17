@@ -4,11 +4,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { VobyService } from './voby.service';
 import { FormDataService } from './form-data.service';
 
-type Option = {
+interface Option {
   element: any;
   keys: string;
   result: string;
-};
+}
 
 interface UserShortcut {
   key_1: string;
@@ -37,7 +37,7 @@ export class HotkeysService {
   ) {
     this.voby.getUserShortcuts().subscribe({
       next: (shortcuts: any) => {
-        for (let s of shortcuts) {
+        for (const s of shortcuts) {
           this.addShortcut({ keys: s.key_1 + '.' + s.key_2, result: s.result });
         }
       },
