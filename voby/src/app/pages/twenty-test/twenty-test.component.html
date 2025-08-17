@@ -41,7 +41,9 @@
     }
 
     <div class="action-container">
-        <button mat-button *ngIf="questionsValidated" (click)="refreshTest()" [disabled]="!questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon>Again</button>
+        @if (questionsValidated) {
+            <button mat-button (click)="refreshTest()" [disabled]="!questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon>Again</button>
+        }
         <button mat-button type="submit" (click)="validateAnswers()" [disabled]="questionsValidated" id="submit-button"><mat-icon>check</mat-icon>Submit</button>
     </div>
 </div>

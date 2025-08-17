@@ -1,7 +1,3 @@
-@if (!loadingHeader || !loadingWords) {
-    <voby-loading-ind></voby-loading-ind>
-}
-
 @if (!loadingHeader) {
     <div id="header">
         <div id="info">
@@ -10,13 +6,15 @@
                     <div id="emojis">
                         @if (needSet) {
                             <div>{{set.name}}</div>
-                            <span id="class-title">{{vclass.name}}</span>
                             <div style="font-size: .8em; margin-left: .2em;">{{getCountryEmoji(vclass.source_language)}} > {{getCountryEmoji(vclass.target_language)}}</div>
-
                         } @else {
-                            <span >{{vclass.name}}</span>
+                            <p id="class-title">{{vclass.name}}</p>
                         }
                     </div>
+
+                    @if (needSet) {
+                        <p id="class-subtitle">{{vclass.name}}</p>
+                    }
                     <div class="size">{{numberOfWords}} word(s) total (page {{currentPage}}/{{numberOfPages}})</div>
                 </div>
             }
@@ -151,4 +149,6 @@
             <p class="empty-message">No words found :(</p>
         }
     </div>
+} @else {
+    <voby-loading-ind></voby-loading-ind>
 }

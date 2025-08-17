@@ -86,9 +86,14 @@
             align-items: center;
         }
 
-        #class-title {
+        #class-subtitle {
             font-size: .5em;
             color: rgb(96, 96, 96);
+            margin: 0;
+        }
+
+        #class-title {
+            margin: 0;
         }
 
         .size {

@@ -45,8 +45,12 @@
     background-color: hsl(262, 52%, 47%);
     padding: 0;
 
-    *{
+    button {
         color: white;
+    }
+
+    button:disabled {
+        color: lightgray;
     }
 }
 

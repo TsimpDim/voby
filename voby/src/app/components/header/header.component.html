@@ -1,7 +1,6 @@
-<mat-toolbar color="primary" *ngIf="checkIsLoggedIn()">
+<mat-toolbar color="primary">
     <img  src="../../assets/voby_full_tsp.png" height="130px" (click)="goHome()">
     <div style="display: flex;flex-direction:row;">
-
 
         @if (userExperienceDiff !== userExperience) {
             <div
@@ -28,10 +27,6 @@
             </button>
             <button mat-icon-button class="menu-icon" (click)="logout()">
                 <mat-icon>logout</mat-icon>
-            </button>
-        } @else {
-            <button mat-icon-button class="menu-icon" (click)="goToLogin()">
-                <mat-icon>login</mat-icon>
             </button>
         }
     </div>
