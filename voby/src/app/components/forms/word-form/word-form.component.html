@@ -18,7 +18,7 @@
       name="translation"
       formControlName="translation"
       >
-      @for (translation of translations; track translation) {
+      @for (translation of translations; track translation.id) {
         <mat-chip-row (removed)="removeTranslation(translation.value)">
           {{translation.value}}
           <button matChipRemove>
@@ -54,7 +54,7 @@
   <mat-form-field appearance="outline">
     <mat-label>Related words</mat-label>
     <mat-chip-grid #chipList>
-      @for (word of wordForm.get('relatedWords')?.value; track word) {
+      @for (word of wordForm.get('relatedWords')?.value; track word.id) {
         <mat-chip-row
           (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
           (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
@@ -73,7 +73,7 @@
         >
 
       <mat-chip-listbox>
-        @for (word of suggestedRelatedWords; track word) {
+        @for (word of suggestedRelatedWords; track word.id) {
           <mat-chip-option trailingIco="link"
             (click)="selectRelatedWord($event, word.id)"
             class="similar-word-suggestion"
@@ -88,7 +88,7 @@
     </mat-chip-grid>
 
     <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event, $event.option.value)">
-      @for (word of filteredRelatedWords; track word) {
+      @for (word of filteredRelatedWords; track word.id) {
         <mat-option [value]="word.id">
           {{word.word}}
         </mat-option>
@@ -101,7 +101,7 @@
     <mat-chip-grid #chipGridTags aria-label="Tags"
       name="tags"
       formControlName="tags">
-      @for (tag of this.wordForm.get('tags')?.value; track tag) {
+      @for (tag of this.wordForm.get('tags')?.value; track tag.id) {
         <mat-chip-row (removed)="removeTag(tag)">
           <mat-icon>tag</mat-icon>{{tag.value}}
           <button matChipRemove>
@@ -122,7 +122,7 @@
         />
     </mat-chip-grid>
     <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
-      @for (tag of filteredTags; track tag) {
+      @for (tag of filteredTags; track tag.id) {
         <mat-option [value]="tag.id">
           <mat-icon>tag</mat-icon>{{tag.value}}
         </mat-option>
@@ -132,7 +132,7 @@
 
   <h3 style="margin-top: 1em">Examples</h3>
 
-  @for (example of examples; track example; let i = $index) {
+  @for (example of examples; track example.id; let i = $index) {
     <div [style]="{'margin-top': i === 0 ? '-1em' : '1.5em', 'display': 'flex', 'flex-direction': 'row'}">
       <button mat-button type="button" (click)="removeExample(i)" class="remove-example-btn"><mat-icon>close</mat-icon></button>
       <div style="display: flex; flex-direction: column;width:100%">

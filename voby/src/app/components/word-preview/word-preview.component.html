@@ -1,8 +1,13 @@
-<mat-card class="info-container" #infoContainer *ngIf="this.word !== undefined" (click)="onClick()">
-    <mat-card-content>
-        <div *ngFor="let tr of this.word.translations">
-            {{tr.value}}
-        </div>
-        <p>word.set_names.join(', ')}}</p>
-    </mat-card-content>
-</mat-card>
+@if (this.word !== undefined) {
+    <mat-card class="info-container" #infoContainer (click)="onClick()">
+        <mat-card-content>
+            @for (tr of this.word.translations; track tr.id) {
+                <div>
+                    {{tr.value}}
+                </div>
+            }
+
+            <p>{{word.set_names.join(', ')}}</p>
+        </mat-card-content>
+    </mat-card>
+}

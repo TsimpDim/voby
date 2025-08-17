@@ -1,32 +1,38 @@
 <mat-toolbar color="primary" *ngIf="checkIsLoggedIn()">
     <img  src="../../assets/voby_full_tsp.png" height="130px" (click)="goHome()">
     <div style="display: flex;flex-direction:row;">
-        <button mat-icon-button *ngIf="!checkIsLoggedIn()" class="menu-icon" (click)="goToLogin()">
-            <mat-icon>login</mat-icon>
-        </button>
 
-        <div
-            [@animationTrigger]="animationState"
-            *ngIf="this.userExperienceDiff !== this.userExperience"
-            style="font-size: .7em;"    
-        >+userExperienceDiff}}</div>
 
-        <div style="display: flex; flex-direction: column;" *ngIf="checkIsLoggedIn()">
-            <div class="xp" matTooltip="remainingExp}} XP til next level">
-                <div [@xpAnimation]="this.userExperience">userExperience}}</div>
-                <mat-icon aria-label="xp">psychology</mat-icon>
-                <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
-                <mat-icon aria-label="level">workspace_premium</mat-icon>
+        @if (this.userExperienceDiff !== this.userExperience) {
+            <div
+                [@animationTrigger]="animationState"
+                style="font-size: .7em;"    
+            >
+                +{{userExperienceDiff}}
             </div>
-            <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" class="xp-bar"></mat-progress-bar>
-        </div>
+        }
 
-        <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="goToOptions()">
-            <mat-icon>settings</mat-icon>
-        </button>
+        @if (checkIsLoggedIn()) {
+            <div style="display: flex; flex-direction: column;">
+                <div class="xp" matTooltip="{{remainingExp}} XP til next level">
+                    <div [@xpAnimation]="this.userExperience">{{userExperience}}</div>
+                    <mat-icon aria-label="xp">psychology</mat-icon>
+                    <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
+                    <mat-icon aria-label="level">workspace_premium</mat-icon>
+                </div>
+                <mat-progress-bar mode="determinate" color="accent" [value]="userLevelProgress" class="xp-bar"></mat-progress-bar>
+            </div>
 
-        <button mat-icon-button *ngIf="checkIsLoggedIn()" class="menu-icon" (click)="logout()">
-            <mat-icon>logout</mat-icon>
-        </button>
+            <button mat-icon-button class="menu-icon" (click)="goToOptions()">
+                <mat-icon>settings</mat-icon>
+            </button>
+            <button mat-icon-button class="menu-icon" (click)="logout()">
+                <mat-icon>logout</mat-icon>
+            </button>
+        } @else {
+            <button mat-icon-button class="menu-icon" (click)="goToLogin()">
+                <mat-icon>login</mat-icon>
+            </button>
+        }
     </div>
 </mat-toolbar>

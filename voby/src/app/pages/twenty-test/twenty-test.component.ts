@@ -13,14 +13,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
+import { LoadingIndComponent } from 'src/app/components/custom/loading-ind/loading-ind.component';
 
 
 @Component({
     selector: 'voby-twenty-test',
     templateUrl: './twenty-test.component.html',
     styleUrls: ['./twenty-test.component.scss'],
-    imports: [LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTooltipModule, MatButtonModule]
+    imports: [MatSlideToggleModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTooltipModule, MatButtonModule, LoadingIndComponent]
 })
 export class TwentyTestComponent implements OnInit, OnDestroy {
   NOT_ANSWERED = 0

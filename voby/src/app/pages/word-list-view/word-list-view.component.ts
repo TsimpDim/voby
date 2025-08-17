@@ -13,9 +13,6 @@ import { WordFormComponent } from 'src/app/components/forms/word-form/word-form.
 import { SetFormComponent } from 'src/app/components/forms/set-form/set-form.component';
 import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { WordDetailPanelComponent } from '../../components/word-detail-panel/word-detail-panel.component';
-import { SingleWordRowComponent } from '../../components/single-word-row/single-word-row.component';
-import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { FavoriteComponent } from '../../components/custom/favorite/favorite.component';
 import { MatOptionModule } from '@angular/material/core';
@@ -27,12 +24,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { NgClass } from '@angular/common';
+import { LoadingIndComponent } from 'src/app/components/custom/loading-ind/loading-ind.component';
+import { WordDetailPanelComponent } from 'src/app/components/word-detail-panel/word-detail-panel.component';
+import { SingleWordRowComponent } from 'src/app/components/single-word-row/single-word-row.component';
 
 @Component({
     selector: 'voby-word-list-view',
     templateUrl: './word-list-view.component.html',
     styleUrls: ['./word-list-view.component.scss'],
-    imports: [MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
+    imports: [MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, NgClass, WordDetailPanelComponent, SingleWordRowComponent]
 })
 export class WordListViewComponent {
 

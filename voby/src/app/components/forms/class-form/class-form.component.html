@@ -14,7 +14,7 @@
     <mat-form-field appearance="outline">
       <mat-label>I want to learn...</mat-label>
       <mat-select name="sourceLanguage" formControlName="sourceLanguage">
-        @for (country of countries; track country) {
+        @for (country of countries; track country.value) {
           <mat-option [value]="country.value">
             {{country.display}} {{country.value}}
           </mat-option>
@@ -27,7 +27,7 @@
     <mat-form-field appearance="outline">
       <mat-label>translated to...</mat-label>
       <mat-select name="targetLanguage" formControlName="targetLanguage">
-        @for (country of countries; track country) {
+        @for (country of countries; track country.value) {
           <mat-option [value]="country.value">
             {{country.display}} {{country.value}}
           </mat-option>

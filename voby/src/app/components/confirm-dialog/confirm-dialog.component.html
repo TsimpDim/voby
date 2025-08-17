@@ -1,8 +1,8 @@
 <mat-dialog-content>
-  <p>Are you sure you want to verb}} this?</p>
+  <p>Are you sure you want to {{verb}} this?</p>
 </mat-dialog-content>
 
 <mat-dialog-actions>
   <button mat-button (click)="onNoClick()" cdkFocusInitial style="border-radius: 100px;">No, leave it</button>
-  <button mat-raised-button (click)="onConfirm()" style="border-radius: 100px;">Yes, verb}} it</button>
+  <button mat-raised-button (click)="onConfirm()" style="border-radius: 100px;">Yes, {{verb}} it</button>
 </mat-dialog-actions>

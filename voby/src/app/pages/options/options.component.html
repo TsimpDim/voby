@@ -5,7 +5,7 @@
 
   <h2 style="margin-left:1em">Shortcuts</h2>
   <mat-card>
-    @for (defaultShortcut of this.defaultShortcuts; track defaultShortcut) {
+    @for (defaultShortcut of this.defaultShortcuts; track defaultShortcut.id) {
       <mat-card-content>
         <button mat-icon-button color="primary" disabled><mat-icon>close</mat-icon></button>
         <mat-form-field subscriptSizing="dynamic" appearance="outline">
@@ -32,7 +32,7 @@
         <mat-card-content>No shortcuts defined.</mat-card-content>
       }
 
-      @for (us of userShortcuts; track us; let i = $index) {
+      @for (us of userShortcuts; track us.id; let i = $index) {
         @if (userShortcuts.length > 0) {
           <mat-card-content>
             <button mat-icon-button color="primary" (click)="deleteUserShortcut(us.id)"><mat-icon>close</mat-icon></button>

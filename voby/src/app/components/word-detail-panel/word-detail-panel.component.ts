@@ -8,20 +8,20 @@ import { VobyService } from 'src/app/services/voby.service';
 import { WordFormComponent } from '../forms/word-form/word-form.component';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { SnackbarComponent } from '../custom/snackbar/snackbar.component';
-import { WordPreviewComponent } from '../word-preview/word-preview.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { NgClass, DatePipe } from '@angular/common';
+import { DatePipe, NgClass } from '@angular/common';
+import { WordPreviewComponent } from '../word-preview/word-preview.component';
 
 @Component({
     selector: 'voby-word-detail-panel',
     templateUrl: './word-detail-panel.component.html',
     styleUrls: ['./word-detail-panel.component.scss'],
-    imports: [MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, MatDividerModule, MatChipsModule, NgClass, WordPreviewComponent, DatePipe]
+    imports: [MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, MatDividerModule, MatChipsModule, DatePipe, NgClass, WordPreviewComponent]
 })
 export class WordDetailPanelComponent {
 
