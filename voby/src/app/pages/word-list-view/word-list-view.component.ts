@@ -162,6 +162,10 @@ export class WordListViewComponent {
   }
 
   createWord() {
+    if (this.dialog.openDialogs.length > 0) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       data: {
@@ -456,6 +460,10 @@ export class WordListViewComponent {
   }
 
   editWord() {
+    if (this.dialog.openDialogs.length > 0) {
+      return;
+    }
+
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
       height: '70%',
@@ -510,7 +518,9 @@ export class WordListViewComponent {
   }
 
   search(onCurrentPage = false, resetPagination = false) {
-    if (resetPagination) {this.currentPage = 1;}
+    if (resetPagination) {
+      this.currentPage = 1;
+    }
 
     this.getWords(
       this.vclass?.id,
@@ -579,5 +589,19 @@ export class WordListViewComponent {
       event.preventDefault();
       this.focusOnSearch();
     }
+  }
+
+  @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(
+    event: KeyboardEvent,
+  ) {
+    event.preventDefault();
+    this.editWord();
+  }
+
+  @HostListener('document:keydown.meta.e', ['$event']) editWordFormMeta(
+    event: KeyboardEvent,
+  ) {
+    event.preventDefault();
+    this.editWord();
   }
 }

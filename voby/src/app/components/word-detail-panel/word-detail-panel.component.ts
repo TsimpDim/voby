@@ -165,11 +165,4 @@ export class WordDetailPanelComponent {
       });
     }
   }
-
-  @HostListener('document:keydown.alt.e', ['$event']) editWordFormAlt(
-    event: KeyboardEvent,
-  ) {
-    event.preventDefault();
-    this.editWord();
-  }
 }

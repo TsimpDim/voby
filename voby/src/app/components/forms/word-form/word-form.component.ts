@@ -391,10 +391,6 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   editWord() {
-    if (this.translations.length === 0) {
-      return;
-    }
-
     this.voby
       .editWord(
         (this.passedData as PassedDataOnWordEdit).word.id,
