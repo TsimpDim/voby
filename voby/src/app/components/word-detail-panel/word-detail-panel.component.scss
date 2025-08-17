@@ -1,70 +1,70 @@
 .word-detail-container {
-    min-height: 600px;
-    margin-left: 0;
-    margin-right: 1em;
-    width: 500px;
-    border-radius: 10px;
-    min-width: 300px;
-    height: 100%;
+  min-height: 600px;
+  margin-left: 0;
+  margin-right: 1em;
+  width: 500px;
+  border-radius: 10px;
+  min-width: 300px;
+  height: 100%;
 
-    .word-card-content {
-        position: fixed;
-        width: inherit;
-        height: 100%;
-    }
+  .word-card-content {
+    position: fixed;
+    width: inherit;
+    height: 100%;
+  }
 }
 
 .word-date {
-    opacity: 50%;
-    font-size: .7em;
-    font-weight: 300;
-    margin-top: -.3em;
+  opacity: 50%;
+  font-size: 0.7em;
+  font-weight: 300;
+  margin-top: -0.3em;
 }
 
 .info-container {
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    
-    margin: .5em;
-    display: block;
-    margin-bottom: 10px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+
+  margin: 0.5em;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .action-icon {
-    margin-top: -1em;
+  margin-top: -1em;
 }
 
 .active-chip {
-    background-color: #673ab7;
-    color: white;
+  background-color: #673ab7;
+  color: white;
 
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 mat-chip {
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .pointer-on-hover:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .default-dash {
-    margin: 0;
+  margin: 0;
 
-    &.chip {
-        margin-left: 8px;
-    }
+  &.chip {
+    margin-left: 8px;
+  }
 }
 
 .header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: baseline;
-    width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  width: 100%;
 }

@@ -1,91 +1,90 @@
 :host {
-    display: flex;
-    width: 100%;
-    height: 60px;
+  display: flex;
+  width: 100%;
+  height: 60px;
 }
 
 .card {
-    width: 100%;
-    border-radius: 10px;
-    margin: .5em 1em;
-    height: 100%;
-    padding: 0;
+  width: 100%;
+  border-radius: 10px;
+  margin: 0.5em 1em;
+  height: 100%;
+  padding: 0;
 
-    .card-content {
-        margin: 0;
+  .card-content {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-around;
+
+    .translations {
+      margin-left: auto;
+      font-size: 1.2em;
+    }
+
+    .card-title {
+      width: 300px;
+      margin: 0;
+      margin-left: 1em;
+
+      .plural {
+        font-size: 0.8em;
+        font-weight: 300;
         padding: 0;
+        margin: 0;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        width: inherit;
+      }
+
+      p {
+        margin-left: 0.5em;
+      }
+
+      .word-cont {
         display: flex;
         flex-direction: row;
         align-items: center;
-        align-content: space-around;
 
-        .translations {
-            margin-left: auto;
-            font-size: 1.2em;
+        mat-icon {
+          padding: 0.5em;
         }
 
-        .card-title {
-            width: 300px;
-            margin: 0;
-            margin-left: 1em;
-        
-            .plural {
-                font-size: .8em;
-                font-weight: 300;
-                padding: 0;
-                margin: 0;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                width: inherit;
-            }
-        
-            p {
-                margin-left: .5em;
-            }
-        
-            .word-cont {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                
-                mat-icon {
-                    padding: .5em;
-                }
-        
-                .word {
-                    margin: 0;
-                    width: 400px;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                    line-height: 1.1em;
-                    font-weight: 500;
-                    font-size: 1.2em;
-                }
-            }
+        .word {
+          margin: 0;
+          width: 400px;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          line-height: 1.1em;
+          font-weight: 500;
+          font-size: 1.2em;
         }
+      }
     }
+  }
 
-
-    &:hover {
-        cursor: pointer;
-        background-color: rgb(235, 235, 235);
-        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(235, 235, 235);
+    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+  }
 }
 
 .selected-word {
-    background-color: rgb(235, 235, 235);
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+  background-color: rgb(235, 235, 235);
+  box-shadow: rgb(255, 215, 64) 5px 5px 0px;
 }
 
 .favorite {
-    margin-left: auto;
+  margin-left: auto;
 }
 
 @media (width <= 900px) {
-    .word-word {
-        font-size: .8em;
-    }
+  .word-word {
+    font-size: 0.8em;
+  }
 }

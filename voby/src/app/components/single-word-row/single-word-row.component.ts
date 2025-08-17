@@ -9,31 +9,34 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 
 @Component({
-    selector: 'voby-single-word-row',
-    templateUrl: './single-word-row.component.html',
-    styleUrls: ['./single-word-row.component.scss'],
-    imports: [MatCardModule, MatRippleModule, NgClass, MatIconModule, MatTooltipModule, FavoriteComponent]
+  selector: 'voby-single-word-row',
+  templateUrl: './single-word-row.component.html',
+  styleUrls: ['./single-word-row.component.scss'],
+  imports: [
+    MatCardModule,
+    MatRippleModule,
+    NgClass,
+    MatIconModule,
+    MatTooltipModule,
+    FavoriteComponent,
+  ],
 })
 export class SingleWordRowComponent {
-
-  constructor(
-    private voby: VobyService
-  ) { }
+  constructor(private voby: VobyService) {}
 
   @Input() word: Word = {} as Word;
   @Input() selected: boolean = false;
   @Output() wordFavorited: EventEmitter<any> = new EventEmitter();
 
-  displayTranslations(translations: {id: number, value: string}[]) {
-    return translations.map(o => o.value).join(' / ');
+  displayTranslations(translations: { id: number; value: string }[]) {
+    return translations.map((o) => o.value).join(' / ');
   }
 
   toggleFavorite(id: number, favorite: boolean) {
-    this.voby.editWordFavorite(id, !favorite)
-    .subscribe({
+    this.voby.editWordFavorite(id, !favorite).subscribe({
       next: () => {
-        this.wordFavorited.emit({id:this.word.id, favorite});
-      }
+        this.wordFavorited.emit({ id: this.word.id, favorite });
+      },
     });
   }
 }

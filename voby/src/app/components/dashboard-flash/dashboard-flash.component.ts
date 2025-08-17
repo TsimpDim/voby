@@ -1,4 +1,14 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { getCountryEmoji } from 'src/app/countries';
 import { TestWord } from 'src/app/interfaces';
 import { ExperienceService } from 'src/app/services/experience.service';
@@ -10,16 +20,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LoadingIndComponent } from '../custom/loading-ind/loading-ind.component';
 
-
-
 @Component({
-    selector: 'voby-dashboard-flash',
-    templateUrl: './dashboard-flash.component.html',
-    styleUrls: ['./dashboard-flash.component.scss'],
-    imports: [LoadingIndComponent, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule]
+  selector: 'voby-dashboard-flash',
+  templateUrl: './dashboard-flash.component.html',
+  styleUrls: ['./dashboard-flash.component.scss'],
+  imports: [
+    LoadingIndComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+  ],
 })
 export class DashboardFlashComponent implements OnInit, OnChanges {
-
   @ViewChild('translation') translation: ElementRef | undefined;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
@@ -31,7 +44,10 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
 
   answerCorrect: boolean | undefined;
 
-  constructor(private voby: VobyService, private exp: ExperienceService) { }
+  constructor(
+    private voby: VobyService,
+    private exp: ExperienceService,
+  ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     const toShow = localStorage.getItem('quiz_show');
@@ -56,16 +72,15 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
   }
 
   getTestWord() {
-    this.voby.getTestWords()
-    .subscribe({
+    this.voby.getTestWords().subscribe({
       next: (data: any) => {
         this.testWord = data[0];
       },
       error: () => {
         this.loading = false;
       },
-      complete: () => this.loading = false
-    })
+      complete: () => (this.loading = false),
+    });
   }
 
   createTestAnswer(correct: boolean) {
@@ -77,7 +92,11 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
       const answer = this.translation?.nativeElement.value;
 
       let timeToWait = 0;
-      if (this.testWord.translations.split(' / ').find(t => stringSimilarity(t, answer) >= 0.7)) {
+      if (
+        this.testWord.translations
+          .split(' / ')
+          .find((t) => stringSimilarity(t, answer) >= 0.7)
+      ) {
         this.answerCorrect = true;
         timeToWait = 2000;
         this.exp.add(4);
@@ -92,7 +111,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
       setTimeout(() => {
         this.getTestWord();
         this.answerCorrect = undefined;
-    }, timeToWait);
+      }, timeToWait);
     }
   }
 }

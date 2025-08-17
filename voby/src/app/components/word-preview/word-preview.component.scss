@@ -1,33 +1,33 @@
 :host {
-    position: absolute;
-    z-index: 9999;
-    max-width: 200px;
-    max-height: 150px;
-    width: auto;
-    height: fit-content;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    border-radius: 10px;
-    padding: .5em;
+  position: absolute;
+  z-index: 9999;
+  max-width: 200px;
+  max-height: 150px;
+  width: auto;
+  height: fit-content;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-radius: 10px;
+  padding: 0.5em;
 
-    hr {
-        padding: 0;
-        margin: 0;
-    }
+  hr {
+    padding: 0;
+    margin: 0;
+  }
 }
 
 .info-container {
-    max-width: 200px;
-    
-    &:hover {
-        cursor: pointer;
-        background-color: rgb(235, 235, 235);
-        box-shadow: rgb(255, 215, 64) 5px 5px 0px;
-    }
+  max-width: 200px;
 
-    mat-card-content p {
-        margin: 0;
-        font-size: .7em;
-    }
+  &:hover {
+    cursor: pointer;
+    background-color: rgb(235, 235, 235);
+    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+  }
+
+  mat-card-content p {
+    margin: 0;
+    font-size: 0.7em;
+  }
 }

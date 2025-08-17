@@ -1,48 +1,48 @@
 .container {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .intro {
-    background-color: #673ab7;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 100vh;
-    width: 50vw;
-    z-index: -1;
+  background-color: #673ab7;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  width: 50vw;
+  z-index: -1;
 }
 
 .visual {
-    margin-top: 1em;
-    width: 50%;
-    height: 50%;
+  margin-top: 1em;
+  width: 50%;
+  height: 50%;
 }
 
 form {
-    margin-top: 3em;
-    margin-right: auto;
-    margin-left: auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 400px;
+  margin-top: 3em;
+  margin-right: auto;
+  margin-left: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 400px;
 }
 
 .mat-form-field {
-    width: inherit;
+  width: inherit;
 }
 
 button[type="submit"] {
-    background-color: #673ab7;
-    color: #ffe343;
-    font-size: 1.2em;
+  background-color: #673ab7;
+  color: #ffe343;
+  font-size: 1.2em;
 }
 
 a {
-    text-decoration: underline;
-    color: black;
-    display: inline-block;
+  text-decoration: underline;
+  color: black;
+  display: inline-block;
 }

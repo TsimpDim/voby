@@ -1,112 +1,112 @@
 .flash-container {
-    max-width: 60%;
-    width: 800px;
-    height: 100px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-bottom: 2em;
-    margin-top: -4em;
-    background-color: #673ab7;
-    box-shadow: 4px 4px 0 #fdd441;
-    border-radius: 10px;
+  max-width: 60%;
+  width: 800px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 2em;
+  margin-top: -4em;
+  background-color: #673ab7;
+  box-shadow: 4px 4px 0 #fdd441;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+  * {
+    color: white;
+    padding: 1em;
+    margin-bottom: 0;
+  }
+
+  .word-to-translate {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: 400;
+    padding: 0;
+    position: relative;
+    top: 10%;
+    width: 60%;
+  }
+
+  .answer-container {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 50%;
+    padding: 0;
+    margin-top: 0.5em;
 
-    * {
-        color: white;
-        padding: 1em;
-        margin-bottom: 0;
-    }
+    .answer-input {
+      --mat-form-field-outlined-outline-color: white;
+      --mat-form-field-outlined-focus-outline-color: white;
+      --mat-form-field-outlined-hover-outline-color: white;
 
-    .word-to-translate {
-        text-align: center;
-        font-size: 1.5em;
-        font-weight: 400;
-        padding: 0;
-        position: relative;
-        top: 10%;
-        width: 60%;
-    }
-
-    .answer-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: flex-start;
-        width: 50%;
-        padding: 0;
-        margin-top: .5em;
-
-        .answer-input {
-            --mat-form-field-outlined-outline-color: white;
-            --mat-form-field-outlined-focus-outline-color: white;
-            --mat-form-field-outlined-hover-outline-color: white;
-
-            p {
-                margin: 0;
-            }
-
-            input {
-                color: white;
-
-                &::placeholder {
-                    color: white;
-                }
-            }
-        }
-    }
-
-    button[type=submit] {
-        margin-right: 2em;
-        margin-top: 1em;
-        // float: right;
-        // vertical-align: top;
-        color: #fdd441;
-        height: auto;
-        padding: .3em;
-        border-radius: 100px;
-
-        mat-icon {
-            color: #fdd441;
-            padding: 0;
-        }
-    }
-
-    ::ng-deep .mat-form-field-underline {
-        background-color: lightgray;
-    }
-
-    ::ng-deep .mat-form-field-ripple {
-        background-color: white;
-    }
-
-    .close-button {
+      p {
         margin: 0;
-        padding: 0;
-        margin-top: -.5em;
+      }
 
-        mat-icon {
-            padding: 0;
+      input {
+        color: white;
+
+        &::placeholder {
+          color: white;
         }
+      }
     }
+  }
 
-    .result {
-        margin: auto;
-        font-weight: 500;
-        font-size: 2em;
-        color: white;
-    }
+  button[type="submit"] {
+    margin-right: 2em;
+    margin-top: 1em;
+    // float: right;
+    // vertical-align: top;
+    color: #fdd441;
+    height: auto;
+    padding: 0.3em;
+    border-radius: 100px;
 
-    .explanation {
-        margin: auto;
-        color: white;
-        font-size: 1.2em;
-        font-weight: normal;
+    mat-icon {
+      color: #fdd441;
+      padding: 0;
     }
+  }
 
-    input {
-        padding: 0;
-        padding-left: .2em;
+  ::ng-deep .mat-form-field-underline {
+    background-color: lightgray;
+  }
+
+  ::ng-deep .mat-form-field-ripple {
+    background-color: white;
+  }
+
+  .close-button {
+    margin: 0;
+    padding: 0;
+    margin-top: -0.5em;
+
+    mat-icon {
+      padding: 0;
     }
+  }
+
+  .result {
+    margin: auto;
+    font-weight: 500;
+    font-size: 2em;
+    color: white;
+  }
+
+  .explanation {
+    margin: auto;
+    color: white;
+    font-size: 1.2em;
+    font-weight: normal;
+  }
+
+  input {
+    padding: 0;
+    padding-left: 0.2em;
+  }
 }

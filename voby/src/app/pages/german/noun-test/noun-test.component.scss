@@ -1,86 +1,86 @@
 .container {
-    margin-top: 2em;
+  margin-top: 2em;
 }
 
 mat-card-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  div {
+    h2 {
+      font-weight: 400;
+    }
+
+    h3 {
+      font-weight: 300;
+    }
+  }
+
+  .answer-container {
+    width: 700px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
 
-    div {
-        h2 {
-            font-weight: 400;
-        }
-
-        h3 {
-            font-weight: 300;
-        }
+    mat-form-field {
+      width: 100%;
     }
 
-    .answer-container {
-        width: 700px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-
-        mat-form-field {
-            width: 100%;
-        }
-
-        mat-icon {
-            margin-left: 1em;
-        }
+    mat-icon {
+      margin-left: 1em;
     }
+  }
 }
 
 .mat-card {
-    border-radius: 10px;
+  border-radius: 10px;
 }
 
 .call-to-action {
-    margin: 1em;
-    font-weight: 400;
+  margin: 1em;
+  font-weight: 400;
 }
 
 .action-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 
-    #submit-button {
-        background-color: #673ab7;
-        padding: 1em;
-        margin: 1em;
-        margin-left: 0;
-        font-size: 1em;
-        color: #ffd740;
-        border-radius: 100px;
-    
-        &:disabled {
-            color: lightgray;
-            mat-icon {
-                color: lightgray;
-            }
-            background-color: #3a2068;
-        }
+  #submit-button {
+    background-color: #673ab7;
+    padding: 1em;
+    margin: 1em;
+    margin-left: 0;
+    font-size: 1em;
+    color: #ffd740;
+    border-radius: 100px;
 
-        mat-icon {
-            color: #ffd740;
-            vertical-align: -6px;
-        }
+    &:disabled {
+      color: lightgray;
+      mat-icon {
+        color: lightgray;
+      }
+      background-color: #3a2068;
     }
-    
-    #refresh-button {
-        background-color: #ffd740;
-        margin: 1em;
-        padding: 1em;
-        font-size: 1em;
-        border-radius: 100px;
 
-        mat-icon {
-            margin-right: 0;
-        }
+    mat-icon {
+      color: #ffd740;
+      vertical-align: -6px;
     }
+  }
+
+  #refresh-button {
+    background-color: #ffd740;
+    margin: 1em;
+    padding: 1em;
+    font-size: 1em;
+    border-radius: 100px;
+
+    mat-icon {
+      margin-right: 0;
+    }
+  }
 }

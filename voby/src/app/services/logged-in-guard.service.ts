@@ -3,14 +3,13 @@ import { Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LoggedInGuardService {
-
   constructor(
     public authService: AuthService,
-    public router: Router
-  ) { }
+    public router: Router,
+  ) {}
 
   canActivate(): boolean {
     if (this.authService.getSessionToken()) {

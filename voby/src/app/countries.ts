@@ -1,394 +1,394 @@
 export const COUNTRIES = [
   {
-    'value': 'English', 
-    'display': '🇬🇧'
+    value: 'English',
+    display: '🇬🇧',
   },
   {
-    'value': 'French', 
-    'display': '🇫🇷'
+    value: 'French',
+    display: '🇫🇷',
   },
   {
-    'value': 'Spanish', 
-    'display': '🇪🇸'
+    value: 'Spanish',
+    display: '🇪🇸',
   },
   {
-    'value': 'German', 
-    'display': '🇩🇪'
+    value: 'German',
+    display: '🇩🇪',
   },
   {
-    'value': 'Italian', 
-    'display': '🇮🇹'
+    value: 'Italian',
+    display: '🇮🇹',
   },
   {
-    'value': 'Japanese', 
-    'display': '🇯🇵'
+    value: 'Japanese',
+    display: '🇯🇵',
   },
   {
-    'value': 'Korean', 
-    'display': '🇰🇷'
+    value: 'Korean',
+    display: '🇰🇷',
   },
   {
-    'value': 'Mandarin Chinese',
-    'display': '🇨🇳',
+    value: 'Mandarin Chinese',
+    display: '🇨🇳',
   },
   {
-    'value': 'Russian', 
-    'display': '🇷🇺'
+    value: 'Russian',
+    display: '🇷🇺',
   },
   {
-    'value': 'Hindi', 
-    'display': '🇮🇳'
+    value: 'Hindi',
+    display: '🇮🇳',
   },
   {
-    'value': 'Portuguese', 
-    'display': '🇧🇷'
+    value: 'Portuguese',
+    display: '🇧🇷',
   },
   {
-    'value': 'Arabic', 
-    'display': '🇸🇦'
+    value: 'Arabic',
+    display: '🇸🇦',
   },
   {
-    'value': 'Dutch', 
-    'display': '🇳🇱'
+    value: 'Dutch',
+    display: '🇳🇱',
   },
   {
-    'value': 'Swedish', 
-    'display': '🇸🇪'
+    value: 'Swedish',
+    display: '🇸🇪',
   },
   {
-    'value': 'Norwegian', 
-    'display': '🇳🇴'
+    value: 'Norwegian',
+    display: '🇳🇴',
   },
   {
-    'value': 'Danish', 
-    'display': '🇩🇰'
+    value: 'Danish',
+    display: '🇩🇰',
   },
   {
-    'value': 'Finnish', 
-    'display': '🇫🇮'
+    value: 'Finnish',
+    display: '🇫🇮',
   },
   {
-    'value': 'Turkish', 
-    'display': '🇹🇷'
+    value: 'Turkish',
+    display: '🇹🇷',
   },
   {
-    'value': 'Polish', 
-    'display': '🇵🇱'
+    value: 'Polish',
+    display: '🇵🇱',
   },
   {
-    'value': 'Czech', 
-    'display': '🇨🇿'
+    value: 'Czech',
+    display: '🇨🇿',
   },
   {
-    'value': 'Greek', 
-    'display': '🇬🇷'
+    value: 'Greek',
+    display: '🇬🇷',
   },
   {
-    'value': 'Hungarian', 
-    'display': '🇭🇺'
+    value: 'Hungarian',
+    display: '🇭🇺',
   },
   {
-    'value': 'Romanian', 
-    'display': '🇷🇴'
+    value: 'Romanian',
+    display: '🇷🇴',
   },
   {
-    'value': 'Bulgarian', 
-    'display': '🇧🇬'
+    value: 'Bulgarian',
+    display: '🇧🇬',
   },
   {
-    'value': 'Croatian', 
-    'display': '🇭🇷'
+    value: 'Croatian',
+    display: '🇭🇷',
   },
   {
-    'value': 'Serbian', 
-    'display': '🇷🇸'
+    value: 'Serbian',
+    display: '🇷🇸',
   },
   {
-    'value': 'Slovak', 
-    'display': '🇸🇰'
+    value: 'Slovak',
+    display: '🇸🇰',
   },
   {
-    'value': 'Slovenian', 
-    'display': '🇸🇮'
+    value: 'Slovenian',
+    display: '🇸🇮',
   },
   {
-    'value': 'Estonian', 
-    'display': '🇪🇪'
+    value: 'Estonian',
+    display: '🇪🇪',
   },
   {
-    'value': 'Latvian', 
-    'display': '🇱🇻'
+    value: 'Latvian',
+    display: '🇱🇻',
   },
   {
-    'value': 'Lithuanian', 
-    'display': '🇱🇹'
+    value: 'Lithuanian',
+    display: '🇱🇹',
   },
   {
-    'value': 'Ukrainian', 
-    'display': '🇺🇦'
+    value: 'Ukrainian',
+    display: '🇺🇦',
   },
   {
-    'value': 'Hebrew', 
-    'display': '🇮🇱'
+    value: 'Hebrew',
+    display: '🇮🇱',
   },
   {
-    'value': 'Thai', 
-    'display': '🇹🇭'
+    value: 'Thai',
+    display: '🇹🇭',
   },
   {
-    'value': 'Vietnamese', 
-    'display': '🇻🇳'
+    value: 'Vietnamese',
+    display: '🇻🇳',
   },
   {
-    'value': 'Indonesian', 
-    'display': '🇮🇩'
+    value: 'Indonesian',
+    display: '🇮🇩',
   },
   {
-    'value': 'Malay', 
-    'display': '🇲🇾'
+    value: 'Malay',
+    display: '🇲🇾',
   },
   {
-    'value': 'Tagalog', 
-    'display': '🇵🇭'
+    value: 'Tagalog',
+    display: '🇵🇭',
   },
   {
-    'value': 'Bengali', 
-    'display': '🇧🇩'
+    value: 'Bengali',
+    display: '🇧🇩',
   },
   {
-    'value': 'Punjabi', 
-    'display': '🇮🇳'
+    value: 'Punjabi',
+    display: '🇮🇳',
   },
   {
-    'value': 'Tamil', 
-    'display': '🇮🇳'
+    value: 'Tamil',
+    display: '🇮🇳',
   },
   {
-    'value': 'Telugu', 
-    'display': '🇮🇳'
+    value: 'Telugu',
+    display: '🇮🇳',
   },
   {
-    'value': 'Marathi', 
-    'display': '🇮🇳'
+    value: 'Marathi',
+    display: '🇮🇳',
   },
   {
-    'value': 'Gujarati', 
-    'display': '🇮🇳'
+    value: 'Gujarati',
+    display: '🇮🇳',
   },
   {
-    'value': 'Urdu', 
-    'display': '🇵🇰'
+    value: 'Urdu',
+    display: '🇵🇰',
   },
   {
-    'value': 'Farsi', 
-    'display': '🇮🇷'
+    value: 'Farsi',
+    display: '🇮🇷',
   },
   {
-    'value': 'Kurdish', 
-    'display': '🇮🇶'
+    value: 'Kurdish',
+    display: '🇮🇶',
   },
   {
-    'value': 'Swahili', 
-    'display': '🇹🇿'
+    value: 'Swahili',
+    display: '🇹🇿',
   },
   {
-    'value': 'Zulu', 
-    'display': '🇿🇦'
+    value: 'Zulu',
+    display: '🇿🇦',
   },
   {
-    'value': 'Afrikaans', 
-    'display': '🇿🇦'
+    value: 'Afrikaans',
+    display: '🇿🇦',
   },
   {
-    'value': 'Xhosa', 
-    'display': '🇿🇦'
+    value: 'Xhosa',
+    display: '🇿🇦',
   },
   {
-    'value': 'Yoruba', 
-    'display': '🇳🇬'
+    value: 'Yoruba',
+    display: '🇳🇬',
   },
   {
-    'value': 'Igbo', 
-    'display': '🇳🇬'
+    value: 'Igbo',
+    display: '🇳🇬',
   },
   {
-    'value': 'Hausa', 
-    'display': '🇳🇬'
+    value: 'Hausa',
+    display: '🇳🇬',
   },
   {
-    'value': 'Amharic', 
-    'display': '🇪🇹'
-  }
+    value: 'Amharic',
+    display: '🇪🇹',
+  },
 ];
 
-export const COUNTRY_MAPPING: Record<string, {display: string}>  = {
-  'English': {
-    'display': '🇬🇧'
+export const COUNTRY_MAPPING: Record<string, { display: string }> = {
+  English: {
+    display: '🇬🇧',
   },
-  'French': {
-    'display': '🇫🇷'
+  French: {
+    display: '🇫🇷',
   },
-  'Spanish': {
-    'display': '🇪🇸'
+  Spanish: {
+    display: '🇪🇸',
   },
-  'German': {
-    'display': '🇩🇪'
+  German: {
+    display: '🇩🇪',
   },
-  'Italian': {
-    'display': '🇮🇹'
+  Italian: {
+    display: '🇮🇹',
   },
-  'Japanese': {
-    'display': '🇯🇵'
+  Japanese: {
+    display: '🇯🇵',
   },
-  'Korean': {
-    'display': '🇰🇷'
+  Korean: {
+    display: '🇰🇷',
   },
   'Mandarin Chinese': {
-    'display': '🇨🇳'
+    display: '🇨🇳',
   },
-  'Russian': {
-    'display': '🇷🇺'
+  Russian: {
+    display: '🇷🇺',
   },
-  'Hindi': {
-    'display': '🇮🇳'
+  Hindi: {
+    display: '🇮🇳',
   },
-  'Portuguese': {
-    'display': '🇧🇷'
+  Portuguese: {
+    display: '🇧🇷',
   },
-  'Arabic': {
-    'display': '🇸🇦'
+  Arabic: {
+    display: '🇸🇦',
   },
-  'Dutch': {
-    'display': '🇳🇱'
+  Dutch: {
+    display: '🇳🇱',
   },
-  'Swedish': {
-    'display': '🇸🇪'
+  Swedish: {
+    display: '🇸🇪',
   },
-  'Norwegian': {
-    'display': '🇳🇴'
+  Norwegian: {
+    display: '🇳🇴',
   },
-  'Danish': {
-    'display': '🇩🇰'
+  Danish: {
+    display: '🇩🇰',
   },
-  'Finnish': {
-    'display': '🇫🇮'
+  Finnish: {
+    display: '🇫🇮',
   },
-  'Turkish': {
-    'display': '🇹🇷'
+  Turkish: {
+    display: '🇹🇷',
   },
-  'Polish': {
-    'display': '🇵🇱'
+  Polish: {
+    display: '🇵🇱',
   },
-  'Czech': {
-    'display': '🇨🇿'
+  Czech: {
+    display: '🇨🇿',
   },
-  'Greek': {
-    'display': '🇬🇷'
+  Greek: {
+    display: '🇬🇷',
   },
-  'Hungarian': {
-    'display': '🇭🇺'
+  Hungarian: {
+    display: '🇭🇺',
   },
-  'Romanian': {
-    'display': '🇷🇴'
+  Romanian: {
+    display: '🇷🇴',
   },
-  'Bulgarian': {
-    'display': '🇧🇬'
+  Bulgarian: {
+    display: '🇧🇬',
   },
-  'Croatian': {
-    'display': '🇭🇷'
+  Croatian: {
+    display: '🇭🇷',
   },
-  'Serbian': {
-    'display': '🇷🇸'
+  Serbian: {
+    display: '🇷🇸',
   },
-  'Slovak': {
-    'display': '🇸🇰'
+  Slovak: {
+    display: '🇸🇰',
   },
-  'Slovenian': {
-    'display': '🇸🇮'
+  Slovenian: {
+    display: '🇸🇮',
   },
-  'Estonian': {
-    'display': '🇪🇪'
+  Estonian: {
+    display: '🇪🇪',
   },
-  'Latvian': {
-    'display': '🇱🇻'
+  Latvian: {
+    display: '🇱🇻',
   },
-  'Lithuanian': {
-    'display': '🇱🇹'
+  Lithuanian: {
+    display: '🇱🇹',
   },
-  'Ukrainian': {
-    'display': '🇺🇦'
+  Ukrainian: {
+    display: '🇺🇦',
   },
-  'Hebrew': {
-    'display': '🇮🇱'
+  Hebrew: {
+    display: '🇮🇱',
   },
-  'Thai': {
-    'display': '🇹🇭'
+  Thai: {
+    display: '🇹🇭',
   },
-  'Vietnamese': {
-    'display': '🇻🇳'
+  Vietnamese: {
+    display: '🇻🇳',
   },
-  'Indonesian': {
-    'display': '🇮🇩'
+  Indonesian: {
+    display: '🇮🇩',
   },
-  'Malay': {
-    'display': '🇲🇾'
+  Malay: {
+    display: '🇲🇾',
   },
-  'Tagalog': {
-    'display': '🇵🇭'
+  Tagalog: {
+    display: '🇵🇭',
   },
-  'Bengali': {
-    'display': '🇧🇩'
+  Bengali: {
+    display: '🇧🇩',
   },
-  'Punjabi': {
-    'display': '🇮🇳'
+  Punjabi: {
+    display: '🇮🇳',
   },
-  'Tamil': {
-    'display': '🇮🇳'
+  Tamil: {
+    display: '🇮🇳',
   },
-  'Telugu': {
-    'display': '🇮🇳'
+  Telugu: {
+    display: '🇮🇳',
   },
-  'Marathi': {
-    'display': '🇮🇳'
+  Marathi: {
+    display: '🇮🇳',
   },
-  'Gujarati': {
-    'display': '🇮🇳'
+  Gujarati: {
+    display: '🇮🇳',
   },
-  'Urdu': {
-    'display': '🇵🇰'
+  Urdu: {
+    display: '🇵🇰',
   },
-  'Farsi': {
-    'display': '🇮🇷'
+  Farsi: {
+    display: '🇮🇷',
   },
-  'Kurdish': {
-    'display': '🇮🇶'
+  Kurdish: {
+    display: '🇮🇶',
   },
-  'Swahili': {
-    'display': '🇹🇿'
+  Swahili: {
+    display: '🇹🇿',
   },
-  'Zulu': {
-    'display': '🇿🇦'
+  Zulu: {
+    display: '🇿🇦',
   },
-  'Afrikaans': {
-    'display': '🇿🇦'
+  Afrikaans: {
+    display: '🇿🇦',
   },
-  'Xhosa': {
-    'display': '🇿🇦'
+  Xhosa: {
+    display: '🇿🇦',
   },
-  'Yoruba': {
-    'display': '🇳🇬'
+  Yoruba: {
+    display: '🇳🇬',
   },
-  'Igbo': {
-    'display': '🇳🇬'
+  Igbo: {
+    display: '🇳🇬',
   },
-  'Hausa': {
-    'display': '🇳🇬'
+  Hausa: {
+    display: '🇳🇬',
   },
-  'Amharic': {
-    'display': '🇪🇹'
-  }
+  Amharic: {
+    display: '🇪🇹',
+  },
 };
 
 export const getCountryEmoji = (country: any) => {
   return COUNTRY_MAPPING[country as string].display;
-}
+};

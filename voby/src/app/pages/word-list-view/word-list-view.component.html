@@ -1,154 +1,213 @@
 @if (!loadingHeader) {
-    <div id="header">
-        <div id="info">
-            @if (vclass) {
-                <div id="data" (dblclick)="needSet && editSet()" style="display: flex;flex-direction: column;">
-                    <div id="emojis">
-                        @if (needSet) {
-                            <div>{{set.name}}</div>
-                            <div style="font-size: .8em; margin-left: .2em;">{{getCountryEmoji(vclass.source_language)}} > {{getCountryEmoji(vclass.target_language)}}</div>
-                        } @else {
-                            <p id="class-title">{{vclass.name}}</p>
-                        }
-                    </div>
-
-                    @if (needSet) {
-                        <p id="class-subtitle">{{vclass.name}}</p>
-                    }
-                    <div class="size">{{numberOfWords}} word(s) total (page {{currentPage}}/{{numberOfPages}})</div>
-                </div>
+  <div id="header">
+    <div id="info">
+      @if (vclass) {
+        <div
+          id="data"
+          (dblclick)="needSet && editSet()"
+          style="display: flex; flex-direction: column"
+        >
+          <div id="emojis">
+            @if (needSet) {
+              <div>{{ set.name }}</div>
+              <div style="font-size: 0.8em; margin-left: 0.2em">
+                {{ getCountryEmoji(vclass.source_language) }} >
+                {{ getCountryEmoji(vclass.target_language) }}
+              </div>
+            } @else {
+              <p id="class-title">{{ vclass.name }}</p>
             }
+          </div>
+
+          @if (needSet) {
+            <p id="class-subtitle">{{ vclass.name }}</p>
+          }
+          <div class="size">
+            {{ numberOfWords }} word(s) total (page {{ currentPage }}/{{
+              numberOfPages
+            }})
+          </div>
         </div>
-
-        <div id="search-bar">
-            <mat-form-field class="search-field" subscriptSizing="dynamic" appearance="outline">
-                <mat-label>Search</mat-label>
-                <mat-chip-grid #chipList>
-                    @for (tag of selectedTags; track tag.id) {
-                        <mat-chip-row
-                        (removed)="removeTag(tag.id)"
-                        (click)="addTagToSearch(tag.id)"
-                    >
-                        <div style="display: flex; flex-direction: row;">
-                            <mat-icon>tag</mat-icon><div>{{tag.value}}</div>
-                        </div>
-                        <mat-icon matChipRemove>cancel</mat-icon>
-                    </mat-chip-row>
-                    }
-
-                    <form
-                        [formGroup]="searchForm"
-                        (ngSubmit)="search(false, true)"
-                        style="width: 100%; display: flex;flex-direction: row;"
-                    >
-                        <input
-                            matInput
-                            formControlName="search"
-                            placeholder="Search for words or tags here..."
-                            [matAutocomplete]="autocomplete"
-                            [matChipInputFor]="chipList"
-                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                            style="width: 100%;"
-                            #searchInput
-                        >
-                    </form>
-                </mat-chip-grid>
-                <mat-autocomplete #autocomplete="matAutocomplete" (optionSelected)="addTagToSearch($event.option.value)">
-                    @for (tag of allTags; track tag.id) {
-                        <mat-option [value]="tag.id">
-                            <div style="display: flex; flex-direction: row;align-content: end;">
-                                <div><mat-icon>tag</mat-icon>{{tag.value}}</div>
-                            </div>
-                        </mat-option>
-                    }
-                </mat-autocomplete>
-            </mat-form-field>
-            <button mat-icon-button (click)="search(false, true)" matTooltip="Search"><mat-icon>search</mat-icon></button>
-            <voby-favorite (click)="toggleShowFavorites()" [isFavorite]="showingFavorites" matTooltip="Show only favorites"></voby-favorite> 
-            <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Sorting options"><mat-icon>sort</mat-icon></button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
-                <button mat-menu-item (click)="sortDateAsc()">Older first</button>
-            </mat-menu>
-        </div>
-
-        @if (needSet) {
-            <div class="action-cont">
-                <button mat-button color="accent" (click)="createWord()" matTooltip="Add word"><mat-icon>add</mat-icon>word</button>
-                <button mat-button (click)="editSet()" matTooltip="Edit set"><mat-icon>edit</mat-icon></button>
-                <button mat-button (click)="deleteSet()" matTooltip="Delete set"><mat-icon>delete_outline</mat-icon></button>
-            </div>
-        } @else {
-            <div style="visibility: hidden;"></div>
-        }
+      }
     </div>
+
+    <div id="search-bar">
+      <mat-form-field
+        class="search-field"
+        subscriptSizing="dynamic"
+        appearance="outline"
+      >
+        <mat-label>Search</mat-label>
+        <mat-chip-grid #chipList>
+          @for (tag of selectedTags; track tag.id) {
+            <mat-chip-row
+              (removed)="removeTag(tag.id)"
+              (click)="addTagToSearch(tag.id)"
+            >
+              <div style="display: flex; flex-direction: row">
+                <mat-icon>tag</mat-icon>
+                <div>{{ tag.value }}</div>
+              </div>
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip-row>
+          }
+
+          <form
+            [formGroup]="searchForm"
+            (ngSubmit)="search(false, true)"
+            style="width: 100%; display: flex; flex-direction: row"
+          >
+            <input
+              matInput
+              formControlName="search"
+              placeholder="Search for words or tags here..."
+              [matAutocomplete]="autocomplete"
+              [matChipInputFor]="chipList"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              style="width: 100%"
+              #searchInput
+            />
+          </form>
+        </mat-chip-grid>
+        <mat-autocomplete
+          #autocomplete="matAutocomplete"
+          (optionSelected)="addTagToSearch($event.option.value)"
+        >
+          @for (tag of allTags; track tag.id) {
+            <mat-option [value]="tag.id">
+              <div
+                style="display: flex; flex-direction: row; align-content: end"
+              >
+                <div><mat-icon>tag</mat-icon>{{ tag.value }}</div>
+              </div>
+            </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-icon-button (click)="search(false, true)" matTooltip="Search">
+        <mat-icon>search</mat-icon>
+      </button>
+      <voby-favorite
+        (click)="toggleShowFavorites()"
+        [isFavorite]="showingFavorites"
+        matTooltip="Show only favorites"
+      ></voby-favorite>
+      <button
+        mat-icon-button
+        [matMenuTriggerFor]="menu"
+        matTooltip="Sorting options"
+      >
+        <mat-icon>sort</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu">
+        <button mat-menu-item (click)="sortDateDesc()">Recent first</button>
+        <button mat-menu-item (click)="sortDateAsc()">Older first</button>
+      </mat-menu>
+    </div>
+
+    @if (needSet) {
+      <div class="action-cont">
+        <button
+          mat-button
+          color="accent"
+          (click)="createWord()"
+          matTooltip="Add word"
+        >
+          <mat-icon>add</mat-icon>word
+        </button>
+        <button mat-button (click)="editSet()" matTooltip="Edit set">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button (click)="deleteSet()" matTooltip="Delete set">
+          <mat-icon>delete_outline</mat-icon>
+        </button>
+      </div>
+    } @else {
+      <div style="visibility: hidden"></div>
+    }
+  </div>
 }
 
 @if (!loadingWords) {
-    <div class="layout-horizontal">
-        @if (filteredWords.length > 0) {
-            <div class="word-container">
-                @for (word of filteredWords; let i = $index; track word.id) {
-                    <voby-single-word-row
-                        style="margin-bottom: 1em;"
-                        [word]="word"
-                        [selected]="word !== undefined && word.id === selectedWord?.id"
-                        (click)="selectWord(word.id)"
-                        (dblclick)="selectWord(word.id);editWord()"
-                        (wordFavorited)="processFavoritedWord($event)"
-                    ></voby-single-word-row>
+  <div class="layout-horizontal">
+    @if (filteredWords.length > 0) {
+      <div class="word-container">
+        @for (word of filteredWords; let i = $index; track word.id) {
+          <voby-single-word-row
+            style="margin-bottom: 1em"
+            [word]="word"
+            [selected]="word !== undefined && word.id === selectedWord?.id"
+            (click)="selectWord(word.id)"
+            (dblclick)="selectWord(word.id); editWord()"
+            (wordFavorited)="processFavoritedWord($event)"
+          ></voby-single-word-row>
 
-                    @if (i < filteredWords.length -1 && word.created.split('T')[0] != filteredWords[i+1].created.split('T')[0]) {
-                        <p class="date-change">{{filteredWords[i+1].created.split('T')[0]}}</p>
-                    }
-                }
-    
-                <div class="page-number-cont">
-                    @if (numberOfPages > PAGE_SKIP_BUTTON_THRESHOLD && currentPage != 1) {
-                        <button mat-raised-button
-                            (click)="currentPage = 1;search(true)"
-                            class="page-number"
-                        >
-                            <<
-                        </button>
-                    }
-
-                    @for (page of pagesToDisplay; track page) {
-                        <button mat-raised-button
-                            (click)="currentPage = page+1;search(true)"
-                            [ngClass]="{'page-number': true, 'current-page': currentPage === page+1}"
-                        >
-                            {{page+1}}
-                        </button>
-                    }
-
-                    @if (numberOfPages > PAGE_SKIP_BUTTON_THRESHOLD && currentPage != numberOfPages) {
-                        <button mat-raised-button
-                            (click)="currentPage = numberOfPages;search(true)"
-                            class="page-number"
-                        >
-                            >>
-                        </button>
-                    }
-                </div>
-            </div>
-
-            <voby-word-detail-panel
-                [word]="selectedWord"
-                [allTags]="allTags"
-                [vclass]="vclass"
-                [setId]="setId"
-                [isSet]="needSet"
-                (wordSelected)="selectWord($event)"
-                (wordDeselected)="selectedWord = undefined"
-                (wordDeletedOrUnlinked)="selectedWordDeletedOrUnlinked()"
-                (wordEdited)="processEditedWord($event)"
-                (tagSelected)="addTagToSearch($event)"
-            ></voby-word-detail-panel>
-        } @else {
-            <p class="empty-message">No words found :(</p>
+          @if (
+            i < filteredWords.length - 1 &&
+            word.created.split("T")[0] !=
+              filteredWords[i + 1].created.split("T")[0]
+          ) {
+            <p class="date-change">
+              {{ filteredWords[i + 1].created.split("T")[0] }}
+            </p>
+          }
         }
-    </div>
+
+        <div class="page-number-cont">
+          @if (numberOfPages > PAGE_SKIP_BUTTON_THRESHOLD && currentPage != 1) {
+            <button
+              mat-raised-button
+              (click)="currentPage = 1; search(true)"
+              class="page-number"
+            >
+              <<
+            </button>
+          }
+
+          @for (page of pagesToDisplay; track page) {
+            <button
+              mat-raised-button
+              (click)="currentPage = page + 1; search(true)"
+              [ngClass]="{
+                'page-number': true,
+                'current-page': currentPage === page + 1,
+              }"
+            >
+              {{ page + 1 }}
+            </button>
+          }
+
+          @if (
+            numberOfPages > PAGE_SKIP_BUTTON_THRESHOLD &&
+            currentPage != numberOfPages
+          ) {
+            <button
+              mat-raised-button
+              (click)="currentPage = numberOfPages; search(true)"
+              class="page-number"
+            >
+              >>
+            </button>
+          }
+        </div>
+      </div>
+
+      <voby-word-detail-panel
+        [word]="selectedWord"
+        [allTags]="allTags"
+        [vclass]="vclass"
+        [setId]="setId"
+        [isSet]="needSet"
+        (wordSelected)="selectWord($event)"
+        (wordDeselected)="selectedWord = undefined"
+        (wordDeletedOrUnlinked)="selectedWordDeletedOrUnlinked()"
+        (wordEdited)="processEditedWord($event)"
+        (tagSelected)="addTagToSearch($event)"
+      ></voby-word-detail-panel>
+    } @else {
+      <p class="empty-message">No words found :(</p>
+    }
+  </div>
 } @else {
-    <voby-loading-ind></voby-loading-ind>
+  <voby-loading-ind></voby-loading-ind>
 }

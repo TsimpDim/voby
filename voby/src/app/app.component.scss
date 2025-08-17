@@ -1,9 +1,9 @@
 ::ng-deep body {
-    background-color: hsl(263, 52%, 98%); 
+  background-color: hsl(263, 52%, 98%);
 }
 
 ::ng-deep div[id^="mat-autocomplete-"] {
-    padding: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
+  padding: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
 }

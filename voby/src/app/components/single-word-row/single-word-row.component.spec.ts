@@ -8,9 +8,8 @@ describe('SingleWordRowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SingleWordRowComponent]
-})
-    .compileComponents();
+      imports: [SingleWordRowComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SingleWordRowComponent);
     component = fixture.componentInstance;

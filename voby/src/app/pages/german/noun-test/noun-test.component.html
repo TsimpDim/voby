@@ -3,23 +3,34 @@
     <voby-loading-ind></voby-loading-ind>
   }
 
-  <div style="display: flex; flex-direction: row; justify-content: space-between;">
-    <h2 class="call-to-action">Do you know all {{questions.length}} genders? </h2>
-    <mat-slide-toggle [disabled]="!hasFavorites" (click)="toggleFavorites()" style="margin-right: 3em;"><mat-icon>favorite</mat-icon>only</mat-slide-toggle>
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-between"
+  >
+    <h2 class="call-to-action">
+      Do you know all {{ questions.length }} genders?
+    </h2>
+    <mat-slide-toggle
+      [disabled]="!hasFavorites"
+      (click)="toggleFavorites()"
+      style="margin-right: 3em"
+      ><mat-icon>favorite</mat-icon>only</mat-slide-toggle
+    >
   </div>
 
-  <mat-accordion style="z-index:999;position: absolute; width: 100%;">
+  <mat-accordion style="z-index: 999; position: absolute; width: 100%">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon style="color: #673ab7;">info</mat-icon>Gender Groups
+          <mat-icon style="color: #673ab7">info</mat-icon>Gender Groups
         </mat-panel-title>
         <mat-panel-description>
-          Gender groups help group the genders of nouns together, based on topics/areas.
+          Gender groups help group the genders of nouns together, based on
+          topics/areas.
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <ul style="display: flex; flex-direction: row;">
-        <li style="margin: 1em;">der
+      <ul style="display: flex; flex-direction: row">
+        <li style="margin: 1em">
+          der
           <ul>
             <li>Animals</li>
             <li>Days, Months, Seasons</li>
@@ -28,13 +39,15 @@
             <li>Compass, Weather</li>
           </ul>
         </li>
-        <li style="margin: 1em;">die
+        <li style="margin: 1em">
+          die
           <ul>
             <li>Trees, Flowers</li>
             <li>Outer Space</li>
           </ul>
         </li>
-        <li style="margin: 1em;">das
+        <li style="margin: 1em">
+          das
           <ul>
             <li>Units of measurement</li>
             <li>Colours</li>
@@ -48,14 +61,15 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon style="color: #673ab7;">info</mat-icon>Noun Endings
+          <mat-icon style="color: #673ab7">info</mat-icon>Noun Endings
         </mat-panel-title>
         <mat-panel-description>
           You can usually figure out the gender of the noun based on its ending
         </mat-panel-description>
       </mat-expansion-panel-header>
-      <ul style="display: flex; flex-direction: row;">
-        <li style="margin: 1em;">der
+      <ul style="display: flex; flex-direction: row">
+        <li style="margin: 1em">
+          der
           <ul>
             <li>-ant</li>
             <li>-anz (monosyllabic)</li>
@@ -68,7 +82,8 @@
             <li>-smus</li>
           </ul>
         </li>
-        <li style="margin: 1em;">die
+        <li style="margin: 1em">
+          die
           <ul>
             <li>-anz</li>
             <li>-e</li>
@@ -86,7 +101,8 @@
             <li>-ur</li>
           </ul>
         </li>
-        <li style="margin: 1em;">das
+        <li style="margin: 1em">
+          das
           <ul>
             <li>-chen (diminutive)</li>
             <li>-lein (diminutive)</li>
@@ -107,16 +123,20 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <div style="margin-top:10em">
+  <div style="margin-top: 10em">
     @for (q of questions; track q; let i = $index) {
       <mat-card style="margin: 2em">
         <mat-card-content>
-          <div style="display: flex; flex-direction: column;">
-            <h2>{{q['word']}}</h2>
-            <h3>{{q['translations']}}</h3>
+          <div style="display: flex; flex-direction: column">
+            <h2>{{ q["word"] }}</h2>
+            <h3>{{ q["translations"] }}</h3>
           </div>
           <div class="answer-container">
-            <mat-form-field class="answer-input" appearance="outline" subscriptSizing="dynamic">
+            <mat-form-field
+              class="answer-input"
+              appearance="outline"
+              subscriptSizing="dynamic"
+            >
               <mat-label>Gender</mat-label>
               <mat-select #input [disabled]="questionState[i] !== NOT_ANSWERED">
                 <mat-option value="der">der</mat-option>
@@ -125,41 +145,48 @@
               </mat-select>
             </mat-form-field>
             @if (questionState[i] === CORRECT) {
-              <mat-icon style="color: green;" [matTooltip]="q['gender'] + ' ' + q['word']">check_circle</mat-icon>
+              <mat-icon
+                style="color: green"
+                [matTooltip]="q['gender'] + ' ' + q['word']"
+                >check_circle</mat-icon
+              >
             }
             @if (questionState[i] === INCORRECT) {
-              <mat-icon style="color: red;" [matTooltip]="q['gender'] + ' ' + q['word']">cancel</mat-icon>
+              <mat-icon
+                style="color: red"
+                [matTooltip]="q['gender'] + ' ' + q['word']"
+                >cancel</mat-icon
+              >
             }
           </div>
         </mat-card-content>
         @if (questionState[i] === INCORRECT) {
           <mat-card>
-            <mat-card-content>
-              Answer: {{q['gender']}}
-            </mat-card-content>
+            <mat-card-content> Answer: {{ q["gender"] }} </mat-card-content>
           </mat-card>
         }
       </mat-card>
     }
   </div>
 
-
   <div class="action-container">
     @if (questionsValidated) {
-      <button mat-button
+      <button
+        mat-button
         (click)="refreshTest()"
         [disabled]="!questionsValidated"
         id="refresh-button"
-        >
+      >
         <mat-icon>refresh</mat-icon>
       </button>
     }
-    <button mat-button
+    <button
+      mat-button
       type="submit"
       (click)="validateAnswers()"
       [disabled]="questionsValidated"
       id="submit-button"
-      >
+    >
       <mat-icon>check</mat-icon>Submit
     </button>
   </div>

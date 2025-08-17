@@ -1,32 +1,31 @@
 form {
-    display: flex;
-    flex-direction: column;
-    width: 500px;
-    height: 100%;
-    overflow-x: hidden;
-    margin: 2em;
+  display: flex;
+  flex-direction: column;
+  width: 500px;
+  height: 100%;
+  overflow-x: hidden;
+  margin: 2em;
 }
 
 .example-translation {
-    margin-top: -1em;
+  margin-top: -1em;
 }
 
 .remove-example-btn {
-    border-radius: 100px;
+  border-radius: 100px;
 }
 
 .add-example-btn {
-    border-radius: 100px;
-    margin-top:-1em;
+  border-radius: 100px;
+  margin-top: -1em;
 }
 
-
 .similar-word-suggestion {
-    background-color: #fffbee !important;
-    border: 2px #fed53f dashed;
-    font-size: 1.2em;
+  background-color: #fffbee !important;
+  border: 2px #fed53f dashed;
+  font-size: 1.2em;
 
-    &:hover {
-        cursor: pointer !important;
-    }
+  &:hover {
+    cursor: pointer !important;
+  }
 }

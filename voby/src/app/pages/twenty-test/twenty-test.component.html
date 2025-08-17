@@ -1,49 +1,85 @@
 <div class="container">
-    @if (loading) {
-        <voby-loading-ind></voby-loading-ind>
-    }
+  @if (loading) {
+    <voby-loading-ind></voby-loading-ind>
+  }
 
-    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h2 class="call-to-action">Can you answer all {{questions.length}} questions correctly? </h2>
-        <mat-slide-toggle [disabled]="!hasFavorites" (click)="toggleFavorites()" style="margin-right: 3em;"><mat-icon>favorite</mat-icon>only</mat-slide-toggle>
-    </div>
+  <div
+    style="display: flex; flex-direction: row; justify-content: space-between"
+  >
+    <h2 class="call-to-action">
+      Can you answer all {{ questions.length }} questions correctly?
+    </h2>
+    <mat-slide-toggle
+      [disabled]="!hasFavorites"
+      (click)="toggleFavorites()"
+      style="margin-right: 3em"
+      ><mat-icon>favorite</mat-icon>only</mat-slide-toggle
+    >
+  </div>
 
-    @for (q of questions; let i = $index; track q) {
-        <mat-card style="margin: 2em">
-            <mat-card-content class="question-container">
-                <div style="font-size: 2em;">
-                    <span style="font-size: inherit;">{{getCountryEmoji(q.source_language)}}</span>
-                    {{q['word']}}
-                </div>
-                <div>
-                    <mat-form-field class="answer-input" appearance="outline">
-                        <mat-label>Answer</mat-label>
-                        <input [disabled]="questionState[i] !== 0" matInput placeholder="type your answer here..." #input>
-                        <p matPrefix style="margin: .5em;font-size: 1.5em;">{{getCountryEmoji(q.target_language)}}</p>
-                    </mat-form-field>
+  @for (q of questions; let i = $index; track q) {
+    <mat-card style="margin: 2em">
+      <mat-card-content class="question-container">
+        <div style="font-size: 2em">
+          <span style="font-size: inherit">{{
+            getCountryEmoji(q.source_language)
+          }}</span>
+          {{ q["word"] }}
+        </div>
+        <div>
+          <mat-form-field class="answer-input" appearance="outline">
+            <mat-label>Answer</mat-label>
+            <input
+              [disabled]="questionState[i] !== 0"
+              matInput
+              placeholder="type your answer here..."
+              #input
+            />
+            <p matPrefix style="margin: 0.5em; font-size: 1.5em">
+              {{ getCountryEmoji(q.target_language) }}
+            </p>
+          </mat-form-field>
 
-                    @if (questionState[i] === CORRECT) {
-                        <mat-icon style="color: green;" [matTooltip]="q['translations']">check_circle</mat-icon>
-                    } @else if (questionState[i] === INCORRECT) {
-                        <mat-icon style="color: red;" [matTooltip]="q['translations']">cancel</mat-icon>
-                    }
-                </div>
-            </mat-card-content>
+          @if (questionState[i] === CORRECT) {
+            <mat-icon style="color: green" [matTooltip]="q['translations']"
+              >check_circle</mat-icon
+            >
+          } @else if (questionState[i] === INCORRECT) {
+            <mat-icon style="color: red" [matTooltip]="q['translations']"
+              >cancel</mat-icon
+            >
+          }
+        </div>
+      </mat-card-content>
 
-            @if (questionState[i] === INCORRECT) {
-                <mat-card>
-                    <mat-card-content>
-                        Answer: {{q['translations']}}
-                    </mat-card-content>
-                </mat-card>
-            }
+      @if (questionState[i] === INCORRECT) {
+        <mat-card>
+          <mat-card-content> Answer: {{ q["translations"] }} </mat-card-content>
         </mat-card>
-    }
+      }
+    </mat-card>
+  }
 
-    <div class="action-container">
-        @if (questionsValidated) {
-            <button mat-button (click)="refreshTest()" [disabled]="!questionsValidated" color="primary" id="refresh-button"><mat-icon>refresh</mat-icon>Again</button>
-        }
-        <button mat-button type="submit" (click)="validateAnswers()" [disabled]="questionsValidated" id="submit-button"><mat-icon>check</mat-icon>Submit</button>
-    </div>
+  <div class="action-container">
+    @if (questionsValidated) {
+      <button
+        mat-button
+        (click)="refreshTest()"
+        [disabled]="!questionsValidated"
+        color="primary"
+        id="refresh-button"
+      >
+        <mat-icon>refresh</mat-icon>Again
+      </button>
+    }
+    <button
+      mat-button
+      type="submit"
+      (click)="validateAnswers()"
+      [disabled]="questionsValidated"
+      id="submit-button"
+    >
+      <mat-icon>check</mat-icon>Submit
+    </button>
+  </div>
 </div>

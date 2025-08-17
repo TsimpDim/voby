@@ -1,30 +1,44 @@
 @if (testWord !== undefined && !hide) {
-    <div class="flash-container">
-        @if (loading) {
-            <voby-loading-ind></voby-loading-ind>
-        }
+  <div class="flash-container">
+    @if (loading) {
+      <voby-loading-ind></voby-loading-ind>
+    }
 
-        @if (answerCorrect === undefined) {
-            <div style="display:flex; flex-direction: row;">
-                <!-- <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3> -->
-                <button mat-icon-button class="close-button" (click)="closeTest()"><mat-icon>close</mat-icon></button>
-            </div>
+    @if (answerCorrect === undefined) {
+      <div style="display: flex; flex-direction: row">
+        <!-- <h3 style="width: 100%; padding-top: 0;">Can you translate...</h3> -->
+        <button mat-icon-button class="close-button" (click)="closeTest()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
 
-            <p class="word-to-translate">{{getCountryEmoji(testWord.source_language)}} {{testWord.word}}</p>
-            <mat-icon style="margin-top: .6em;">arrow_forward</mat-icon>
-            <div class="answer-container">
-                <mat-form-field class="answer-input" appearance="outline">
-                    <input matInput #translation placeholder="?">
-                    <p matPrefix>{{getCountryEmoji(testWord.target_language)}}</p>
-                </mat-form-field>
+      <p class="word-to-translate">
+        {{ getCountryEmoji(testWord.source_language) }} {{ testWord.word }}
+      </p>
+      <mat-icon style="margin-top: 0.6em">arrow_forward</mat-icon>
+      <div class="answer-container">
+        <mat-form-field class="answer-input" appearance="outline">
+          <input matInput #translation placeholder="?" />
+          <p matPrefix>{{ getCountryEmoji(testWord.target_language) }}</p>
+        </mat-form-field>
 
-                <button mat-icon-button type="submit" (click)="checkAnswer()" color="accent"><mat-icon fontIcon="check"></mat-icon></button>
-            </div>
-        } @else if (answerCorrect === true) {
-            <p class="result">Correct!</p>
-        } @else {
-            <p class="result">False</p>
-            <p class="explanation">The answer is:<br>"<strong>{{testWord.translations}}</strong>"</p>
-        }
-    </div>
+        <button
+          mat-icon-button
+          type="submit"
+          (click)="checkAnswer()"
+          color="accent"
+        >
+          <mat-icon fontIcon="check"></mat-icon>
+        </button>
+      </div>
+    } @else if (answerCorrect === true) {
+      <p class="result">Correct!</p>
+    } @else {
+      <p class="result">False</p>
+      <p class="explanation">
+        The answer is:<br />"<strong>{{ testWord.translations }}</strong
+        >"
+      </p>
+    }
+  </div>
 }

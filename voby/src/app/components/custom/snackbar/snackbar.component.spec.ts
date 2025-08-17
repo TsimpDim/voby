@@ -8,9 +8,8 @@ describe('SnackbarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [SnackbarComponent]
-})
-    .compileComponents();
+      imports: [SnackbarComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SnackbarComponent);
     component = fixture.componentInstance;

@@ -3,13 +3,17 @@
   height: 64px;
   display: block;
   background-image:
-    linear-gradient(#ffd740 16px, transparent 0) ,
-    linear-gradient(#673ab7 16px, transparent 0) ,
-    linear-gradient(#673ab7 16px, transparent 0) ,
+    linear-gradient(#ffd740 16px, transparent 0),
+    linear-gradient(#673ab7 16px, transparent 0),
+    linear-gradient(#673ab7 16px, transparent 0),
     linear-gradient(#ffd740 16px, transparent 0);
   background-repeat: no-repeat;
   background-size: 16px 16px;
-  background-position: left top , left bottom , right top , right bottom;
+  background-position:
+    left top,
+    left bottom,
+    right top,
+    right bottom;
   animation: rotate 1s linear infinite;
   margin: auto;
   z-index: 999;
@@ -19,16 +23,16 @@
   0% {
     width: 64px;
     height: 64px;
-    transform: rotate(0deg)
+    transform: rotate(0deg);
   }
   50% {
     width: 30px;
     height: 30px;
-    transform: rotate(180deg)
+    transform: rotate(180deg);
   }
   100% {
     width: 64px;
     height: 64px;
-    transform: rotate(360deg)
+    transform: rotate(360deg);
   }
 }

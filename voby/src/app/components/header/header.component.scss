@@ -1,62 +1,62 @@
 #title:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .mat-toolbar {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-content: space-between;
-    border-bottom-right-radius: 20px;
-    border-bottom-left-radius: 20px;
-    margin-bottom: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-content: space-between;
+  border-bottom-right-radius: 20px;
+  border-bottom-left-radius: 20px;
+  margin-bottom: 5px;
 }
 
 img:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .xp {
-    vertical-align: middle;
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    margin: 0 auto;
+  vertical-align: middle;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
 
-    .mat-icon {
-        margin-top: auto;
-        margin-bottom: auto;
-    }
+  .mat-icon {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
 }
 
 .xp-bar {
-    width: 110px;
-    border-radius: 100px;
-    overflow: hidden;
+  width: 110px;
+  border-radius: 100px;
+  overflow: hidden;
 
-    --mat-progress-bar-track-height: 20px;
-    --mat-progress-bar-active-indicator-height: 20px;
+  --mat-progress-bar-track-height: 20px;
+  --mat-progress-bar-active-indicator-height: 20px;
 
-    ::ng-deep .mdc-linear-progress__primary-bar {
-        position: relative; /* allows ::before to position correctly */
-    }    
+  ::ng-deep .mdc-linear-progress__primary-bar {
+    position: relative; /* allows ::before to position correctly */
+  }
 }
 
 ::ng-deep .mat-mdc-progress-bar .mdc-linear-progress__primary-bar::before {
-    content: "";
-    position: absolute;
-    width: 80%;
-    height: 50%;
-    filter: blur(2px);
-    background: rgb(255, 229, 136);
-    top: 50%;
-    left: 10%;
-    border-radius: 50%;
-    transform: scaleY(1.5) translateY(-50%);
-    z-index: 2; /* above fill but inside the bar */
-    pointer-events: none;
+  content: "";
+  position: absolute;
+  width: 80%;
+  height: 50%;
+  filter: blur(2px);
+  background: rgb(255, 229, 136);
+  top: 50%;
+  left: 10%;
+  border-radius: 50%;
+  transform: scaleY(1.5) translateY(-50%);
+  z-index: 2; /* above fill but inside the bar */
+  pointer-events: none;
 }
 
 .menu-icon {
-    margin-top: 0.5em;
+  margin-top: 0.5em;
 }

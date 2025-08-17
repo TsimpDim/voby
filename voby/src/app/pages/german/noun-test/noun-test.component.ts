@@ -15,15 +15,26 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingIndComponent } from '../../../components/custom/loading-ind/loading-ind.component';
 
 @Component({
-    selector: 'noun-test',
-    templateUrl: './noun-test.component.html',
-    styleUrls: ['./noun-test.component.scss'],
-    imports: [LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatExpansionModule, MatCardModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatTooltipModule, MatButtonModule]
+  selector: 'noun-test',
+  templateUrl: './noun-test.component.html',
+  styleUrls: ['./noun-test.component.scss'],
+  imports: [
+    LoadingIndComponent,
+    MatSlideToggleModule,
+    MatIconModule,
+    MatExpansionModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatOptionModule,
+    MatTooltipModule,
+    MatButtonModule,
+  ],
 })
 export class NounTestComponent implements OnInit {
-  NOT_ANSWERED = 0
-  CORRECT = 1
-  INCORRECT = 2
+  NOT_ANSWERED = 0;
+  CORRECT = 1;
+  INCORRECT = 2;
   questions: any[] = [];
   questionState: number[] = [];
   questionsValidated = false;
@@ -40,7 +51,7 @@ export class NounTestComponent implements OnInit {
   constructor(
     private voby: VobyService,
     private exp: ExperienceService,
-    private router: Router
+    private router: Router,
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
@@ -55,29 +66,36 @@ export class NounTestComponent implements OnInit {
   }
 
   getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
-    this.voby.getOptions()
-    .subscribe({
+    this.voby.getOptions().subscribe({
       next: (data: any) => {
-        this.numberTestQuestions = data.find((o: any) => o.key === 'numTestQuestions').value;
-        this.voby.getGermanNounTestWords(this.numberTestQuestions, classId, setId, favoritesOnly)
-        .subscribe({
-          next: (data: any) => {
-            this.questions = data;
-            this.questions.forEach(e => {
-              this.questionState.push(this.NOT_ANSWERED);
-            });
-          },
-          error: () => {
-            this.loading = false;
-          },
-          complete: () => this.loading = false
-        })
+        this.numberTestQuestions = data.find(
+          (o: any) => o.key === 'numTestQuestions',
+        ).value;
+        this.voby
+          .getGermanNounTestWords(
+            this.numberTestQuestions,
+            classId,
+            setId,
+            favoritesOnly,
+          )
+          .subscribe({
+            next: (data: any) => {
+              this.questions = data;
+              this.questions.forEach((e) => {
+                this.questionState.push(this.NOT_ANSWERED);
+              });
+            },
+            error: () => {
+              this.loading = false;
+            },
+            complete: () => (this.loading = false),
+          });
       },
       error: (error: any) => {
         this.loading = false;
       },
-      complete: () => this.loading = false
-    })
+      complete: () => (this.loading = false),
+    });
   }
 
   validateAnswers() {
@@ -86,7 +104,11 @@ export class NounTestComponent implements OnInit {
       this.inputs._results.forEach((input: any, index: number) => {
         const userAnswer = input._elementRef.nativeElement.textContent;
         const correctAnswer = this.questions[index].gender;
-        if (correctAnswer.split(' / ').find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)) {
+        if (
+          correctAnswer
+            .split(' / ')
+            .find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)
+        ) {
           this.questionState[index] = this.CORRECT;
           this.exp.add(2);
           correct += 1;
@@ -117,4 +139,3 @@ export class NounTestComponent implements OnInit {
     }
   }
 }
-

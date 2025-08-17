@@ -10,51 +10,60 @@ import { WordListViewComponent } from './pages/word-list-view/word-list-view.com
 import { AuthGuardService } from './services/auth-guard.service';
 import { LoggedInGuardService } from './services/logged-in-guard.service';
 
-
 export const routes: Routes = [
   {
-    path: '', component: DashboardComponent,
-    canActivate: [AuthGuardService]
+    path: '',
+    component: DashboardComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'dashboard', component: DashboardComponent,
-    canActivate: [AuthGuardService]
+    path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'options', component: OptionsComponent,
-    canActivate: [AuthGuardService]
+    path: 'options',
+    component: OptionsComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'test', component: TwentyTestComponent,
-    canActivate: [AuthGuardService]
+    path: 'test',
+    component: TwentyTestComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'german/noun-test', component: NounTestComponent,
-    canActivate: [AuthGuardService]
+    path: 'german/noun-test',
+    component: NounTestComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'login', component: LoginFormComponent,
-    canActivate: [LoggedInGuardService]
+    path: 'login',
+    component: LoginFormComponent,
+    canActivate: [LoggedInGuardService],
   },
   {
-    path: 'register', component: RegisterFormComponent,
-    canActivate: [LoggedInGuardService]
+    path: 'register',
+    component: RegisterFormComponent,
+    canActivate: [LoggedInGuardService],
   },
   {
-    path: 'set/:id', component: WordListViewComponent,
-    canActivate: [AuthGuardService]
+    path: 'set/:id',
+    component: WordListViewComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: 'class/:id', component: WordListViewComponent,
-    canActivate: [AuthGuardService]
+    path: 'class/:id',
+    component: WordListViewComponent,
+    canActivate: [AuthGuardService],
   },
   {
-    path: '**', redirectTo: ''
-  }
+    path: '**',
+    redirectTo: '',
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

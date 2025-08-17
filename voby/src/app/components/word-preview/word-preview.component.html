@@ -1,13 +1,13 @@
 @if (word !== undefined) {
-    <mat-card class="info-container" #infoContainer (click)="onClick()">
-        <mat-card-content>
-            @for (tr of word.translations; track tr.id) {
-                <div>
-                    {{tr.value}}
-                </div>
-            }
+  <mat-card class="info-container" #infoContainer (click)="onClick()">
+    <mat-card-content>
+      @for (tr of word.translations; track tr.id) {
+        <div>
+          {{ tr.value }}
+        </div>
+      }
 
-            <p>{{word.set_names.join(', ')}}</p>
-        </mat-card-content>
-    </mat-card>
+      <p>{{ word.set_names.join(", ") }}</p>
+    </mat-card-content>
+  </mat-card>
 }

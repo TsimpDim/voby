@@ -4,17 +4,17 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-    selector: 'voby-confirm-dialog',
-    templateUrl: './confirm-dialog.component.html',
-    styleUrls: ['./confirm-dialog.component.scss'],
-    imports: [MatDialogModule, MatButtonModule]
+  selector: 'voby-confirm-dialog',
+  templateUrl: './confirm-dialog.component.html',
+  styleUrls: ['./confirm-dialog.component.scss'],
+  imports: [MatDialogModule, MatButtonModule],
 })
 export class ConfirmDialogComponent {
   verb: string = 'delete';
 
   constructor(
     private dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) data: {verb: string}
+    @Inject(MAT_DIALOG_DATA) data: { verb: string },
   ) {
     if (data && data.verb) {
       this.verb = data.verb;
@@ -22,10 +22,10 @@ export class ConfirmDialogComponent {
   }
 
   onNoClick(): void {
-    this.dialogRef.close({'confirmed': false});
+    this.dialogRef.close({ confirmed: false });
   }
 
   onConfirm(): void {
-    this.dialogRef.close({'confirmed': true});
+    this.dialogRef.close({ confirmed: true });
   }
 }

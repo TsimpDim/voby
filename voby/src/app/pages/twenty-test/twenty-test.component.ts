@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChildren } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChildren,
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from 'src/app/countries';
@@ -15,17 +21,25 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingIndComponent } from 'src/app/components/custom/loading-ind/loading-ind.component';
 
-
 @Component({
-    selector: 'voby-twenty-test',
-    templateUrl: './twenty-test.component.html',
-    styleUrls: ['./twenty-test.component.scss'],
-    imports: [MatSlideToggleModule, MatIconModule, MatCardModule, MatFormFieldModule, MatInputModule, MatTooltipModule, MatButtonModule, LoadingIndComponent]
+  selector: 'voby-twenty-test',
+  templateUrl: './twenty-test.component.html',
+  styleUrls: ['./twenty-test.component.scss'],
+  imports: [
+    MatSlideToggleModule,
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTooltipModule,
+    MatButtonModule,
+    LoadingIndComponent,
+  ],
 })
 export class TwentyTestComponent implements OnInit, OnDestroy {
-  NOT_ANSWERED = 0
-  CORRECT = 1
-  INCORRECT = 2
+  NOT_ANSWERED = 0;
+  CORRECT = 1;
+  INCORRECT = 2;
   questions: any[] = [];
   questionState: number[] = [];
   questionsValidated = false;
@@ -45,7 +59,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
     private voby: VobyService,
     private exp: ExperienceService,
     private hotkeys: HotkeysService,
-    private router: Router
+    private router: Router,
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
     if (state) {
@@ -54,7 +68,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
       this.hasFavorites = state['hasFavorites'];
     }
 
-    this.hotkeys.shortcuts$.subscribe(shortcuts => {
+    this.hotkeys.shortcuts$.subscribe((shortcuts) => {
       for (const s of this.shortcutSubscriptions$) {
         s.unsubscribe();
       }
@@ -78,29 +92,31 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   }
 
   getTestQuestions(classId: number, setId: number, favoritesOnly: boolean) {
-    this.voby.getOptions()
-    .subscribe({
+    this.voby.getOptions().subscribe({
       next: (data: any) => {
-        this.numberTestQuestions = data.find((o: any) => o.key === 'numTestQuestions').value;
-        this.voby.getTestWords(this.numberTestQuestions, classId, setId, favoritesOnly)
-        .subscribe({
-          next: (data: any) => {
-            this.questions = data;
-            this.questions.forEach(e => {
-              this.questionState.push(this.NOT_ANSWERED);
-            });
-          },
-          error: () => {
-            this.loading = false;
-          },
-          complete: () => this.loading = false
-        })
+        this.numberTestQuestions = data.find(
+          (o: any) => o.key === 'numTestQuestions',
+        ).value;
+        this.voby
+          .getTestWords(this.numberTestQuestions, classId, setId, favoritesOnly)
+          .subscribe({
+            next: (data: any) => {
+              this.questions = data;
+              this.questions.forEach((e) => {
+                this.questionState.push(this.NOT_ANSWERED);
+              });
+            },
+            error: () => {
+              this.loading = false;
+            },
+            complete: () => (this.loading = false),
+          });
       },
       error: (error: any) => {
         this.loading = false;
       },
-      complete: () => this.loading = false
-    })
+      complete: () => (this.loading = false),
+    });
   }
 
   validateAnswers() {
@@ -110,7 +126,11 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
         const userAnswer = input?.nativeElement.value;
         const correctAnswer = this.questions[index].translations;
 
-        if (correctAnswer.split(' / ').find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)) {
+        if (
+          correctAnswer
+            .split(' / ')
+            .find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)
+        ) {
           this.questionState[index] = this.CORRECT;
           this.exp.add(2);
           correct += 1;
@@ -141,4 +161,3 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
     }
   }
 }
-

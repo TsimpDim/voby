@@ -1,31 +1,56 @@
-
 @if (word !== undefined) {
-    <mat-card class="word-detail-container" (dblclick)="editWord()">
-        <div class="word-card-content">
-            <mat-card-content style="margin-bottom: 1em;">
-                <div class="header">
-                    <mat-card-title>
-                        {{word.word}}
-                        <p class="word-date">Added {{word.created | date:'mediumDate'}}</p>
-                    </mat-card-title>
-                    <div>
-                        <button mat-icon-button (click)="editWord()" class="action-icon" matTooltip="Edit word"><mat-icon>edit</mat-icon></button>
-                        @if (word.sets.length === 1) {
-                            <button mat-icon-button (click)="deleteWord()" class="action-icon" matTooltip="Delete word">
-                                <mat-icon>delete_outline</mat-icon>
-                            </button>
-                        } @else if (word.sets.length > 1) { 
-                            <button mat-icon-button (click)="unlinkWord()" class="action-icon" matTooltip="Unlink word">
-                                <mat-icon>link_off</mat-icon>
-                            </button>
-                        }
+  <mat-card class="word-detail-container" (dblclick)="editWord()">
+    <div class="word-card-content">
+      <mat-card-content style="margin-bottom: 1em">
+        <div class="header">
+          <mat-card-title>
+            {{ word.word }}
+            <p class="word-date">
+              Added {{ word.created | date: "mediumDate" }}
+            </p>
+          </mat-card-title>
+          <div>
+            <button
+              mat-icon-button
+              (click)="editWord()"
+              class="action-icon"
+              matTooltip="Edit word"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            @if (word.sets.length === 1) {
+              <button
+                mat-icon-button
+                (click)="deleteWord()"
+                class="action-icon"
+                matTooltip="Delete word"
+              >
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            } @else if (word.sets.length > 1) {
+              <button
+                mat-icon-button
+                (click)="unlinkWord()"
+                class="action-icon"
+                matTooltip="Unlink word"
+              >
+                <mat-icon>link_off</mat-icon>
+              </button>
+            }
 
-                        <button mat-icon-button (click)="deselectWord()" class="action-icon" matTooltip="Deselect word"><mat-icon>close</mat-icon></button>
-                    </div>
-                </div>
-            </mat-card-content>
+            <button
+              mat-icon-button
+              (click)="deselectWord()"
+              class="action-icon"
+              matTooltip="Deselect word"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
 
-            <!-- <mat-card-content class="info-container" *ngIf="word.plural">
+      <!-- <mat-card-content class="info-container" *ngIf="word.plural">
                 <mat-card-title>Plural</mat-card-title>
                 
                 <p>{{word.plural}}</p>
@@ -39,64 +64,75 @@
                 </mat-chip-list>
             </mat-card-content> -->
 
-            <mat-card-content class="info-container">
-                <mat-card-title>General</mat-card-title>
-                @if (word.general.length === 0) {
-                    <p class="default-dash chip">-</p>
-                }
-                <p style="white-space: pre">{{word.general}}</p>
-            </mat-card-content>
+      <mat-card-content class="info-container">
+        <mat-card-title>General</mat-card-title>
+        @if (word.general.length === 0) {
+          <p class="default-dash chip">-</p>
+        }
+        <p style="white-space: pre">{{ word.general }}</p>
+      </mat-card-content>
 
-            <mat-card-content class="info-container">
-                    <mat-card-title>Examples</mat-card-title>
-                    @if (word.examples.length === 0) {
-                        <p class="default-dash chip">-</p>
-                    }
-                    @for (example of word.examples; track example.id) {
-                        <p>
-                            {{getCountryEmoji(vclass.source_language)}} {{example.text}}
-                            <mat-divider></mat-divider>
-                            {{getCountryEmoji(vclass.target_language)}} {{example.translation}}
-                        </p>
-                    }
-            </mat-card-content>
+      <mat-card-content class="info-container">
+        <mat-card-title>Examples</mat-card-title>
+        @if (word.examples.length === 0) {
+          <p class="default-dash chip">-</p>
+        }
+        @for (example of word.examples; track example.id) {
+          <p>
+            {{ getCountryEmoji(vclass.source_language) }} {{ example.text }}
+            <mat-divider></mat-divider>
+            {{ getCountryEmoji(vclass.target_language) }}
+            {{ example.translation }}
+          </p>
+        }
+      </mat-card-content>
 
-            <mat-card-content class="info-container">
-                <mat-card-title>Related words</mat-card-title>
-                <mat-chip-listbox> 
-                    @if (word.related_words.length === 0) {
-                        <p class="default-dash chip">-</p>
-                    }
-                    @for (related of word.related_words; track related.id) {
-                        <mat-chip-option 
-                            (click)="!isSet ? selectWord(related.id) : selectOrRedirectPreviewWord(related)"
-                            [ngClass]="{'active-chip': isSet && (related.sets.includes(setId)) || !isSet}"
-                            (mouseover)="getFullWordFromId(related.id)"
-                            (mouseleave)="relatedWordExit()"
-                        >
-                            {{related.word}}
-                        </mat-chip-option>
-                    }
-                </mat-chip-listbox>
-                <voby-word-preview [word]="wordViewRelatedWord" (clicked)="selectOrRedirectPreviewWord(wordViewRelatedWord)"></voby-word-preview>
-            </mat-card-content>
+      <mat-card-content class="info-container">
+        <mat-card-title>Related words</mat-card-title>
+        <mat-chip-listbox>
+          @if (word.related_words.length === 0) {
+            <p class="default-dash chip">-</p>
+          }
+          @for (related of word.related_words; track related.id) {
+            <mat-chip-option
+              (click)="
+                !isSet
+                  ? selectWord(related.id)
+                  : selectOrRedirectPreviewWord(related)
+              "
+              [ngClass]="{
+                'active-chip':
+                  (isSet && related.sets.includes(setId)) || !isSet,
+              }"
+              (mouseover)="getFullWordFromId(related.id)"
+              (mouseleave)="relatedWordExit()"
+            >
+              {{ related.word }}
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+        <voby-word-preview
+          [word]="wordViewRelatedWord"
+          (clicked)="selectOrRedirectPreviewWord(wordViewRelatedWord)"
+        ></voby-word-preview>
+      </mat-card-content>
 
-            <mat-card-content class="info-container"> 
-                <mat-card-title>Tags</mat-card-title>
-                <mat-chip-listbox> 
-                    @if (word.tags.length === 0) {
-                        <p class="default-dash chip">-</p>
-                    }
-                    @for (tag of word.tags; track tag.id) {
-                        <mat-chip-option 
-                            (click)="addTagToSearch(tag.id)"
-                            class="pointer-on-hover"
-                        >
-                            <mat-icon>tag</mat-icon>{{tag.value}}
-                        </mat-chip-option>
-                    }
-                </mat-chip-listbox>
-            </mat-card-content>
-        </div>
-    </mat-card>
+      <mat-card-content class="info-container">
+        <mat-card-title>Tags</mat-card-title>
+        <mat-chip-listbox>
+          @if (word.tags.length === 0) {
+            <p class="default-dash chip">-</p>
+          }
+          @for (tag of word.tags; track tag.id) {
+            <mat-chip-option
+              (click)="addTagToSearch(tag.id)"
+              class="pointer-on-hover"
+            >
+              <mat-icon>tag</mat-icon>{{ tag.value }}
+            </mat-chip-option>
+          }
+        </mat-chip-listbox>
+      </mat-card-content>
+    </div>
+  </mat-card>
 }
