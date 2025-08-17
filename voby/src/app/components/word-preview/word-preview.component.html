@@ -1,7 +1,7 @@
-@if (this.word !== undefined) {
+@if (word !== undefined) {
     <mat-card class="info-container" #infoContainer (click)="onClick()">
         <mat-card-content>
-            @for (tr of this.word.translations; track tr.id) {
+            @for (tr of word.translations; track tr.id) {
                 <div>
                     {{tr.value}}
                 </div>

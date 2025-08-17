@@ -3,7 +3,7 @@
     <div style="display: flex;flex-direction:row;">
 
 
-        @if (this.userExperienceDiff !== this.userExperience) {
+        @if (userExperienceDiff !== userExperience) {
             <div
                 [@animationTrigger]="animationState"
                 style="font-size: .7em;"    
@@ -15,7 +15,7 @@
         @if (checkIsLoggedIn()) {
             <div style="display: flex; flex-direction: column;">
                 <div class="xp" matTooltip="{{remainingExp}} XP til next level">
-                    <div [@xpAnimation]="this.userExperience">{{userExperience}}</div>
+                    <div [@xpAnimation]="userExperience">{{userExperience}}</div>
                     <mat-icon aria-label="xp">psychology</mat-icon>
                     <div [@levelAnimation]="userLevel.level">{{userLevel.level}}</div>
                     <mat-icon aria-label="level">workspace_premium</mat-icon>

@@ -5,7 +5,7 @@
 
   <h2 style="margin-left:1em">Shortcuts</h2>
   <mat-card>
-    @for (defaultShortcut of this.defaultShortcuts; track defaultShortcut.id) {
+    @for (defaultShortcut of defaultShortcuts; track defaultShortcut.id) {
       <mat-card-content>
         <button mat-icon-button color="primary" disabled><mat-icon>close</mat-icon></button>
         <mat-form-field subscriptSizing="dynamic" appearance="outline">

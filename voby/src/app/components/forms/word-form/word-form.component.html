@@ -56,7 +56,7 @@
     <mat-chip-grid #chipList>
       @for (word of wordForm.get('relatedWords')?.value; track word.id) {
         <mat-chip-row
-          (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
+          (removed)="removeRelatedWord(word.id);wordViewRelatedWord=undefined"
           (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
           >
           {{word.word}}
@@ -79,7 +79,7 @@
             class="similar-word-suggestion"
             (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
             >
-            <span style="display: flex;flex-direction: row;align-items: center;">@if (this.linkingIconsActive) {
+            <span style="display: flex;flex-direction: row;align-items: center;">@if (linkingIconsActive) {
               <mat-icon>link</mat-icon>
             }{{word.word}}</span>
           </mat-chip-option>
@@ -101,7 +101,7 @@
     <mat-chip-grid #chipGridTags aria-label="Tags"
       name="tags"
       formControlName="tags">
-      @for (tag of this.wordForm.get('tags')?.value; track tag.id) {
+      @for (tag of wordForm.get('tags')?.value; track tag.id) {
         <mat-chip-row (removed)="removeTag(tag)">
           <mat-icon>tag</mat-icon>{{tag.value}}
           <button matChipRemove>
@@ -160,13 +160,13 @@
 
   <div mat-dialog-actions>
     <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
-    @if (!this.passedData.edit) {
+    @if (!passedData.edit) {
       <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create word</button>
     }
-    @if (this.passedData.edit) {
+    @if (passedData.edit) {
       <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit word</button>
     }
   </div>
 </form>
 
-<voby-word-preview [word]="this.wordViewRelatedWord" (clicked)="emitRelatedWordClicked()"></voby-word-preview>
+<voby-word-preview [word]="wordViewRelatedWord" (clicked)="emitRelatedWordClicked()"></voby-word-preview>

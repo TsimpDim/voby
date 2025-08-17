@@ -1,4 +1,4 @@
-@if (this.data.firstClass) {
+@if (data.firstClass) {
   <mat-card id="first-class">
     <mat-card-content><mat-icon style="vertical-align: -6px;margin-right: 10px;">info_outlined</mat-icon>Welcome! Looks like you have no classes yet. You have to first define <br> what language you're trying to learn by creating a class!</mat-card-content>
   </mat-card>
@@ -37,13 +37,13 @@
   </div>
 
   <mat-dialog-actions>
-    @if (!this.data.firstClass) {
+    @if (!data.firstClass) {
       <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
     }
-    @if (!this.data.edit) {
-      <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;" [disabled]="!this.classForm.valid">Create class</button>
+    @if (!data.edit) {
+      <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;" [disabled]="!classForm.valid">Create class</button>
     }
-    @if (this.data.edit) {
+    @if (data.edit) {
       <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit class</button>
     }
   </mat-dialog-actions>
