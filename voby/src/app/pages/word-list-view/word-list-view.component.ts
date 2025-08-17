@@ -26,13 +26,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor, NgClass } from '@angular/common';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'voby-word-list-view',
     templateUrl: './word-list-view.component.html',
     styleUrls: ['./word-list-view.component.scss'],
-    imports: [NgIf, MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, NgFor, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
+    imports: [MatButtonModule, MatTooltipModule, MatIconModule, MatFormFieldModule, MatChipsModule, ReactiveFormsModule, MatInputModule, MatAutocompleteModule, MatOptionModule, FavoriteComponent, MatMenuModule, LoadingIndComponent, SingleWordRowComponent, NgClass, WordDetailPanelComponent]
 })
 export class WordListViewComponent {
 

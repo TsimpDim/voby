@@ -16,7 +16,7 @@ import { stringSimilarity } from 'src/app/string-similarity';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-import { NgFor, NgIf } from '@angular/common';
+
 import { MatInputModule } from '@angular/material/input';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 
@@ -25,7 +25,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/mat
     templateUrl: './word-form.component.html',
     styleUrls: ['./word-form.component.scss'],
     providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
-    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatChipsModule, NgFor, MatIconModule, MatAutocompleteModule, NgIf, MatOptionModule, MatButtonModule, MatDialogModule, WordPreviewComponent]
+    imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatChipsModule, MatIconModule, MatAutocompleteModule, MatOptionModule, MatButtonModule, MatDialogModule, WordPreviewComponent]
 })
 export class WordFormComponent implements OnInit, OnDestroy {
 

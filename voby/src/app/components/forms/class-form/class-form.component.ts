@@ -12,7 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, NgFor } from '@angular/common';
+
 
 export interface DialogData {
   className: string;
@@ -23,7 +23,7 @@ export interface DialogData {
     templateUrl: './class-form.component.html',
     styleUrls: ['./class-form.component.scss'],
     providers: [{ provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }],
-    imports: [NgIf, MatCardModule, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, NgFor, MatOptionModule, MatDialogModule, MatButtonModule]
+    imports: [MatCardModule, MatIconModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatOptionModule, MatDialogModule, MatButtonModule]
 })
 export class ClassFormComponent {
 

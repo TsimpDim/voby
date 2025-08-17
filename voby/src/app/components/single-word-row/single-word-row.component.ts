@@ -4,7 +4,7 @@ import { VobyService } from 'src/app/services/voby.service';
 import { FavoriteComponent } from '../custom/favorite/favorite.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
-import { NgClass, NgIf } from '@angular/common';
+import { NgClass } from '@angular/common';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 
@@ -12,7 +12,7 @@ import { MatCardModule } from '@angular/material/card';
     selector: 'voby-single-word-row',
     templateUrl: './single-word-row.component.html',
     styleUrls: ['./single-word-row.component.scss'],
-    imports: [MatCardModule, MatRippleModule, NgClass, NgIf, MatIconModule, MatTooltipModule, FavoriteComponent]
+    imports: [MatCardModule, MatRippleModule, NgClass, MatIconModule, MatTooltipModule, FavoriteComponent]
 })
 export class SingleWordRowComponent {
 

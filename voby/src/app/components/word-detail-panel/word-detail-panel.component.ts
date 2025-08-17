@@ -15,13 +15,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, NgFor, NgClass, DatePipe } from '@angular/common';
+import { NgClass, DatePipe } from '@angular/common';
 
 @Component({
     selector: 'voby-word-detail-panel',
     templateUrl: './word-detail-panel.component.html',
     styleUrls: ['./word-detail-panel.component.scss'],
-    imports: [NgIf, MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, NgFor, MatDividerModule, MatChipsModule, NgClass, WordPreviewComponent, DatePipe]
+    imports: [MatCardModule, MatButtonModule, MatTooltipModule, MatIconModule, MatDividerModule, MatChipsModule, NgClass, WordPreviewComponent, DatePipe]
 })
 export class WordDetailPanelComponent {
 

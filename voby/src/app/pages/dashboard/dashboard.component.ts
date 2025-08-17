@@ -19,7 +19,7 @@ import { LoadingIndComponent } from '../../components/custom/loading-ind/loading
 import { DashboardFlashComponent } from '../../components/dashboard-flash/dashboard-flash.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf, NgFor } from '@angular/common';
+
 
 export interface DialogData {
   className: string;
@@ -29,7 +29,7 @@ export interface DialogData {
     selector: 'voby-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],
-    imports: [NgIf, MatButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatSelectModule, NgFor, MatOptionModule, MatCardModule, MatRippleModule, MatTooltipModule]
+    imports: [MatButtonModule, MatIconModule, DashboardFlashComponent, LoadingIndComponent, MatSelectModule, MatOptionModule, MatCardModule, MatRippleModule, MatTooltipModule]
 })
 export class DashboardComponent implements OnInit {
   className = '';

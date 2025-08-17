@@ -12,13 +12,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { LoadingIndComponent } from '../../components/custom/loading-ind/loading-ind.component';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'voby-options',
     templateUrl: './options.component.html',
     styleUrls: ['./options.component.scss'],
-    imports: [NgIf, LoadingIndComponent, MatCardModule, NgFor, MatButtonModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatInputModule, ReactiveFormsModule]
+    imports: [LoadingIndComponent, MatCardModule, MatButtonModule, MatIconModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatInputModule, ReactiveFormsModule]
 })
 export class OptionsComponent implements OnInit {
   userShortcuts: UserShortcut[] = [];

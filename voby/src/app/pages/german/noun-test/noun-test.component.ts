@@ -13,12 +13,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { LoadingIndComponent } from '../../../components/custom/loading-ind/loading-ind.component';
-import { NgIf, NgFor } from '@angular/common';
+
 @Component({
     selector: 'noun-test',
     templateUrl: './noun-test.component.html',
     styleUrls: ['./noun-test.component.scss'],
-    imports: [NgIf, LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatExpansionModule, NgFor, MatCardModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatTooltipModule, MatButtonModule]
+    imports: [LoadingIndComponent, MatSlideToggleModule, MatIconModule, MatExpansionModule, MatCardModule, MatFormFieldModule, MatSelectModule, MatOptionModule, MatTooltipModule, MatButtonModule]
 })
 export class NounTestComponent implements OnInit {
   NOT_ANSWERED = 0

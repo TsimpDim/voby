@@ -1,12 +1,12 @@
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { NgIf, NgFor } from '@angular/common';
+
 
 @Component({
     selector: 'voby-word-preview',
     templateUrl: './word-preview.component.html',
     styleUrls: ['./word-preview.component.scss'],
-    imports: [NgIf, MatCardModule, NgFor]
+    imports: [MatCardModule]
 })
 export class WordPreviewComponent {
 

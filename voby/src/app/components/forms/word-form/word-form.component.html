@@ -1,157 +1,172 @@
 <form [formGroup]="wordForm" #form id="word-form-container">
-    <mat-form-field appearance="outline" style="margin-top: .3em;">
-        <mat-label>Word</mat-label>
-        <input cdkFocusInitial
-            matInput
-            name="word"
-            #wordInput
-            formControlName="word"
-            (keyup)="checkSimilar()"
+  <mat-form-field appearance="outline" style="margin-top: .3em;">
+    <mat-label>Word</mat-label>
+    <input cdkFocusInitial
+      matInput
+      name="word"
+      #wordInput
+      formControlName="word"
+      (keyup)="checkSimilar()"
+      >
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Translations</mat-label>
+    <mat-chip-grid
+      #chipGrid
+      aria-label="Translations"
+      name="translation"
+      formControlName="translation"
+      >
+      @for (translation of translations; track translation) {
+        <mat-chip-row (removed)="removeTranslation(translation.value)">
+          {{translation.value}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+      <input
+        placeholder="enter translations..."
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        matChipInputAddOnBlur="true"
+        (matChipInputTokenEnd)="addTranslation($event)"
+        matInput
+        />
+    </mat-chip-grid>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Plural</mat-label>
+    <input
+      matInput
+      name="plural"
+      formControlName="plural"
+      >
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>General</mat-label>
+    <textarea matInput formControlName="general"></textarea>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Related words</mat-label>
+    <mat-chip-grid #chipList>
+      @for (word of wordForm.get('relatedWords')?.value; track word) {
+        <mat-chip-row
+          (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
+          (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
+          >
+          {{word.word}}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip-row>
+      }
+
+      <input
+        placeholder="search an existing word..."
+        #relatedWordInput
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        (keyup)="filterWords()"
         >
-    </mat-form-field>
 
-    <mat-form-field appearance="outline">
-        <mat-label>Translations</mat-label>
-        <mat-chip-grid
-            #chipGrid
-            aria-label="Translations"
-            name="translation"
-            formControlName="translation"
-        >
-            <mat-chip-row *ngFor="let translation of translations" (removed)="removeTranslation(translation.value)">
-                {{translation.value}}
-                <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip-row>
-            <input
-                placeholder="enter translations..."
-                [matChipInputFor]="chipGrid"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                matChipInputAddOnBlur="true"
-                (matChipInputTokenEnd)="addTranslation($event)"
-                matInput
-            />
-        </mat-chip-grid>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Plural</mat-label>
-        <input
-            matInput
-            name="plural"
-            formControlName="plural"
-        >
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>General</mat-label>
-        <textarea matInput formControlName="general"></textarea>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Related words</mat-label>
-        <mat-chip-grid #chipList>
-            <mat-chip-row
-                *ngFor="let word of wordForm.get('relatedWords')?.value"
-                (removed)="removeRelatedWord(word.id);this.wordViewRelatedWord=undefined"
-                (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
+      <mat-chip-listbox>
+        @for (word of suggestedRelatedWords; track word) {
+          <mat-chip-option trailingIco="link"
+            (click)="selectRelatedWord($event, word.id)"
+            class="similar-word-suggestion"
+            (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
             >
-                {{word.word}}
-                <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip-row>
+            <span style="display: flex;flex-direction: row;align-items: center;">@if (this.linkingIconsActive) {
+              <mat-icon>link</mat-icon>
+            }{{word.word}}</span>
+          </mat-chip-option>
+        }
+      </mat-chip-listbox>
+    </mat-chip-grid>
 
-            <input
-                placeholder="search an existing word..."
-                #relatedWordInput
-                [matAutocomplete]="auto"
-                [matChipInputFor]="chipList"
-                (keyup)="filterWords()"
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event, $event.option.value)">
+      @for (word of filteredRelatedWords; track word) {
+        <mat-option [value]="word.id">
+          {{word.word}}
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Tags</mat-label>
+    <mat-chip-grid #chipGridTags aria-label="Tags"
+      name="tags"
+      formControlName="tags">
+      @for (tag of this.wordForm.get('tags')?.value; track tag) {
+        <mat-chip-row (removed)="removeTag(tag)">
+          <mat-icon>tag</mat-icon>{{tag.value}}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+      }
+      <input
+        placeholder="tag..."
+        [matChipInputFor]="chipGridTags"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        matChipInputAddOnBlur="true"
+        (matChipInputTokenEnd)="addTag($event)"
+        [matAutocomplete]="autoTags"
+        matInput
+        #tagInput
+        (keyup)="filterTags()"
+        />
+    </mat-chip-grid>
+    <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
+      @for (tag of filteredTags; track tag) {
+        <mat-option [value]="tag.id">
+          <mat-icon>tag</mat-icon>{{tag.value}}
+        </mat-option>
+      }
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <h3 style="margin-top: 1em">Examples</h3>
+
+  @for (example of examples; track example; let i = $index) {
+    <div [style]="{'margin-top': i === 0 ? '-1em' : '1.5em', 'display': 'flex', 'flex-direction': 'row'}">
+      <button mat-button type="button" (click)="removeExample(i)" class="remove-example-btn"><mat-icon>close</mat-icon></button>
+      <div style="display: flex; flex-direction: column;width:100%">
+        <mat-form-field class="input" appearance="outline">
+          <mat-label>Text</mat-label>
+          <input
+            matInput
+            [value]="''"
+            [formControlName]="i.toString() + 'tx'"
             >
-
-            <mat-chip-listbox>
-                <mat-chip-option trailingIco="link"
-                    *ngFor="let word of suggestedRelatedWords"
-                    (click)="selectRelatedWord($event, word.id)"
-                    class="similar-word-suggestion"
-                    (mouseenter)="relatedWordHover($event, word.id)" (mouseleave)="relatedWordExit()"
-                >
-                    <span style="display: flex;flex-direction: row;align-items: center;"><mat-icon *ngIf="this.linkingIconsActive">link</mat-icon>{{word.word}}</span>
-                </mat-chip-option>
-            </mat-chip-listbox>
-        </mat-chip-grid>
-
-        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectRelatedWord($event, $event.option.value)">
-            <mat-option *ngFor="let word of filteredRelatedWords" [value]="word.id">
-                {{word.word}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <mat-form-field appearance="outline">
-        <mat-label>Tags</mat-label>
-        <mat-chip-grid #chipGridTags aria-label="Tags"
-            name="tags"
-            formControlName="tags">
-            <mat-chip-row *ngFor="let tag of this.wordForm.get('tags')?.value" (removed)="removeTag(tag)">
-                <mat-icon>tag</mat-icon>{{tag.value}}
-                <button matChipRemove>
-                    <mat-icon>cancel</mat-icon>
-                </button>
-            </mat-chip-row>
-            <input
-                placeholder="tag..."
-                [matChipInputFor]="chipGridTags"
-                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                matChipInputAddOnBlur="true"
-                (matChipInputTokenEnd)="addTag($event)"
-                [matAutocomplete]="autoTags"
-                matInput
-                #tagInput
-                (keyup)="filterTags()"
-            />
-          </mat-chip-grid>
-        <mat-autocomplete #autoTags="matAutocomplete" (optionSelected)="selectTag($event)">
-            <mat-option *ngFor="let tag of filteredTags" [value]="tag.id">
-                <mat-icon>tag</mat-icon>{{tag.value}}
-            </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-
-    <h3 style="margin-top: 1em">Examples</h3>
-
-    <ng-container *ngFor="let example of examples; index as i">
-        <div [style]="{'margin-top': i === 0 ? '-1em' : '1.5em', 'display': 'flex', 'flex-direction': 'row'}">
-            <button mat-button type="button" (click)="removeExample(i)" class="remove-example-btn"><mat-icon>close</mat-icon></button>
-            <div style="display: flex; flex-direction: column;width:100%">
-
-                <mat-form-field class="input" appearance="outline">
-                    <mat-label>Text</mat-label>
-                    <input
-                        matInput
-                        [value]="''"
-                        [formControlName]="i.toString() + 'tx'"
-                    >
-                </mat-form-field>
-                <mat-form-field class="input example-translation" appearance="outline">
-                    <mat-label>Translation</mat-label>
-                    <input
-                        matInput
-                        [value]="''"
-                        [formControlName]="i.toString() + 'tr'"
-                    >
-                </mat-form-field>
-            </div>
-        </div>
-    </ng-container>
-
-    <button mat-button type="button" color="secondary" class="add-example-btn" (click)="addExample()" >+ Example </button>
-
-    <div mat-dialog-actions>
-        <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
-        <button mat-raised-button *ngIf="!this.passedData.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create word</button>
-        <button mat-raised-button *ngIf="this.passedData.edit" type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit word</button>
+        </mat-form-field>
+        <mat-form-field class="input example-translation" appearance="outline">
+          <mat-label>Translation</mat-label>
+          <input
+            matInput
+            [value]="''"
+            [formControlName]="i.toString() + 'tr'"
+            >
+        </mat-form-field>
+      </div>
     </div>
+  }
+
+  <button mat-button type="button" color="secondary" class="add-example-btn" (click)="addExample()" >+ Example </button>
+
+  <div mat-dialog-actions>
+    <button mat-button type="button" (click)="onNoClick()" style="border-radius: 100px;">Nevermind</button>
+    @if (!this.passedData.edit) {
+      <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Create word</button>
+    }
+    @if (this.passedData.edit) {
+      <button mat-raised-button type="submit" color="primary" cdkFocusInitial (click)="submit()" style="border-radius: 100px;">Edit word</button>
+    }
+  </div>
 </form>
 
 <voby-word-preview [word]="this.wordViewRelatedWord" (clicked)="emitRelatedWordClicked()"></voby-word-preview>

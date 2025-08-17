@@ -9,7 +9,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { NgIf } from '@angular/common';
+
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
@@ -62,7 +62,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
             ])
         ])
     ],
-    imports: [MatToolbarModule, NgIf, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule]
+    imports: [MatToolbarModule, MatButtonModule, MatIconModule, MatTooltipModule, MatProgressBarModule]
 })
 export class HeaderComponent implements AfterViewInit {
   public isLoggedIn: Boolean | null = null;

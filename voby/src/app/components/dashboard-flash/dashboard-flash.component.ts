@@ -9,14 +9,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { LoadingIndComponent } from '../custom/loading-ind/loading-ind.component';
-import { NgIf } from '@angular/common';
+
 
 
 @Component({
     selector: 'voby-dashboard-flash',
     templateUrl: './dashboard-flash.component.html',
     styleUrls: ['./dashboard-flash.component.scss'],
-    imports: [NgIf, LoadingIndComponent, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule]
+    imports: [LoadingIndComponent, MatButtonModule, MatIconModule, MatFormFieldModule, MatInputModule]
 })
 export class DashboardFlashComponent implements OnInit, OnChanges {
 
