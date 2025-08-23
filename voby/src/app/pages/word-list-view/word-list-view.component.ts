@@ -255,7 +255,7 @@ export class WordListViewComponent {
 
   getAllTags() {
     this.loadingHeader = true;
-    this.voby.getTags().subscribe({
+    this.voby.getTags(this.vclass.id).subscribe({
       next: (data: any) => {
         this.allTags = data;
 

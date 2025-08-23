@@ -154,6 +154,10 @@ class TagViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = TagSerializer
     queryset = Tag.objects.all().order_by('id')
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = {
+        'vclass__id': ['exact'],
+    }
 
     def create(self, request, *args, **kwargs):
         data = request.data

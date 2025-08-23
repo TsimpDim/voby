@@ -510,12 +510,14 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
           this.dataForParent.newTags = [];
           for (const tag of this.tagsToBeCreated) {
-            this.voby.createTag(word.id, tag).subscribe({
-              next: (data) => {
-                this.dataForParent.word.tags.push(data);
-                this.dataForParent.newTags.push(data);
-              },
-            });
+            this.voby
+              .createTag(word.id, tag, this.passedData.vclassId)
+              .subscribe({
+                next: (data) => {
+                  this.dataForParent.word.tags.push(data);
+                  this.dataForParent.newTags.push(data);
+                },
+              });
           }
 
           for (const tag of this.tagsToBeAttached) {
@@ -602,12 +604,14 @@ export class WordFormComponent implements OnInit, OnDestroy {
 
           this.dataForParent.newTags = [];
           for (const tagToCreate of this.tagsToBeCreated) {
-            this.voby.createTag(word.id, tagToCreate).subscribe({
-              next: (data) => {
-                this.dataForParent.word.tags.push(data);
-                this.dataForParent.newTags.push(data);
-              },
-            });
+            this.voby
+              .createTag(word.id, tagToCreate, this.passedData.vclassId)
+              .subscribe({
+                next: (data) => {
+                  this.dataForParent.word.tags.push(data);
+                  this.dataForParent.newTags.push(data);
+                },
+              });
           }
 
           for (const tagToAttach of this.tagsToBeAttached) {

@@ -123,3 +123,4 @@ class Tag(models.Model):
     word = models.ManyToManyField(Word, related_name='tags')
     value = models.TextField(null=False, blank=False)
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    vclass = models.ForeignKey(VClass, on_delete=models.CASCADE, null=False, related_name='tags')

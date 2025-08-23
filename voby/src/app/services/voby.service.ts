@@ -282,12 +282,7 @@ export class VobyService {
     });
   }
 
-  getTestWords(
-    amount = 1,
-    classId = -1,
-    setId = -1,
-    favoritesOnly = false,
-  ) {
+  getTestWords(amount = 1, classId = -1, setId = -1, favoritesOnly = false) {
     return this.http.get(environment.apiUrl + '/voby/test', {
       headers: { Authorization: 'Token ' + this.authService.getSessionToken() },
       params: { amount, classId, setId, favoritesOnly },
@@ -446,18 +441,25 @@ export class VobyService {
     );
   }
 
-  getTags() {
+  getTags(vclassId: number | undefined = undefined) {
+    const params: Record<string, any> = {};
+    if (vclassId) {
+      params['vclass__id'] = vclassId as number;
+    }
+
     return this.http.get(environment.apiUrl + '/voby/tags', {
       headers: { Authorization: 'Token ' + this.authService.getSessionToken() },
+      params,
     });
   }
 
-  createTag(word: number, value: string) {
+  createTag(word: number, value: string, vclassId: number) {
     return this.http.post(
       environment.apiUrl + '/voby/tags/',
       {
         word: [word],
         value: value,
+        vclass: vclassId,
       },
       {
         headers: {
