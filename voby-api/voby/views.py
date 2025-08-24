@@ -15,6 +15,7 @@ from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer,
     SetAllSerializer, WordAllSerializer, TagSerializer, RelatedWordSerializer
 from random import sample
 import xlwt
+from .aws import Aws
 
 class StandardPagination(PageNumberPagination):
     page_size = 50
@@ -263,6 +264,38 @@ class TestView(APIView):
         data = TestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
+    
+class GenerateExampleView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, format=None):
+        user = self.request.user
+        class_id = int(self.request.data.get("classId"))
+        word_id = int(self.request.data.get("wordId"))
+
+        vclass = VClass.objects.get(id=class_id)
+        word = Word.objects.get(id=word_id)
+
+        response = Aws.invoke(
+            Aws.get_word_example_prompt(
+                word.word,
+                vclass.source_language,
+                vclass.target_language
+            )
+        )
+
+        examples_created = []
+        if 'examples' in response and len(response['examples']) > 0:
+            for example in response['examples']:
+                new_example = Example.objects.create(
+                    text=example['text'],
+                    translation=example['translation'],
+                    user=user
+                )
+                new_example.word.add(word)
+                examples_created.append(new_example)
+
+        return Response(ExampleSerializer(examples_created, many=True).data, status=status.HTTP_200_OK)
 
 class GermanNounTestView(APIView):
     permission_classes = [IsAuthenticated]

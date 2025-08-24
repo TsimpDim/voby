@@ -8,6 +8,7 @@ services:
       python manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/voby-api
+      - ~/.aws:/root/.aws:ro
     ports:
       - "8002:8000"
     environment:
@@ -23,7 +24,7 @@ services:
     networks:
       voby:
         aliases:
-          - 'api.voby.local'
+          - "api.voby.local"
 
 networks:
   voby:
