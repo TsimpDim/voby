@@ -27,7 +27,6 @@
 
   margin: 0.5em;
   display: block;
-  margin-bottom: 10px;
 }
 
 .action-icon {
@@ -67,4 +66,18 @@ mat-chip {
   justify-content: space-between;
   align-items: baseline;
   width: 100%;
+}
+
+.spin {
+  display: inline-block;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }

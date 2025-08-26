@@ -466,7 +466,6 @@ export class WordListViewComponent {
 
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
-      height: '70%',
       data: {
         vclassId: this.vclass.id,
         word: this.selectedWord,

@@ -1,7 +1,7 @@
 @if (word !== undefined) {
   <mat-card class="word-detail-container" (dblclick)="editWord()">
     <div class="word-card-content">
-      <mat-card-content style="margin-bottom: 1em">
+      <mat-card-content>
         <div class="header">
           <mat-card-title>
             {{ word.word }}
@@ -68,12 +68,33 @@
         <mat-card-title>General</mat-card-title>
         @if (word.general.length === 0) {
           <p class="default-dash chip">-</p>
+        } @else {
+          <p style="white-space: pre">{{ word.general }}</p>
         }
-        <p style="white-space: pre">{{ word.general }}</p>
       </mat-card-content>
 
       <mat-card-content class="info-container">
-        <mat-card-title>Examples</mat-card-title>
+        <div
+          style="
+            display: flex;
+            flex-direction: flex-row;
+            justify-content: space-between;
+            height: 30px;
+          "
+        >
+          <mat-card-title>Examples</mat-card-title>
+          <button
+            mat-icon-button
+            (click)="generateExamples()"
+            matTooltip="Auto-generate examples"
+          >
+            @if (generateExampleLoading) {
+              <mat-icon class="spin section-action">refresh</mat-icon>
+            } @else {
+              <mat-icon>auto_awesome</mat-icon>
+            }
+          </button>
+        </div>
         @if (word.examples.length === 0) {
           <p class="default-dash chip">-</p>
         }
@@ -89,11 +110,11 @@
 
       <mat-card-content class="info-container">
         <mat-card-title>Related words</mat-card-title>
-        <mat-chip-listbox>
-          @if (word.related_words.length === 0) {
-            <p class="default-dash chip">-</p>
-          }
-          @for (related of word.related_words; track related.id) {
+        @if (word.related_words.length === 0) {
+          <p class="default-dash chip">-</p>
+        }
+        @for (related of word.related_words; track related.id) {
+          <mat-chip-listbox>
             <mat-chip-option
               (click)="
                 !isSet
@@ -109,8 +130,8 @@
             >
               {{ related.word }}
             </mat-chip-option>
-          }
-        </mat-chip-listbox>
+          </mat-chip-listbox>
+        }
         <voby-word-preview
           [word]="wordViewRelatedWord"
           (clicked)="selectOrRedirectPreviewWord(wordViewRelatedWord)"
@@ -119,19 +140,19 @@
 
       <mat-card-content class="info-container">
         <mat-card-title>Tags</mat-card-title>
-        <mat-chip-listbox>
-          @if (word.tags.length === 0) {
-            <p class="default-dash chip">-</p>
-          }
-          @for (tag of word.tags; track tag.id) {
+        @if (word.tags.length === 0) {
+          <p class="default-dash chip">-</p>
+        }
+        @for (tag of word.tags; track tag.id) {
+          <mat-chip-listbox>
             <mat-chip-option
               (click)="addTagToSearch(tag.id)"
               class="pointer-on-hover"
             >
               <mat-icon>tag</mat-icon>{{ tag.value }}
             </mat-chip-option>
-          }
-        </mat-chip-listbox>
+          </mat-chip-listbox>
+        }
       </mat-card-content>
     </div>
   </mat-card>

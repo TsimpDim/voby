@@ -492,4 +492,19 @@ export class VobyService {
       },
     );
   }
+
+  generateExamples(classId: number, wordId: number) {
+    return this.http.post(
+      environment.apiUrl + '/voby/generate/examples',
+      {
+        wordId: wordId,
+        classId: classId,
+      },
+      {
+        headers: {
+          Authorization: 'Token ' + this.authService.getSessionToken(),
+        },
+      },
+    );
+  }
 }

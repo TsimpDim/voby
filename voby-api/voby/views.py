@@ -16,6 +16,7 @@ from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer,
 from random import sample
 import xlwt
 from .aws import Aws
+from .permissions import HasAIEnabled
 
 class StandardPagination(PageNumberPagination):
     page_size = 50
@@ -266,7 +267,7 @@ class TestView(APIView):
         return Response(data, status=status.HTTP_200_OK)
     
 class GenerateExampleView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, HasAIEnabled]
 
     def post(self, request, format=None):
         user = self.request.user

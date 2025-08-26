@@ -24,5 +24,5 @@ urlpatterns = [
     path('options', OptionView.as_view(), name="options"),
     path('german/noun-test', GermanNounTestView.as_view(), name="german-noun-test"),
     path('class/<int:class_id>/download', ClassExcelView.as_view(), name='download-class'),
-    path('generate/example', GenerateExampleView.as_view(), name='generate-example')
+    path('generate/examples', GenerateExampleView.as_view(), name='generate-examples')
 ]

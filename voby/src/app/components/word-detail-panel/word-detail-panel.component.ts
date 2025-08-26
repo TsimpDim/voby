@@ -1,10 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  HostListener,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Tag, Word } from 'src/app/interfaces';
@@ -52,6 +46,7 @@ export class WordDetailPanelComponent {
   @Output() tagSelected = new EventEmitter<any>();
   getCountryEmoji = getCountryEmoji;
   wordViewRelatedWord: Word | undefined = undefined;
+  generateExampleLoading = false;
 
   constructor(
     public dialog: MatDialog,
@@ -162,6 +157,45 @@ export class WordDetailPanelComponent {
     } else {
       this.router.navigate([`/set/${word?.sets[0]}`], {
         state: { selectedWord: word },
+      });
+    }
+  }
+
+  generateExamples() {
+    if (!this.generateExampleLoading) {
+      this.generateExampleLoading = true;
+      this.voby.generateExamples(this.vclass.id, this.word!.id).subscribe({
+        next: (data: any) => {
+          if (data.length > 0) {
+            this.word!.examples.push(...data.slice(0, 2));
+          } else {
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message:
+                  'Info: No examples could be created, please try again.',
+                icon: 'info',
+              },
+              duration: 3 * 1000,
+            });
+          }
+
+          this.generateExampleLoading = false;
+        },
+        error: (error: any) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message:
+                'Error: ' +
+                (error.error?.detail ||
+                  error.message ||
+                  error.statusText ||
+                  'Unknown error'),
+              icon: 'error',
+            },
+            duration: 3 * 1000,
+          });
+          this.generateExampleLoading = false;
+        },
       });
     }
   }
