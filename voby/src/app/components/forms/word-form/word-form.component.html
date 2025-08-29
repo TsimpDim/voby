@@ -185,15 +185,17 @@
     </div>
   }
 
-  <button
-    mat-button
-    type="button"
-    color="secondary"
-    class="add-example-btn"
-    (click)="addExample()"
-  >
-    + Example
-  </button>
+  @if (examples.length < 4) {
+    <button
+      mat-button
+      type="button"
+      color="secondary"
+      class="add-example-btn"
+      (click)="addExample()"
+    >
+      + Example
+    </button>
+  }
 
   <div mat-dialog-actions>
     <button

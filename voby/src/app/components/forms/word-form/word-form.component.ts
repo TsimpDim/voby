@@ -232,6 +232,15 @@ export class WordFormComponent implements OnInit, OnDestroy {
   }
 
   addExample() {
+    if (this.examples.length === 4) {
+      this._snackBar.openFromComponent(SnackbarComponent, {
+        data: {
+          message: 'Cannot add more than 4 examples',
+          icon: 'info',
+        },
+        duration: 3 * 1000,
+      });
+    }
     this.addExampleFormControls();
     this.examples.push([this.examples.length, -1]);
   }
