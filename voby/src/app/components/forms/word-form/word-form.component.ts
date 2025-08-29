@@ -455,18 +455,21 @@ export class WordFormComponent implements OnInit, OnDestroy {
           }
 
           for (const dex of this.deletedExamples) {
-            this.voby.deleteExample(dex[1]).subscribe({
-              error: (error: any) => {
-                this.loading = false;
-                this._snackBar.openFromComponent(SnackbarComponent, {
-                  data: {
-                    message: 'Error: ' + error.statusText,
-                    icon: 'error',
-                  },
-                  duration: 3 * 1000,
-                });
-              },
-            });
+            if (dex[1] !== -1) {
+              // Don't try to delete examples that haven't been created yet
+              this.voby.deleteExample(dex[1]).subscribe({
+                error: (error: any) => {
+                  this.loading = false;
+                  this._snackBar.openFromComponent(SnackbarComponent, {
+                    data: {
+                      message: 'Error: ' + error.statusText,
+                      icon: 'error',
+                    },
+                    duration: 3 * 1000,
+                  });
+                },
+              });
+            }
           }
 
           this.dataForParent.word.examples = newExamples;
