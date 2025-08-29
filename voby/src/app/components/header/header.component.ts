@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import {
@@ -132,6 +132,8 @@ export class HeaderComponent implements AfterViewInit {
   userExperienceDiff = 0;
   remainingExp: any;
   animationState = 'visible';
+  skipHeader = false;
+  ROUTES_TO_SKIP = ['/login', '/register'];
 
   constructor(
     private router: Router,
@@ -181,6 +183,11 @@ export class HeaderComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
+        console.log(this.router.url);
+        if (this.ROUTES_TO_SKIP.find((r) => this.router.url.includes(r))) {
+          this.skipHeader = true;
+          return;
+        }
         this.checkIsLoggedIn();
       }
     });
@@ -200,6 +207,9 @@ export class HeaderComponent implements AfterViewInit {
 
   checkIsLoggedIn() {
     this.isLoggedIn = this.authService.getIsLoggedIn();
+    if (this.isLoggedIn) {
+      this.skipHeader = false;
+    }
     return this.isLoggedIn;
   }
 

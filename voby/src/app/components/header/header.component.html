@@ -1,34 +1,40 @@
-<mat-toolbar color="primary">
-  <img src="../../assets/voby_full_tsp.png" height="130px" (click)="goHome()" />
-  <div style="display: flex; flex-direction: row">
-    @if (userExperienceDiff !== userExperience) {
-      <div [@animationTrigger]="animationState" style="font-size: 0.7em">
-        +{{ userExperienceDiff }}
-      </div>
-    }
-
-    @if (checkIsLoggedIn()) {
-      <div style="display: flex; flex-direction: column">
-        <div class="xp" matTooltip="{{ remainingExp }} XP til next level">
-          <div [@xpAnimation]="userExperience">{{ userExperience }}</div>
-          <mat-icon aria-label="xp">psychology</mat-icon>
-          <div [@levelAnimation]="userLevel.level">{{ userLevel.level }}</div>
-          <mat-icon aria-label="level">workspace_premium</mat-icon>
+@if (!skipHeader) {
+  <mat-toolbar color="primary">
+    <img
+      src="../../assets/voby_full_tsp.png"
+      height="130px"
+      (click)="goHome()"
+    />
+    <div style="display: flex; flex-direction: row">
+      @if (userExperienceDiff !== userExperience) {
+        <div [@animationTrigger]="animationState" style="font-size: 0.7em">
+          +{{ userExperienceDiff }}
         </div>
-        <mat-progress-bar
-          mode="determinate"
-          color="accent"
-          [value]="userLevelProgress"
-          class="xp-bar"
-        ></mat-progress-bar>
-      </div>
+      }
 
-      <button mat-icon-button class="menu-icon" (click)="goToOptions()">
-        <mat-icon>settings</mat-icon>
-      </button>
-      <button mat-icon-button class="menu-icon" (click)="logout()">
-        <mat-icon>logout</mat-icon>
-      </button>
-    }
-  </div>
-</mat-toolbar>
+      @if (checkIsLoggedIn()) {
+        <div style="display: flex; flex-direction: column">
+          <div class="xp" matTooltip="{{ remainingExp }} XP til next level">
+            <div [@xpAnimation]="userExperience">{{ userExperience }}</div>
+            <mat-icon aria-label="xp">psychology</mat-icon>
+            <div [@levelAnimation]="userLevel.level">{{ userLevel.level }}</div>
+            <mat-icon aria-label="level">workspace_premium</mat-icon>
+          </div>
+          <mat-progress-bar
+            mode="determinate"
+            color="accent"
+            [value]="userLevelProgress"
+            class="xp-bar"
+          ></mat-progress-bar>
+        </div>
+
+        <button mat-icon-button class="menu-icon" (click)="goToOptions()">
+          <mat-icon>settings</mat-icon>
+        </button>
+        <button mat-icon-button class="menu-icon" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      }
+    </div>
+  </mat-toolbar>
+}
