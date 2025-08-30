@@ -27,6 +27,14 @@
 
   margin: 0.5em;
   display: block;
+
+  .general-text {
+    width: inherit;
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-wrap: break-word;
+  }
+  
 }
 
 .action-icon {
