@@ -57,59 +57,12 @@
 
     <div class="set-container">
       @for (set of selectedClass.sets; let i = $index; track set.id) {
-        <mat-card matRipple class="set-item" (click)="redirect(set.id)">
-          <h3
-            style="
-              padding: 0.6em;
-              padding-bottom: 0;
-              margin: 0;
-              font-weight: 500;
-            "
-          >
-            {{ set.name }}
-          </h3>
-          <div class="card-footer">
-            <button
-              mat-icon-button
-              style="background-color: none"
-              [disabled]="!set.has_words"
-              (click)="startTest(selectedClass.id, set.id)"
-              matTooltip="Set test"
-            >
-              <mat-icon>quiz</mat-icon>
-            </button>
-            <button
-              mat-icon-button
-              style="background-color: none"
-              (click)="editSet($event, set.id)"
-              matTooltip="Edit set"
-            >
-              <mat-icon>edit</mat-icon>
-            </button>
-            @if (!set.has_words) {
-              <button
-                mat-icon-button
-                style="background-color: none"
-                (click)="generateWords($event, set.id)"
-                matTooltip="Seed set"
-              >
-                @if (generateWordsLoading) {
-                  <mat-icon class="spin section-action">refresh</mat-icon>
-                } @else {
-                  <mat-icon>auto_awesome</mat-icon>
-                }
-              </button>
-            }
-            <button
-              mat-icon-button
-              style="background-color: none"
-              (click)="deleteSet($event, set.id)"
-              matTooltip="Delete set"
-            >
-              <mat-icon>delete</mat-icon>
-            </button>
-          </div>
-        </mat-card>
+        <voby-set-card
+          [setData]="set"
+          [vclassId]="selectedClass.id"
+          (setDeleted)="processSetDeletion($event)"
+        >
+        </voby-set-card>
       }
     </div>
 
@@ -158,7 +111,7 @@
       <div class="sec-action-cont">
         <button
           mat-button
-          (click)="startTest(selectedClass.id, -1)"
+          (click)="startTest(selectedClass.id)"
           [disabled]="!hasWords(selectedClass.id)"
           matTooltip="Class test"
         >
@@ -167,7 +120,7 @@
         @if (selectedClass.source_language == "German") {
           <button
             mat-button
-            (click)="startGermanNounTest(selectedClass.id, -1)"
+            (click)="startGermanNounTest(selectedClass.id)"
             matTooltip="Special test: Genders of nouns"
             [disabled]="
               !hasWords(selectedClass.id) || !selectedClass.has_german_nouns

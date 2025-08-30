@@ -9,7 +9,6 @@ import { HotkeysService } from 'src/app/services/hotkeys.service';
 import { ClassFormComponent } from 'src/app/components/forms/class-form/class-form.component';
 import { SnackbarComponent } from 'src/app/components/custom/snackbar/snackbar.component';
 import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
-import { SetFormComponent } from 'src/app/components/forms/set-form/set-form.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatRippleModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
@@ -19,6 +18,7 @@ import { LoadingIndComponent } from '../../components/custom/loading-ind/loading
 import { DashboardFlashComponent } from '../../components/dashboard-flash/dashboard-flash.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { SetCardComponent } from 'src/app/components/set-card/set-card.component';
 
 export interface DialogData {
   className: string;
@@ -38,6 +38,7 @@ export interface DialogData {
     MatCardModule,
     MatRippleModule,
     MatTooltipModule,
+    SetCardComponent,
   ],
 })
 export class DashboardComponent implements OnInit {
@@ -96,55 +97,28 @@ export class DashboardComponent implements OnInit {
     this.toShowQuizButton = true;
   }
 
-  startTest(classId: number, setId: number) {
-    const selectedSet = this.selectedClass.sets.find(
-      (s: any) => s.id === setId,
-    );
-    let hasFavorites = false;
-    if (selectedSet) {
-      hasFavorites = selectedSet.has_favorites;
-    } else {
-      hasFavorites =
-        this.selectedClass.sets.filter((s: any) => s.has_favorites).length > 0;
-    }
+  startTest(classId: number) {
+    const hasFavorites =
+      this.selectedClass.sets.filter((s: any) => s.has_favorites).length > 0;
 
     this.router.navigate(['/test/'], {
-      state: { classId, setId, hasFavorites },
+      state: { classId, setId: undefined, hasFavorites },
     });
   }
 
-  startGermanNounTest(classId: number, setId: number) {
-    const selectedSet = this.selectedClass.sets.find(
-      (s: any) => s.id === setId,
-    );
-
-    let hasFavorites = false;
-    if (selectedSet) {
-      hasFavorites = selectedSet.has_favorites;
-    } else {
-      hasFavorites =
-        this.selectedClass.sets.filter((s: any) => s.has_german_favorites)
-          .length > 0;
-    }
+  startGermanNounTest(classId: number) {
+    const hasFavorites =
+      this.selectedClass.sets.filter((s: any) => s.has_german_favorites)
+        .length > 0;
 
     this.router.navigate(['/german/noun-test/'], {
-      state: { classId, setId, hasFavorites },
+      state: { classId, setId: undefined, hasFavorites },
     });
   }
 
   hasWords(classId: number) {
     const selectedClass = this.classes.find((o: any) => o.id === classId);
     return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
-  }
-
-  redirect(setId: number) {
-    const selectedClass = this.classes.find(
-      (o: any) => o.id === this.selectedClassId,
-    );
-    const selectedSet = selectedClass.sets.find((s: any) => s.id === setId);
-    this.router.navigate(['/set/' + setId], {
-      state: { selectedSet, selectedClass },
-    });
   }
 
   selectClass(classIdx: number) {
@@ -190,7 +164,6 @@ export class DashboardComponent implements OnInit {
     this.voby.createSet(classIdx, 'New set').subscribe({
       next: (data) => {
         this.classes.find((c: any) => c.id === classIdx).sets.push(data);
-        this.openEditSetForm(data);
       },
       error: (error: any) => {
         this.loading = false;
@@ -284,30 +257,14 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  editSet(event: any, setIdx: number) {
-    event.stopPropagation();
-
-    const setToChange = this.classes
-      .flatMap((c: any) => c.sets)
-      .find((s: any) => s.id === setIdx);
-
-    this.openEditSetForm(setToChange);
-  }
-
-  openEditSetForm(setToChange: any) {
-    const dialogRef = this.dialog.open(SetFormComponent, {
-      width: '30%',
-      data: {
-        setId: setToChange.id,
-        name: setToChange.name,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res) {
-        setToChange.name = res.name;
-      }
-    });
+  processSetDeletion(setId: number) {
+    const vclass = this.classes.find((c: any) =>
+      c.sets.find((c: any) => c.id == setId),
+    );
+    vclass.sets.splice(
+      vclass.sets.findIndex((s: any) => s.id === setId),
+      1,
+    );
   }
 
   editClass(classIdx: number) {
@@ -328,38 +285,6 @@ export class DashboardComponent implements OnInit {
         classToChange.name = res.name;
         classToChange.source_language = res.source_language;
         classToChange.target_language = res.target_language;
-      }
-    });
-  }
-
-  deleteSet(event: any, setIdx: number) {
-    event.stopPropagation();
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {});
-    dialogRef.afterClosed().subscribe((res) => {
-      if (res.confirmed === true) {
-        this.voby.deleteSet(setIdx).subscribe({
-          next: () => {
-            const vclass = this.classes.find((c: any) =>
-              c.sets.find((c: any) => c.id == setIdx),
-            );
-            vclass.sets.splice(
-              vclass.sets.findIndex((s: any) => s.id === setIdx),
-              1,
-            );
-          },
-          error: (error: any) => {
-            this.loading = false;
-            this._snackBar.openFromComponent(SnackbarComponent, {
-              data: {
-                message: 'Error: ' + error.statusText,
-                icon: 'error',
-              },
-              duration: 3 * 1000,
-            });
-          },
-          complete: () => (this.loading = false),
-        });
       }
     });
   }
@@ -389,44 +314,5 @@ export class DashboardComponent implements OnInit {
       },
       complete: () => (this.loading = false),
     });
-  }
-
-  generateWords(event: any, setId: number) {
-    event.stopPropagation();
-    if (!this.generateWordsLoading) {
-      this.generateWordsLoading = true;
-      this.voby.generateWords(setId).subscribe({
-        next: (data: any) => {
-          if (data.length > 0) {
-            this.getClasses();
-          } else {
-            this._snackBar.openFromComponent(SnackbarComponent, {
-              data: {
-                message: 'Info: No words could be created, please try again.',
-                icon: 'info',
-              },
-              duration: 3 * 1000,
-            });
-          }
-
-          this.generateWordsLoading = false;
-        },
-        error: (error: any) => {
-          this._snackBar.openFromComponent(SnackbarComponent, {
-            data: {
-              message:
-                'Error: ' +
-                (error.error?.detail ||
-                  error.message ||
-                  error.statusText ||
-                  'Unknown error'),
-              icon: 'error',
-            },
-            duration: 3 * 1000,
-          });
-          this.generateWordsLoading = false;
-        },
-      });
-    }
   }
 }

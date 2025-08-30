@@ -58,3 +58,11 @@ export interface Option {
   keys: string;
   result: string;
 }
+
+export interface Set {
+  id: number;
+  name: string;
+  has_words: boolean;
+  has_favorites: boolean;
+  has_german_favorites: boolean;
+}

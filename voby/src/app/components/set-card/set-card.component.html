@@ -1,0 +1,46 @@
+<mat-card matRipple class="set-item" (click)="redirect()">
+  <h3 style="padding: 0.6em; padding-bottom: 0; margin: 0; font-weight: 500">
+    {{ setData.name }}
+  </h3>
+  <div class="card-footer">
+    <button
+      mat-icon-button
+      style="background-color: none"
+      [disabled]="!setData.has_words"
+      (click)="startTest()"
+      matTooltip="Set test"
+    >
+      <mat-icon>quiz</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      style="background-color: none"
+      (click)="editSet($event)"
+      matTooltip="Edit set"
+    >
+      <mat-icon>edit</mat-icon>
+    </button>
+    @if (!setData.has_words) {
+      <button
+        mat-icon-button
+        style="background-color: none"
+        (click)="generateWords($event)"
+        matTooltip="Seed set"
+      >
+        @if (generateWordsLoading) {
+          <mat-icon class="spin section-action">refresh</mat-icon>
+        } @else {
+          <mat-icon>auto_awesome</mat-icon>
+        }
+      </button>
+    }
+    <button
+      mat-icon-button
+      style="background-color: none"
+      (click)="deleteSet($event)"
+      matTooltip="Delete set"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</mat-card>

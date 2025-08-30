@@ -15,43 +15,10 @@
   margin: 10px;
 }
 
-.set-item {
-  -webkit-user-select: none; /* Safari */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* IE10+/Edge */
-  user-select: none; /* Standard */
-
-  width: 300px;
-  margin: 1em;
-  border-radius: 10px;
-  transition: all 0.2s linear;
-  padding: 0;
-
-  &:hover {
-    cursor: pointer;
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
-  }
-}
-
 .set-container {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.card-footer {
-  display: flex;
-  flex-direction: row;
-  background-color: hsl(262, 52%, 47%);
-  padding: 0;
-
-  button {
-    color: white;
-  }
-
-  button:disabled {
-    color: lightgray;
-  }
 }
 
 .action-cont {
@@ -153,19 +120,5 @@
     position: relative;
     left: 50%;
     transform: translateX(-50%);
-  }
-}
-
-.spin {
-  display: inline-block;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
   }
 }
