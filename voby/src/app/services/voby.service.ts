@@ -497,8 +497,22 @@ export class VobyService {
     return this.http.post(
       environment.apiUrl + '/voby/generate/examples',
       {
-        wordId: wordId,
-        classId: classId,
+        wordId,
+        classId,
+      },
+      {
+        headers: {
+          Authorization: 'Token ' + this.authService.getSessionToken(),
+        },
+      },
+    );
+  }
+
+  generateWords(setId: number) {
+    return this.http.post(
+      environment.apiUrl + '/voby/generate/words',
+      {
+        setId,
       },
       {
         headers: {

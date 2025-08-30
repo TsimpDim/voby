@@ -33,7 +33,7 @@ class Aws:
         return f"""
             This is a request coming from a user learning {source_language}. Their original language is {target_language}.
             The want to know three real-word examples of the word '{word}' being used in {source_language}.
-            Generate two examples of '{word}' being used and provide also an accurate translation of the examples in {target_language}.
+            Generate two examples of '{word}' being used and provide  an accurate translation of the examples in {target_language}.
             The examples should be friendly, useful for language learners (in everyday situations), not very similar to one another and of medium-hard complexity. 
 
             Output rules (must all be followed):
@@ -47,14 +47,18 @@ class Aws:
     def get_words_prompt(set: str, source_language: str, target_language: str):
         return f"""
             This is a request coming from a user learning {source_language}.
-            Generate ten words about {set} in {source_language} and translated to {target_language}.
-            The examples should be friendly, useful for language learners (for that topic), not very similar to one another and of medium-hard complexity. Include the articles of the words. 
+            Generate ten words that fit in the general topic or are related of "{set}" in {source_language} and translated to {target_language}. 
+            The examples should be friendly, useful for language learners (for that topic), different from one another and of medium-hard complexity. Include the articles of the words. 
 
             Output rules (must all be followed):
                 Output only a single JSON object.
                 Do not include code fences, Markdown, explanations, or extra text. Remove all formatting, indentation, spacing and newlines — the JSON must be a single line.
                 The schema of the JSON object must look like below:
                     {{"words":[{{"word":"<word1>","plural":"<pluralVersion>", "translation": "<translation>"}},{{"word":"<word2>","plural":"<pluralVersion>", "translation": "<translation>"}}]}}
+                Do NOT return duplicates.
+
+            Example: Words about the topic "Brot" from German to English
+            Response: {{"words":[{{"word":"das Vollkornbrot","plural":"die Vollkornbrote","translation":"wholemeal bread"}},{{"word":"die Bäckerei","plural":"die Bäckereien","translation":"bakery"}},{{"word":"der Teig","plural":"die Teige","translation":"dough"}}...}}]}}
         """
 
     def invoke(prompt: str, max_token_count: int):

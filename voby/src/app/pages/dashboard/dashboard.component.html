@@ -86,6 +86,20 @@
             >
               <mat-icon>edit</mat-icon>
             </button>
+            @if (!set.has_words) {
+              <button
+                mat-icon-button
+                style="background-color: none"
+                (click)="generateWords($event, set.id)"
+                matTooltip="Seed set"
+              >
+                @if (generateWordsLoading) {
+                  <mat-icon class="spin section-action">refresh</mat-icon>
+                } @else {
+                  <mat-icon>auto_awesome</mat-icon>
+                }
+              </button>
+            }
             <button
               mat-icon-button
               style="background-color: none"

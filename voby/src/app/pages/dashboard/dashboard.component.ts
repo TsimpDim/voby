@@ -47,6 +47,7 @@ export class DashboardComponent implements OnInit {
   toShowQuizButton = false;
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
+  generateWordsLoading = false;
 
   constructor(
     private router: Router,
@@ -382,5 +383,44 @@ export class DashboardComponent implements OnInit {
       },
       complete: () => (this.loading = false),
     });
+  }
+
+  generateWords(event: any, setId: number) {
+    event.stopPropagation();
+    if (!this.generateWordsLoading) {
+      this.generateWordsLoading = true;
+      this.voby.generateWords(setId).subscribe({
+        next: (data: any) => {
+          if (data.length > 0) {
+            this.getClasses();
+          } else {
+            this._snackBar.openFromComponent(SnackbarComponent, {
+              data: {
+                message: 'Info: No words could be created, please try again.',
+                icon: 'info',
+              },
+              duration: 3 * 1000,
+            });
+          }
+
+          this.generateWordsLoading = false;
+        },
+        error: (error: any) => {
+          this._snackBar.openFromComponent(SnackbarComponent, {
+            data: {
+              message:
+                'Error: ' +
+                (error.error?.detail ||
+                  error.message ||
+                  error.statusText ||
+                  'Unknown error'),
+              icon: 'error',
+            },
+            duration: 3 * 1000,
+          });
+          this.generateWordsLoading = false;
+        },
+      });
+    }
   }
 }
