@@ -36,14 +36,12 @@ class Aws:
             The examples should be friendly, useful for language learners (in everyday situations), and not very similar to one another. 
 
             Output rules (must all be followed):
-                1. Output only a single JSON object.
-                2. Do not include code fences, Markdown, explanations, or extra text.
-                3. The JSON must start with '{{' and end with '}}'.
-                4. Remove all formatting, whitespace, and newlines — the JSON must be a single line.
-                5. The format must be exactly:
+                Output only a single JSON object.
+                Do not include code fences, Markdown, explanations, or extra text.
+                Remove all formatting, whitespace, and newlines — the JSON must be a single line.
+                The format must be exactly:
                     {{"examples":[{{"text":"<example1>","translation":"<translation1>"}},{{"text":"<example2>","translation":"<translation2>"}},{{"text":"<example3>","translation":"<translation3>"}}]}}
-                6. The "text" attribute should contain the generate example in {source_language} and "translation" the same text but translated to {target_language}. Do not return the same sentence in both attributes.
-                7. The text & translations should contain UTF-8 encoded text and no other special characters other than ! and ?.
+                The "text" attribute should contain the generate example in {source_language} and "translation" the same text but translated to {target_language}. Do not return the same sentence in both attributes.
         """
 
     def invoke(prompt: str):
