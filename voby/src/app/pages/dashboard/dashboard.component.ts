@@ -190,6 +190,7 @@ export class DashboardComponent implements OnInit {
     this.voby.createSet(classIdx, 'New set').subscribe({
       next: (data) => {
         this.classes.find((c: any) => c.id === classIdx).sets.push(data);
+        this.openEditSetForm(data);
       },
       error: (error: any) => {
         this.loading = false;
@@ -289,10 +290,15 @@ export class DashboardComponent implements OnInit {
     const setToChange = this.classes
       .flatMap((c: any) => c.sets)
       .find((s: any) => s.id === setIdx);
+
+    this.openEditSetForm(setToChange);
+  }
+
+  openEditSetForm(setToChange: any) {
     const dialogRef = this.dialog.open(SetFormComponent, {
       width: '30%',
       data: {
-        setId: setIdx,
+        setId: setToChange.id,
         name: setToChange.name,
       },
     });
