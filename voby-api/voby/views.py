@@ -282,7 +282,8 @@ class GenerateExampleView(APIView):
                 word.word,
                 vclass.source_language,
                 vclass.target_language
-            )
+            ),
+            Aws.AWS_RESPONSE_MAX_TOKEN_EXAMPLES
         )
 
         examples_created = []
@@ -297,6 +298,43 @@ class GenerateExampleView(APIView):
                 examples_created.append(new_example)
 
         return Response(ExampleSerializer(examples_created, many=True).data, status=status.HTTP_200_OK)
+
+class GenerateWordsView(APIView):
+    permission_classes = [IsAuthenticated, HasAIEnabled]
+
+    def post(self, request, format=None):
+        user = self.request.user
+        set_id = int(self.request.data.get("setId"))
+
+        set = Set.objects.get(id=set_id)
+        vclass = set.vclass
+
+        response = Aws.invoke(
+            Aws.get_words_prompt(
+                set.name,
+                vclass.source_language,
+                vclass.target_language
+            ),
+            Aws.AWS_RESPONSE_MAX_TOKEN_WORDS
+        )
+
+        words_created = []
+        if 'words' in response and len(response['words']) > 0:
+            for word in response['words']:
+                new_word = Word.objects.create(
+                    word=word['word'],
+                    plural=word['plural'],
+                    user=user
+                )
+                new_word.sets.add(set)
+                
+                Translation.objects.create(
+                    value=word['translation'],
+                    word=new_word
+                )
+                words_created.append(new_word)
+
+        return Response(WordAllSerializer(words_created, many=True).data, status=status.HTTP_200_OK)
 
 class GermanNounTestView(APIView):
     permission_classes = [IsAuthenticated]

@@ -7,7 +7,8 @@ class Aws:
 
     AWS_MODEL_ID = 'amazon.titan-text-express-v1'
     AWS_REGION = 'eu-west-1'
-    AWS_RESPONSE_MAX_TOKEN = 200
+    AWS_RESPONSE_MAX_TOKEN_EXAMPLES = 200
+    AWS_RESPONSE_MAX_TOKEN_WORDS = 500
 
     def _extract_json(text: str):
         pattern = r'\{(?:[^{}]|(?R))*\}'
@@ -30,21 +31,33 @@ class Aws:
 
     def get_word_example_prompt(word: str, source_language: str, target_language: str):
         return f"""
-            This is a request coming from a user learning {target_language}. Their original language is {source_language}.
-            The want to know three real-word examples of the word '{word}' being used in {target_language}.
-            Generate two examples of '{word}' being used and provide also an accurate translation of the examples in {source_language}.
-            The examples should be friendly, useful for language learners (in everyday situations), and not very similar to one another. 
+            This is a request coming from a user learning {source_language}. Their original language is {target_language}.
+            The want to know three real-word examples of the word '{word}' being used in {source_language}.
+            Generate two examples of '{word}' being used and provide also an accurate translation of the examples in {target_language}.
+            The examples should be friendly, useful for language learners (in everyday situations), not very similar to one another and of medium-hard complexity. 
 
             Output rules (must all be followed):
                 Output only a single JSON object.
-                Do not include code fences, Markdown, explanations, or extra text.
-                Remove all formatting, whitespace, and newlines — the JSON must be a single line.
+                Do not include code fences, Markdown, explanations, or extra text. Remove all formatting, whitespace, and newlines — the JSON must be a single line.
                 The format must be exactly:
                     {{"examples":[{{"text":"<example1>","translation":"<translation1>"}},{{"text":"<example2>","translation":"<translation2>"}},{{"text":"<example3>","translation":"<translation3>"}}]}}
                 The "text" attribute should contain the generate example in {source_language} and "translation" the same text but translated to {target_language}. Do not return the same sentence in both attributes.
         """
 
-    def invoke(prompt: str):
+    def get_words_prompt(set: str, source_language: str, target_language: str):
+        return f"""
+            This is a request coming from a user learning {source_language}.
+            Generate ten words about {set} in {source_language} and translated to {target_language}.
+            The examples should be friendly, useful for language learners (for that topic), not very similar to one another and of medium-hard complexity. Include the articles of the words. 
+
+            Output rules (must all be followed):
+                Output only a single JSON object.
+                Do not include code fences, Markdown, explanations, or extra text. Remove all formatting, indentation, spacing and newlines — the JSON must be a single line.
+                The schema of the JSON object must look like below:
+                    {{"words":[{{"word":"<word1>","plural":"<pluralVersion>", "translation": "<translation>"}},{{"word":"<word2>","plural":"<pluralVersion>", "translation": "<translation>"}}]}}
+        """
+
+    def invoke(prompt: str, max_token_count: int):
         bedrock = Aws.get_or_create_bedrock_client()
         if not bedrock:
             print("Bedrock client not correctly initialized...")
@@ -53,7 +66,7 @@ class Aws:
         body = json.dumps({
             "inputText": prompt,
             "textGenerationConfig": {
-                "maxTokenCount": Aws.AWS_RESPONSE_MAX_TOKEN
+                "maxTokenCount": max_token_count
             },
         })
         response = bedrock.invoke_model(
