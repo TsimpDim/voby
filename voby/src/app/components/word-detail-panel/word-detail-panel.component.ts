@@ -74,7 +74,6 @@ export class WordDetailPanelComponent {
   editWord() {
     const dialogRef = this.dialog.open(WordFormComponent, {
       width: '30%',
-      height: '90%',
       data: {
         word: this.word,
         vclassId: this.vclass.id,
