@@ -16,9 +16,13 @@
         <div style="display: flex; flex-direction: column">
           <div class="xp" matTooltip="{{ remainingExp }} XP til next level">
             <div [@xpAnimation]="userExperience">{{ userExperience }}</div>
-            <mat-icon aria-label="xp">psychology</mat-icon>
+            <mat-icon fontSet="material-symbols-outlined" aria-label="xp"
+              >star_shine</mat-icon
+            >
             <div [@levelAnimation]="userLevel.level">{{ userLevel.level }}</div>
-            <mat-icon aria-label="level">workspace_premium</mat-icon>
+            <mat-icon aria-label="level" fontSet="material-symbols-outlined"
+              >crown</mat-icon
+            >
           </div>
           <mat-progress-bar
             mode="determinate"

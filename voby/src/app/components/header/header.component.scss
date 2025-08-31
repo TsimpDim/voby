@@ -22,10 +22,12 @@ img:hover {
   display: flex;
   flex-direction: row;
   margin: 0 auto;
+  font-size: .8em;
 
   .mat-icon {
     margin-top: auto;
     margin-bottom: auto;
+    margin-right: .3em;
   }
 }
 
