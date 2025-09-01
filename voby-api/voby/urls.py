@@ -4,7 +4,7 @@ from .views import ClassViewSet, SetViewSet, WordViewSet, \
      ExampleViewSet, TestView, QuizAnswerViewSet, ProfileViewSet, \
      TestAttemptViewSet, UserShortcutsViewSet, ClassExcelView, TranslationViewSet, \
      GermanNounTestView, OptionView, TagViewSet, HealthCheckView, GenerateExampleView, \
-     GenerateWordsView
+     GenerateWordsView, WordTranslation
  
 router = DefaultRouter()
 router.register(r"classes", ClassViewSet, basename="class")
@@ -26,5 +26,6 @@ urlpatterns = [
     path('german/noun-test', GermanNounTestView.as_view(), name="german-noun-test"),
     path('class/<int:class_id>/download', ClassExcelView.as_view(), name='download-class'),
     path('generate/examples', GenerateExampleView.as_view(), name='generate-examples'),
-    path('generate/words', GenerateWordsView.as_view(), name='generate-words')
+    path('generate/words', GenerateWordsView.as_view(), name='generate-words'),
+    path('translate', WordTranslation.as_view(), name='translate')
 ]

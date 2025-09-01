@@ -521,4 +521,11 @@ export class VobyService {
       },
     );
   }
+
+  getWordTranslation(text: string, classId: number) {
+    return this.http.get(environment.apiUrl + '/voby/translate', {
+      params: { text, classId },
+      headers: { Authorization: 'Token ' + this.authService.getSessionToken() },
+    });
+  }
 }

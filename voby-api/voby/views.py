@@ -12,11 +12,12 @@ from .models import VClass, Set, Word, Example, QuizAnswer, Profile, TestAttempt
 from .serializers import ClassSerializer, SetInfoSerializer, WordInfoSerializer, ExampleSerializer, \
     ProfileSerializer, QuizAnswerSerializer, TestQuestionSerializer, TestAttemptSerializer, \
     UserShortcutsSerializer, TranslationSerializer, GermanNounTestQuestionSerializer, OptionSerializer, \
-    SetAllSerializer, WordAllSerializer, TagSerializer, RelatedWordSerializer
+    SetAllSerializer, WordAllSerializer, TagSerializer, RelatedWordSerializer, TranslationResultSerializer
 from random import sample
-import xlwt
 from .aws import Aws
 from .permissions import HasAIEnabled
+from .constants import LANGUAGE_CODES
+import requests, xlwt, os
 
 class StandardPagination(PageNumberPagination):
     page_size = 50
@@ -372,6 +373,31 @@ class GermanNounTestView(APIView):
         data = GermanNounTestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
+
+class WordTranslation(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, format=None):
+        text = self.request.query_params.get("text")
+        vclass_id = self.request.query_params.get("classId")
+
+        vclass = VClass.objects.get(id=vclass_id)
+        source_language = vclass.source_language.lower()
+        target_language = vclass.target_language.lower()
+
+        source_code = LANGUAGE_CODES[source_language]
+        target_code = LANGUAGE_CODES[target_language]
+
+        response = requests.post(f"{os.getenv('TRANSLATION_API_URL')}/translate", data={
+            'q': text,
+            'source': source_code,
+            'target': target_code,
+            'alternatives': 1,
+            'format': 'text'
+        })
+
+        json_data = response.json()
+        return Response(TranslationResultSerializer(json_data).data, status=status.HTTP_200_OK)
 
 class ClassExcelView(APIView):
     permission_classes = [IsAuthenticated]

@@ -3,6 +3,7 @@ declare -A dcfiles=(
     ["core"]="docker-compose-core.yml"
     ["api"]="voby-api/docker-compose-api.yml"
     ["client"]="voby/docker-compose-client.yml"
+    ["translation-api"]="translation-api/docker-compose-translation-api.yml"
 )
 
 if [[ $1 == "start" ]]; then

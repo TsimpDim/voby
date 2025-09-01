@@ -21,6 +21,7 @@ services:
       - DJANGO_SUPERUSER_EMAIL=noemail@noemail.com
       - SECRET_KEY=django1234
       - DEBUG=True
+      - TRANSLATION_API_URL=http://translation-api:5000
     networks:
       voby:
         aliases:

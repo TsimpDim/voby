@@ -156,6 +156,20 @@ class ClassSerializer(serializers.ModelSerializer):
         model = VClass
         fields = "__all__"
 
+class TranslationResultSerializer(serializers.Serializer):
+    translations = serializers.SerializerMethodField()
+
+    def get_translations(self, obj):
+        """
+        `obj` is expected to be a dict like:
+        {
+            'translatedText': 'some text',
+            'alternatives': ['alt1', 'alt2']
+        }
+        """
+
+        return [obj['translatedText'], *obj.get('alternatives', [])]
+
 class QuizAnswerSerializer(serializers.ModelSerializer):
     class Meta:
         model = QuizAnswer

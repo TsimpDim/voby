@@ -27,7 +27,7 @@ import {
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
-import { Subscription } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import {
   PassedDataOnWordCreate,
   PassedDataOnWordEdit,
@@ -44,7 +44,6 @@ import { stringSimilarity } from 'src/app/string-similarity';
 import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-
 import { MatInputModule } from '@angular/material/input';
 import {
   MAT_FORM_FIELD_DEFAULT_OPTIONS,
@@ -187,6 +186,12 @@ export class WordFormComponent implements OnInit, OnDestroy {
         }
       },
     );
+
+    this.wordForm.controls['word'].valueChanges
+      .pipe(debounceTime(500))
+      .subscribe(() => {
+        this.triggerTranslation();
+      });
   }
 
   onNoClick(): void {
@@ -670,6 +675,30 @@ export class WordFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  triggerTranslation() {
+    const translationsValue = this.wordForm.get('translation')?.value;
+    const wordValue = this.wordForm.get('word')?.value;
+    if (translationsValue.length === 0 && wordValue) {
+      this.voby
+        .getWordTranslation(
+          this.wordForm.get('word')?.value,
+          (this.passedData as PassedDataOnWordEdit | PassedDataOnWordCreate)
+            .vclassId,
+        )
+        .subscribe({
+          next: (data: any) => {
+            if (data.translations[0] === wordValue) {
+              return;
+            }
+
+            data.translations.forEach((t: string) => {
+              this.addTranslation(t);
+            });
+          },
+        });
+    }
+  }
+
   relatedWordExit() {
     setTimeout(() => {
       this.wordViewRelatedWord = undefined;
@@ -707,23 +736,27 @@ export class WordFormComponent implements OnInit, OnDestroy {
     this.suggestedRelatedWords = suggestedRelatedWords;
   }
 
-  addTranslation(event: MatChipInputEvent): void {
+  addTranslationChip(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
+    this.addTranslation(value);
+    event.chipInput!.clear();
+  }
 
-    if (value) {
-      this.translations.push({ id: 0, value: value });
+  addTranslation(translation: string) {
+    if (translation) {
+      this.translations.push({ id: 0, value: translation });
       const translationsValue = this.wordForm.get('translation')?.value;
       if (!translationsValue) {
-        this.wordForm.patchValue({ translation: [{ id: 0, value: value }] });
+        this.wordForm.patchValue({
+          translation: [{ id: 0, value: translation }],
+        });
       } else {
-        (translationsValue as any[]).push({ id: 0, value: value });
+        (translationsValue as any[]).push({ id: 0, value: translation });
         this.wordForm.patchValue({ translation: translationsValue });
       }
 
-      this.translationsToBeCreated.push(value);
+      this.translationsToBeCreated.push(translation);
     }
-
-    event.chipInput!.clear();
   }
 
   removeTranslation(translation: string): void {
