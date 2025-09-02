@@ -1,19 +1,22 @@
 services:
   libretranslate:
     image: libretranslate/libretranslate:latest
-    container_name: translation-api
+    container_name: libretranslate
+    restart: unless-stopped
     ports:
-      - "5000:5000"
+      - "127.0.0.1:5000:5000"
+    environment:
+      - LT_LOAD_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ar,hi
+      - LT_NO_STATS=true
+
     networks:
       voby:
         aliases:
           - "translation-api.voby.local"
-    environment:
-      - LT_LOAD_ONLY=en,es,fr,de,it,ru
-      - LT_NO_STATS=true
-      - LT_DISABLE_WEB_UI=true
+
+    # In prod, this service runs without extra networks
+    profiles: ["prod"]
 
 networks:
   voby:
-    name: voby
     external: true
