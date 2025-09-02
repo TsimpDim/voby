@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   libretranslate:
     image: libretranslate/libretranslate:latest
@@ -8,13 +10,21 @@ services:
     environment:
       - LT_LOAD_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ar,hi
       - LT_NO_STATS=true
-
+      - LT_REQUIRE_API_KEY_SECRET=${LT_SECRET}
     networks:
-      voby:
-        aliases:
-          - "translation-api.voby.local"
+      - voby
 
-    # In prod, this service runs without extra networks
+  # Prod variant = same container, no voby network
+  libretranslate-prod:
+    image: libretranslate/libretranslate:latest
+    container_name: libretranslate
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      - LT_LOAD_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ar,hi
+      - LT_NO_STATS=true
+      - LT_REQUIRE_API_KEY_SECRET=${LT_SECRET}
     profiles: ["prod"]
 
 networks:
