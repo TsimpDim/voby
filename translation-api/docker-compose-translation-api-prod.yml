@@ -10,9 +10,4 @@ services:
     environment:
       - LT_LOAD_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ar,hi
       - LT_NO_STATS=true
-    networks:
-      - voby
-
-networks:
-  voby:
-    external: true
+      - LT_REQUIRE_API_KEY_SECRET=${LT_SECRET}
