@@ -11,7 +11,6 @@ services:
     environment:
       - LT_LOAD_ONLY=en,es,fr,de,it,ru
       - LT_NO_STATS=true
-      - LT_REQUIRE_API_KEY_SECRET=django1234
       - LT_DISABLE_WEB_UI=true
 
 networks:
