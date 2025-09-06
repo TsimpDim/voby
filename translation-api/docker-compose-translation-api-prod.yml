@@ -6,7 +6,17 @@ services:
     container_name: libretranslate
     restart: unless-stopped
     ports:
-      - "127.0.0.1:5000:5000"
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD-SHELL", "./venv/bin/python scripts/healthcheck.py"]
+    tty: true
     environment:
-      - LT_LOAD_LANGUAGES=en,es,fr,de,it,pt,ru,zh,ar,hi
+      - LT_LOAD_ONLY=en,de,it,fr
       - LT_NO_STATS=true
+      - LT_DISABLE_WEB_UI=true
+      - LT_SUGGESTIONS=true
+    volumes:
+      - libretranslate-data:/app/data
+
+volumes:
+  libretranslate-data:
