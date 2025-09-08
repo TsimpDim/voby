@@ -22,8 +22,8 @@
 
   &:hover {
     cursor: pointer;
-    background-color: rgb(235, 235, 235);
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    background-color: var(--voby-light-background);
+    box-shadow: var(--voby-accent) 5px 5px 0px;
   }
 
   mat-card-content p {

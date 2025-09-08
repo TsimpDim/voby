@@ -6,7 +6,7 @@
 }
 
 .intro {
-  background-color: #673ab7;
+  background-color:var(--voby-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -36,8 +36,8 @@ form {
 }
 
 button[type="submit"] {
-  background-color: #673ab7;
-  color: #ffe343;
+  background-color:var(--voby-primary);
+  color:var(--voby-accent);
   font-size: 1.2em;
 }
 

@@ -13,13 +13,23 @@
       }
 
       @if (checkIsLoggedIn()) {
-        <div style="display: flex; flex-direction: column">
+        <div style="display: flex; flex-direction: column; margin-top: 0.4em">
           <div class="xp" matTooltip="{{ remainingExp }} XP til next level">
-            <div [@xpAnimation]="userExperience">{{ userExperience }}</div>
+            <div
+              [@xpAnimation]="userExperience"
+              class="voby-primary-text-white"
+            >
+              {{ userExperience }}
+            </div>
             <mat-icon fontSet="material-symbols-outlined" aria-label="xp"
               >star_shine</mat-icon
             >
-            <div [@levelAnimation]="userLevel.level">{{ userLevel.level }}</div>
+            <div
+              [@levelAnimation]="userLevel.level"
+              class="voby-primary-text-white"
+            >
+              {{ userLevel.level }}
+            </div>
             <mat-icon aria-label="level" fontSet="material-symbols-outlined"
               >crown</mat-icon
             >

@@ -14,18 +14,12 @@
   }
 }
 
-.word-date {
-  opacity: 50%;
-  font-size: 0.7em;
-  font-weight: 300;
-  margin-top: -0.3em;
-}
-
 .info-container {
   background-color: #f9f9f9;
   border-radius: 10px;
 
-  margin: 0.5em;
+  margin: .5em;
+  padding-top: .5em;
   display: block;
 
   .general-text {
@@ -34,7 +28,10 @@
     word-break: break-word;
     overflow-wrap: break-word;
   }
-  
+
+  &:last-child {
+    padding-bottom: 0;
+  }
 }
 
 .action-icon {
@@ -42,7 +39,7 @@
 }
 
 .active-chip {
-  background-color: #673ab7;
+  background-color:var(--voby-primary);
   color: white;
 
   &:hover {

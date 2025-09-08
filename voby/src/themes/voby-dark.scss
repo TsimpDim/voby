@@ -1,0 +1,382 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Define custom dark color palettes
+$voby-primary-dark-palette: (
+  50: #ede7f6,
+  100: #d1c4e9,
+  200: #b39ddb,
+  300: #9575cd,
+  400: #7e57c2,
+  500:var(--voby-primary),  // Primary brand color
+  600: #5e35b1,
+  700: #512da8,
+  800: #4527a0,
+  900: #311b92,
+  A100: #b388ff,
+  A200: #7c4dff,
+  A400: #651fff,
+  A700: #6200ea,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$voby-accent-dark-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  300: #ffd54f,
+  400: #ffca28,
+  500: #ffc107,  // Primary accent color (amber)
+  600: #ffb300,
+  700: #ffa000,
+  800: #ff8f00,
+  900: #ff6f00,
+  A100: #ffe57f,
+  A200: #ffd740,
+  A400: #ffc400,
+  A700: #ffab00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
+
+$voby-warn-dark-palette: (
+  50: #fce4ec,
+  100: #f8bbd9,
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: #e91e63,
+  600: #d81b60,
+  700: #c2185b,
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+// Create the dark theme
+$voby-primary-dark: mat.m2-define-palette($voby-primary-dark-palette, 400); // Lighter variant for dark theme
+$voby-accent-dark: mat.m2-define-palette($voby-accent-dark-palette, 200); // Lighter amber for dark theme
+$voby-warn-dark: mat.m2-define-palette($voby-warn-dark-palette);
+
+// Create the dark theme object
+$voby-dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $voby-primary-dark,
+    accent: $voby-accent-dark,
+    warn: $voby-warn-dark,
+  ),
+  typography: mat.m2-define-typography-config(
+    $font-family: 'Poppins, sans-serif',
+    $headline-1: mat.m2-define-typography-level(48px, 1.2, 700),
+    $headline-2: mat.m2-define-typography-level(36px, 1.2, 700),
+    $headline-3: mat.m2-define-typography-level(24px, 1.3, 600),
+    $headline-4: mat.m2-define-typography-level(20px, 1.3, 600),
+    $headline-5: mat.m2-define-typography-level(18px, 1.4, 500),
+    $headline-6: mat.m2-define-typography-level(16px, 1.4, 500),
+    $body-1: mat.m2-define-typography-level(16px, 1.5, 400),
+    $body-2: mat.m2-define-typography-level(14px, 1.4, 400),
+    $caption: mat.m2-define-typography-level(12px, 1.4, 400),
+    $button: mat.m2-define-typography-level(16px, 1.2, 500),
+  ),
+  density: 0,
+));
+
+// Apply the dark theme
+@include mat.all-component-themes($voby-dark-theme);
+
+// Dark theme CSS variables
+:root {
+  // Primary brand colors - adjusted for dark theme
+  --voby-primary: #7e57c2;          // Lighter purple for dark theme
+  --voby-primary-light: #b39ddb;    // Even lighter for accents
+  --voby-primary-dark: #512da8;     // Darker for depth
+
+  // Accent colors - brighter for dark theme
+  --voby-accent: #ffe082;           // Lighter amber for dark theme
+  --voby-accent-light: #fff3c4;     // Very light accent
+  --voby-accent-dark: #ffb300;      // Standard amber for contrast
+
+  // Supporting colors - adjusted for dark theme
+  --voby-teal: #4db6ac;            // Lighter teal
+  --voby-teal-light: #80cbc4;      // Light teal accent
+  --voby-teal-dark: #00695c;       // Dark teal for contrast
+
+  // Dark theme background colors
+  --voby-background: #121212;       // Material Design dark background
+  --voby-surface: #1e1e1e;         // Card/surface color
+  --voby-surface-elevated: #2d2d2d; // Elevated surface (dialogs, menus)
+
+  // Dark theme text colors
+  --voby-text-primary: rgba(255, 255, 255, 0.87);    // High emphasis text
+  --voby-text-secondary: rgba(255, 255, 255, 0.60);  // Medium emphasis text
+  --voby-text-disabled: rgba(255, 255, 255, 0.38);   // Disabled text
+  --voby-text-hint: rgba(255, 255, 255, 0.38);       // Hint text
+
+  // Dark theme dividers and borders
+  --voby-divider: rgba(255, 255, 255, 0.12);
+  --voby-border: rgba(255, 255, 255, 0.20);
+
+  // Semantic colors for dark theme
+  --voby-success: #81c784;         // Lighter green for dark theme
+  --voby-error: #e57373;           // Lighter red for dark theme
+  --voby-warning: #ffb74d;         // Lighter orange for dark theme
+  --voby-info: #64b5f6;            // Lighter blue for dark theme
+}
+
+// Dark theme utility classes
+.voby-dark {
+  background-color: var(--voby-background);
+  color: var(--voby-text-primary);
+}
+
+.voby-primary-bg-dark { background-color: var(--voby-primary) !important; }
+.voby-primary-text-dark { color: var(--voby-primary) !important; }
+
+.voby-accent-bg-dark { background-color: var(--voby-accent) !important; }
+.voby-accent-text-dark { color: var(--voby-accent) !important; }
+
+.voby-teal-bg-dark { background-color: var(--voby-teal) !important; }
+.voby-teal-text-dark { color: var(--voby-teal) !important; }
+
+// Dark theme button styles
+.voby-button-primary-dark {
+  background-color: var(--voby-primary);
+  color: var(--voby-text-primary);
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: var(--voby-primary-dark);
+  }
+}
+
+.voby-button-accent-dark {
+  background-color: var(--voby-accent);
+  color: var(--voby-background);
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: var(--voby-accent-dark);
+  }
+}
+
+.voby-button-outline-dark {
+  background-color: transparent;
+  color: var(--voby-primary);
+  border: 2px solid var(--voby-primary);
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: rgba(126, 87, 194, 0.1);
+  }
+}
+
+// Dark theme card styles
+.voby-card-dark {
+  background-color: var(--voby-surface);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  padding: 16px;
+  margin: 8px 0;
+  border-left: 4px solid var(--voby-primary);
+  border: 1px solid var(--voby-border);
+}
+
+.voby-card-elevated-dark {
+  background-color: var(--voby-surface-elevated);
+  border-radius: 8px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+  padding: 16px;
+  margin: 8px 0;
+  border-left: 4px solid var(--voby-accent);
+}
+
+// Dark theme input styles
+.voby-input-dark {
+  .mat-form-field {
+    .mat-form-field-label {
+      color: var(--voby-text-secondary);
+      font-family: 'Poppins', sans-serif;
+    }
+
+    .mat-form-field-underline {
+      background-color: var(--voby-divider);
+    }
+
+    .mat-form-field-ripple {
+      background-color: var(--voby-primary);
+    }
+
+    &.mat-focused .mat-form-field-label {
+      color: var(--voby-primary);
+    }
+  }
+
+  .mat-input-element {
+    color: var(--voby-text-primary);
+  }
+}
+
+// Dark theme progress indicators
+.voby-progress-dark {
+  .mat-progress-bar-background {
+    background-color: var(--voby-divider);
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: var(--voby-accent);
+  }
+}
+
+// Dark theme quiz/test styles
+.voby-quiz-correct-dark {
+  background-color: var(--voby-success);
+  color: var(--voby-background);
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.voby-quiz-incorrect-dark {
+  background-color: var(--voby-error);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 12px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.voby-quiz-pending-dark {
+  background-color: var(--voby-surface-elevated);
+  color: var(--voby-text-primary);
+  border: 1px solid var(--voby-border);
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+// Dark theme navigation styles
+.voby-nav-dark {
+  background-color: var(--voby-surface);
+  border-bottom: 1px solid var(--voby-divider);
+
+  .mat-tab-label {
+    color: var(--voby-text-secondary);
+
+    &.mat-tab-label-active {
+      color: var(--voby-primary);
+    }
+  }
+
+  .mat-ink-bar {
+    background-color: var(--voby-primary);
+  }
+}
+
+// Dark theme scrollbar styles
+.voby-scrollbar-dark {
+  scrollbar-width: thin;
+  scrollbar-color: var(--voby-border) var(--voby-background);
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--voby-background);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--voby-border);
+    border-radius: 4px;
+
+    &:hover {
+      background-color: var(--voby-text-disabled);
+    }
+  }
+}
+
+// Dark theme dialog styles
+.voby-dialog-dark {
+  .mat-dialog-container {
+    background-color: var(--voby-surface-elevated);
+    color: var(--voby-text-primary);
+  }
+
+  .mat-dialog-title {
+    color: var(--voby-text-primary);
+    border-bottom: 1px solid var(--voby-divider);
+  }
+}
+
+// Dark theme snackbar styles
+.voby-snackbar-dark {
+  background-color: var(--voby-surface-elevated);
+  color: var(--voby-text-primary);
+
+  &.voby-snackbar-success {
+    background-color: var(--voby-success);
+    color: var(--voby-background);
+  }
+
+  &.voby-snackbar-error {
+    background-color: var(--voby-error);
+    color: white;
+  }
+
+  &.voby-snackbar-warning {
+    background-color: var(--voby-warning);
+    color: var(--voby-background);
+  }
+}

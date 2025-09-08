@@ -6,8 +6,8 @@
   margin-right: auto;
   margin-bottom: 2em;
   margin-top: -4em;
-  background-color: #673ab7;
-  box-shadow: 4px 4px 0 #fdd441;
+  background-color:var(--voby-primary);
+  box-shadow: 4px 4px 0 var(--voby-accent);
   border-radius: 10px;
   display: flex;
   flex-direction: row;
@@ -62,13 +62,13 @@
     margin-top: 1em;
     // float: right;
     // vertical-align: top;
-    color: #fdd441;
+    color: var(--voby-accent);
     height: auto;
     padding: 0.3em;
     border-radius: 100px;
 
     mat-icon {
-      color: #fdd441;
+      color: var(--voby-accent);
       padding: 0;
     }
   }

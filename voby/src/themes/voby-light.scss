@@ -1,0 +1,250 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+// Define custom color palettes
+$voby-primary-palette: (
+  50: #ede7f6,
+  100: #d1c4e9,
+  200: #b39ddb,
+  300: #9575cd,
+  400: #7e57c2,
+  500: #673ab7,  // Primary brand color
+  600: #5e35b1,
+  700: #512da8,
+  800: #4527a0,
+  900: #311b92,
+  A100: #b388ff,
+  A200: #7c4dff,
+  A400: #651fff,
+  A700: #6200ea,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+$voby-accent-palette: (
+  50: #fff8e1,
+  100: #ffecb3,
+  200: #ffe082,
+  300: #ffd54f,
+  400: #ffca28,
+  500: #ffc107,  // Primary accent color (amber)
+  600: #ffb300,
+  700: #ffa000,
+  800: #ff8f00,
+  900: #ff6f00,
+  A100: #ffe57f,
+  A200: #ffd740,
+  A400: #ffc400,
+  A700: #ffab00,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: rgba(black, 0.87),
+    500: rgba(black, 0.87),
+    600: rgba(black, 0.87),
+    700: rgba(black, 0.87),
+    800: rgba(black, 0.87),
+    900: rgba(black, 0.87),
+    A100: rgba(black, 0.87),
+    A200: rgba(black, 0.87),
+    A400: rgba(black, 0.87),
+    A700: rgba(black, 0.87),
+  )
+);
+
+$voby-warn-palette: (
+  50: #fce4ec,
+  100: #f8bbd9,
+  200: #f48fb1,
+  300: #f06292,
+  400: #ec407a,
+  500: #e91e63,
+  600: #d81b60,
+  700: #c2185b,
+  800: #ad1457,
+  900: #880e4f,
+  A100: #ff80ab,
+  A200: #ff4081,
+  A400: #f50057,
+  A700: #c51162,
+  contrast: (
+    50: rgba(black, 0.87),
+    100: rgba(black, 0.87),
+    200: rgba(black, 0.87),
+    300: rgba(black, 0.87),
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: rgba(black, 0.87),
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
+
+// Create the theme
+$voby-primary: mat.m2-define-palette($voby-primary-palette);
+$voby-accent: mat.m2-define-palette($voby-accent-palette);
+$voby-warn: mat.m2-define-palette($voby-warn-palette);
+
+// Create the theme object
+$voby-theme: mat.m2-define-light-theme((
+  color: (
+    primary: $voby-primary,
+    accent: $voby-accent,
+    warn: $voby-warn,
+  ),
+  typography: mat.m2-define-typography-config(
+    $font-family: 'Poppins, sans-serif',
+    $headline-1: mat.m2-define-typography-level(48px, 1.2, 700),
+    $headline-2: mat.m2-define-typography-level(36px, 1.2, 700),
+    $headline-3: mat.m2-define-typography-level(24px, 1.3, 600),
+    $headline-4: mat.m2-define-typography-level(20px, 1.3, 600),
+    $headline-5: mat.m2-define-typography-level(18px, 1.4, 500),
+    $headline-6: mat.m2-define-typography-level(16px, 1.4, 500),
+    $body-1: mat.m2-define-typography-level(16px, 1.5, 400),
+    $body-2: mat.m2-define-typography-level(14px, 1.4, 400),
+    $caption: mat.m2-define-typography-level(12px, 1.4, 400),
+    $button: mat.m2-define-typography-level(16px, 1.2, 500),
+  ),
+  density: 0,
+));
+
+// Apply the theme
+@include mat.all-component-themes($voby-theme);
+
+// Custom CSS variables for additional brand colors
+:root {
+  // Primary brand colors
+  --voby-primary: #673ab7;
+  --voby-primary-light: #9575cd;
+  --voby-primary-dark: #512da8;
+
+  // Accent colors
+  --voby-accent: #ffc107;
+  --voby-accent-light: #ffecb3;
+  --voby-accent-dark: #ff8f00;
+
+  // Supporting colors
+  --voby-teal: #009688;
+  --voby-teal-light: #4db6ac;
+  --voby-teal-dark: #00695c;
+
+  // Neutral colors
+  --voby-background: #fafafa;
+  --voby-light-background: #ebebeb;
+  --voby-surface: #ffffff;
+  --voby-text-primary: #212121;
+  --voby-text-secondary: #757575;
+  --voby-divider: #e0e0e0;
+
+  // Semantic colors
+  --voby-success: #4caf50;
+  --voby-error: #f44336;
+  --voby-warning: #ff9800;
+  --voby-info: #2196f3;
+}
+
+// Utility classes for Voby brand colors
+.voby-primary-bg { background-color: var(--voby-primary) !important; }
+.voby-primary-text { 
+  color: var(--voby-primary) !important;
+  font-size: 1.3em;
+  margin: 0;
+}
+.voby-primary-text-white { 
+  color: white !important;
+  font-size: 1.3em;
+  margin: 0;
+}
+.voby-secondary-text {
+  color: var(--voby-text-secondary);
+  font-size: 0.7em;
+  font-weight: 300;
+  margin-top: -0.3em;
+}
+
+mat-card {
+  * {
+    --mat-card-title-text-weight: 300;
+  }
+}
+
+.voby-accent-bg { background-color: var(--voby-accent) !important; }
+.voby-accent-text { color: var(--voby-accent) !important; }
+
+.voby-teal-bg { background-color: var(--voby-teal) !important; }
+.voby-teal-text { color: var(--voby-teal) !important; }
+
+
+
+// Custom button styles
+.voby-button-primary {
+  background-color: var(--voby-primary);
+  color: white;
+  border-radius: 8px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: var(--voby-primary-dark);
+  }
+}
+
+.voby-button-accent {
+  background-color: var(--voby-accent);
+  color: var(--voby-text-surface);
+  border-radius: 100px;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+
+  &:hover {
+    background-color: var(--voby-accent-dark);
+  }
+}
+
+// Input field styles
+.voby-input {
+  .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: var(--voby-primary);
+  }
+
+  .mat-form-field-label {
+    color: var(--voby-text-secondary);
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+// Quiz/test specific styles
+.voby-quiz-correct {
+  background-color: var(--voby-teal);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.voby-quiz-incorrect {
+  background-color: var(--voby-error);
+  color: white;
+  border-radius: 4px;
+  padding: 8px 12px;
+}

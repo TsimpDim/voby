@@ -1,5 +1,9 @@
 <form [formGroup]="wordForm" #form id="word-form-container">
-  <mat-form-field appearance="outline" style="margin-top: 0.3em">
+  <mat-form-field
+    appearance="outline"
+    class="voby-input"
+    style="margin-top: 0.3em"
+  >
     <mat-label>Word</mat-label>
     <input
       cdkFocusInitial
@@ -11,7 +15,7 @@
     />
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="voby-input">
     <mat-label>Translations</mat-label>
     <mat-chip-grid
       #chipGrid
@@ -38,17 +42,17 @@
     </mat-chip-grid>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="voby-input">
     <mat-label>Plural</mat-label>
     <input matInput name="plural" formControlName="plural" />
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="voby-input">
     <mat-label>General</mat-label>
     <textarea matInput formControlName="general"></textarea>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="voby-input">
     <mat-label>Related words</mat-label>
     <mat-chip-grid #chipList>
       @for (word of wordForm.get("relatedWords")?.value; track word.id) {
@@ -106,7 +110,7 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" class="voby-input">
     <mat-label>Tags</mat-label>
     <mat-chip-grid
       #chipGridTags
@@ -165,7 +169,7 @@
         <mat-icon>close</mat-icon>
       </button>
       <div style="display: flex; flex-direction: column; width: 100%">
-        <mat-form-field class="input" appearance="outline">
+        <mat-form-field class="input" appearance="outline" class="voby-input">
           <mat-label>Text</mat-label>
           <input
             matInput
@@ -173,7 +177,11 @@
             [formControlName]="i.toString() + 'tx'"
           />
         </mat-form-field>
-        <mat-form-field class="input example-translation" appearance="outline">
+        <mat-form-field
+          class="input example-translation"
+          appearance="outline"
+          class="voby-input"
+        >
           <mat-label>Translation</mat-label>
           <input
             matInput

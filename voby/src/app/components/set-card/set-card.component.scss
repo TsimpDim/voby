@@ -12,14 +12,14 @@
 
   &:hover {
     cursor: pointer;
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    box-shadow: var(--voby-accent) 5px 5px 0px;
   }
 }
 
 .card-footer {
   display: flex;
   flex-direction: row;
-  background-color: hsl(262, 52%, 47%);
+  background-color: var(--voby-primary);
   padding: 0;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;

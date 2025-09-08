@@ -42,7 +42,7 @@
 }
 
 .active-chip {
-  background-color: #673ab7;
+  background-color:var(--voby-primary);
   color: white;
 
   &:hover {
@@ -98,7 +98,6 @@
 
     .size {
       opacity: 50%;
-      margin-top: 0.5em;
       font-size: 0.5em;
     }
   }
@@ -143,7 +142,7 @@
 
 .action-single {
   border: none;
-  background-color: #673ab7;
+  background-color:var(--voby-primary);
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 5em;
@@ -179,7 +178,7 @@
       border-top-left-radius: 100px;
       border-bottom-left-radius: 100px;
 
-      background-color: #673ab7;
+      background-color:var(--voby-primary);
       max-width: 200em;
       width: auto;
       padding: 0 0.6em;
@@ -213,8 +212,8 @@
 }
 
 .selected-word {
-  background-color: rgb(235, 235, 235);
-  box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+  background-color: var(--voby-light-background);
+  box-shadow: var(--voby-accent) 5px 5px 0px;
 }
 
 .class-info {
@@ -235,7 +234,7 @@
 }
 
 .badge {
-  color: #673ab7;
+  color:var(--voby-primary);
   font-size: 0.7em;
   margin-left: 0.2em;
   margin-top: -0.4em;
@@ -262,14 +261,14 @@
 
     &:hover {
       cursor: pointer;
-      background-color: rgb(235, 235, 235);
-      box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+      background-color: var(--voby-light-background);
+      box-shadow: var(--voby-accent) 5px 5px 0px;
     }
   }
 
   .current-page {
-    background-color: rgb(235, 235, 235);
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    background-color: var(--voby-light-background);
+    box-shadow: var(--voby-accent) 5px 5px 0px;
   }
 }
 

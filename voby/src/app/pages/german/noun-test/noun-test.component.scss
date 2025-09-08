@@ -50,7 +50,7 @@ mat-card-content {
   justify-content: flex-end;
 
   #submit-button {
-    background-color: #673ab7;
+    background-color:var(--voby-primary);
     padding: 1em;
     margin: 1em;
     margin-left: 0;

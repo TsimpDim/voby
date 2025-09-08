@@ -10,6 +10,7 @@
   margin: 0.5em 1em;
   height: 100%;
   padding: 0;
+  transition: box-shadow 0.1s linear;
 
   .card-content {
     margin: 0;
@@ -69,14 +70,14 @@
 
   &:hover {
     cursor: pointer;
-    background-color: rgb(235, 235, 235);
-    box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+    background-color: var(--voby-light-background);
+    box-shadow: var(--voby-accent) 5px 5px 0px;
   }
 }
 
 .selected-word {
-  background-color: rgb(235, 235, 235);
-  box-shadow: rgb(255, 215, 64) 5px 5px 0px;
+  background-color: var(--voby-light-background);
+  box-shadow: var(--voby-accent) 5px 5px 0px;
 }
 
 .favorite {
