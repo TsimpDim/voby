@@ -15,10 +15,7 @@
       @if (checkIsLoggedIn()) {
         <div style="display: flex; flex-direction: column; margin-top: 0.4em">
           <div class="xp" matTooltip="{{ remainingExp }} XP til next level">
-            <div
-              [@xpAnimation]="userExperience"
-              class="voby-primary-text-white"
-            >
+            <div [@xpAnimation]="userExperience" class="voby-primary-text-main">
               {{ userExperience }}
             </div>
             <mat-icon fontSet="material-symbols-outlined" aria-label="xp"
@@ -26,7 +23,7 @@
             >
             <div
               [@levelAnimation]="userLevel.level"
-              class="voby-primary-text-white"
+              class="voby-primary-text-main"
             >
               {{ userLevel.level }}
             </div>

@@ -38,7 +38,7 @@
       border-top-left-radius: 100px;
       border-bottom-left-radius: 100px;
 
-      background-color:var(--voby-primary);
+      background-color: var(--voby-primary);
       max-width: 200em;
       width: auto;
       padding: 0 0.6em;
@@ -47,12 +47,14 @@
     &:last-of-type {
       border-top-right-radius: 100px;
       border-bottom-right-radius: 100px;
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background);
+      color: var(--voby-text-primary);
     }
 
     &:not(:first-of-type):not(:last-of-type) {
       border-radius: 0;
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background);
+      color: var(--voby-text-primary);
     }
   }
 }
@@ -76,9 +78,10 @@
     max-width: 200em;
     width: auto;
     padding: 0 0.8em;
-    background-color: #f0f0f0;
+    background-color: var(--voby-light-background);
     height: 48px;
     font-size: 1.3em;
+    color: var(--voby-text-primary);
 
     &:first-of-type {
       border-top-right-radius: 0;
@@ -94,12 +97,12 @@
       border-top-left-radius: 0;
       border-bottom-left-radius: 0;
 
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background)
     }
 
     &:not(:first-of-type):not(:last-of-type) {
       border-radius: 0;
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background)
     }
 
     &:first-of-type:last-of-type {
@@ -121,4 +124,21 @@
     left: 50%;
     transform: translateX(-50%);
   }
+}
+
+.quiz-btn {
+  margin-left: 0.8em;
+  height: 40px;
+  color: var(--voby-text-primary);
+}
+
+.create-new-class-btn {
+  height: 40px;
+  background-color: var(--voby-accent);
+}
+
+.selected-class {
+  width: auto;
+  font-size: 2em;
+  color: var(--voby-text-primary);
 }

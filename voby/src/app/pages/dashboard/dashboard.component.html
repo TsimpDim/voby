@@ -5,7 +5,7 @@
       extended
       color="accent"
       (click)="openClassForm()"
-      style="height: 40px"
+      class="create-new-class-btn"
     >
       <mat-icon>add</mat-icon> Create new class
     </button>
@@ -15,7 +15,7 @@
         extended
         color="primary"
         (click)="showQuiz()"
-        style="margin-left: 0.8em; height: 40px"
+        class="quiz-btn"
       >
         <mat-icon>bolt</mat-icon>Quiz
       </button>
@@ -34,7 +34,7 @@
   <div style="margin: 2em">
     <div style="display: flex; flex-direction: row; align-items: center">
       <mat-select
-        style="width: auto; font-size: 2em"
+        class="selected-class"
         [value]="selectedClassId"
         [placeholder]="selectedClass.name"
         (selectionChange)="selectClass($event.value)"
@@ -43,7 +43,14 @@
           <mat-option [value]="class.id">{{ class.name }}</mat-option>
         }
       </mat-select>
-      <div style="display: flex; flex-direction: row; align-items: center">
+      <div
+        style="
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: var(--voby-text-primary);
+        "
+      >
         <div class="country">
           {{ getCountryEmoji(selectedClass.source_language) }}
         </div>

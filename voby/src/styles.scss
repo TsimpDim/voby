@@ -1,10 +1,12 @@
-@use './themes/voby-light.scss' as *;
+@use './themes/voby-theme.scss' as *;
 
-html,
-body {
+html {
   height: 100%;
 }
+
 body {
+  height: 100%;
+  background-color: var(--voby-background);
   margin: 0;
   font-family: 'Poppins', sans-serif;
 }
