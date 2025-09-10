@@ -42,6 +42,16 @@
         <button mat-icon-button class="menu-icon" (click)="goToOptions()">
           <mat-icon>settings</mat-icon>
         </button>
+        <button
+          mat-icon-button
+          class="menu-icon"
+          (click)="toggleTheme()"
+          matTooltip="Toggle light/dark theme"
+        >
+          <mat-icon>{{
+            darkThemeEnabled ? "light_mode" : "dark_mode"
+          }}</mat-icon>
+        </button>
         <button mat-icon-button class="menu-icon" (click)="logout()">
           <mat-icon>logout</mat-icon>
         </button>
