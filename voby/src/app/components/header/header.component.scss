@@ -23,6 +23,7 @@ img:hover {
   flex-direction: row;
   margin: 0 auto;
   font-size: .8em;
+  color: var(--voby-text-onbackground);
 
   .mat-icon {
     margin-top: auto;
@@ -31,7 +32,8 @@ img:hover {
   }
 
   div {
-    color: white;
+    color: inherit;
+    font-size: 1.3em;
   }
 }
 
@@ -65,5 +67,5 @@ img:hover {
 
 .menu-icon {
   margin-top: 0.5em;
-  color: var(--voby-text-primary);
+  color: var(--voby-text-onbackground);
 }
