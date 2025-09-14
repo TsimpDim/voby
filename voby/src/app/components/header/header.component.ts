@@ -17,9 +17,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { ThemeService } from 'src/app/services/theme-service.service';
+import { ThemeSwitcherComponent } from '../custom/theme-switcher/theme-switcher.component';
 
 @Component({
   selector: 'voby-header',
@@ -122,6 +121,7 @@ import { ThemeService } from 'src/app/services/theme-service.service';
     MatIconModule,
     MatTooltipModule,
     MatProgressBarModule,
+    ThemeSwitcherComponent,
   ],
 })
 export class HeaderComponent implements AfterViewInit {
@@ -135,13 +135,11 @@ export class HeaderComponent implements AfterViewInit {
   animationState = 'visible';
   skipHeader = false;
   ROUTES_TO_SKIP = ['/login', '/register'];
-  darkThemeEnabled = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private exp: ExperienceService,
-    private themeService: ThemeService,
   ) {
     this.exp.experience$.subscribe({
       next: (experience: any) => {
@@ -181,8 +179,6 @@ export class HeaderComponent implements AfterViewInit {
         }
       },
     );
-
-    this.darkThemeEnabled = this.themeService.isDarkThemeEnabled();
   }
 
   ngAfterViewInit(): void {
@@ -219,10 +215,5 @@ export class HeaderComponent implements AfterViewInit {
 
   logout() {
     this.authService.logout();
-  }
-
-  toggleTheme() {
-    this.themeService.toggleTheme();
-    this.darkThemeEnabled = this.themeService.isDarkThemeEnabled();
   }
 }
