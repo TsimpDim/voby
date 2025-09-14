@@ -145,6 +145,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
+    this.dashboardActions = this.getDashboardActions();
     window.localStorage.setItem(
       'selectedClass',
       this.selectedClassId.toString(),
@@ -331,38 +332,51 @@ export class DashboardComponent implements OnInit {
         icon: 'add',
         tooltip: 'Add new set',
         action: () => this.createVocabSet(this.selectedClass.id),
-        color: 'accent',
+        type: 'primary',
         label: 'set',
       },
       {
-        icon: 'visibility',
+        icon: 'quiz',
+        tooltip: 'Class test',
+        action: () => this.startTest(this.selectedClass.id),
+        type: 'secondary',
+        disabled: !this.hasWords(this.selectedClass.id),
+      },
+      {
+        icon: 'quiz',
+        tooltip: 'Special test: Genders of nouns',
+        action: () => this.startGermanNounTest(this.selectedClass.id),
+        type: 'special',
+        disabled:
+          !this.hasWords(this.selectedClass.id) ||
+          !this.selectedClass.has_german_nouns,
+        display: this.selectedClass.source_language == 'German',
+      },
+      {
+        icon: 'book_2',
         tooltip: 'Show all words of class',
         action: () => this.showAllWordsOfClass(this.selectedClass.id),
-        color: 'primary',
-        label: '',
+        type: 'tertiary',
         disabled: !this.hasWords(this.selectedClass.id),
       },
       {
         icon: 'edit',
         tooltip: 'Edit class',
         action: () => this.editClass(this.selectedClass.id),
-        color: 'primary',
-        label: '',
+        type: 'tertiary',
       },
       {
         icon: 'download',
         tooltip: 'Download class data',
         action: () => this.downloadClassReport(this.selectedClass.id),
-        color: 'primary',
-        label: '',
+        type: 'tertiary',
         disabled: !this.hasWords(this.selectedClass.id),
       },
       {
         icon: 'delete',
         tooltip: 'Delete class',
         action: () => this.deleteClass(this.selectedClass.id),
-        color: 'primary',
-        label: '',
+        type: 'tertiary',
       },
     ];
   }

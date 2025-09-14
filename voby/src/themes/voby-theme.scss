@@ -152,6 +152,7 @@ $voby-theme: mat.m2-define-light-theme((
   // Neutral colors
   --voby-background: #fafafa;
   --voby-light-background: #ebebeb;
+  --voby-accent-background: var(--voby-accent-light);
   --voby-surface: #ffffff;
   --voby-text-primary: #212121;
   --voby-text-onbackground: #ffffff;

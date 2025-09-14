@@ -75,29 +75,6 @@
 
     <div style="display: flex; flex-direction: row">
       <voby-button-array [buttons]="this.dashboardActions"> </voby-button-array>
-      <div class="sec-action-cont">
-        <button
-          mat-button
-          (click)="startTest(selectedClass.id)"
-          [disabled]="!hasWords(selectedClass.id)"
-          matTooltip="Class test"
-        >
-          <mat-icon>quiz</mat-icon> Test
-        </button>
-        @if (selectedClass.source_language == "German") {
-          <button
-            mat-button
-            (click)="startGermanNounTest(selectedClass.id)"
-            matTooltip="Special test: Genders of nouns"
-            [disabled]="
-              !hasWords(selectedClass.id) || !selectedClass.has_german_nouns
-            "
-          >
-            <mat-icon>quiz</mat-icon
-            ><mat-icon class="special">star</mat-icon>Noun Gender Test
-          </button>
-        }
-      </div>
     </div>
   </div>
 }

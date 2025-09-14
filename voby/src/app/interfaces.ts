@@ -68,10 +68,11 @@ export interface Set {
 }
 
 export interface VobyButtonArrayButton {
-  color: 'primary' | 'accent' | 'warn';
+  type: 'primary' | 'secondary' | 'tertiary' | 'special';
   icon: string;
-  label: string;
+  label?: string;
   tooltip: string;
   disabled?: boolean;
+  display?: boolean;
   action: () => void;
 }

@@ -1,18 +1,27 @@
 <div class="button-container">
-  @for (button of buttons; let i = $index; track button.color) {
-    <button
-      mat-button
-      [color]="button.color"
-      (click)="button.action()"
-      [matTooltip]="button.tooltip"
-      [disabled]="button.disabled"
-    >
-      @if (button.icon) {
-        <mat-icon fontIcon="{{ button.icon }}"></mat-icon>
-      }
-      @if (button.label) {
-        {{ button.label }}
-      }
-    </button>
+  @for (button of buttons; let i = $index; track button.type) {
+    @if (button.display === undefined || button.display) {
+      <button
+        mat-button
+        [type]="button.type"
+        (click)="button.action()"
+        [matTooltip]="button.tooltip"
+        [disabled]="button.disabled"
+      >
+        @if (button.icon) {
+          <mat-icon fontSet="material-symbols-outlined">{{
+            button.icon
+          }}</mat-icon>
+        }
+        @if (button.type === "special") {
+          <mat-icon class="special" fontSet="material-symbols-outlined"
+            >star</mat-icon
+          >
+        }
+        @if (button.label) {
+          {{ button.label }}
+        }
+      </button>
+    }
   }
 </div>

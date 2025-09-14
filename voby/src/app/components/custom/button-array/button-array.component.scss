@@ -1,37 +1,65 @@
+:root {
+    --voby-accent: red;
+}
+
 .button-container {
-    margin-top: 1em;
-    margin-bottom: auto;
-    margin-right: 1em;
-  
-    button {
-      border: none;
-      height: 48px;
-      font-size: 1.3em;
-      padding: 0;
-  
-      &:first-of-type {
-        border-top-right-radius: 0;
-        border-bottom-right-radius: 0;
-        border-top-left-radius: 100px;
-        border-bottom-left-radius: 100px;
-  
-        background-color: var(--voby-primary);
-        max-width: 200em;
-        width: auto;
-        padding: 0 0.6em;
-      }
-  
-      &:last-of-type {
-        border-top-right-radius: 100px;
-        border-bottom-right-radius: 100px;
-        background-color: var(--voby-light-background);
-        color: var(--voby-text-primary);
-      }
-  
-      &:not(:first-of-type):not(:last-of-type) {
-        border-radius: 0;
-        background-color: var(--voby-light-background);
-        color: var(--voby-text-primary);
-      }
+  margin-top: 1em;
+  margin-bottom: auto;
+  margin-right: 1em;
+
+  button {
+    border: none;
+    height: 48px;
+    font-size: 1.3em;
+    padding: 0;
+    color: var(--voby-text-primary);
+
+    &:first-of-type {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+      border-top-left-radius: 100px;
+      border-bottom-left-radius: 100px;
+
+      max-width: 200em;
+      width: auto;
+      padding: 0 0.6em;
+    }
+
+    &:last-of-type {
+      border-top-right-radius: 100px;
+      border-bottom-right-radius: 100px;
+    }
+
+    &:not(:first-of-type):not(:last-of-type) {
+      border-radius: 0;
+    }
+
+    &[type="primary"] {
+      background-color: var(--voby-primary);
+      color: var(--voby-accent);
+    }
+    
+    &[type="secondary"] {
+      background-color: var(--voby-accent-light);
+    }
+
+    &[type="special"] {
+      background-color: var(--voby-accent-light);
+    }
+    
+    &[type="tertiary"] {
+      background-color: var(--voby-light-background);
+      color: var(--voby-text-primary);
     }
   }
+}
+
+.special {
+  position: relative;
+  right: 8px;
+  top: -10px;
+  font-size: .7em;
+  padding: 0;
+  margin: 0 !important;
+  color:var(--voby-primary);
+}
