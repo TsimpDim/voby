@@ -18,7 +18,7 @@
     <img class="visual" src="../../assets/undraw_the_world_is_mine.svg" />
   </div>
   <form [formGroup]="registerForm">
-    <h1 style="color: #323232">Welcome aboard !</h1>
+    <h1>Welcome aboard !</h1>
     <mat-form-field class="input" appearance="outline">
       <mat-label>Username</mat-label>
       <input matInput name="username" formControlName="username" />
@@ -45,7 +45,7 @@
     </mat-form-field>
 
     <button mat-flat-button type="submit" (click)="register()">register</button>
-    <div style="display: flex; flex-direction: row">
+    <div style="display: flex; flex-direction: row" class="voby-secondary-text">
       or <a href="/login" style="margin-left: 0.3em">login</a>
     </div>
   </form>

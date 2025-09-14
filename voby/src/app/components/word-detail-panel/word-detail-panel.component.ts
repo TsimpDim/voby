@@ -142,7 +142,7 @@ export class WordDetailPanelComponent {
   relatedWordExit() {
     setTimeout(() => {
       this.wordViewRelatedWord = undefined;
-    }, 500);
+    }, 700);
   }
 
   selectOrRedirectPreviewWord(word: any) {

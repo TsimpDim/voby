@@ -19,6 +19,7 @@
 
 .info-container {
   max-width: 200px;
+  transition: box-shadow linear 0.1s;
 
   &:hover {
     cursor: pointer;

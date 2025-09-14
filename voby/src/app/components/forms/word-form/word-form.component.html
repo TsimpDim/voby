@@ -76,9 +76,9 @@
         (keyup)="filterWords()"
       />
 
-      <mat-chip-listbox>
+      <mat-chip-set>
         @for (word of suggestedRelatedWords; track word.id) {
-          <mat-chip-option
+          <mat-chip
             trailingIco="link"
             (click)="selectRelatedWord($event, word.id)"
             class="similar-word-suggestion"
@@ -93,9 +93,9 @@
               }
               {{ word.word }}</span
             >
-          </mat-chip-option>
+          </mat-chip>
         }
-      </mat-chip-listbox>
+      </mat-chip-set>
     </mat-chip-grid>
 
     <mat-autocomplete
@@ -150,7 +150,7 @@
     </mat-autocomplete>
   </mat-form-field>
 
-  <h3 style="margin-top: 1em">Examples</h3>
+  <p class="voby-primary-text-main" style="padding: 1.2em 0">Examples</p>
 
   @for (example of examples; track example.id; let i = $index) {
     <div
@@ -211,6 +211,7 @@
       type="button"
       (click)="onNoClick()"
       style="border-radius: 100px"
+      class="footer-btn"
     >
       Nevermind
     </button>
@@ -221,7 +222,6 @@
         color="primary"
         cdkFocusInitial
         (click)="submit()"
-        style="border-radius: 100px"
       >
         Create word
       </button>
@@ -233,7 +233,7 @@
         color="primary"
         cdkFocusInitial
         (click)="submit()"
-        style="border-radius: 100px"
+        class="footer-btn"
       >
         Edit word
       </button>

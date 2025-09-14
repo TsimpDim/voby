@@ -179,7 +179,7 @@ $voby-theme: mat.m2-define-light-theme((
 }
 .voby-secondary-text {
   color: var(--voby-text-secondary);
-  font-size: 0.7em;
+  font-size: 1em;
   font-weight: 300;
   margin-top: -0.3em;
 }
@@ -197,32 +197,6 @@ mat-card {
 .voby-teal-text { color: var(--voby-teal) !important; }
 
 
-
-// Custom button styles
-.voby-button-primary {
-  background-color: var(--voby-primary);
-  color: white;
-  border-radius: 8px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-
-  &:hover {
-    background-color: var(--voby-primary-dark);
-  }
-}
-
-.voby-button-accent {
-  background-color: var(--voby-accent);
-  color: var(--voby-text-surface);
-  border-radius: 100px;
-  font-weight: 500;
-  font-family: 'Poppins', sans-serif;
-
-  &:hover {
-    background-color: var(--voby-accent-dark);
-  }
-}
-
 // Input field styles
 .voby-input {
   .mat-form-field-appearance-outline .mat-form-field-outline-thick {
@@ -237,7 +211,7 @@ mat-card {
 
 // Quiz/test specific styles
 .voby-quiz-correct {
-  background-color: var(--voby-teal);
+  background-color: var(--voby-success);
   color: white;
   border-radius: 4px;
   padding: 8px 12px;

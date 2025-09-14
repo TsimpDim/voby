@@ -86,19 +86,12 @@
       align-items: center;
     }
 
-    #class-subtitle {
-      font-size: 0.5em;
-      color: rgb(96, 96, 96);
-      margin: 0;
-    }
-
     #class-title {
       margin: 0;
     }
 
     .size {
-      opacity: 50%;
-      font-size: 0.5em;
+      font-size: 0.4em;
     }
   }
 }
@@ -188,12 +181,12 @@
       border-top-right-radius: 100px;
       border-bottom-right-radius: 100px;
 
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background);
     }
 
     &:not(:first-of-type):not(:last-of-type) {
       border-radius: 0;
-      background-color: rgb(240, 240, 240);
+      background-color: var(--voby-light-background);
     }
   }
 }
@@ -205,6 +198,10 @@
   flex-direction: row;
   align-items: center;
   width: 50%;
+
+  button {
+    color: var(--voby-text-primary);
+  }
 
   .search-field {
     width: 100%;

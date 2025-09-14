@@ -6,7 +6,7 @@
   <div
     style="display: flex; flex-direction: row; justify-content: space-between"
   >
-    <h2 class="call-to-action">
+    <h2 class="voby-primary-text-main call-to-action">
       Do you know all {{ questions.length }} genders?
     </h2>
     <mat-slide-toggle
@@ -21,8 +21,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon style="color: var(--voby-primary)">info</mat-icon>Gender
-          Groups
+          <mat-icon style="color: lightgrey">info</mat-icon>Gender Groups
         </mat-panel-title>
         <mat-panel-description>
           Gender groups help group the genders of nouns together, based on
@@ -62,8 +61,7 @@
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>
-          <mat-icon style="color: var(--voby-primary)">info</mat-icon>Noun
-          Endings
+          <mat-icon style="color: lightgrey">info</mat-icon>Noun Endings
         </mat-panel-title>
         <mat-panel-description>
           You can usually figure out the gender of the noun based on its ending
@@ -130,8 +128,8 @@
       <mat-card style="margin: 2em; border-radius: 10px">
         <mat-card-content>
           <div style="display: flex; flex-direction: column">
-            <h2>{{ q["word"] }}</h2>
-            <h3>{{ q["translations"] }}</h3>
+            <h2 class="voby-primary-text-main">{{ q["word"] }}</h2>
+            <h3 class="voby-secondary-text">{{ q["translations"] }}</h3>
           </div>
           <div class="answer-container">
             <mat-form-field
@@ -148,14 +146,14 @@
             </mat-form-field>
             @if (questionState[i] === CORRECT) {
               <mat-icon
-                style="color: green"
+                class="voby-quiz-correct"
                 [matTooltip]="q['gender'] + ' ' + q['word']"
                 >check_circle</mat-icon
               >
             }
             @if (questionState[i] === INCORRECT) {
               <mat-icon
-                style="color: red"
+                class="voby-quiz-incorrect"
                 [matTooltip]="q['gender'] + ' ' + q['word']"
                 >cancel</mat-icon
               >
@@ -164,7 +162,12 @@
         </mat-card-content>
         @if (questionState[i] === INCORRECT) {
           <mat-card>
-            <mat-card-content> Answer: {{ q["gender"] }} </mat-card-content>
+            <mat-card-content
+              class="voby-secondary-text"
+              style="font-size: 1em"
+            >
+              Answer: {{ q["gender"] }}
+            </mat-card-content>
           </mat-card>
         }
       </mat-card>

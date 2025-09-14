@@ -30,12 +30,12 @@
   justify-content: flex-end;
 
   #submit-button {
-    background-color:var(--voby-primary);
+    background-color:var(--voby-accent);
     padding: 1em;
     margin: 1em;
     margin-left: 0;
     font-size: 1em;
-    color: #ffd740;
+    color: var(--voby-primary);
     border-radius: 100px;
 
     &:disabled {
@@ -47,13 +47,13 @@
     }
 
     mat-icon {
-      color: #ffd740;
+      color: var(--voby-accent);
       vertical-align: -6px;
     }
   }
 
   #refresh-button {
-    background-color: #ffd740;
+    background-color: var(--voby-accent);
     margin: 1em;
     padding: 1em;
     font-size: 1em;

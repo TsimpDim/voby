@@ -28,10 +28,15 @@ mat-card-content {
     mat-form-field {
       width: 100%;
     }
+  }
+}
 
-    mat-icon {
-      margin-left: 1em;
-    }
+.answer-input {
+  width: 700px;
+  margin-right: 3em;
+
+  input {
+    width: 100%;
   }
 }
 
@@ -55,7 +60,7 @@ mat-card-content {
     margin: 1em;
     margin-left: 0;
     font-size: 1em;
-    color: #ffd740;
+    color: var(--voby-accent);
     border-radius: 100px;
 
     &:disabled {
@@ -67,13 +72,13 @@ mat-card-content {
     }
 
     mat-icon {
-      color: #ffd740;
+      color: var(--voby-accent);
       vertical-align: -6px;
     }
   }
 
   #refresh-button {
-    background-color: #ffd740;
+    background-color: var(--voby-accent);
     margin: 1em;
     padding: 1em;
     font-size: 1em;

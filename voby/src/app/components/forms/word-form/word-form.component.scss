@@ -1,7 +1,13 @@
+:host {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
 form {
   display: flex;
   flex-direction: column;
   width: auto;
+  max-height: 90vh;
   overflow-x: hidden;
   overflow-y: auto;
   margin: 2em;
@@ -21,11 +27,22 @@ form {
 }
 
 .similar-word-suggestion {
-  background-color: #fffbee !important;
+  background-color: var(--voby-accent-light);
+  color: var(--voby-text-onbackground);
   border: 2px #fed53f dashed;
   font-size: 1.2em;
 
   &:hover {
     cursor: pointer !important;
+  }
+}
+
+.footer-btn {
+  border-radius: 100px;
+  color: var(--voby-text-primary);
+
+  &[color="primary"] {
+    background-color: var(--voby-primary);
+    color: var(--voby-text-onbackground);
   }
 }

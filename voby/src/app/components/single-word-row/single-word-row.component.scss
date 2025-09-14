@@ -11,6 +11,8 @@
   height: 100%;
   padding: 0;
   transition: box-shadow 0.1s linear;
+  background-color: var(--voby-surface);
+  color: var(--voby-text-primary);
 
   .card-content {
     margin: 0;
@@ -76,7 +78,7 @@
 }
 
 .selected-word {
-  background-color: var(--voby-light-background);
+  background-color: var(--voby-divider);
   box-shadow: var(--voby-accent) 5px 5px 0px;
 }
 

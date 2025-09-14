@@ -1,6 +1,6 @@
 @if (!loadingHeader) {
   <div id="header">
-    <div id="info">
+    <div id="info" class="voby-primary-text-main">
       @if (vclass) {
         <div
           id="data"
@@ -20,9 +20,9 @@
           </div>
 
           @if (needSet) {
-            <p id="class-subtitle">{{ vclass.name }}</p>
+            <p class="voby-secondary-text">{{ vclass.name }}</p>
           }
-          <div class="size">
+          <div class="voby-secondary-text size">
             {{ numberOfWords }} word(s) total (page {{ currentPage }}/{{
               numberOfPages
             }})

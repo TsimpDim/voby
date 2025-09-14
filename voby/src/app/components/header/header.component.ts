@@ -188,7 +188,6 @@ export class HeaderComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.routerSubscription = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        console.log(this.router.url);
         if (this.ROUTES_TO_SKIP.find((r) => this.router.url.includes(r))) {
           this.skipHeader = true;
           return;

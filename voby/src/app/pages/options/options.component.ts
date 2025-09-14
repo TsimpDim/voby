@@ -228,7 +228,7 @@ export class OptionsComponent implements OnInit {
         this.loading = false;
         this._snackBar.openFromComponent(SnackbarComponent, {
           data: {
-            message: 'Updated shortcut',
+            message: 'Updated options',
             icon: 'done',
           },
           duration: 3 * 1000,

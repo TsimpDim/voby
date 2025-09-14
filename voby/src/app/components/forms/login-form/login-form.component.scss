@@ -39,10 +39,11 @@ button[type="submit"] {
   background-color:var(--voby-primary);
   color:var(--voby-accent);
   font-size: 1.2em;
+  border-radius: 10px;
+  height: 50px;
 }
 
 a {
   text-decoration: underline;
-  color: black;
   display: inline-block;
 }

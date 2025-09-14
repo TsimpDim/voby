@@ -6,7 +6,7 @@
   <div
     style="display: flex; flex-direction: row; justify-content: space-between"
   >
-    <h2 class="call-to-action">
+    <h2 class="voby-primary-text-main call-to-action">
       Can you answer all {{ questions.length }} questions correctly?
     </h2>
     <mat-slide-toggle
@@ -20,7 +20,7 @@
   @for (q of questions; let i = $index; track q) {
     <mat-card style="margin: 2em; border-radius: 10px">
       <mat-card-content class="question-container">
-        <div style="font-size: 2em">
+        <div style="font-size: 2em" class="voby-primary-text-main">
           <span style="font-size: inherit">{{
             getCountryEmoji(q.source_language)
           }}</span>
@@ -41,11 +41,13 @@
           </mat-form-field>
 
           @if (questionState[i] === CORRECT) {
-            <mat-icon style="color: green" [matTooltip]="q['translations']"
+            <mat-icon class="voby-quiz-correct" [matTooltip]="q['translations']"
               >check_circle</mat-icon
             >
           } @else if (questionState[i] === INCORRECT) {
-            <mat-icon style="color: red" [matTooltip]="q['translations']"
+            <mat-icon
+              class="voby-quiz-incorrect"
+              [matTooltip]="q['translations']"
               >cancel</mat-icon
             >
           }
@@ -54,7 +56,9 @@
 
       @if (questionState[i] === INCORRECT) {
         <mat-card>
-          <mat-card-content> Answer: {{ q["translations"] }} </mat-card-content>
+          <mat-card-content class="voby-secondary-text" style="font-size: 1em">
+            Answer: {{ q["translations"] }}
+          </mat-card-content>
         </mat-card>
       }
     </mat-card>

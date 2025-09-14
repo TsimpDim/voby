@@ -3,7 +3,7 @@
     <voby-loading-ind></voby-loading-ind>
   }
 
-  <h2 style="margin-left: 1em">Shortcuts</h2>
+  <h2 style="margin-left: 1em" class="voby-primary-text-main">Shortcuts</h2>
   <mat-card>
     @for (defaultShortcut of defaultShortcuts; track defaultShortcut.id) {
       <mat-card-content>
@@ -45,17 +45,15 @@
 
     <form [formGroup]="shortcutsForm">
       @if (userShortcuts.length === 0) {
-        <mat-card-content>No shortcuts defined.</mat-card-content>
+        <mat-card-content class="voby-primary-text-main"
+          >No shortcuts defined.</mat-card-content
+        >
       }
 
       @for (us of userShortcuts; track us.id; let i = $index) {
         @if (userShortcuts.length > 0) {
           <mat-card-content>
-            <button
-              mat-icon-button
-              color="primary"
-              (click)="deleteUserShortcut(us.id)"
-            >
+            <button mat-icon-button (click)="deleteUserShortcut(us.id)">
               <mat-icon>close</mat-icon>
             </button>
             <mat-form-field subscriptSizing="dynamic" appearance="outline">
@@ -111,7 +109,7 @@
       }
       <button
         mat-button
-        color="accent"
+        color="primary"
         class="btn-main"
         (click)="addUserShortcut()"
       >
@@ -120,7 +118,9 @@
     </form>
   </mat-card>
 
-  <h2 style="margin-left: 1em; margin-top: 2em">Options</h2>
+  <h2 style="margin-left: 1em; margin-top: 2em" class="voby-primary-text-main">
+    Options
+  </h2>
   <mat-card>
     <mat-card-content>
       <mat-form-field subscriptSizing="dynamic" appearance="outline">
