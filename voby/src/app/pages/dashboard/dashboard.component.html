@@ -74,47 +74,7 @@
     </div>
 
     <div style="display: flex; flex-direction: row">
-      <div class="action-cont">
-        <button
-          mat-button
-          color="accent"
-          (click)="createVocabSet(selectedClass.id)"
-          matTooltip="Add new set"
-        >
-          <mat-icon fontIcon="add"></mat-icon> set
-        </button>
-        <button
-          mat-button
-          (click)="showAllWordsOfClass(selectedClass.id)"
-          matTooltip="Show all words of class"
-          [disabled]="!hasWords(selectedClass.id)"
-        >
-          <mat-icon>visibility</mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="editClass(selectedClass.id)"
-          matTooltip="Edit class"
-        >
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="downloadClassReport(selectedClass.id)"
-          matTooltip="Download class data"
-          [disabled]="!hasWords(selectedClass.id)"
-        >
-          <mat-icon>download</mat-icon>
-        </button>
-        <button
-          mat-button
-          (click)="deleteClass(selectedClass.id)"
-          matTooltip="Delete class"
-        >
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
-
+      <voby-button-array [buttons]="this.dashboardActions"> </voby-button-array>
       <div class="sec-action-cont">
         <button
           mat-button

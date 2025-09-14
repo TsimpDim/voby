@@ -19,6 +19,8 @@ import { DashboardFlashComponent } from '../../components/dashboard-flash/dashbo
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { SetCardComponent } from 'src/app/components/set-card/set-card.component';
+import { VobyButtonArrayButton } from 'src/app/interfaces';
+import { ButtonArrayComponent } from 'src/app/components/custom/button-array/button-array.component';
 
 export interface DialogData {
   className: string;
@@ -39,6 +41,7 @@ export interface DialogData {
     MatRippleModule,
     MatTooltipModule,
     SetCardComponent,
+    ButtonArrayComponent,
   ],
 })
 export class DashboardComponent implements OnInit {
@@ -49,6 +52,7 @@ export class DashboardComponent implements OnInit {
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
   generateWordsLoading = false;
+  dashboardActions: VobyButtonArrayButton[] = this.getDashboardActions();
 
   constructor(
     private router: Router,
@@ -117,8 +121,12 @@ export class DashboardComponent implements OnInit {
   }
 
   hasWords(classId: number) {
-    const selectedClass = this.classes.find((o: any) => o.id === classId);
-    return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
+    if (this.classes) {
+      const selectedClass = this.classes.find((o: any) => o.id === classId);
+      return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
+    }
+
+    return false;
   }
 
   selectClass(classIdx: number) {
@@ -195,6 +203,7 @@ export class DashboardComponent implements OnInit {
           Number(window.localStorage.getItem('selectedClass') || -1),
         );
         this.dialog.closeAll();
+        this.dashboardActions = this.getDashboardActions();
 
         if (this.classes.length === 0) {
           this.openClassForm();
@@ -314,5 +323,47 @@ export class DashboardComponent implements OnInit {
       },
       complete: () => (this.loading = false),
     });
+  }
+
+  getDashboardActions(): VobyButtonArrayButton[] {
+    return [
+      {
+        icon: 'add',
+        tooltip: 'Add new set',
+        action: () => this.createVocabSet(this.selectedClass.id),
+        color: 'accent',
+        label: 'set',
+      },
+      {
+        icon: 'visibility',
+        tooltip: 'Show all words of class',
+        action: () => this.showAllWordsOfClass(this.selectedClass.id),
+        color: 'primary',
+        label: '',
+        disabled: !this.hasWords(this.selectedClass.id),
+      },
+      {
+        icon: 'edit',
+        tooltip: 'Edit class',
+        action: () => this.editClass(this.selectedClass.id),
+        color: 'primary',
+        label: '',
+      },
+      {
+        icon: 'download',
+        tooltip: 'Download class data',
+        action: () => this.downloadClassReport(this.selectedClass.id),
+        color: 'primary',
+        label: '',
+        disabled: !this.hasWords(this.selectedClass.id),
+      },
+      {
+        icon: 'delete',
+        tooltip: 'Delete class',
+        action: () => this.deleteClass(this.selectedClass.id),
+        color: 'primary',
+        label: '',
+      },
+    ];
   }
 }

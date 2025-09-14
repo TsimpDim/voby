@@ -66,3 +66,12 @@ export interface Set {
   has_favorites: boolean;
   has_german_favorites: boolean;
 }
+
+export interface VobyButtonArrayButton {
+  color: 'primary' | 'accent' | 'warn';
+  icon: string;
+  label: string;
+  tooltip: string;
+  disabled?: boolean;
+  action: () => void;
+}
