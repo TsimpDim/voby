@@ -9,6 +9,7 @@ import {
   PassedDataOnWordCreate,
   PassedDataOnWordEdit,
   Tag,
+  VobyButtonArrayButton,
   Word,
 } from 'src/app/interfaces';
 import { getCountryEmoji } from 'src/app/countries';
@@ -32,6 +33,7 @@ import { NgClass } from '@angular/common';
 import { LoadingIndComponent } from 'src/app/components/custom/loading-ind/loading-ind.component';
 import { WordDetailPanelComponent } from 'src/app/components/word-detail-panel/word-detail-panel.component';
 import { SingleWordRowComponent } from 'src/app/components/single-word-row/single-word-row.component';
+import { ButtonArrayComponent } from 'src/app/components/custom/button-array/button-array.component';
 
 @Component({
   selector: 'voby-word-list-view',
@@ -53,6 +55,7 @@ import { SingleWordRowComponent } from 'src/app/components/single-word-row/singl
     NgClass,
     WordDetailPanelComponent,
     SingleWordRowComponent,
+    ButtonArrayComponent,
   ],
 })
 export class WordListViewComponent {
@@ -86,6 +89,27 @@ export class WordListViewComponent {
   wordViewRelatedWord: Word | undefined;
   separatorKeysCodes: number[] = [COMMA];
   navigationSubscription$: Subscription | undefined;
+  setActions: VobyButtonArrayButton[] = [
+    {
+      action: () => this.createWord(),
+      type: 'primary',
+      tooltip: 'Add Word (⌘W / Alt+W)',
+      icon: 'add',
+      label: 'word',
+    },
+    {
+      action: () => this.editSet(),
+      type: 'tertiary',
+      tooltip: 'Edit Set',
+      icon: 'edit',
+    },
+    {
+      action: () => this.deleteSet(),
+      type: 'tertiary',
+      tooltip: 'Delete Set',
+      icon: 'delete',
+    },
+  ];
 
   @ViewChild('searchInput') searchInput: ElementRef<HTMLElement> | undefined;
 

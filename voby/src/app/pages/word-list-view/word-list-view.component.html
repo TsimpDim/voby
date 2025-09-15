@@ -10,17 +10,19 @@
           <div id="emojis">
             @if (needSet) {
               <div>{{ set.name }}</div>
-              <div style="font-size: 0.8em; margin-left: 0.2em">
-                {{ getCountryEmoji(vclass.source_language) }} >
-                {{ getCountryEmoji(vclass.target_language) }}
-              </div>
             } @else {
-              <p id="class-title">{{ vclass.name }}</p>
+              <div class="voby-primary-text-main" style="font-size: 1em">
+                {{ vclass.name }}
+              </div>
             }
+            <div style="font-size: 0.8em; margin-left: 0.2em">
+              {{ getCountryEmoji(vclass.source_language) }} >
+              {{ getCountryEmoji(vclass.target_language) }}
+            </div>
           </div>
 
           @if (needSet) {
-            <p class="voby-secondary-text">{{ vclass.name }}</p>
+            <p class="voby-secondary-text class-title">{{ vclass.name }}</p>
           }
           <div class="voby-secondary-text size">
             {{ numberOfWords }} word(s) total (page {{ currentPage }}/{{
@@ -106,22 +108,10 @@
     </div>
 
     @if (needSet) {
-      <div class="action-cont">
-        <button
-          mat-button
-          color="accent"
-          (click)="createWord()"
-          matTooltip="Add word"
-        >
-          <mat-icon>add</mat-icon>word
-        </button>
-        <button mat-button (click)="editSet()" matTooltip="Edit set">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-button (click)="deleteSet()" matTooltip="Delete set">
-          <mat-icon>delete_outline</mat-icon>
-        </button>
-      </div>
+      <voby-button-array
+        [buttons]="this.setActions"
+        style="margin-right: 2em"
+      ></voby-button-array>
     } @else {
       <div style="visibility: hidden"></div>
     }

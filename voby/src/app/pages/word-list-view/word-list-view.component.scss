@@ -64,6 +64,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  align-items: center;
 
   #info {
     display: flex;
@@ -86,8 +87,10 @@
       align-items: center;
     }
 
-    #class-title {
-      margin: 0;
+    .class-title {
+      margin-top: -.7em;
+      margin-bottom: 1em;
+      font-size: .6em;
     }
 
     .size {
@@ -154,41 +157,6 @@
 
 .card-list-item-cont {
   height: 40px;
-}
-
-.action-cont {
-  margin-top: 1em;
-  margin-bottom: auto;
-  margin-right: 5em;
-
-  button {
-    border: none;
-    height: 48px;
-
-    &:first-of-type {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-top-left-radius: 100px;
-      border-bottom-left-radius: 100px;
-
-      background-color:var(--voby-primary);
-      max-width: 200em;
-      width: auto;
-      padding: 0 0.6em;
-    }
-
-    &:last-of-type {
-      border-top-right-radius: 100px;
-      border-bottom-right-radius: 100px;
-
-      background-color: var(--voby-light-background);
-    }
-
-    &:not(:first-of-type):not(:last-of-type) {
-      border-radius: 0;
-      background-color: var(--voby-light-background);
-    }
-  }
 }
 
 #search-bar {
