@@ -52,7 +52,7 @@ export class DashboardComponent implements OnInit {
   getCountryEmoji = getCountryEmoji;
   shortcutSubscriptions$: Subscription[] = [];
   generateWordsLoading = false;
-  dashboardActions: VobyButtonArrayButton[] = this.getDashboardActions();
+  dashboardActions: VobyButtonArrayButton[] = [];
 
   constructor(
     private router: Router,
@@ -84,6 +84,7 @@ export class DashboardComponent implements OnInit {
 
     const quizShow = localStorage.getItem('quiz_show');
     this.toShowQuizButton = quizShow === 'false' || quizShow === null;
+    this.calculateDashboardActions();
   }
 
   ngOnDestroy() {
@@ -95,10 +96,12 @@ export class DashboardComponent implements OnInit {
   showQuiz() {
     this.toShowQuizButton = false;
     localStorage.setItem('quiz_show', 'true');
+    this.dashboardActions = this.calculateDashboardActions();
   }
 
-  hideQuiz() {
+  onQuizHidden() {
     this.toShowQuizButton = true;
+    this.dashboardActions = this.calculateDashboardActions();
   }
 
   startTest(classId: number) {
@@ -145,7 +148,7 @@ export class DashboardComponent implements OnInit {
       }
     }
 
-    this.dashboardActions = this.getDashboardActions();
+    this.dashboardActions = this.calculateDashboardActions();
     window.localStorage.setItem(
       'selectedClass',
       this.selectedClassId.toString(),
@@ -169,10 +172,12 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  createVocabSet(classIdx: number) {
-    this.voby.createSet(classIdx, 'New set').subscribe({
+  createVocabSet() {
+    this.voby.createSet(this.selectedClass.id, 'New set').subscribe({
       next: (data) => {
-        this.classes.find((c: any) => c.id === classIdx).sets.push(data);
+        this.classes
+          .find((c: any) => c.id === this.selectedClass.id)
+          .sets.push(data);
       },
       error: (error: any) => {
         this.loading = false;
@@ -204,7 +209,7 @@ export class DashboardComponent implements OnInit {
           Number(window.localStorage.getItem('selectedClass') || -1),
         );
         this.dialog.closeAll();
-        this.dashboardActions = this.getDashboardActions();
+        this.dashboardActions = this.calculateDashboardActions();
 
         if (this.classes.length === 0) {
           this.openClassForm();
@@ -326,14 +331,21 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  getDashboardActions(): VobyButtonArrayButton[] {
+  calculateDashboardActions(): VobyButtonArrayButton[] {
     return [
       {
         icon: 'add',
-        tooltip: 'Add new set',
-        action: () => this.createVocabSet(this.selectedClass.id),
+        tooltip: 'Create new class',
+        action: () => this.openClassForm(),
         type: 'primary',
-        label: 'set',
+        label: 'class',
+      },
+      {
+        icon: 'bolt',
+        tooltip: 'Quiz',
+        action: () => this.showQuiz(),
+        type: 'secondary',
+        display: this.toShowQuizButton,
       },
       {
         icon: 'quiz',

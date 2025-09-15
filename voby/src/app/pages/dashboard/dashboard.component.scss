@@ -3,14 +3,6 @@
   text-align: center;
 }
 
-#action-bar {
-  margin: 30px;
-
-  button {
-    border-radius: 100px;
-  }
-}
-
 #classes-cont {
   margin: 10px;
 }
@@ -19,96 +11,6 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-}
-
-.action-cont {
-  margin-top: 1em;
-  margin-bottom: auto;
-  margin-right: 1em;
-
-  button {
-    border: none;
-    height: 48px;
-    font-size: 1.3em;
-    padding: 0;
-
-    &:first-of-type {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-top-left-radius: 100px;
-      border-bottom-left-radius: 100px;
-
-      background-color: var(--voby-primary);
-      max-width: 200em;
-      width: auto;
-      padding: 0 0.6em;
-    }
-
-    &:last-of-type {
-      border-top-right-radius: 100px;
-      border-bottom-right-radius: 100px;
-      background-color: var(--voby-light-background);
-      color: var(--voby-text-primary);
-    }
-
-    &:not(:first-of-type):not(:last-of-type) {
-      border-radius: 0;
-      background-color: var(--voby-light-background);
-      color: var(--voby-text-primary);
-    }
-  }
-}
-
-.sec-action-cont {
-  margin-top: 1em;
-  margin-bottom: auto;
-  margin-right: 5em;
-
-  .special {
-    position: relative;
-    right: 8px;
-    top: -10px;
-    font-size: 1em;
-    color:var(--voby-primary);
-  }
-
-  button {
-    border: none;
-    border-radius: 100px;
-    max-width: 200em;
-    width: auto;
-    padding: 0 0.8em;
-    background-color: var(--voby-light-background);
-    height: 48px;
-    font-size: 1.3em;
-    color: var(--voby-text-primary);
-
-    &:first-of-type {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
-      border-top-left-radius: 100px;
-      border-bottom-left-radius: 100px;
-
-      max-width: 200em;
-      width: auto;
-    }
-
-    &:last-of-type {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-
-      background-color: var(--voby-light-background)
-    }
-
-    &:not(:first-of-type):not(:last-of-type) {
-      border-radius: 0;
-      background-color: var(--voby-light-background)
-    }
-
-    &:first-of-type:last-of-type {
-      border-radius: 100px;
-    }
-  }
 }
 
 .country {
@@ -126,15 +28,23 @@
   }
 }
 
-.quiz-btn {
-  margin-left: 0.8em;
+.new-button {
+  background-color: var(--voby-primary);
+  border-radius: 10px;
+  padding: 0;
+  transition: all 0.2s linear;
+  width: 40px;
   height: 40px;
   color: var(--voby-text-onbackground);
-}
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-left: 1em;
 
-.create-new-class-btn {
-  height: 40px;
-  background-color: var(--voby-accent);
+  mat-icon {
+    margin: 0;
+    padding: 0;
+    color: inherit;
+  }
 }
 
 .selected-class {

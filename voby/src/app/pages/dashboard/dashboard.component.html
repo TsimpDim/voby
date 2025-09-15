@@ -1,32 +1,8 @@
-@if (classes.length > 0) {
-  <div id="action-bar">
-    <button
-      mat-fab
-      extended
-      color="accent"
-      (click)="openClassForm()"
-      class="create-new-class-btn"
-    >
-      <mat-icon>add</mat-icon> Create new class
-    </button>
-    @if (toShowQuizButton) {
-      <button
-        mat-fab
-        extended
-        color="primary"
-        (click)="showQuiz()"
-        class="quiz-btn"
-      >
-        <mat-icon>bolt</mat-icon>Quiz
-      </button>
-    }
-  </div>
-}
-
 <voby-dashboard-flash
   [hide]="toShowQuizButton"
-  (close)="hideQuiz()"
+  (close)="onQuizHidden()"
 ></voby-dashboard-flash>
+
 @if (loading) {
   <voby-loading-ind></voby-loading-ind>
 }
@@ -71,6 +47,18 @@
         >
         </voby-set-card>
       }
+      <button
+        mat-button
+        class="new-button"
+        (click)="createVocabSet()"
+        matTooltip="Create new vocabulary set"
+      >
+        <mat-icon
+          fontSet="material-symbols-outlined"
+          style="color: var(--voby-text-onbackrgound)"
+          >add_circle</mat-icon
+        >
+      </button>
     </div>
 
     <div style="display: flex; flex-direction: row; margin-top: 1em">
