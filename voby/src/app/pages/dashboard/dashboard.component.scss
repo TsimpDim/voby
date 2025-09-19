@@ -35,7 +35,7 @@
   transition: all 0.2s linear;
   width: 40px;
   height: 40px;
-  color: var(--voby-text-onbackground);
+  color: var(--voby-text-onbackground) !important;
   margin-top: auto;
   margin-bottom: auto;
   margin-left: 1em;
@@ -43,7 +43,7 @@
   mat-icon {
     margin: 0;
     padding: 0;
-    color: inherit;
+    color: var(--voby-text-onbackground);
   }
 }
 
