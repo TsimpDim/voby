@@ -18,6 +18,7 @@ from .aws import Aws
 from .permissions import HasAIEnabled
 from .constants import LANGUAGE_CODES
 import requests, xlwt, os
+from difflib import SequenceMatcher
 
 class StandardPagination(PageNumberPagination):
     page_size = 50
@@ -227,6 +228,50 @@ class TestAttemptViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return TestAttempt.objects.filter(user_id=self.request.user.id)
 
+    @action(methods=['post'], detail=False, url_path='validate')
+    def validate(self, request):
+        def is_similar(a, b, threshold=0.8):
+            return SequenceMatcher(None, a.lower(), b.lower()).ratio() >= threshold
+
+        results = []
+        valid_answers = 0
+
+        for item in request.data:
+            word_id = item.get('wordId')
+            user_answer = item.get('answer')
+            class_id = item.get('classId')
+            target_language = item.get('targetLanguage')
+            vclass_target_language = VClass.objects.get(id=class_id).target_language
+            
+            try:
+                if not Word.objects.filter(id=word_id, user=request.user).exists():
+                    results.append({'wordId': word_id, 'isCorrect': False})
+                    continue
+                word = Word.objects.get(id=word_id, user=request.user)
+
+                if target_language == vclass_target_language:
+                    valid = any(
+                        is_similar(user_answer, translation.value)
+                        for translation in Translation.objects.filter(word=word)
+                    )
+                else:
+                    valid = is_similar(word.word, user_answer)
+
+                if valid:
+                    valid_answers += 1
+                    word.learned_rate += 1
+                    word.save()
+
+                results.append({'wordId': word_id, 'isCorrect': valid})
+            except Word.DoesNotExist:
+                results.append({'wordId': word_id, 'isCorrect': False})
+
+        TestAttempt.objects.create(
+            user=request.user,
+            questions_correct=valid_answers
+        )
+        return Response(results, status=status.HTTP_200_OK)
+
 class TestView(APIView):
     permission_classes = [IsAuthenticated]
 
@@ -266,7 +311,7 @@ class TestView(APIView):
         data = TestQuestionSerializer(random_words, many=True).data
 
         return Response(data, status=status.HTTP_200_OK)
-    
+
 class GenerateExampleView(APIView):
     permission_classes = [IsAuthenticated, HasAIEnabled]
 

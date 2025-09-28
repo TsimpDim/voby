@@ -82,6 +82,7 @@ class Word(models.Model):
     related_words = models.ManyToManyField('Word', blank=True, related_name='rel_words')
     sets = models.ManyToManyField(Set, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+    learned_rate = models.IntegerField(default=0, null=False)
 
 class Translation(models.Model):
     value = models.CharField(max_length=120, null=False)

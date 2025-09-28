@@ -79,7 +79,7 @@ class TestQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Word
-        fields = ('word', 'translations')
+        fields = ('word', 'translations', 'id')
 
 class GermanNounTestQuestionSerializer(serializers.ModelSerializer):
     gender = serializers.SerializerMethodField()

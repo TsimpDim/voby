@@ -11,7 +11,6 @@ import { getCountryEmoji } from 'src/app/countries';
 import { ExperienceService } from 'src/app/services/experience.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
 import { VobyService } from 'src/app/services/voby.service';
-import { stringSimilarity } from 'src/app/string-similarity';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatInputModule } from '@angular/material/input';
@@ -120,32 +119,34 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
   }
 
   validateAnswers() {
-    let correct = 0;
     if (this.inputs) {
-      this.inputs.toArray().forEach((input: ElementRef, index: number) => {
-        const userAnswer = input?.nativeElement.value;
-        const correctAnswer = this.questions[index].translations;
+      const userAnswers = this.inputs
+        .toArray()
+        .map((input: ElementRef, index: number) => ({
+          wordId: this.questions[index].id,
+          answer: input?.nativeElement.value,
+          targetLanguage: this.questions[index].target_language,
+          classId: this.classId,
+        }));
 
-        if (
-          correctAnswer
-            .split(' / ')
-            .find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)
-        ) {
-          this.questionState[index] = this.CORRECT;
-          this.exp.add(2);
-          correct += 1;
-        } else {
-          this.questionState[index] = this.INCORRECT;
-        }
+      this.voby.validateTestWords(userAnswers).subscribe({
+        next: (validationResults: any) => {
+          validationResults.forEach((result: any, index: number) => {
+            if (result.isCorrect) {
+              this.questionState[index] = this.CORRECT;
+              this.exp.add(2);
+            } else {
+              this.questionState[index] = this.INCORRECT;
+            }
+          });
+
+          this.questionsValidated = true;
+        },
+        error: () => {
+          console.error('Validation failed');
+        },
       });
-
-      this.questionsValidated = true;
-      this.createTestAttempt(correct);
     }
-  }
-
-  createTestAttempt(questionsCorrect: number) {
-    this.voby.createTestAttempt(questionsCorrect).subscribe();
   }
 
   refreshTest() {

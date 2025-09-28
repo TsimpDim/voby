@@ -289,6 +289,20 @@ export class VobyService {
     });
   }
 
+  validateTestWords(
+    userAnswers: { wordId: number; answer: string; targetLanguage: string }[],
+  ) {
+    return this.http.post(
+      environment.apiUrl + '/voby/testattempt/validate/',
+      userAnswers,
+      {
+        headers: {
+          Authorization: 'Token ' + this.authService.getSessionToken(),
+        },
+      },
+    );
+  }
+
   getGermanNounTestWords(
     amount = 1,
     classId = -1,
