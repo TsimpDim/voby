@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChildren } from '@angular/core';
 import { Router } from '@angular/router';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
 import { MatButtonModule } from '@angular/material/button';
@@ -50,7 +50,7 @@ export class NounTestComponent implements OnInit {
 
   constructor(
     private voby: VobyService,
-    private exp: ExperienceService,
+    private profile: ProfileService,
     private router: Router,
   ) {
     const state = this.router.getCurrentNavigation()?.extras.state;
@@ -110,7 +110,7 @@ export class NounTestComponent implements OnInit {
             .find((t: string) => stringSimilarity(t, userAnswer) >= 0.7)
         ) {
           this.questionState[index] = this.CORRECT;
-          this.exp.add(2);
+          this.profile.add(2);
           correct += 1;
         } else {
           this.questionState[index] = this.INCORRECT;

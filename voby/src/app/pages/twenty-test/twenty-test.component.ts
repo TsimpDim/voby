@@ -8,7 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { getCountryEmoji } from 'src/app/countries';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { HotkeysService } from 'src/app/services/hotkeys.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { MatButtonModule } from '@angular/material/button';
@@ -56,7 +56,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
 
   constructor(
     private voby: VobyService,
-    private exp: ExperienceService,
+    private profile: ProfileService,
     private hotkeys: HotkeysService,
     private router: Router,
   ) {
@@ -134,7 +134,7 @@ export class TwentyTestComponent implements OnInit, OnDestroy {
           validationResults.forEach((result: any, index: number) => {
             if (result.isCorrect) {
               this.questionState[index] = this.CORRECT;
-              this.exp.add(2);
+              this.profile.add(2);
             } else {
               this.questionState[index] = this.INCORRECT;
             }

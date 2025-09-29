@@ -37,7 +37,7 @@ import {
 } from 'src/app/interfaces';
 import { WordPreviewComponent } from '../../word-preview/word-preview.component';
 import { VobyService } from 'src/app/services/voby.service';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { FormDataService } from 'src/app/services/form-data.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { stringSimilarity } from 'src/app/string-similarity';
@@ -109,7 +109,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<WordFormComponent>,
     public voby: VobyService,
     private _snackBar: MatSnackBar,
-    private exp: ExperienceService,
+    private profile: ProfileService,
     private formData: FormDataService,
     @Inject(MAT_DIALOG_DATA)
     data: PassedDataOnWordCreate | PassedDataOnWordEdit,
@@ -646,7 +646,7 @@ export class WordFormComponent implements OnInit, OnDestroy {
         },
         complete: () => {
           this.loading = false;
-          this.exp.add(2);
+          this.profile.add(2);
         },
       });
   }

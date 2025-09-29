@@ -12,7 +12,7 @@ import {
 } from '@angular/animations';
 import { experienceLevelMapping, UserLevel } from 'src/app/user-levels';
 import { AuthService } from 'src/app/services/auth.service';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -139,9 +139,9 @@ export class HeaderComponent implements AfterViewInit {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private exp: ExperienceService,
+    private profile: ProfileService,
   ) {
-    this.exp.experience$.subscribe({
+    this.profile.experience$.subscribe({
       next: (experience: any) => {
         this.userExperienceDiff = experience - this.userExperience;
         this.userExperience = experience;
@@ -154,31 +154,32 @@ export class HeaderComponent implements AfterViewInit {
       },
     });
 
-    this.exp.userLevel$.subscribe({
+    this.profile.userLevel$.subscribe({
       next: (level: UserLevel) => {
         this.userLevel = level;
       },
     });
 
-    combineLatest([this.exp.experience$, this.exp.userLevel$]).subscribe(
-      ([experience, level]) => {
-        const nextLevelThreshold =
-          experienceLevelMapping.find((l) => l.level == level.level + 1)
-            ?.requiredXp || 0;
-        const prevLevelThreshold =
-          experienceLevelMapping.find((l) => l.level == level.level)
-            ?.requiredXp || 0;
-        this.remainingExp = nextLevelThreshold - experience;
-        if (!nextLevelThreshold) {
-          this.userLevelProgress = 0;
-        } else {
-          this.userLevelProgress =
-            ((experience - prevLevelThreshold) /
-              (nextLevelThreshold - prevLevelThreshold)) *
-            100;
-        }
-      },
-    );
+    combineLatest([
+      this.profile.experience$,
+      this.profile.userLevel$,
+    ]).subscribe(([experience, level]) => {
+      const nextLevelThreshold =
+        experienceLevelMapping.find((l) => l.level == level.level + 1)
+          ?.requiredXp || 0;
+      const prevLevelThreshold =
+        experienceLevelMapping.find((l) => l.level == level.level)
+          ?.requiredXp || 0;
+      this.remainingExp = nextLevelThreshold - experience;
+      if (!nextLevelThreshold) {
+        this.userLevelProgress = 0;
+      } else {
+        this.userLevelProgress =
+          ((experience - prevLevelThreshold) /
+            (nextLevelThreshold - prevLevelThreshold)) *
+          100;
+      }
+    });
   }
 
   ngAfterViewInit(): void {

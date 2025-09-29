@@ -8,7 +8,7 @@ import {
 import { MatSnackBar as MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { SnackbarComponent } from '../../custom/snackbar/snackbar.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -43,7 +43,7 @@ export class LoginFormComponent {
     private authService: AuthService,
     private router: Router,
     private _snackBar: MatSnackBar,
-    private exp: ExperienceService,
+    private profile: ProfileService,
   ) {
     this.loginForm = new FormGroup({
       username: new FormControl('', [Validators.required]),
@@ -64,7 +64,7 @@ export class LoginFormComponent {
             this.loggedIn = 'key' in resp;
             if (this.loggedIn) {
               this.authService.storeSessionToken(resp['key']);
-              this.exp.forceRefresh();
+              this.profile.forceRefresh();
               this.router.navigate(['/']);
             }
           },

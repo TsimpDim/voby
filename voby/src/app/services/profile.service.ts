@@ -11,7 +11,7 @@ interface LevelMapping {
 @Injectable({
   providedIn: 'root',
 })
-export class ExperienceService {
+export class ProfileService {
   experience$ = new BehaviorSubject<number>(0);
   userLevel$ = new BehaviorSubject<UserLevel>({ level: 0, threshold: 0 });
 

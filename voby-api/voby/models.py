@@ -82,7 +82,7 @@ class Word(models.Model):
     related_words = models.ManyToManyField('Word', blank=True, related_name='rel_words')
     sets = models.ManyToManyField(Set, related_name='words')
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
-    learned_rate = models.IntegerField(default=0, null=False)
+    learned_rate = models.PositiveIntegerField(default=0, null=False)
 
 class Translation(models.Model):
     value = models.CharField(max_length=120, null=False)
@@ -101,6 +101,8 @@ class TestAttempt(models.Model):
 class Profile(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     experience = models.PositiveIntegerField(default=0)
+    streak = models.PositiveIntegerField(default=0)
+    date_streak_set = models.DateField(null=True)
 
 class Option(models.Model):
     user = models.ForeignKey(User, on_delete=models.DO_NOTHING)

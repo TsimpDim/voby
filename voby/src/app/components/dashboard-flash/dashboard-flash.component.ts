@@ -11,7 +11,7 @@ import {
 } from '@angular/core';
 import { getCountryEmoji } from 'src/app/countries';
 import { TestWord } from 'src/app/interfaces';
-import { ExperienceService } from 'src/app/services/experience.service';
+import { ProfileService } from 'src/app/services/profile.service';
 import { VobyService } from 'src/app/services/voby.service';
 import { stringSimilarity } from 'src/app/string-similarity';
 import { MatInputModule } from '@angular/material/input';
@@ -46,7 +46,7 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
 
   constructor(
     private voby: VobyService,
-    private exp: ExperienceService,
+    private profile: ProfileService,
   ) {}
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -99,11 +99,11 @@ export class DashboardFlashComponent implements OnInit, OnChanges {
       ) {
         this.answerCorrect = true;
         timeToWait = 2000;
-        this.exp.add(4);
+        this.profile.add(4);
       } else {
         this.answerCorrect = false;
         timeToWait = 3000;
-        this.exp.add(1);
+        this.profile.add(1);
       }
 
       this.createTestAnswer(this.answerCorrect);
