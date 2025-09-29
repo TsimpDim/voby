@@ -290,7 +290,7 @@ class TestView(APIView):
         }
 
         if random == 'true':
-            all_ids = list(Word.objects.values_list('id', flat=True))
+            all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
         else:
             if favorites_only == 'true':
                 filter_kwargs['favorite'] = True
@@ -303,9 +303,12 @@ class TestView(APIView):
             else:
                 filter_kwargs['sets__isnull'] = False
 
-            all_ids = list(Word.objects.filter(**filter_kwargs).values_list('id', flat=True))
+            # Order by learned_rate to ensure that the less learned words are prioritized
+            queryset = Word.objects.filter(**filter_kwargs).order_by('learned_rate')
+            all_ids = list(queryset.values_list('id', flat=True))
+        
+        # 'amount' is used to ensure we never try to select more values than available
         amount = min(len(all_ids), amount)
-
         random_ids = sample(all_ids, amount)
         random_words = Word.objects.filter(id__in=random_ids).distinct()
         data = TestQuestionSerializer(random_words, many=True).data
