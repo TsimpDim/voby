@@ -8,7 +8,7 @@ import {
   AUTO_STYLE,
 } from '@angular/animations';
 
-export const fadeAwayAnimation = trigger('animationTrigger', [
+export const fadeAwayAnimation = trigger('fadeAwayAnimation', [
   state('visible', style({ opacity: 1 })),
   state('invisible', style({ opacity: 0 })),
   transition('invisible => visible', [
