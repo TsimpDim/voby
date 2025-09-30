@@ -13,7 +13,9 @@ interface LevelMapping {
 })
 export class ProfileService {
   experience$ = new BehaviorSubject<number>(0);
+  streak$ = new BehaviorSubject<number>(0);
   userLevel$ = new BehaviorSubject<UserLevel>({ level: 0, threshold: 0 });
+  streak_date = new Date();
 
   constructor(private voby: VobyService) {
     this.getProfile();
@@ -42,8 +44,23 @@ export class ProfileService {
     this.voby.getProfile().subscribe({
       next: (data: any) => {
         this.experience$.next(data[0].experience);
+        this.streak$.next(data[0].streak);
+        this.streak_date = new Date(data[0].date_streak_set);
       },
     });
+  }
+
+  checkUpdateStreak() {
+    const today = new Date();
+    const lastStreakDate = new Date(this.streak_date);
+    const diffTime = today.getTime() - lastStreakDate.getTime();
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 1) {
+      this.streak$.next(this.streak$.value + 1);
+    } else {
+      this.streak$.next(1);
+    }
   }
 
   forceRefresh() {
@@ -52,5 +69,6 @@ export class ProfileService {
 
   add(amount: number) {
     this.experience$.next(this.experience$.value + amount);
+    this.checkUpdateStreak();
   }
 }

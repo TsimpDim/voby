@@ -16,7 +16,7 @@ img:hover {
   cursor: pointer;
 }
 
-.xp {
+.profile-info {
   vertical-align: middle;
   align-items: center;
   display: flex;
@@ -24,11 +24,16 @@ img:hover {
   margin: 0 auto;
   font-size: .8em;
   color: var(--voby-text-onbackground);
+  padding: 0 1em;
 
   .mat-icon {
     margin-top: auto;
     margin-bottom: auto;
     margin-right: .3em;
+
+    &:last-child {
+      margin-right: 0;
+    }
   }
 
   div {
@@ -38,7 +43,7 @@ img:hover {
 }
 
 .xp-bar {
-  width: 110px;
+  width: auto;
   border-radius: 100px;
   overflow: hidden;
 
