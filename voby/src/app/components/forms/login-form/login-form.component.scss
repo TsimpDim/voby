@@ -13,7 +13,21 @@
   height: 100vh;
   width: 50vw;
   z-index: -1;
-  box-shadow: 10px 0 #9a7ece, 20px 0 #b099da;
+  box-shadow: none;
+
+  animation: shadowPop 1s ease-in-out forwards;
+}
+
+@keyframes shadowPop {
+  0% {
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: 10px 0 #9a7ece;
+  }
+  100% {
+    box-shadow: 10px 0 #9a7ece, 20px 0 #b099da;
+  }
 }
 
 form {

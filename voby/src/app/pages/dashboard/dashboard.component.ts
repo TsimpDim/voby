@@ -126,7 +126,11 @@ export class DashboardComponent implements OnInit {
   hasWords(classId: number) {
     if (this.classes) {
       const selectedClass = this.classes.find((o: any) => o.id === classId);
-      return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
+      if (selectedClass) {
+        return selectedClass.sets.flatMap((s: any) => s.has_words)[0];
+      } else {
+        return false;
+      }
     }
 
     return false;

@@ -77,6 +77,13 @@ export class RegisterFormComponent {
             this.registered = 'key' in resp;
             if (this.registered) {
               this.router.navigate(['login']);
+              this._snackBar.openFromComponent(SnackbarComponent, {
+                data: {
+                  message: 'Successfully registered! Welcome aboard!',
+                  icon: 'person_celebrate',
+                },
+                duration: 3 * 1000,
+              });
             }
           },
           error: (error: any) => {
