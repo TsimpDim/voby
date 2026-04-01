@@ -3,7 +3,7 @@ resource "aws_launch_template" "ec2_launch_template" {
   image_id               = data.aws_ami.amazon_linux_2.id
   instance_type          = var.ec2_instance_type
   vpc_security_group_ids = [aws_security_group.ec2.id]
-  user_data              = base64encode(data.template_file.user_data.rendered)
+  user_data              = base64encode(templatefile("${path.module}/user_data.sh", { ecs_cluster_name = aws_ecs_cluster.voby.name }))
 
   iam_instance_profile {
     arn = aws_iam_instance_profile.ec2_instance_role_profile.arn

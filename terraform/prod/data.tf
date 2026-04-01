@@ -48,21 +48,15 @@ data "aws_db_instance" "db" {
   }
 }
 
-data "template_file" "user_data" {
-  template = file("user_data.sh")
 
-  vars = {
-    ecs_cluster_name = aws_ecs_cluster.voby.name
-  }
-}
 
 data "aws_acm_certificate" "voby" {
   tags = {
     Stack = "main"
   }
   most_recent = true
-  types = [ "AMAZON_ISSUED" ]
-  domain = "voby.tsdim.net"
+  types       = ["AMAZON_ISSUED"]
+  domain      = "voby.tsdim.net"
 }
 
 data "aws_ami" "amazon_linux_2" {

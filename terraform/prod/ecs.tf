@@ -13,21 +13,21 @@ resource "aws_ecs_cluster" "voby" {
 # }
 
 resource "aws_ecs_task_definition" "voby" {
-  family       = "voby"
+  family                   = "voby"
+  requires_compatibilities = ["EC2"]
+  network_mode             = "bridge"
+
   container_definitions = jsonencode([
     {
-      name                  = "voby-api"
-      image                 = "voby-api"
-      cpu                   = 1
-      memory                = 256
-      requires_capabilities = ["EC2"]
-      cpu_architecture      = "X86_64"
-      task_role_arn         = aws_iam_role.voby-api-ecs-role.arn
-      essential             = true
+      name      = "voby-api"
+      image     = "029557209854.dkr.ecr.eu-west-1.amazonaws.com/voby:latest"
+      cpu       = 256
+      memory    = 256
+      essential = true
       portMappings = [
         {
           containerPort = 443
-          hostPort      = 443
+          hostPort      = 0
         }
       ],
       environment = [
@@ -39,9 +39,7 @@ resource "aws_ecs_task_definition" "voby" {
         { name = "DJANGO_SUPERUSER_USERNAME", value = tostring(data.aws_ssm_parameter.voby_su_username.value) },
         { name = "DJANGO_SUPERUSER_PASSWORD", value = tostring(data.aws_ssm_parameter.voby_su_password.value) },
         { name = "DJANGO_SUPERUSER_EMAIL", value = tostring(data.aws_ssm_parameter.voby_su_email.value) }
-
       ]
-      image = "029557209854.dkr.ecr.eu-west-1.amazonaws.com/voby:latest"
     }
   ])
 
@@ -190,10 +188,10 @@ resource "aws_alb_listener" "ecs-alb-http-listener" {
 }
 
 resource "aws_alb_target_group" "https_target_group" {
-  name        = "voby-tg"
-  port        = 443
-  protocol    = "HTTPS"
-  vpc_id      = data.aws_vpc.vpc.id
+  name     = "voby-tg"
+  port     = 443
+  protocol = "HTTP"
+  vpc_id   = data.aws_vpc.vpc.id
 
   health_check {
     path                = "/voby/health"
@@ -211,7 +209,6 @@ resource "aws_ecs_service" "voby-api" {
   cluster         = aws_ecs_cluster.voby.id
   task_definition = aws_ecs_task_definition.voby.arn
   desired_count   = 1
-  iam_role        = aws_iam_role.voby-api-ecs-role.arn
   launch_type     = "EC2"
 
   load_balancer {
